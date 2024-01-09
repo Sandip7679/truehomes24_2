@@ -26,7 +26,7 @@ const quickLinks = [
 ]
 const Footer = () => {
     return (
-        <div className='bg-black w-screen p-10 text-white flex justify-between px-[7%]'>
+        <div className='bg-black w-screen p-10 text-white flex flex-wrap justify-between px-[7%]'>
             <div className='text-left text-sm w-[300px]'>
                 <img src='https://www.truehomes24.com/assets/images/footer_logo.png' />
                 <p className='my-5'>Welcome to Truehomes24.com</p>
@@ -55,7 +55,7 @@ const Footer = () => {
                     </li>
                 </ul>
             </div>
-            <div className='w-[250px] text-left'>
+            <div className='w-[250px] mt-5 text-left'>
                 <h1 className={styles.title2Bold}>Popular Searches</h1>
                 <div className='text-sm tracking-wide'>
                     {populerSearches.map((item, index) => {
@@ -68,7 +68,7 @@ const Footer = () => {
                 </div>
             </div>
 
-            <div className='w-[250px] text-left'>
+            <div className='w-[250px] mt-5 text-left'>
                 <h1 className={styles.title2Bold}>Quick Links</h1>
                 <div className='text-sm tracking-wide opacity-90'>
                     {quickLinks.map((item, index) => {
