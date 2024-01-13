@@ -26,7 +26,7 @@ const quickLinks = [
 ]
 const Footer = () => {
     return (
-        <div className='bg-black w-screen p-10 text-white flex flex-wrap justify-between px-[7%]'>
+        <div className='bg-black w-full p-10 text-white flex flex-wrap justify-between px-[7%]'>
             <div className='text-left text-sm w-[300px]'>
                 <img src='https://www.truehomes24.com/assets/images/footer_logo.png' />
                 <p className='my-5'>Welcome to Truehomes24.com</p>
@@ -47,7 +47,7 @@ const Footer = () => {
                         <div className='h-4 w-4'>
                             <EmailIcon classname={'h-4 w-4 mt-1'} />
                         </div>
-                        <p className='ml-4'>	info@truehomes24.com</p>
+                        <p className='ml-4'>info@truehomes24.com</p>
                     </li>
                     <li className='flex'>
                         <CallIcon classname={'h-6 w-6 text-white'} />
@@ -81,7 +81,7 @@ const Footer = () => {
                 </div>
             </div>
             <div>
-                <div className='text-left'>
+                <div className='text-left mt-5'>
                     <h1 className={styles.title2Bold}>Property in India</h1>
                     <div className='text-left text-sm mt-2 opacity-90'>
                         <p className='hover:underline'>Property inAhmedabad|Property inBangalore|Property inChennai|</p>
@@ -104,7 +104,7 @@ const Footer = () => {
                         <p className='hover:underline'>Property inMumbai|Property inPune</p>
                     </div>
                 </div>
-                <div className='bg-gray-200 w-[180px] mt-5 text-black'>
+                <div className='bg-gray-200 text-center w-[180px] mt-5 text-black'>
                     <div className='py-2 border-b-[1px] border-black'>
                         <p className=''>Visitor Counter</p>
                     </div>

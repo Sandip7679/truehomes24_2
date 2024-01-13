@@ -8,7 +8,7 @@ import "react-multi-carousel/lib/styles.css";
 
 
 let count = 0;
-const PropertySlider = ({Data}) => {
+const PropertySlider = ({ Data }) => {
 
     const [slides, setSlides] = useState([]);
     const [currIndex, setCurrIndex] = useState(0);
@@ -48,7 +48,7 @@ const PropertySlider = ({Data}) => {
     return (
         <div>
             <div className='w-full mb-10'>
-                <div className='mt-10 px-11'>
+                <div className='mt-10 md:px-11'>
                     <Carousel
                         swipeable={true}
                         draggable={false}
@@ -58,17 +58,33 @@ const PropertySlider = ({Data}) => {
                         autoPlay={true}
                         autoPlaySpeed={2000}
                         keyBoardControl={true}
-                        transitionDuration={1000}
-                        // customButtonGroup={<ButtonGroup/>}
+                        transitionDuration={2000}
+                        // customButtonGroup={<div></div>}
+                        // customLeftArrow={
+                        //     <button className='absolute  -left-[2%] md:-left-5'>
+                        //         <ArrowLeft />
+                        //     </button>
+                        // }
+                        // customRightArrow={
+                        //     <button className='absolute -right-[2%] md:-right-5'>
+                        //         <ArrowRight />
+                        //     </button>
+                        // }
                     >
                         {Data.map((item, index) => {
                             return (
-                                <div className='rounded-xl shadow-lg border-[1px] h-full mx-5'>
-                                    <div className='items-center h-[200]'>
-                                        <img src={item.image} className='rounded-xl h-[220px] w-full' />
+                                <div className='rounded-xl shadow-lg border-[1px] h-full mx-5 group'>
+                                    <div className='items-center rounded-xl overflow-hidden h-[200] hover:cursor-pointer'>
+                                        <img src={item.image}
+                                            className='h-[220px] w-full transform transition-transform hover:scale-110 duration-1000'
+                                        />
+                                        <div className='h-[70px] p-2 bg-gradient-to-b from-gray-100 to-gray-300 
+                                            group-hover:bg-gradient-to-b group-hover:form-gray-300 group-hover:to-black'>
+                                            <p className='text-base hidden mt-[30px] group-hover:block text-white'>{item.listedBy}</p>
+                                        </div>
                                     </div>
-                                    <div className='p-3 text-left'>
-                                        <h1 className={styles.title2}>{item.title}</h1>
+                                    <div className='p-3 min-h-[290px] text-left'>
+                                        <h1 className={styles.title3}>{item.title}</h1>
                                         <div className='flex mt-5'>
                                             <span className=''>
                                                 <LocationIcon classname={'h-5 w-4 mt-[0.5px]'} />
@@ -106,7 +122,10 @@ const PropertySlider = ({Data}) => {
                                             </span>
                                             <h1 className='text-sm ml-2'>{item.possission}</h1>
                                         </div>}
-
+                                    </div>
+                                    <div className='bottom-0 border-t-[1px] flex justify-between p-2'>
+                                        <p className={styles.title3}>{'\u20B9'} 25 Cr</p>
+                                        <img src='https://www.truehomes24.com/assets/front_end/images/property/checkmark.svg' className='h-8 w-8' />
                                     </div>
                                 </div>
                             )
@@ -132,7 +151,7 @@ const PropertySlider = ({Data}) => {
                                         <img src={item.image} className='rounded-xl h-[200px] w-[100%]' />
                                     </div>
                                     <div className='p-3 text-left'>
-                                        <h1 className={styles.title2}>{item.title}</h1>
+                                        <h1 className={styles.title3}>{item.title}</h1>
                                         <div className='flex mt-5'>
                                             <span className=''>
                                                 <LocationIcon classname={'h-5 w-4 mt-[0.5px]'} />

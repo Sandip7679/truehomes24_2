@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { LinkIcon } from './svgIcons';
+import { styles } from '../Styles/Styles';
 
 
 const cities = [
@@ -47,23 +48,31 @@ const locations = [
 
 ]
 const TopCItiesFilter = () => {
-    const [currCityId, setCurrCityId] = useState(null);
+    const [currCityId, setCurrCityId] = useState(1);
 
+    useEffect(() => {
+        // const borderBottomElement = document.querySelector('.animated-border');
+        // borderBottomElement.classList.add('animated-border');
+    }, []);
 
     const getLocations = (cityId) => {
         setCurrCityId(cityId);
     }
 
     return (
-        <div className='pb-10 mt-5 px-[20px]'>
-            <div className='sm:flex justify-between pt-2 border-b-[1px] border-b-gray-200'>
+        <div className=' mt-5 px-[5%] py-5 bg-gray-50'>
+             <h1 className={styles.title1}>Browse Residential Projects In Top Cities</h1>
+
+            <div className='w-[95%] sm:flex justify-between pt-2 border-b-[1px] mt-10 border-b-gray-200'>
                 {/* <button className='p-1 focus:border-b-2 focus:border-gray-600 active:border-b-2 active:border-gray-600'>Ahmedabad</button> */}
 
                 {cities.map((item, index) => {
                     return (
                         <button
                             onClick={() => getLocations(item.id)}
-                            className={`p-1 hover:opacity-60 ${item.id == currCityId ? 'border-b-[1px] border-gray-600' : ''}`}>{item.city}</button>
+                            className={`p-1 hover:opacity-60 animated-border ${item.id == currCityId ? 'border-b-[1px] border-gray-600' : ''}`}>
+                            {item.city}
+                        </button>
                     )
                 })}
 
@@ -74,7 +83,7 @@ const TopCItiesFilter = () => {
                         return (
                             <button className='text-left text-sm text-gray-600 mx-4 mt-[1px] min-w-[200px]'>
                                 <div className='flex hover:underline'>
-                                    <span><LinkIcon classname={'h-4 w-4 mt-1 mr-1'}/></span>
+                                    <span><LinkIcon classname={'h-4 w-4 mt-1 mr-1'} /></span>
                                     <span>{item.location}</span>
                                 </div>
 

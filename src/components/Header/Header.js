@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 // import { faCoffee } from '@fortawesome/free-solid-svg-icons';
 import buyIcon from '../../assets/Icons/buy.png';
@@ -14,6 +14,7 @@ import postPropertyPerDay from '../../assets/Icons/post-property-per-day.png';
 import cityIcon from '../../assets/Icons/amedabad.jpg';
 import DropdownIcon, { MenuIcon, SearchIcon } from '../svgIcons';
 import { styles } from '../../Styles/Styles';
+import { NavLink } from 'react-router-dom';
 const cities = [
     { city: 'Dubai' },
     { city: 'Toronto' },
@@ -40,11 +41,20 @@ const otherCities = [
 
 const Header = () => {
 
-    useEffect(() => {
-        document.getElementById('city-btn').addEventListener('blur', () => {
-            document.getElementById('city-menu').classList.add('hidden');
-        });
+    const cityRef = useRef(null);
 
+    useEffect(() => {
+        // document.getElementById('dropdown-city').addEventListener('blur', () => {
+        //     document.getElementById('city-menu').classList.add('hidden');
+        // });
+        document.addEventListener('click', (e) => {
+            // if (!cityRef.current.contains(e.target)) {
+            //     document.getElementById('city-menu').classList.add('hidden');
+            // }
+            if (!document.getElementById('dropdown-city').contains(e.target)) {
+                document.getElementById('city-menu').classList.add('hidden');
+            }
+        });
         document.getElementById('mobile-menu-button').addEventListener('blur', () => {
             document.getElementById('mobile-menu').classList.add('hidden');
         });
@@ -60,9 +70,10 @@ const Header = () => {
 
     }, []);
 
+
     return (
-        <nav className="bg-gray-800 p-2">
-            <div className="container flex items-center justify-between">
+        <nav className="bg-gray-800 fixed top-0 z-[2000] p-2 w-screen">
+            <div className="flex justify-between">
                 <div className="flex items-center space-x-4">
                     <div class="lg:hidden">
                         <button id="mobile-menu-button" class="text-white focus:outline-none" onClick={() => document.getElementById('mobile-menu').classList.toggle('hidden')}>
@@ -70,7 +81,9 @@ const Header = () => {
                         </button>
                     </div>
                     <img src='https://www.truehomes24.com/assets/dynamic/logo/3231ba59af210a5c3273fb2440e10cd6.jpg' alt="Logo" className="h-10 w-15 ml-2" /> {/* Adjust the size as needed */}
-                    <div className="relative group z-10">
+                    <div ref={cityRef}
+                        id='dropdown-city'
+                        className="relative group z-10">
                         <button id='city-btn' className={styles.dropdown}
                             onClick={() => document.getElementById('city-menu').classList.toggle('hidden')}
                         >
@@ -84,10 +97,10 @@ const Header = () => {
                             <div className='flex flex-wrap gap-2 mt-2'>
                                 {cities.map((item) => {
                                     return (
-                                        <a href="#" className="px-2 py-4 rounded-md w-[47%] hover:bg-gray-100 max-w-[100px] flex flex-col border-[1px] shadow-lg items-center justify-center">
+                                        <NavLink to="/property-list" className="px-2 py-4 rounded-md w-[47%] hover:bg-gray-100 max-w-[100px] flex flex-col border-[1px] shadow-lg items-center justify-center">
                                             <img src={cityIcon} className='h-5 w-6' />
                                             <span className='text-xs'>{item.city}</span>
-                                        </a>
+                                        </NavLink>
                                     )
                                 })}
                             </div>
@@ -143,7 +156,7 @@ const Header = () => {
                                 More Services
                                 <DropdownIcon />
                             </button>
-                            <div id='more-services-menu' className={styles.dropdownMenu}>
+                            <div id='more-services-menu' className={styles.dropdownMenu+'w-[260px]'}>
                                 <a href="#" class={styles.dropdownItem}>
                                     <img src={interiorDesiginStudio} className='h-5 w-6 mr-5 ' />
                                     <span className=''>
@@ -161,14 +174,10 @@ const Header = () => {
 
                     </div>
                 </div>
-                <div className="hidden lg:flex items-center">
-                    <button className={styles.btn}>
+                <div className="hidden lg:flex justify-between items-center">
+                    <button className={styles.btn + 'border-green-500 px-4 hover:bg-gray-700 text-white'}>
                         Buyer/Tenant Registration
                     </button>
-                    {/* <button className={styles.dropdownBtn}>
-                        Post Property
-                        <DropdownIcon />
-                    </button> */}
                     <div className='relative group z-10'>
                         <button
                             id='post-property-btn'
@@ -177,7 +186,7 @@ const Header = () => {
                             Post Property
                             <DropdownIcon />
                         </button>
-                        <div id='post-property-menu' className={styles.dropdownMenu}>
+                        <div id='post-property-menu' className={styles.dropdownMenu + 'w-[260px]'}>
                             <a href="#" class={styles.dropdownItem}>
                                 <img src={postPropertyPerDay} className='h-5 w-6 mr-5 ' />
                                 <span className=''>
@@ -198,13 +207,14 @@ const Header = () => {
                             </a>
                         </div>
                     </div>
+                    <div className='pr-2 md:pr-5'>
+                        <button className='text-white px-4 py-1 rounded-md ml-4 bg-gray-600  hover:bg-gray-500'>
+                            Register/Login
+                        </button>
+                    </div>
 
                 </div>
-                <div>
-                    <button className='text-white px-4 py-1 rounded-md ml-4  hover:bg-gray-500'>
-                        Register/Login
-                    </button>
-                </div>
+
 
             </div>
 
