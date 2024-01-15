@@ -59,6 +59,7 @@ const PropertySlider = ({ Data }) => {
                         autoPlaySpeed={2000}
                         keyBoardControl={true}
                         transitionDuration={2000}
+
                         // customButtonGroup={<div></div>}
                         // customLeftArrow={
                         //     <button className='absolute  -left-[2%] md:-left-5'>

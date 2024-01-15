@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import Dropdown, { SearchIcon } from './svgIcons';
-import homeKey from '../assets/Icons/home-key.png'
+import homeKey from '../assets/Icons/home-key.png';
+import buyIcon from '../assets/Icons/buy-buy.png';
+import newProjectIcon from '../assets/Icons/bulding-project.png';
 import { styles } from '../Styles/Styles';
 // import { document } from 'postcss';
 
@@ -40,10 +42,17 @@ const moreDatas = {
     Amenities: ['24by7Water', 'CCTV Camera', 'Gated Society', 'Gym', 'Internet Connectivity', 'Jogging Track', 'Kid Play Area', 'Kid Play Pool']
 }
 
+const searchTypes = [
+    { type: 'Buy', icon: buyIcon },
+    { type: 'Rent', icon: homeKey },
+    { type: 'New Projects', icon: newProjectIcon }
+]
+
 
 const TopSearchNavBar = () => {
 
     const [selectedBHK, setSelectedBHK] = useState(null);
+    const [currSearchIndex, setCurrSearchIndex] = useState(0);
 
     useEffect(() => {
         closeOnClickOutside('budget-dropdown', 'budget-menu');
@@ -64,13 +73,29 @@ const TopSearchNavBar = () => {
     }
 
     return (
-        <div className='p-2 w-full pt-5 flex gap-2 flex-wrap shadow'>
-            <button className='p-2 flex'>
-                <img className='h-4 w-4 mt-1 mr-2' src={homeKey} />
-                <p className={styles.textMedium + 'font-bold text-gray-800'}>Buy</p>
-                <Dropdown />
-            </button>
-            <div className='flex min-w-[150px] h-10 w-[100%] sm:w-[80%] lg:w-[50%]'>
+        <div className='p-2 w-full pt-5 flex gap-2 flex-wrap shadow pl-[1%]'>
+            <div className='relative group'>
+                <button className='p-2 pr-0 flex w-[170px]'>
+                    <img className='h-4 w-4 mt-1 mr-2' src={searchTypes[currSearchIndex].icon} />
+                    <p className={styles.textMedium + 'font-bold text-gray-800'}>{searchTypes[currSearchIndex].type}</p>
+                    <Dropdown />
+                </button>
+                <div className={styles.dropdownMenu + 'p-0 pt-[0px] group-hover:block w-[170px]'}>
+                    {searchTypes.map((item, index) => {
+                        return (
+                            <button
+                                onClick={() => setCurrSearchIndex(index)}
+                                className='flex p-2 w-full hover:bg-gray-100'>
+                                <img className='h-4 w-4 mt-1 mr-2' src={item.icon} />
+                                <p className={styles.textMedium + 'text-gray-800'}>{item.type}</p>
+                            </button>
+                        )
+                    })}
+                </div>
+            </div>
+
+
+            <div className='flex min-w-[150px] h-10 w-[100%] sm:w-[80%] lg:w-[45%]'>
                 <div>
                     <SearchIcon imageClass={'w-5 h-5 absolute left-2 top-3'} />
                 </div>
@@ -145,11 +170,11 @@ const TopSearchNavBar = () => {
                         <div className='flex gap-5'>
                             <div className='relative'>
                                 <span className='absolute top-6 left-5'>{'\u20B9'}</span>
-                                <input placeholder='Min' className={styles.input+'rounded-md mt-5'} />
+                                <input placeholder='Min' className={styles.input + ' rounded-md mt-5'} />
                             </div>
                             <div className='relative'>
                                 <span className='absolute top-6 left-5'>{'\u20B9'}</span>
-                                <input placeholder='Max' className={styles.input+'rounded-md mt-5'} />
+                                <input placeholder='Max' className={styles.input + ' rounded-md mt-5'} />
                             </div>
                         </div>
                         <div>

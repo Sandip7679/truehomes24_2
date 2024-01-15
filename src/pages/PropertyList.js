@@ -9,22 +9,24 @@ import Footer from '../components/Footer';
 import TopCItiesFilter from '../components/TopCItiesFilter';
 import userIcon from '../assets/images/user.svg'
 import { CrossIcon, MenuIcon, UserIcon } from '../components/svgIcons';
+import { NavLink } from 'react-router-dom';
+import PropertyForSlides from '../components/PropertyForSlides';
 
 const Localities = [
-    { location: 'Shela(40)' },
-    { location: 'Prahlad Nagar(30)' },
-    { location: 'Sanathal(15)' },
-    { location: 'Gota(11)' },
-    { location: 'south Bhopal(9)' },
-    { location: 'south Bhopal(9)' },
-    { location: 'south Bhopal(9)' },
-    { location: 'south Bhopal(9)' },
-    { location: 'south Bhopal(9)' },
-    { location: 'Shela(40)' },
-    { location: 'Shela(40)' },
-    { location: 'Shela(40)' },
-    { location: 'Shela(40)' },
-    { location: 'Shela(40)' },
+    { location: 'Shela (40)' },
+    { location: 'Prahlad Nagar (30)' },
+    { location: 'Sanathal (15)' },
+    { location: 'Gota (11)' },
+    { location: 'south Bhopal (9)' },
+    { location: 'south Bhopal (9)' },
+    { location: 'south Bhopal (9)' },
+    { location: 'south Bhopal (9)' },
+    { location: 'south Bhopal (9)' },
+    { location: 'Shela (40)' },
+    { location: 'Shela (40)' },
+    { location: 'Shela (40)' },
+    { location: 'Shela (40)' },
+    { location: 'Shela (40)' },
 ]
 const Data = [
     {
@@ -108,7 +110,7 @@ const rightSectionData = [
         "title": "Apartment form Sale in Lagacy",
         "link": "https://www.truehomes24.com/api/sale/2-bhk-apartment-for-sale-in-rainbow-ekanta-perambur-chennai/1000-57163",
         "property_url": "/sale/2-bhk-apartment-for-sale-in-rainbow-ekanta-perambur-chennai/1000-57163",
-        "image": "https://www.truehomes24.com/assets/properties/banner-02/6195f1a4b44efe4bd85420205df57e4a.webp",
+        "image": "https://www.truehomes24.com/assets/properties/banner-02/93a4b41ca5c17860d1b44af1f032afa9.webp",
         "location": "Perambur, Chennai",
         "area": "650 sq.ft.",
         "price": "90 L - 1.5Cr",
@@ -117,7 +119,7 @@ const rightSectionData = [
         "title": "Apartment form Sale in Lagacy",
         "link": "https://www.truehomes24.com/api/sale/1-bhk-apartment-for-sale-in-rainbow-chetna-perambur-chennai/1000-57159",
         "property_url": "/sale/2-bhk-apartment-for-sale-in-rainbow-ekanta-perambur-chennai/1000-57163",
-        "image": "https://www.truehomes24.com/assets/properties/banner-02/6195f1a4b44efe4bd85420205df57e4a.webp",
+        "image": "https://www.truehomes24.com/assets/properties/banner-02/3fa85544ffca6abb5843dd1aeedf1c73.webp",
         "location": "Perambur, Chennai",
         "area": "650 sq.ft.",
         "price": "90 L - 1.5Cr",
@@ -133,8 +135,11 @@ const rightSectionData = [
     },
 ]
 
+
+
 const PropertyList = () => {
     const [contactModalStatus, setcontactModalStatus] = useState({ show: false, data: {} });
+    // const [moreBestBudget,setMoreBestBudget] = useState(false);
 
     const onClickContactBtn = (item) => {
         setcontactModalStatus({ show: true, data: item });
@@ -145,7 +150,9 @@ const PropertyList = () => {
             <div className={'mt-[50px]'}>
                 <TopSearchNavBar />
                 <div className='px-[2%] py-5'>
-                    <p className={styles.textMedium}>Home {'>'} Property for Sale in Ahmedabad</p>
+                    <div className={styles.textMedium}>
+                        <NavLink to="/">Home</NavLink> {'> '}
+                        Property for Sale in Ahmedabad</div>
                     <div className=' md:flex gap-5'>
                         <div className='mt-5 tracking-wide'>
                             <p className={styles.textMedium}>Showing 1-25 of 356 property for Sale</p>
@@ -192,6 +199,10 @@ const PropertyList = () => {
                         <FAQs />
                     </div>
                 </div>
+                <div className='px-[2%] py-5'>
+                    <p className={styles.title1+'mb-8 text-left'}>Property In Ahmedabad For Sale</p>
+                    <PropertyForSlides />
+                </div>
             </div>
             {contactModalStatus.show && <div className='fixed bg-white shadow-lg border-[1px] top-[100px] z-[1500] p-4 right-[4%] lg:right-[10%] w-[85%] max-w-[350px]'>
                 <button
@@ -215,15 +226,15 @@ const PropertyList = () => {
                     </div>
                 </div>
                 <div className='mt-5'>
-                    <input placeholder='Enter your name' className={styles.input + 'bg-white py-1 border-gray-300 pl-4'} />
-                    <input placeholder='Enter your Email' className={styles.input + 'bg-white py-1 border-gray-300 pl-4 mt-3'} />
+                    <input placeholder='Enter your name' className={styles.input + ' py-1 border-gray-300 pl-4'} />
+                    <input placeholder='Enter your Email' className={styles.input + ' py-1 border-gray-300 pl-4 mt-3'} />
                     <div className='flex justify-between mt-4'>
                         <div>
                             <div className={styles.btn + 'rounded-none border-gray-400'}>
                                 +91 India
                             </div>
                         </div>
-                        <input placeholder='Contact Number' className={styles.input + 'w-[70%] mt-0 bg-white border-gray-300 pl-[15px]'} />
+                        <input placeholder='Contact Number' className={styles.input + 'w-[70%] mt-0 border-gray-300 pl-[15px]'} />
                     </div>
                     <textarea placeholder='Description' className='w-full h-20 mt-5 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-gray-500'>
                     </textarea>

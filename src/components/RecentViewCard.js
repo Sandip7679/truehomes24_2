@@ -8,34 +8,42 @@ const RecentViewCard = ({ title, Data }) => {
         <div className='px-[1%] sm:w-[90%] bg-white py-5 pb-2 shadow-sm sm:min-w-[280px] lg:min-w-[350] cursor-pointer'>
             <h1 className={styles.title3 + 'pl-2 sm:pl-5'}>{title}</h1>
             <Carousel
-               swipeable={true}
-               draggable={false}
-               responsive={responsive}
-               // ssr={true}
-               infinite={true}
-               autoPlay={true}
-               autoPlaySpeed={2000}
-               keyBoardControl={true}
-               transitionDuration={2000}
-               // customButtonGroup={<div></div>}
-               // customLeftArrow={
-               //     <button className='absolute  -left-[2%] md:-left-5'>
-               //         <ArrowLeft />
-               //     </button>
-               // }
-               // customRightArrow={
-               //     <button className='absolute -right-[2%] md:-right-5'>
-               //         <ArrowRight />
-               //     </button>
-               // }
+                swipeable={true}
+                draggable={false}
+                responsive={responsive}
+                // ssr={true}
+                infinite={true}
+                autoPlay={true}
+                autoPlaySpeed={2000}
+                keyBoardControl={true}
+                transitionDuration={2000}
+            // customButtonGroup={<div></div>}
+            // customLeftArrow={
+            //     <button className='absolute  -left-[2%] md:-left-5'>
+            //         <ArrowLeft />
+            //     </button>
+            // }
+            // customRightArrow={
+            //     <button className='absolute -right-[2%] md:-right-5'>
+            //         <ArrowRight />
+            //     </button>
+            // }
             >
                 {Data.map((item, index) => {
                     return (
                         <div className='p-2 sm:p-5'>
-                            <div className='items-center border-gray-300 border-[1px] rounded-xl overflow-hidden  hover:cursor-pointer'>
+                            <div className='relative items-center border-gray-300 border-[1px] rounded-xl overflow-hidden  hover:cursor-pointer'>
                                 <img src={item.image}
                                     className='w-full h-[240px] transform transition-transform hover:scale-110 duration-1000'
                                 />
+                                <div className='flex absolute gap-2 top-5 right-5'>
+                                    <button className={styles.labelBtn + 'bg-green-600'}>
+                                        Featured
+                                    </button>
+                                    <button className={styles.labelBtn + 'bg-orange-600'}>
+                                        For Sale
+                                    </button>
+                                </div>
                             </div>
                             <div className='mt-5 pl-2'>
                                 <p className={styles.textMedium + 'text-gray-700'}>{item.title}</p>

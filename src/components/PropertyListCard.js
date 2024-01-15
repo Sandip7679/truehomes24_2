@@ -17,11 +17,14 @@ const PropertyListCard = ({ Data, func }) => {
                   group-hover:bg-gradient-to-b group-hover:form-gray-300 group-hover:to-black'>
                     <p className='text-base hidden mt-[30px] group-hover:block text-white'>{Data.owner}</p>
                 </div>
-                {/* <div className='absolute right-5 z-[50]'>
-                    <button className='bg-green-600 p-1'>
+                <div className='flex absolute gap-2 top-5 right-5'>
+                    <button className={styles.labelBtn + 'bg-green-600'}>
                         Featured
                     </button>
-                </div> */}
+                    <button className={styles.labelBtn + 'bg-orange-600'}>
+                        Sale
+                    </button>
+                </div>
             </div>
             <div className='p-3 pb-0 min-w-[65%] text-left h-full ml-[2%]'>
                 <div className='min-h-[205px]'>

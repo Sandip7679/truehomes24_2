@@ -174,11 +174,11 @@ const Home = () => {
                                             <div className='flex gap-5'>
                                                 <div className='relative'>
                                                     <span className='absolute top-6 left-5'>{'\u20B9'}</span>
-                                                    <input placeholder='Min' className={styles.input+'rounded-md mt-5'} />
+                                                    <input placeholder='Min' className={styles.input+' bg-gray-100 rounded-md mt-5'} />
                                                 </div>
                                                 <div className='relative'>
                                                     <span className='absolute top-6 left-5'>{'\u20B9'}</span>
-                                                    <input placeholder='Max' className={styles.input+'rounded-md mt-5'} />
+                                                    <input placeholder='Max' className={styles.input+' bg-gray-100 rounded-md mt-5'} />
                                                 </div>
                                             </div>
                                             <div>

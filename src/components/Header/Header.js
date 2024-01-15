@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 // import { faCoffee } from '@fortawesome/free-solid-svg-icons';
 import buyIcon from '../../assets/Icons/buy.png';
@@ -15,6 +15,7 @@ import cityIcon from '../../assets/Icons/amedabad.jpg';
 import DropdownIcon, { MenuIcon, SearchIcon } from '../svgIcons';
 import { styles } from '../../Styles/Styles';
 import { NavLink } from 'react-router-dom';
+import Auth from '../Auth';
 const cities = [
     { city: 'Dubai' },
     { city: 'Toronto' },
@@ -43,6 +44,8 @@ const Header = () => {
 
     const cityRef = useRef(null);
 
+    const [showLoginPopup,setShowLoginPopup] = useState(false);
+
     useEffect(() => {
         // document.getElementById('dropdown-city').addEventListener('blur', () => {
         //     document.getElementById('city-menu').classList.add('hidden');
@@ -58,9 +61,9 @@ const Header = () => {
         document.getElementById('mobile-menu-button').addEventListener('blur', () => {
             document.getElementById('mobile-menu').classList.add('hidden');
         });
-        document.getElementById('mobile-menu-icon').addEventListener('blur', () => {
-            document.getElementById('mobile-menu').classList.add('hidden');
-        });
+        // document.getElementById('mobile-menu-icon').addEventListener('blur', () => {
+        //     document.getElementById('mobile-menu').classList.add('hidden');
+        // });
         document.getElementById('more-services-btn').addEventListener('blur', () => {
             document.getElementById('more-services-menu').classList.add('hidden');
         });
@@ -70,14 +73,19 @@ const Header = () => {
 
     }, []);
 
+    const onCloseLoginPopup = ()=>{
+        setShowLoginPopup(false);
+    }
+
 
     return (
         <nav className="bg-gray-800 fixed top-0 z-[2000] p-2 w-screen">
             <div className="flex justify-between">
                 <div className="flex items-center space-x-4">
-                    <div class="lg:hidden">
-                        <button id="mobile-menu-button" class="text-white focus:outline-none" onClick={() => document.getElementById('mobile-menu').classList.toggle('hidden')}>
+                    <div class="lg:hidden z-[200]">
+                        <button id="mobile-menu-button" class="text-white focus:outline-none h-6 w-6 sm:h-8 sm:w-8" onClick={() => document.getElementById('mobile-menu').classList.toggle('hidden')}>
                             <MenuIcon />
+                            {/* <p className='text-white'>Menu</p> */}
                         </button>
                     </div>
                     <img src='https://www.truehomes24.com/assets/dynamic/logo/3231ba59af210a5c3273fb2440e10cd6.jpg' alt="Logo" className="h-10 w-15 ml-2" /> {/* Adjust the size as needed */}
@@ -156,7 +164,7 @@ const Header = () => {
                                 More Services
                                 <DropdownIcon />
                             </button>
-                            <div id='more-services-menu' className={styles.dropdownMenu+'w-[260px]'}>
+                            <div id='more-services-menu' className={styles.dropdownMenu + 'w-[260px]'}>
                                 <a href="#" class={styles.dropdownItem}>
                                     <img src={interiorDesiginStudio} className='h-5 w-6 mr-5 ' />
                                     <span className=''>
@@ -208,25 +216,26 @@ const Header = () => {
                         </div>
                     </div>
                     <div className='pr-2 md:pr-5'>
-                        <button className='text-white px-4 py-1 rounded-md ml-4 bg-gray-600  hover:bg-gray-500'>
+                        <button 
+                          onClick={()=> setShowLoginPopup(true)} 
+                          className='text-white px-4 py-1 rounded-md ml-4 bg-gray-600  hover:bg-gray-500'>
                             Register/Login
                         </button>
                     </div>
 
                 </div>
 
-
             </div>
 
-            <div id="mobile-menu" class="hidden fixed lg:hidden inset-0 bg-white z-5 w-[60%] max-w-[400px]">
-                <div class="bg-black flex items-center p-2">
+            <div id="mobile-menu" class="hidden fixed lg:hidden inset-0 top-[56px] bg-white z-5 w-[60%] max-w-[400px]">
+                {/* <div class="bg-black flex items-center p-2">
                     <div class="lg:hidden ">
                         <button id="mobile-menu-icon" class="text-white focus:outline-none" onClick={() => document.getElementById('mobile-menu').classList.toggle('hidden')}>
                             <MenuIcon />
                         </button>
                     </div>
                     <img src='https://www.truehomes24.com/assets/dynamic/logo/3231ba59af210a5c3273fb2440e10cd6.jpg' alt="Logo" className="h-10 w-15 ml-4" />
-                </div>
+                </div> */}
                 <div class="flex flex-col">
                     <a href="#" class={styles.dropdownItem}>
                         <img src={buyIcon} className='h-5 w-6 mr-5' />Buy
@@ -269,8 +278,7 @@ const Header = () => {
                     </a> */}
                 </div>
             </div>
-
-
+              {showLoginPopup && <Auth onClose = {onCloseLoginPopup}/>}
         </nav>
 
     );
