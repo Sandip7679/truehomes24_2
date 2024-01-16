@@ -1,12 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 // import { faCoffee } from '@fortawesome/free-solid-svg-icons';
-import buyIcon from '../../assets/Icons/buy.png';
-import rentIcon from '../../assets/Icons/rent.png';
-import projectIcon from '../../assets/Icons/project.png';
-import agentIcon from '../../assets/Icons/agent.png';
-import moreServicesIcon from '../../assets/Icons/more-services.png';
-// import buyerIcon from '../../assets/Icons/buyer.png';
+
 import interiorDesiginStudio from '../../assets/Icons/interiorDesiginStudio.png';
 import homeLoan from '../../assets/Icons/homeLoan.png';
 import postPropertyPerDay from '../../assets/Icons/post-property-per-day.png';
@@ -16,6 +11,7 @@ import DropdownIcon, { MenuIcon, SearchIcon } from '../svgIcons';
 import { styles } from '../../Styles/Styles';
 import { NavLink } from 'react-router-dom';
 import Auth from '../Auth';
+import MobileMenu from './MobileMenu';
 const cities = [
     { city: 'Dubai' },
     { city: 'Toronto' },
@@ -44,26 +40,22 @@ const Header = () => {
 
     const cityRef = useRef(null);
 
-    const [showLoginPopup,setShowLoginPopup] = useState(false);
+    const [showLoginPopup, setShowLoginPopup] = useState(false);
 
     useEffect(() => {
         // document.getElementById('dropdown-city').addEventListener('blur', () => {
         //     document.getElementById('city-menu').classList.add('hidden');
         // });
-        document.addEventListener('click', (e) => {
-            // if (!cityRef.current.contains(e.target)) {
-            //     document.getElementById('city-menu').classList.add('hidden');
-            // }
-            if (!document.getElementById('dropdown-city').contains(e.target)) {
-                document.getElementById('city-menu').classList.add('hidden');
-            }
-        });
+        // document.addEventListener('click', (e) => {
+        //     if (!document.getElementById('dropdown-city').contains(e.target)) {
+        //         document.getElementById('city-menu').classList.add('hidden');
+        //     }
+        // });
+        closeOnClickOutside('dropdown-city', 'city-menu');
         document.getElementById('mobile-menu-button').addEventListener('blur', () => {
             document.getElementById('mobile-menu').classList.add('hidden');
         });
-        // document.getElementById('mobile-menu-icon').addEventListener('blur', () => {
-        //     document.getElementById('mobile-menu').classList.add('hidden');
-        // });
+
         document.getElementById('more-services-btn').addEventListener('blur', () => {
             document.getElementById('more-services-menu').classList.add('hidden');
         });
@@ -73,7 +65,18 @@ const Header = () => {
 
     }, []);
 
-    const onCloseLoginPopup = ()=>{
+
+    const closeOnClickOutside = (parentId, childId) => {
+        document.addEventListener('click', (e) => {
+            let dropdownElement = document.getElementById(parentId);
+            let childElement = document.getElementById(childId);
+            if (childElement && dropdownElement && !dropdownElement.contains(e.target)) {
+                childElement.classList.add('hidden');
+            }
+        });
+    }
+
+    const onCloseLoginPopup = () => {
         setShowLoginPopup(false);
     }
 
@@ -81,22 +84,24 @@ const Header = () => {
     return (
         <nav className="bg-gray-800 fixed top-0 z-[2000] p-2 w-screen">
             <div className="flex justify-between">
-                <div className="flex items-center space-x-4">
-                    <div class="lg:hidden z-[200]">
+                <div className="flex items-center space-x-2">
+                    <div class="lg:hidden z-[200] group">
                         <button id="mobile-menu-button" class="text-white focus:outline-none h-6 w-6 sm:h-8 sm:w-8" onClick={() => document.getElementById('mobile-menu').classList.toggle('hidden')}>
                             <MenuIcon />
-                            {/* <p className='text-white'>Menu</p> */}
                         </button>
+                        <div id="mobile-menu" className="hidden fixed group-hover:block lg:hidden inset-0 top-[52px] shadow border-r-[1px] bg-gray-50 z-5 w-[80%] max-w-[300px]">
+                            <MobileMenu />
+                        </div>
                     </div>
-                    <img src='https://www.truehomes24.com/assets/dynamic/logo/3231ba59af210a5c3273fb2440e10cd6.jpg' alt="Logo" className="h-10 w-15 ml-2" /> {/* Adjust the size as needed */}
+                    <img src='https://www.truehomes24.com/assets/dynamic/logo/3231ba59af210a5c3273fb2440e10cd6.jpg' alt="Logo" className="h-9 w-12 sm:w-16 ml-1 sm:ml-2" /> {/* Adjust the size as needed */}
                     <div ref={cityRef}
                         id='dropdown-city'
                         className="relative group z-10">
-                        <button id='city-btn' className={styles.dropdown}
+                        <button id='city-btn' className={styles.dropdown+'opacity-95'}
                             onClick={() => document.getElementById('city-menu').classList.toggle('hidden')}
                         >
                             City
-                            <DropdownIcon />
+                            <DropdownIcon classname={'text-white'} />
                         </button>
                         <div
                             id='city-menu'
@@ -151,18 +156,18 @@ const Header = () => {
                         </div> */}
                     </div>
                     <div className='hidden lg:flex space-x-4'>
-                        <a href="#" className="text-white hover:text-gray-300">Buy</a>
-                        <a href="#" className="text-white hover:text-gray-300">Rent</a>
-                        <a href="#" className="text-white hover:text-gray-300">New Project</a>
-                        <a href="#" className="text-white hover:text-gray-300">Agents</a>
-                        <a href="#" className="text-white hover:text-gray-300">Builders</a>
+                        <a href="#" className="text-gray-100 hover:text-gray-400">Buy</a>
+                        <a href="#" className="text-gray-100 hover:text-gray-400">Rent</a>
+                        <a href="#" className="text-gray-100 hover:text-gray-400">New Project</a>
+                        <NavLink to="/agents" className="text-gray-100 hover:text-gray-400">Agents</NavLink>
+                        <a href="#" className="text-gray-100 hover:text-gray-400">Builders</a>
                         <div className='relative group z-10'>
                             <button
                                 id='more-services-btn'
                                 onClick={() => document.getElementById('more-services-menu').classList.toggle('hidden')}
-                                className={styles.dropdown}>
+                                className={styles.dropdown+'text-gray-100'}>
                                 More Services
-                                <DropdownIcon />
+                                <DropdownIcon classname={'text-gray-100 mt-[4px]'} />
                             </button>
                             <div id='more-services-menu' className={styles.dropdownMenu + 'w-[260px]'}>
                                 <a href="#" class={styles.dropdownItem}>
@@ -183,16 +188,16 @@ const Header = () => {
                     </div>
                 </div>
                 <div className="hidden lg:flex justify-between items-center">
-                    <button className={styles.btn + 'border-green-500 px-4 hover:bg-gray-700 text-white'}>
+                    <button className={styles.btn + 'border-green-500 px-4 hover:bg-gray-700 text-gray-100'}>
                         Buyer/Tenant Registration
                     </button>
                     <div className='relative group z-10'>
                         <button
                             id='post-property-btn'
                             onClick={() => document.getElementById('post-property-menu').classList.toggle('hidden')}
-                            className={styles.dropdownBtn}>
+                            className={styles.dropdownBtn+'text-gray-100'}>
                             Post Property
-                            <DropdownIcon />
+                            <DropdownIcon classname={'text-gray-100'} />
                         </button>
                         <div id='post-property-menu' className={styles.dropdownMenu + 'w-[260px]'}>
                             <a href="#" class={styles.dropdownItem}>
@@ -215,70 +220,18 @@ const Header = () => {
                             </a>
                         </div>
                     </div>
-                    <div className='pr-2 md:pr-5'>
-                        <button 
-                          onClick={()=> setShowLoginPopup(true)} 
-                          className='text-white px-4 py-1 rounded-md ml-4 bg-gray-600  hover:bg-gray-500'>
-                            Register/Login
-                        </button>
-                    </div>
-
+                </div>
+                <div className='pr-2 md:pr-5'>
+                    <button
+                        onClick={() => setShowLoginPopup(true)}
+                        className={styles.textMedium + 'text-white px-2 sm:px-4 py-1 rounded-md ml-4 bg-gray-600  hover:bg-gray-500'}>
+                        Register/Login
+                    </button>
                 </div>
 
             </div>
 
-            <div id="mobile-menu" class="hidden fixed lg:hidden inset-0 top-[56px] bg-white z-5 w-[60%] max-w-[400px]">
-                {/* <div class="bg-black flex items-center p-2">
-                    <div class="lg:hidden ">
-                        <button id="mobile-menu-icon" class="text-white focus:outline-none" onClick={() => document.getElementById('mobile-menu').classList.toggle('hidden')}>
-                            <MenuIcon />
-                        </button>
-                    </div>
-                    <img src='https://www.truehomes24.com/assets/dynamic/logo/3231ba59af210a5c3273fb2440e10cd6.jpg' alt="Logo" className="h-10 w-15 ml-4" />
-                </div> */}
-                <div class="flex flex-col">
-                    <a href="#" class={styles.dropdownItem}>
-                        <img src={buyIcon} className='h-5 w-6 mr-5' />Buy
-                    </a>
-                    <a href="#" class={styles.dropdownItem}>
-                        <span>
-                            <img src={rentIcon} className='h-5 w-6 mr-5' />
-                        </span>
-                        Rent
-                    </a>
-                    <a href="#" class={styles.dropdownItem}>
-                        <span>
-                            <img src={projectIcon} className='h-5 w-6 mr-5' />
-                        </span>
-                        New Project
-                    </a>
-                    <a href="#" class={styles.dropdownItem}>
-                        <span>
-                            <img src={agentIcon} className='h-5 w-6 mr-5' />
-                        </span>
-                        Agent
-                    </a>
-                    <a href="#" class={styles.dropdownItem}>
-                        <span>
-                            <img src={agentIcon} className='h-5 w-6 mr-5' />
-                        </span>
-                        Builders
-                    </a>
-                    <a href="#" class={styles.dropdownItem}>
-                        <span>
-                            <img src={moreServicesIcon} className='h-5 w-6 mr-5' />
-                        </span>
-                        More Services
-                    </a>
-                    {/* <a href="#" class={styles.dropdownItem}>
-                        <span>
-                            <img src={buyerIcon} className='h-5 w-6 mr-5' />
-                        </span>
-                        Buyer/Tenant Registration
-                    </a> */}
-                </div>
-            </div>
-              {showLoginPopup && <Auth onClose = {onCloseLoginPopup}/>}
+            {showLoginPopup && <Auth onClose={onCloseLoginPopup} />}
         </nav>
 
     );

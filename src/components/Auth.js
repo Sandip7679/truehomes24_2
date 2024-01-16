@@ -6,8 +6,8 @@ import loginImage from '../assets/images/login-1.png'
 const Auth = ({ onClose }) => {
     const [isLogin, setIsLogin] = useState(true);
     return (
-        <div className='fixed top-0 z-[2000] flex -ml-2 h-[100%] w-full items-center justify-center bg-black bg-opacity-60'>
-            <div className='relative min-h-[400px] w-1/2 px-[3%] py-5 bg-white'>
+        <div className='fixed top-0 z-[2000] flex -ml-2 w-full h-[100%] items-center justify-center bg-black bg-opacity-60'>
+            <div className='relative overflow-y-scroll min-h-[400px] max-h-screen w-[90%] sm:w-1/2 px-[3%] py-5 bg-white'>
                 <button
                     onClick={() => onClose()}
                     className='absolute top-2 right-2'>
@@ -32,7 +32,7 @@ const Auth = ({ onClose }) => {
                             </div>
                             <span className='ml-3'>Remember me</span>
                         </label>
-                        <button className={styles.btn + 'w-full bg-gray-800 text-white mt-10 py-2'}>Login</button>
+                        <button className={styles.btn + 'w-full bg-gray-800 text-white mt-10 py-2 border-none'}>Login</button>
                     </div>
                         :
                         <div className='w-full md:w-[55%] mb-10'>
@@ -58,7 +58,7 @@ const Auth = ({ onClose }) => {
                         </div>
                     }
                     <div className='items-center pl-[10%] w-full md:w-[45%]'>
-                        <img className='w-[70%] md:w-[90%]' src={loginImage} />
+                        <img className='w-[60%] md:w-[90%]' src={loginImage} />
                         <p className='text-gray-500 mt-2'>
                             {isLogin ?
                                 'Welcome Back! Please login to your account now.'

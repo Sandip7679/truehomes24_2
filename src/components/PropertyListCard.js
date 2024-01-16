@@ -1,7 +1,8 @@
 import React from 'react';
-import { Apartment, Bedroom, LandArea, LocationIcon } from './svgIcons';
+import { Apartment, Bedroom, FavouriteIcon, LandArea, LocationIcon } from './svgIcons';
 import { styles } from '../Styles/Styles';
 import possession2 from '../assets/Icons/possession2.png'
+import userIcon from '../assets/images/user.svg'
 
 
 
@@ -13,9 +14,16 @@ const PropertyListCard = ({ Data, func }) => {
                 <img src={Data.image}
                     className='w-full h-[240px] transform transition-transform hover:scale-110 duration-1000'
                 />
-                <div className='h-[70px] p-2 bg-gradient-to-b from-gray-100 to-gray-400 
+                <div className='h-[70px] flex justify-between items-center p-2 bg-gradient-to-b from-gray-100 to-gray-400 
                   group-hover:bg-gradient-to-b group-hover:form-gray-300 group-hover:to-black'>
-                    <p className='text-base hidden mt-[30px] group-hover:block text-white'>{Data.owner}</p>
+                    <div className='flex gap-1'>
+                        <img src={userIcon} className='h-10 w-10 hidden group-hover:block' />
+                        <p className='text-base hidden group-hover:block text-white mt-2'>{Data.owner}</p>
+                    </div>
+
+                    <div className=' hidden group-hover:block rounded-full p-1 bg-black bg-opacity-60'>
+                        <FavouriteIcon classname={'text-white'} />
+                    </div>
                 </div>
                 <div className='flex absolute gap-2 top-5 right-5'>
                     <button className={styles.labelBtn + 'bg-green-600'}>

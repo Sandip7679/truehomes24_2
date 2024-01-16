@@ -139,6 +139,7 @@ const rightSectionData = [
 
 const PropertyList = () => {
     const [contactModalStatus, setcontactModalStatus] = useState({ show: false, data: {} });
+    const [propertyType, setPropertyType] = useState('localities');
     // const [moreBestBudget,setMoreBestBudget] = useState(false);
 
     const onClickContactBtn = (item) => {
@@ -156,15 +157,21 @@ const PropertyList = () => {
                     <div className=' md:flex gap-5'>
                         <div className='mt-5 tracking-wide'>
                             <p className={styles.textMedium}>Showing 1-25 of 356 property for Sale</p>
-                            <p className={styles.title3 + 'mt-5'}>Property for Sale in Ahmedabad</p>
+                            <p className={styles.title3 + 'mt-1'}>Property for Sale in Ahmedabad</p>
                             <div className='flex gap-2 border-b-[1px] mt-2 border-b-gray-200'>
-                                <button className='border-b-[1px] hover:border-b-[1px] border-b-gray-700 pb-1 mr-3'>
+                                <button
+                                    onClick={() => setPropertyType('localities')}
+                                    className={(propertyType == 'localities' ? 'border-b-[1px]' : '') + ' hover:border-b-[1px] border-b-gray-700 pb-1 mr-3'}>
                                     <p className={styles.textMedium + ''}>Localities</p>
                                 </button>
-                                <button className=' hover:border-b-[1px] border-b-gray-700 pb-1 mx-3'>
+                                <button
+                                    onClick={() => setPropertyType('status')}
+                                    className={(propertyType == 'status' ? 'border-b-[1px]' : '') + ' hover:border-b-[1px] border-b-gray-700 pb-1 mx-3'}>
                                     <p className={styles.textMedium}>Property Status</p>
                                 </button>
-                                <button className=' hover:border-b-[1px] border-b-gray-700 pb-1 mx-3'>
+                                <button
+                                    onClick={() => setPropertyType('budget')}
+                                    className={(propertyType == 'budget' ? 'border-b-[1px]' : '') + ' hover:border-b-[1px] border-b-gray-700 pb-1 mx-3'}>
                                     <p className={styles.textMedium}>Budget</p>
                                 </button>
                             </div>
@@ -200,11 +207,11 @@ const PropertyList = () => {
                     </div>
                 </div>
                 <div className='px-[2%] py-5'>
-                    <p className={styles.title1+'mb-8 text-left'}>Property In Ahmedabad For Sale</p>
+                    <p className={styles.title1 + 'mb-8 text-left'}>Property In Ahmedabad For Sale</p>
                     <PropertyForSlides />
                 </div>
             </div>
-            {contactModalStatus.show && <div className='fixed bg-white shadow-lg border-[1px] top-[100px] z-[1500] p-4 right-[4%] lg:right-[10%] w-[85%] max-w-[350px]'>
+            {contactModalStatus.show && <div className='fixed bg-white shadow-lg border-[1px] top-[70px] z-[1500] p-4 right-[4%] lg:right-[10%] w-[90%] sm:w-[85%] max-w-[360px]'>
                 <button
                     onClick={() => setcontactModalStatus({ show: false, data: {} })}
                     className='absolute top-2 right-2'>
@@ -229,12 +236,13 @@ const PropertyList = () => {
                     <input placeholder='Enter your name' className={styles.input + ' py-1 border-gray-300 pl-4'} />
                     <input placeholder='Enter your Email' className={styles.input + ' py-1 border-gray-300 pl-4 mt-3'} />
                     <div className='flex justify-between mt-4'>
-                        <div>
-                            <div className={styles.btn + 'rounded-none border-gray-400'}>
+                        <div className='min-w-[105px] w-[30%]'>
+                            <div className={styles.btn + 'rounded-none flex py-2 gap-[1px] border-gray-300'}>
+                                <img src='https://upload.wikimedia.org/wikipedia/en/thumb/4/41/Flag_of_India.svg/1280px-Flag_of_India.svg.png' className='w-4 h-3 mt-[4px] sm:mt-[6px]'/>
                                 +91 India
                             </div>
                         </div>
-                        <input placeholder='Contact Number' className={styles.input + 'w-[70%] mt-0 border-gray-300 pl-[15px]'} />
+                        <input placeholder='Contact Number' className={styles.input + 'w-[65%] mt-0 border-gray-300 pl-[15px]'} />
                     </div>
                     <textarea placeholder='Description' className='w-full h-20 mt-5 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-gray-500'>
                     </textarea>
