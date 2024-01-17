@@ -3,6 +3,7 @@ import './App.css';
 import Home from './pages/Home';
 import PropertyList from './pages/PropertyList';
 import Agents from './pages/Agents/Agents';
+import Builders from './pages/Builders/Builders';
 
 function App() {
   return (
@@ -11,6 +12,7 @@ function App() {
         <Route path='/' element={<Home />} />
         <Route path='/property-list' element={<PropertyList />} />
         <Route path='/agents' element={<Agents/>} />
+        <Route path='/builders' element={<Builders/>} />
       </Routes>
       {/* <Home/> */}
       {/* <PropertyList/> */}

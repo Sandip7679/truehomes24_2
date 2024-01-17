@@ -171,14 +171,14 @@ const Home = () => {
                                         <div
                                             id='bugdet-menu'
                                             className={`${styles.dropdownContainer} group-hover:block`}>
-                                            <div className='flex gap-5'>
+                                            <div className='flex gap-5 mt-5'>
                                                 <div className='relative'>
-                                                    <span className='absolute top-6 left-5'>{'\u20B9'}</span>
-                                                    <input placeholder='Min' className={styles.input+' bg-gray-100 rounded-md mt-5'} />
+                                                    <span className='absolute top-2 left-2'>{'\u20B9'}</span>
+                                                    <input placeholder='Min' className={styles.input+' pl-5 rounded-md'} />
                                                 </div>
                                                 <div className='relative'>
-                                                    <span className='absolute top-6 left-5'>{'\u20B9'}</span>
-                                                    <input placeholder='Max' className={styles.input+' bg-gray-100 rounded-md mt-5'} />
+                                                    <span className='absolute top-2 left-2'>{'\u20B9'}</span>
+                                                    <input placeholder='Max' className={styles.input+' pl-5 rounded-md'} />
                                                 </div>
                                             </div>
                                             <div>
@@ -205,7 +205,7 @@ const Home = () => {
                                         <div
                                             id='bhk-menu'
                                             // className='absolute hidden top-[50px] w-[200px] md:w-[300px] border-[1px] p-3 border-gray-700 bg-white'
-                                            className={`${styles.dropdownMenu} w-[260px] group-hover:block`}
+                                            className={`${styles.dropdownMenu} w-[260px] p-2 py-4`}
                                         >
                                             <div className='flex gap-2 flex-wrap justify-between'>
                                                 <button className='p-1 px-2 rounded-lg border-[1px] border-gray-500 hover:border-orange-500 hover:text-orange-500'>
@@ -244,7 +244,7 @@ const Home = () => {
                                             <div class="space-y-2 max-h-[400px] overflow-y-scroll">
                                                 {propertyTypes.map((item, index) => {
                                                     return (
-                                                        <label class="flex hover:cursor-pointer hover:bg-gray-200 pl-2 items-center">
+                                                        <label class={styles.dropdownItem+'py-1'}>
                                                             <input type="checkbox" class="form-checkbox mt-1 h-4 w-4 text-blue-500" />
                                                             <span class="ml-2">{item.type}</span>
                                                         </label>

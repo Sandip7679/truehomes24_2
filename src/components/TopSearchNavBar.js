@@ -110,16 +110,16 @@ const TopSearchNavBar = () => {
                         onClick={() => document.getElementById('bhk-menu').classList.toggle('hidden')}
                         id='bhk-btn' className={styles.btn + 'mx-1'}>
                         <p>BHK</p>
-                        <Dropdown classname={'text-gray-300'} />
+                        <Dropdown />
                     </button>
                     <div id='bhk-menu' className={styles.dropdownMenu + 'w-[120px] group-hover:block'}>
                         {BHKtype.map((item, index) => {
                             return (
                                 <label
                                     // onClick={() => setSelectedBHK(index)}
-                                    className='flex gap-2 mt-2 cursor-pointer hover:bg-gray-100 hover:-mx-2 hover:px-2 '>
+                                    className={styles.dropdownItem}>
                                     <input id={`radioBtn-${index}`} className='mt-[0.5px]' type='radio' />
-                                    <p className=''>{item.type}</p>
+                                    <p className='ml-1'>{item.type}</p>
                                 </label>
                             )
                         })}
@@ -167,14 +167,14 @@ const TopSearchNavBar = () => {
                     <div
                         id='bugdet-menu'
                         className={`${styles.dropdownContainer} -left-[200px] group-hover:block`}>
-                        <div className='flex gap-5'>
+                        <div className='flex gap-5 mt-5'>
                             <div className='relative'>
-                                <span className='absolute top-6 left-5'>{'\u20B9'}</span>
-                                <input placeholder='Min' className={styles.input + ' rounded-md mt-5'} />
+                                <span className='absolute top-2 left-2'>{'\u20B9'}</span>
+                                <input placeholder='Min' className={styles.input + ' pl-5 rounded-md'} />
                             </div>
                             <div className='relative'>
-                                <span className='absolute top-6 left-5'>{'\u20B9'}</span>
-                                <input placeholder='Max' className={styles.input + ' rounded-md mt-5'} />
+                                <span className='absolute top-2 left-2'>{'\u20B9'}</span>
+                                <input placeholder='Max' className={styles.input + 'pl-5 rounded-md'} />
                             </div>
                         </div>
                         <div>
@@ -281,14 +281,14 @@ const TopSearchNavBar = () => {
                         <p>Short By</p>
                         <Dropdown />
                     </button>
-                    <div id='shortBy-menu' className={styles.dropdownMenu + 'w-[200px] group-hover:block sm:-ml-[95px]'}>
+                    <div id='shortBy-menu' className={styles.dropdownMenu + 'w-[220px] group-hover:block sm:-ml-[95px]'}>
                         {shortByItems.map((item, index) => {
                             return (
                                 <label
                                     // onClick={() => setSelectedBHK(index)}
-                                    className='flex gap-2 mt-2 cursor-pointer hover:bg-gray-100 hover:-mx-2 hover:px-2 '>
+                                    className={styles.dropdownItem}>
                                     <input id={`radioBtn-${index}`} className='mt-[0.5px]' type='radio' />
-                                    <p className=''>{item.type}</p>
+                                    <p className='ml-1'>{item.type}</p>
                                 </label>
                             )
                         })}

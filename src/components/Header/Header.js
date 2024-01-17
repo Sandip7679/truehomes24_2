@@ -7,7 +7,7 @@ import homeLoan from '../../assets/Icons/homeLoan.png';
 import postPropertyPerDay from '../../assets/Icons/post-property-per-day.png';
 
 import cityIcon from '../../assets/Icons/amedabad.jpg';
-import DropdownIcon, { MenuIcon, SearchIcon } from '../svgIcons';
+import  {Dropdown, MenuIcon, SearchIcon } from '../svgIcons';
 import { styles } from '../../Styles/Styles';
 import { NavLink } from 'react-router-dom';
 import Auth from '../Auth';
@@ -93,15 +93,17 @@ const Header = () => {
                             <MobileMenu />
                         </div>
                     </div>
-                    <img src='https://www.truehomes24.com/assets/dynamic/logo/3231ba59af210a5c3273fb2440e10cd6.jpg' alt="Logo" className="h-9 w-12 sm:w-16 ml-1 sm:ml-2" /> {/* Adjust the size as needed */}
+                    <NavLink to={'/'}>
+                        <img src='https://www.truehomes24.com/assets/dynamic/logo/3231ba59af210a5c3273fb2440e10cd6.jpg' alt="Logo" className="h-9 w-12 sm:w-16 ml-1 sm:ml-2" /> {/* Adjust the size as needed */}
+                    </NavLink>
                     <div ref={cityRef}
                         id='dropdown-city'
                         className="relative group z-10">
-                        <button id='city-btn' className={styles.dropdown+'opacity-95'}
+                        <button id='city-btn' className={styles.dropdown + 'opacity-95'}
                             onClick={() => document.getElementById('city-menu').classList.toggle('hidden')}
                         >
                             City
-                            <DropdownIcon classname={'text-white'} />
+                            <Dropdown classname={'text-white'} />
                         </button>
                         <div
                             id='city-menu'
@@ -160,25 +162,25 @@ const Header = () => {
                         <a href="#" className="text-gray-100 hover:text-gray-400">Rent</a>
                         <a href="#" className="text-gray-100 hover:text-gray-400">New Project</a>
                         <NavLink to="/agents" className="text-gray-100 hover:text-gray-400">Agents</NavLink>
-                        <a href="#" className="text-gray-100 hover:text-gray-400">Builders</a>
+                        <NavLink to="/builders" className="text-gray-100 hover:text-gray-400">Builders</NavLink>
                         <div className='relative group z-10'>
                             <button
                                 id='more-services-btn'
                                 onClick={() => document.getElementById('more-services-menu').classList.toggle('hidden')}
-                                className={styles.dropdown+'text-gray-100'}>
+                                className={styles.dropdown + 'text-gray-50 opacity-95'}>
                                 More Services
-                                <DropdownIcon classname={'text-gray-100 mt-[4px]'} />
+                                <Dropdown classname={'text-white mt-[4px]'} />
                             </button>
-                            <div id='more-services-menu' className={styles.dropdownMenu + 'w-[260px]'}>
+                            <div id='more-services-menu' className={styles.dropdownMenu + ' w-[200px]'}>
                                 <a href="#" class={styles.dropdownItem}>
-                                    <img src={interiorDesiginStudio} className='h-5 w-6 mr-5 ' />
+                                    <img src={interiorDesiginStudio} className='h-5 w-6 mr-3 ' />
                                     <span className=''>
                                         Interior Design Studio
                                     </span>
                                 </a>
                                 <a href="#" class='text-black p-2 hover:bg-gray-100 border-gray-100 flex'>
                                     <span>
-                                        <img src={homeLoan} className='h-5 w-6 mr-5' />
+                                        <img src={homeLoan} className='h-5 w-6 mr-3' />
                                     </span>
                                     Home Loan
                                 </a>
@@ -188,18 +190,18 @@ const Header = () => {
                     </div>
                 </div>
                 <div className="hidden lg:flex justify-between items-center">
-                    <button className={styles.btn + 'border-green-500 px-4 hover:bg-gray-700 text-gray-100'}>
+                    <button className={styles.btn + 'border-green-500 px-4 hover:bg-gray-700 text-white opacity-95'}>
                         Buyer/Tenant Registration
                     </button>
                     <div className='relative group z-10'>
                         <button
                             id='post-property-btn'
                             onClick={() => document.getElementById('post-property-menu').classList.toggle('hidden')}
-                            className={styles.dropdownBtn+'text-gray-100'}>
+                            className={styles.dropdownBtn + 'text-gray-50 opacity-95'}>
                             Post Property
-                            <DropdownIcon classname={'text-gray-100'} />
+                            <Dropdown classname={'text-white opacity-95'} />
                         </button>
-                        <div id='post-property-menu' className={styles.dropdownMenu + 'w-[260px]'}>
+                        <div id='post-property-menu' className={styles.dropdownMenu + 'w-[250px]'}>
                             <a href="#" class={styles.dropdownItem}>
                                 <img src={postPropertyPerDay} className='h-5 w-6 mr-5 ' />
                                 <span className=''>
