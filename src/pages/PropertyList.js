@@ -187,7 +187,7 @@ const PropertyList = () => {
                             <div>
                                 {Data.map((item, index) => {
                                     return (
-                                        <PropertyListCard func={onClickContactBtn} Data={item} />
+                                        <NavLink to={'/project_details'}><PropertyListCard func={onClickContactBtn} Data={item} /></NavLink>
                                     )
                                 })}
                             </div>
