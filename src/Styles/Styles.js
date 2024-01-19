@@ -14,6 +14,7 @@ export const styles = {
     title2:'text-xl md:text-[1.3rem] font-semibold ',
     title3:'text-base md:text-lg lg:text-xl font-semibold ',
     title4:'text-base md:text-lg font-semibold ',
+    title5:'text-base md:text-[1.05rem] font-semibold tracking-wider text-gray-700 ',
     title2Bold:'text-xl font-bold tracking-wide',
     textMedium:'text-sm sm:text-base ',
     textLarge:'text-base sm:text-lg ',

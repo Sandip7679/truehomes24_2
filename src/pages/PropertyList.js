@@ -191,6 +191,9 @@ const PropertyList = () => {
                                     )
                                 })}
                             </div>
+                            <div className='mt-10'>
+                                <FAQs />
+                            </div>
                         </div>
 
                         <div className='sm:w-[35%] bg-slate-50 py-4 px-1'>
@@ -202,9 +205,7 @@ const PropertyList = () => {
                             </div>
                         </div>
                     </div>
-                    <div className='mt-10'>
-                        <FAQs />
-                    </div>
+
                 </div>
                 <div className='px-[2%] py-5'>
                     <p className={styles.title1 + 'mb-8 text-left'}>Property In Ahmedabad For Sale</p>
@@ -238,7 +239,7 @@ const PropertyList = () => {
                     <div className='flex justify-between mt-4'>
                         <div className='min-w-[105px] w-[30%]'>
                             <div className={styles.btn + 'rounded-none flex py-2 gap-[1px] border-gray-300'}>
-                                <img src='https://upload.wikimedia.org/wikipedia/en/thumb/4/41/Flag_of_India.svg/1280px-Flag_of_India.svg.png' className='w-4 h-3 mt-[4px] sm:mt-[6px]'/>
+                                <img src='https://upload.wikimedia.org/wikipedia/en/thumb/4/41/Flag_of_India.svg/1280px-Flag_of_India.svg.png' className='w-4 h-3 mt-[4px] sm:mt-[6px]' />
                                 +91 India
                             </div>
                         </div>

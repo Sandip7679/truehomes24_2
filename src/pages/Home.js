@@ -6,6 +6,7 @@ import Dropdown, { SearchIcon } from '../components/svgIcons';
 import PropertySlider from '../components/PropertySlider';
 import TopCItiesFilter from '../components/TopCItiesFilter';
 import Footer from '../components/Footer';
+import { NavLink } from 'react-router-dom';
 // import ApiConf from '../ApiConf';
 
 
@@ -174,11 +175,11 @@ const Home = () => {
                                             <div className='flex gap-5 mt-5'>
                                                 <div className='relative'>
                                                     <span className='absolute top-2 left-2'>{'\u20B9'}</span>
-                                                    <input placeholder='Min' className={styles.input+' pl-5 rounded-md'} />
+                                                    <input placeholder='Min' className={styles.input + ' pl-5 rounded-md'} />
                                                 </div>
                                                 <div className='relative'>
                                                     <span className='absolute top-2 left-2'>{'\u20B9'}</span>
-                                                    <input placeholder='Max' className={styles.input+' pl-5 rounded-md'} />
+                                                    <input placeholder='Max' className={styles.input + ' pl-5 rounded-md'} />
                                                 </div>
                                             </div>
                                             <div>
@@ -244,7 +245,7 @@ const Home = () => {
                                             <div class="space-y-2 max-h-[400px] overflow-y-scroll">
                                                 {propertyTypes.map((item, index) => {
                                                     return (
-                                                        <label class={styles.dropdownItem+'py-1'}>
+                                                        <label class={styles.dropdownItem + 'py-1'}>
                                                             <input type="checkbox" class="form-checkbox mt-1 h-4 w-4 text-blue-500" />
                                                             <span class="ml-2">{item.type}</span>
                                                         </label>
@@ -288,14 +289,18 @@ const Home = () => {
 
             <div id="properties" className=''>
                 <h1 className={styles.title1}>Featured Properties</h1>
-                <PropertySlider Data={Data} />
+                <NavLink to={'/project_details'}>
+                    <PropertySlider Data={Data} />
+                </NavLink>
                 <div className='my-10 mt-[50px]'>
                     <h1 className={styles.title1}>New Project</h1>
-                    <PropertySlider Data={Data} />
+                    <NavLink to={'/project_details'}>
+                        <PropertySlider Data={Data} />
+                    </NavLink>
                 </div>
                 {/* <div className='px-2 md:px-10 mt-[80px] w-full items-center'>
                 </div> */}
-                    <TopCItiesFilter />
+                <TopCItiesFilter />
             </div>
             <div className=''>
                 <Footer />
