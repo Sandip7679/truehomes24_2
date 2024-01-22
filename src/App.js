@@ -5,6 +5,7 @@ import PropertyList from './pages/PropertyList';
 import Agents from './pages/Agents/Agents';
 import Builders from './pages/Builders/Builders';
 import ProjectDetails from './pages/ProjectDetails/ProjectDetails';
+import Profile from './pages/Profile';
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
         <Route path='/agents' element={<Agents/>} />
         <Route path='/builders' element={<Builders/>} />
         <Route path='/project_details' element={<ProjectDetails/>} />
+        <Route path='/profile' element={<Profile/>} />
       </Routes>
       {/* <Home/> */}
       {/* <PropertyList/> */}

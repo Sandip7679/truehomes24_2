@@ -9,7 +9,7 @@ export const styles = {
     dropdownContainer:'absolute hidden z-50 bg-white p-2 pt-2 w-[180px] overflow-auto max-h-[300px] md:w-[335px] lg:w-[460px] sm:ml-0 text-gray-800 top-8 border-gray-300 border-[1px] ',
     dropdownItem:'text-black p-2 text-sm border-b-[1px] border-gray-100 flex hover:bg-gray-100 ',
     input:'border-[1px] border-gray-300 pl-2 py-2 w-[100%] focus:outline-none focus:border-gray-400 placeholder:text-gray-400 text-sm sm:text-base ',
-    title1:'px-2 text-center text-xl sm:text-3xl font-semibold ',
+    title1:'px-2 text-center text-xl sm:text-2xl font-semibold ',
     // title2:'text-xl md:text-2xl font-semibold ',
     title2:'text-xl md:text-[1.3rem] font-semibold ',
     title3:'text-base md:text-lg lg:text-xl font-semibold ',

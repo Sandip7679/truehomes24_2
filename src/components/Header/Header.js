@@ -107,14 +107,14 @@ const Header = () => {
                         </button>
                         <div
                             id='city-menu'
-                            className="absolute hidden bg-white p-2 pt-2 w-[180px] overflow-auto max-h-[500px] md:w-[335px] lg:w-[460px] space-y-2 -ml-[100px] sm:ml-0 text-gray-800 top-10 border-gray-300 border-[1px] "
+                            className="absolute hidden bg-white p-2 pt-2 w-[320px] overflow-auto max-h-[500px] md:w-[335px] lg:w-[460px] space-y-2 -ml-[100px] sm:ml-0 text-gray-800 top-9 border-gray-300 border-[1px] rounded-md"
                         >
                             <div className='flex flex-wrap gap-2 mt-2'>
                                 {cities.map((item) => {
                                     return (
-                                        <NavLink to="/property-list" className="px-2 py-4 rounded-md w-[47%] hover:bg-gray-100 max-w-[100px] flex flex-col border-[1px] shadow-lg items-center justify-center">
+                                        <NavLink to="/property-list" className="px-2 py-4 rounded-md w-[47%] hover:bg-gray-100 max-w-[90px] flex flex-col border-[1px] shadow-lg items-center justify-center">
                                             <img src={cityIcon} className='h-5 w-6' />
-                                            <span className='text-xs'>{item.city}</span>
+                                            <span className='text-xs text-center'>{item.city}</span>
                                         </NavLink>
                                     )
                                 })}

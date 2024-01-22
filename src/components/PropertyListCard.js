@@ -3,14 +3,15 @@ import { Apartment, Bedroom, FavouriteIcon, LandArea, LocationIcon } from './svg
 import { styles } from '../Styles/Styles';
 import possession2 from '../assets/Icons/possession2.png'
 import userIcon from '../assets/images/user.svg'
+import { NavLink } from 'react-router-dom';
 
 
 
 const PropertyListCard = ({ Data, func }) => {
 
     return (
-        <div className='rounded-xl flex flex-wrap lg:flex-nowrap shadow-lg border-[1px] h-full mt-10 mx-2 group'>
-            <div className='items-center relative border-gray-300 w-[100%] md:min-w-[220px]  h-full border-[1px] rounded-xl overflow-hidden  hover:cursor-pointer'>
+        <div className='rounded-xl flex flex-wrap lg:flex-nowrap shadow-lg border-[1px] h-full mt-6 mx-2 group'>
+            <NavLink to={'/project_details'} className='items-center relative border-gray-300 w-[100%] md:min-w-[220px]  h-full border-[1px] rounded-xl overflow-hidden  hover:cursor-pointer'>
                 <img src={Data.image}
                     className='w-full h-[240px] transform transition-transform hover:scale-110 duration-1000'
                 />
@@ -33,14 +34,15 @@ const PropertyListCard = ({ Data, func }) => {
                         Sale
                     </button>
                 </div>
-            </div>
+            </NavLink>
+
             <div className='p-3 pb-0 min-w-[65%] text-left h-full ml-[2%]'>
                 <div className='min-h-[205px]'>
                     <div className='flex justify-between'>
-                        <h1 className={styles.title3 + 'cursor-pointer hover:text-gray-500'}>{Data.title}</h1>
+                        <p className={styles.title4 + 'cursor-pointer hover:text-gray-500'}>{Data.title}</p>
                         <img src='https://www.truehomes24.com/assets/front_end/images/property/checkmark.svg' className='h-8 w-8 ml-2' />
                     </div>
-                    <div className='flex mt-5'>
+                    <div className='flex mt-3'>
                         <span className=''>
                             <LocationIcon classname={'h-5 w-4 mt-[0.5px]'} />
                         </span>

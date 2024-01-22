@@ -11,6 +11,7 @@ import userIcon from '../assets/images/user.svg'
 import { CrossIcon, MenuIcon, UserIcon } from '../components/svgIcons';
 import { NavLink } from 'react-router-dom';
 import PropertyForSlides from '../components/PropertyForSlides';
+import Contact from '../components/Contact';
 
 const Localities = [
     { location: 'Shela (40)' },
@@ -145,6 +146,9 @@ const PropertyList = () => {
     const onClickContactBtn = (item) => {
         setcontactModalStatus({ show: true, data: item });
     }
+    const onCloseContact = () => {
+        setcontactModalStatus({ show: false, data: null });
+    }
     return (
         <div className='' >
             <Header />
@@ -187,7 +191,7 @@ const PropertyList = () => {
                             <div>
                                 {Data.map((item, index) => {
                                     return (
-                                        <NavLink to={'/project_details'}><PropertyListCard func={onClickContactBtn} Data={item} /></NavLink>
+                                        <PropertyListCard func={onClickContactBtn} Data={item} />
                                     )
                                 })}
                             </div>
@@ -212,50 +216,7 @@ const PropertyList = () => {
                     <PropertyForSlides />
                 </div>
             </div>
-            {contactModalStatus.show && <div className='fixed bg-white shadow-lg border-[1px] top-[70px] z-[1500] p-4 right-[4%] lg:right-[10%] w-[90%] sm:w-[85%] max-w-[360px]'>
-                <button
-                    onClick={() => setcontactModalStatus({ show: false, data: {} })}
-                    className='absolute top-2 right-2'>
-                    <CrossIcon />
-                </button>
-                <div className='flex gap-5'>
-                    <img src={userIcon} className='h-[50px] w-[50px] md:h-[70px] md:w-[70px]' />
-                    <div className='text-gray-900 mt-2'>
-                        <div className='flex gap-3'>
-                            <UserIcon classname={'h-5 w-5 mt-[2px]'} />
-                            {contactModalStatus.data.owner}
-                        </div>
-                        <div className='flex gap-3'>
-                            <div className='h-5 w-5 mt-1'>
-                                <MenuIcon />
-                            </div>
-                            Individual
-                        </div>
-                    </div>
-                </div>
-                <div className='mt-5'>
-                    <input placeholder='Enter your name' className={styles.input + ' py-1 border-gray-300 pl-4'} />
-                    <input placeholder='Enter your Email' className={styles.input + ' py-1 border-gray-300 pl-4 mt-3'} />
-                    <div className='flex justify-between mt-4'>
-                        <div className='min-w-[105px] w-[30%]'>
-                            <div className={styles.btn + 'rounded-none flex py-2 gap-[1px] border-gray-300'}>
-                                <img src='https://upload.wikimedia.org/wikipedia/en/thumb/4/41/Flag_of_India.svg/1280px-Flag_of_India.svg.png' className='w-4 h-3 mt-[4px] sm:mt-[6px]' />
-                                +91 India
-                            </div>
-                        </div>
-                        <input placeholder='Contact Number' className={styles.input + 'w-[65%] mt-0 border-gray-300 pl-[15px]'} />
-                    </div>
-                    <textarea placeholder='Description' className='w-full h-20 mt-5 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-gray-500'>
-                    </textarea>
-                    <label className='flex gap-2 mt-3'>
-                        <input type='checkbox' className='' />
-                        <p className='text-gray-500 text-sm'>I agree to Truehomes24.com Terms of use</p>
-                    </label>
-                    <button className={styles.btn + 'bg-black py-[6px] w-full text-white mt-5'}>
-                        Submit
-                    </button>
-                </div>
-            </div>}
+            {contactModalStatus.show && <Contact Data={contactModalStatus.data} func={onCloseContact} />}
             <TopCItiesFilter />
             <Footer />
         </div>

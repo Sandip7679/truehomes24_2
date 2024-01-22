@@ -6,7 +6,9 @@ import Dropdown, { SearchIcon } from '../components/svgIcons';
 import PropertySlider from '../components/PropertySlider';
 import TopCItiesFilter from '../components/TopCItiesFilter';
 import Footer from '../components/Footer';
-import { NavLink } from 'react-router-dom';
+import RecentAdded from '../components/RecentAdded';
+import Contact from '../components/Contact';
+// import { NavLink } from 'react-router-dom';
 // import ApiConf from '../ApiConf';
 
 
@@ -21,7 +23,7 @@ const Data = [
         "title": "Residential Land  for Sale  in Bhogapuram International Airport Road, Visakhapatnam",
         "link": "https://www.truehomes24.com/api/sale/residential-land-for-sale-in-bhogapuram-international-airport-road-visakhapatnam/1000-64481",
         "property_url": "/sale/residential-land-for-sale-in-bhogapuram-international-airport-road-visakhapatnam/1000-64481",
-        "image": "https://www.truehomes24.com/assets/properties/banner-02/bfa1673f343a2fe32d1b31e3f202a402.jpg",
+        "image": "https://www.truehomes24.com/assets/properties/banner-01/6fbc57095a08783a071945a3507844fa.webp",
         "location": "Bhogapuram International Airport Road, Visakhapatnam",
         "propertyType": "Residential Land",
         "area": "57600 sq.ft.",
@@ -99,6 +101,8 @@ const propertyTypes = [
 const Home = () => {
 
     const [propertyData, setPropertyData] = useState(null);
+    const [contactModalStatus, setcontactModalStatus] = useState({ show: false, data: {} });
+
 
     useEffect(() => {
 
@@ -125,6 +129,16 @@ const Home = () => {
     //     console.log('res....',res);
     // }
 
+    const scrollToTop = ()=>{
+        window.scrollTo({top:0,behavior:'smooth'})
+    }
+
+    const onClickContactBtn = (item) => {
+        setcontactModalStatus({ show: true, data: item });
+    }
+    const onCloseContact = () => {
+        setcontactModalStatus({ show: false, data: null });
+    }
 
     return (
         <div className='overflow-x-hidden'>
@@ -288,20 +302,31 @@ const Home = () => {
             </div>
 
             <div id="properties" className=''>
-                <h1 className={styles.title1}>Featured Properties</h1>
-                <NavLink to={'/project_details'}>
-                    <PropertySlider Data={Data} />
-                </NavLink>
+                <div>
+                    <PropertySlider Data={Data} type={'Featured Properties'} />
+                </div>
                 <div className='my-10 mt-[50px]'>
-                    <h1 className={styles.title1}>New Project</h1>
-                    <NavLink to={'/project_details'}>
-                        <PropertySlider Data={Data} />
-                    </NavLink>
+                    <div>
+                        <PropertySlider type={'New Project'} Data={Data} />
+                    </div>
+                </div>
+                <div className='my-10 mt-[50px]'>
+                    <div>
+                        <RecentAdded Data={Data} func={onClickContactBtn} />
+                    </div>
+                </div>
+                <div className=''>
+                    {contactModalStatus.show && <Contact Data={contactModalStatus.data} func={onCloseContact} />}
                 </div>
                 {/* <div className='px-2 md:px-10 mt-[80px] w-full items-center'>
                 </div> */}
                 <TopCItiesFilter />
             </div>
+            <button 
+              onClick={()=>scrollToTop()}
+             className='fixed bottom-14 right-8 opacity-40 border-2 border-gray-400 flex justify-center items-center h-10 w-10 rounded-full'>
+                <i class="fa-solid fa-arrow-up"></i>
+            </button>
             <div className=''>
                 <Footer />
             </div>
