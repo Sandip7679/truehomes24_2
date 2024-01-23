@@ -150,7 +150,7 @@ const whatsNearbyData = [
 ];
 
 const PropertyBarNames = [
-    'Details', 'Description', 'About Builder', 'Gallery', 'Nearby','FAQ'
+    'Details', 'Description', 'About Builder', 'Gallery', 'Nearby', 'FAQ'
 ];
 
 const propertyBrief = 'Creek Vistas Grande at Sobha Hartland is a newly launched high-rise development that features luxury 1, 2 and 3 bedroom apartments by Sobha Group and size ranging from 745-1647sq.ft. Price ranging from AED 1.32 M -2.96M. This exclusive modern class venture is the last tower facing the views of Downtown Burj Khalifa, the Dubai Canal, which will attract a lot. The ideal address within the MBR City, Dubai, will provide you with easy access to the famous key destinations. Set in a metropolitan centre point and encompassed by rich green arranged environmental elements, you live next to the Ras Al Khor Wildlife Sanctuary, Dubai Creek and many such. This modern high-rise pinnacle is designed with cutting-edge technology and engineering alongside luxury crafted residences that will make you live in the midst of outright solace. The residence within the high-rise tower presents a premium class, where you are offered a serene lifestyle with outstanding neighbourhood views Amenities & NeighbourhoodView Swimming pool, Kids Play Area, Barbeque Area, Health Club, Changing rooms, Pilates Studio, Spin Class, Studio ,Yoga Studio, Multipurpose Hall, Pentanque, Boules Lawn, Tai che Terrace Outdoor Gym . Sobha Realty is an international luxury developer committed to redefining the art of living through sustainable communities. Established in 1976 as an interior decoration firm in Oman by PNC Menon – a visionary entrepreneur, the company has grown its presence with developments and investments in the UAE, Oman, Bahrain, Brunei and India. Over the last four decades, Sobha Realty has also redefined the real estate value chain by leveraging its inherent in-house capabilities of conceptualisation, design and development. Sobha Realty is currently developing Sobha Hartland, a luxurious freehold community spread across eight million square feet in the heart of Dubai, as part of the Mohammed Bin Rashid Al Maktoum City master development. Connectivity- 08 Minutes from Meydan Racecourse, 11 Minutes fro Ras al khor Wildlife Sanctuary, 13 Minutesto Burj khalifa / Downtown, 14 Mins to Dubai International Financial Centre (DIFC), 17 Mins to Palm Jumeirah, 20 Mins to Dubai Marina, 20 Mins to Dubai International Airport,'
@@ -205,6 +205,7 @@ const ProjectDetails = () => {
 
     useEffect(() => {
         ovserveIntersection();
+        // getScrollPosition();
     }, []);
 
     const ovserveIntersection = () => {
@@ -221,6 +222,16 @@ const ProjectDetails = () => {
             threshold: 0
         });
         observer.observe(observerElement.current);
+    }
+
+    const getScrollPosition = () => {
+        document.addEventListener("DOMContentLoaded", ()=> {
+            const handleScroll = ()=>{
+                var scrollPosition = window.scrollY;
+                console.log("Scroll Position:", scrollPosition);
+            }
+            window.addEventListener("scroll", handleScroll);
+        });
     }
 
     return (
@@ -282,7 +293,7 @@ const ProjectDetails = () => {
                         <div className='w-full md:w-[70%]'>
                             <div className='bg-white shadow-md px-[2%] py-5 w-full'>
                                 <div className={navClassState}>
-                                    <div className={(navClassState != ''? 'transition-transform ease-in-out transform translate-x-[8%] py-2 duration-[1500ms]':'')+' flex flex-wrap gap-2 border-b-gray-300 border-b-[1px] px-[2%] -mx-[2%]'}>
+                                    <div className={(navClassState != '' ? 'transition-transform ease-in-out transform translate-x-[8%] py-2 duration-[1500ms]' : '') + ' flex flex-wrap gap-2 border-b-gray-300 border-b-[1px] px-[2%] -mx-[2%]'}>
                                         {PropertyBarNames.map((item, index) => {
                                             return (
                                                 <a href={`#${index}`}
@@ -294,7 +305,7 @@ const ProjectDetails = () => {
                                         })}
                                     </div>
                                 </div>
-                                
+
 
                                 <div id='0' className='scroll-mt-20'>
                                     <p className={styles.title4 + 'mt-5'}>Property Details</p>

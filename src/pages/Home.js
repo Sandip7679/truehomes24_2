@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Header from '../components/Header/Header';
 import bgImage from '../assets/images/homecity.jpeg'
 import { styles } from '../Styles/Styles';
@@ -8,6 +8,7 @@ import TopCItiesFilter from '../components/TopCItiesFilter';
 import Footer from '../components/Footer';
 import RecentAdded from '../components/RecentAdded';
 import Contact from '../components/Contact';
+import ScrollUp from '../components/ScrollUp';
 // import { NavLink } from 'react-router-dom';
 // import ApiConf from '../ApiConf';
 
@@ -98,11 +99,27 @@ const propertyTypes = [
     { type: 'Serviced' },
 ]
 
+const TopDevelopersData = [
+    { name: 'Adani Realty', project: '15', icon: 'https://static.squareyards.com/resources/images/developerlogo/adani-realty-4.jpg' },
+    { name: 'Adani Realty', project: '15', icon: 'https://static.squareyards.com/resources/images/developerlogo/adani-realty-4.jpg' },
+    { name: 'Adani Realty', project: '15', icon: 'https://static.squareyards.com/resources/images/developerlogo/adani-realty-4.jpg' },
+    { name: 'Adani Realty', project: '15', icon: 'https://static.squareyards.com/resources/images/developerlogo/adani-realty-4.jpg' },
+    { name: 'Adani Realty', project: '15', icon: 'https://static.squareyards.com/resources/images/developerlogo/adani-realty-4.jpg' },
+    { name: 'Adani Realty', project: '15', icon: 'https://static.squareyards.com/resources/images/developerlogo/adani-realty-4.jpg' },
+];
+const topLocalities = [
+    { name: 'Chandkheda', projectNum: '190', locality: 'in Chandkheda, Ahmedabad', forSale: '90', forRent: '90' },
+    { name: 'Chandkheda', projectNum: '190', locality: 'in Chandkheda, Ahmedabad', forSale: '90', forRent: '90' },
+    { name: 'Chandkheda', projectNum: '190', locality: 'in Chandkheda, Ahmedabad', forSale: '90', forRent: '90' },
+    { name: 'Chandkheda', projectNum: '190', locality: 'in Chandkheda, Ahmedabad', forSale: '90', forRent: '90' },
+    { name: 'Chandkheda', projectNum: '190', locality: 'in Chandkheda, Ahmedabad', forSale: '90', forRent: '90' },
+];
+
 const Home = () => {
 
     const [propertyData, setPropertyData] = useState(null);
     const [contactModalStatus, setcontactModalStatus] = useState({ show: false, data: {} });
-
+    const propertyElement = useRef();
 
     useEffect(() => {
 
@@ -129,9 +146,6 @@ const Home = () => {
     //     console.log('res....',res);
     // }
 
-    const scrollToTop = ()=>{
-        window.scrollTo({top:0,behavior:'smooth'})
-    }
 
     const onClickContactBtn = (item) => {
         setcontactModalStatus({ show: true, data: item });
@@ -301,20 +315,73 @@ const Home = () => {
                 </div>
             </div>
 
-            <div id="properties" className=''>
-                <div>
-                    <PropertySlider Data={Data} type={'Featured Properties'} />
+            <div ref={propertyElement} id="properties" className=''>
+                <PropertySlider Data={Data} type={'Featured Properties'} />
+                <div className='my-10 mt-[50px]'>
+                    <PropertySlider type={'New Project'} Data={Data} />
                 </div>
                 <div className='my-10 mt-[50px]'>
-                    <div>
-                        <PropertySlider type={'New Project'} Data={Data} />
+                    <RecentAdded Data={Data} func={onClickContactBtn} />
+                </div>
+                <div className='px-[2%] md:px-[10%] mb-16'>
+                    <p className={styles.title2}>Top Developers in Ahmedabad</p>
+                    <div className='grid grid-cols-2 sm:grid-cols-3 gap-2 sm:gap-5 justify-center mt-5'>
+                        {TopDevelopersData.map((item, index) => {
+                            return (
+                                <div className='group border-[1px] cursor-pointer hover:bg-gray-50 border-gray-300 p-2 rounded-md shadow-md'>
+                                    <div className='flex flex-col sm:flex-row items-center sm:p-2 sm:py-4 gap-5'>
+                                        <div className='border-[1px] w-[120px] border-gray-300 p-2 rounded-md'>
+                                            <img className='h-[100px]' src={item.icon} />
+                                        </div>
+                                        <b className='group-hover:text-green-600 text-gray-600'>
+                                            {item.name}
+                                        </b>
+                                    </div>
+                                    <div className='border-gray-300 sm:border-t-[1px] sm:p-2 flex justify-center item-center text-sm text-sky-700 font-semibold hover:underline'>
+                                        {item.project} project <span className='hidden sm:block ml-1'>by {item.name} in Ahmedabad</span>
+                                    </div>
+                                </div>
+                            )
+                        })}
                     </div>
                 </div>
-                <div className='my-10 mt-[50px]'>
-                    <div>
-                        <RecentAdded Data={Data} func={onClickContactBtn} />
+
+                <div className='px-[2%] md:px-[10%] mb-16'>
+                    <p className={styles.title2}>Top Localities in Ahmedabad</p>
+                    <div className='mt-5 grid grid-cols-2 sm:grid-cols-3 gap-2 sm:gap-5'>
+                        {topLocalities.map((item, index) => {
+                            return (
+                                <div className='shadow-md rounded-md border-[1px] border-gray-300'>
+                                    <div className='flex flex-col sm:flex-row flex-start group p-2 border-b-gray-300 border-b-[1px]'>
+                                        <img className='rounded-md w-[90px] h-[50px] cursor-pointer'
+                                            src="https://static.squareyards.com/cdn-cgi/image/width=81,height=49,quality=80,fit=crop,gravity=auto,format=webp/localitymap-thumnail/chandkheda-ahmedabad.png"
+                                        />
+                                        <div className='pl-0 sm:pl-5'>
+                                            <p className='font-semibold text-sm'>{item.name}</p>
+                                            <p className='text-xs font-semibold text-blue-800 hover:underline cursor-pointer '>{item.projectNum} projects</p>
+                                            <p className='text-xs font-semibold text-blue-800 hover:underline cursor-pointer'>{item.locality}</p>
+                                        </div>
+                                    </div>
+                                    <div className='sm:flex justify-between gap-1 p-2 py-4'>
+                                        <div className=''> 
+                                            <p className='text-sm font-semibold'>{item.forSale} Properties for Sale </p>
+                                            <p className='text-xs'>{item.locality}</p>
+                                        </div>
+                                        <div className='border-t-[1px] mt-2 sm:mt-0 sm:border-0 sm:border-gray-300]'> 
+                                            <p className='text-sm font-semibold'>{item.forRent} Properties for Rent</p>
+                                            <p className='text-xs'>{item.locality}</p>
+                                        </div>
+                                        {/* <div>
+                                            <span className='text-sm font-semibold'>{item.forSale} Properties for Sale </span>
+                                            <span className='text-sm'>{item.locality}</span>
+                                        </div> */}
+                                    </div>
+                                </div>
+                            )
+                        })}
                     </div>
                 </div>
+
                 <div className=''>
                     {contactModalStatus.show && <Contact Data={contactModalStatus.data} func={onCloseContact} />}
                 </div>
@@ -322,11 +389,7 @@ const Home = () => {
                 </div> */}
                 <TopCItiesFilter />
             </div>
-            <button 
-              onClick={()=>scrollToTop()}
-             className='fixed bottom-14 right-8 opacity-40 border-2 border-gray-400 flex justify-center items-center h-10 w-10 rounded-full'>
-                <i class="fa-solid fa-arrow-up"></i>
-            </button>
+            <ScrollUp targetElement={propertyElement} />
             <div className=''>
                 <Footer />
             </div>

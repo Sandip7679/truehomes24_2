@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { styles } from '../Styles/Styles';
-import { Apartment, ArrowLeft, ArrowRight, Bedroom, LandArea, LocationIcon, Possession } from './svgIcons';
-import possession2 from '../assets/Icons/possession2.png'
+// import { Apartment, ArrowLeft, ArrowRight, Bedroom, LandArea, LocationIcon, Possession } from './svgIcons';
+// import possession2 from '../assets/Icons/possession2.png'
 import Carousel from 'react-multi-carousel';
 import "react-multi-carousel/lib/styles.css";
 import { NavLink } from 'react-router-dom';
@@ -65,19 +65,21 @@ const PropertySlider = ({ Data, type }) => {
 
                         customButtonGroup={<div></div>}
                         customLeftArrow={
-                            <button className='absolute md:left-1 rounded-full bg-black opacity-20 hover:opacity-60 p-1'>
-                                <ArrowLeft />
+                            <button className='absolute rounded-full flex justify-center items-center bg-white shadow-md p-5'>
+                                {/* <ArrowLeft /> */}
+                                <i class="fa-solid fa-arrow-left  text-gray-500 "></i>
                             </button>
                         }
                         customRightArrow={
-                            <button className='absolute md:right-1 rounded-full bg-black opacity-20 hover:opacity-60 p-1'>
-                                <ArrowRight />
+                            <button className='absolute right-1 rounded-full flex justify-center items-center bg-white shadow-md p-5'>
+                                {/* <ArrowRight /> */}
+                                <i class="fa-solid fa-arrow-right text-gray-500  "></i>
                             </button>
                         }
                     >
                         {Data.map((item, index) => {
                             return (
-                                <div className='rounded-md shadow-lg border-[1px] h-full mx-5 group'>
+                                <div className=' rounded-md shadow-lg border-[1px] h-full mx-5 group'>
                                     <NavLink to={'/project_details'}>
                                         <div className='relative items-center rounded-t-md overflow-hidden hover:cursor-pointer'>
                                             <img src={item.image}

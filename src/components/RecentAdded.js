@@ -12,7 +12,7 @@ import { ArrowLeft, ArrowRight } from './svgIcons';
 const RecentAdded = ({ Data, func }) => {
     return (
         <div className='mt-10 md:px-[10%]'>
-          <h1 className={styles.title1+'mb-8 text-start'}>Recnetly Added</h1>
+            <h1 className={styles.title1 + 'mb-8 text-start'}>Recnetly Added</h1>
             <Carousel
                 swipeable={true}
                 draggable={false}
@@ -27,19 +27,19 @@ const RecentAdded = ({ Data, func }) => {
 
                 customButtonGroup={<div></div>}
                 customLeftArrow={
-                    <button className='absolute md:left-1 rounded-full bg-black opacity-20 hover:opacity-60 p-1'>
-                        <ArrowLeft />
+                    <button className='absolute rounded-full flex justify-center items-center bg-white shadow-md p-5'>
+                        <i class="fa-solid fa-arrow-left "></i>
                     </button>
                 }
                 customRightArrow={
-                    <button className='absolute md:right-1 rounded-full bg-black opacity-20 hover:opacity-60 p-1'>
-                        <ArrowRight />
+                    <button className='absolute right-1 rounded-full flex justify-center items-center bg-white shadow-md p-5'>
+                        <i class="fa-solid fa-arrow-right "></i>
                     </button>
                 }
             >
                 {Data.map((item, index) => {
                     return (
-                        <div className='rounded-xl shadow-lg border-[1px] h-full mx-5 group'>
+                        <div className='rounded-xl shadow-lg border-[1px] mx-2 h-full group'>
                             <NavLink to={'/project_details'}>
                                 <div className='relative items-center rounded-lg overflow-hidden hover:cursor-pointer'>
                                     <img src={item.image}

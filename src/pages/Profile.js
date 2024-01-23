@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Header from '../components/Header/Header';
 import { styles } from '../Styles/Styles';
 import { NavLink } from 'react-router-dom';
@@ -87,6 +87,12 @@ const Profile = () => {
         setcontactModalStatus({ show: false, data: null });
     }
 
+    // useEffect(()=>{
+    //     window.onscroll = ()=>{
+    //         console.log(document.body.scrollTop);
+    //     };
+    // },[]);
+
     return (
         <div>
             <Header />
@@ -97,18 +103,24 @@ const Profile = () => {
                 </div>
                 <div className='md:flex'>
                     <div className='w-[95%] md:w-[63%] pl-[8%] mb-10'>
-                        <div className='flex flex-wrap'>
-                            <div className='w-[50%] flex flex-col items-center'>
-                                <div className='p-2 mt-10 border-[1px] w-[160px] border-gray-300'>
-                                    <img src={userBackImage} className='h-[150px] w-[150px]' />
+                        <div className='flex flex-wrap gap-[15%] py-14 pl-[10%]'>
+                            <div>
+                                <p className={styles.title2}>VYBHAV KUMAR's Listing(s)</p>
+                                <div className='flex flex-wrap border-[1px] border-gray-300'>
+                                     
+                                </div>
+                            </div>
+                            <div className='flex flex-col items-center'>
+                                <div className='p-2 border-[1px] w-[190px] border-gray-300'>
+                                    <img src={userBackImage} className='h-[180px] w-[180px]' />
                                 </div>
                                 <div className='text-sm text-gray-700 mt-4 text-center'>
                                     <p>0 Sale Properties</p>
                                     <p>2 Operational Localities</p>
                                 </div>
                             </div>
-                            <div className='w-[50%] mt-1'>
-                                <p className={styles.textMedium + 'mt-2'}>User Role: Agent</p>
+                            <div className='w-[200px]'>
+                                <p className={styles.textMedium + ''}>User Role: Agent</p>
                                 <p className={styles.textMedium + 'mt-2'}>Business Title: N/A</p>
                                 <p className={styles.textMedium + 'mt-2'}>Country: India</p>
                                 <p className={styles.textMedium + 'mt-2'}>State: Tamil Nadu</p>

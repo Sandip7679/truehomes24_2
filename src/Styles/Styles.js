@@ -18,6 +18,8 @@ export const styles = {
     title2Bold:'text-xl font-bold tracking-wide',
     textMedium:'text-sm sm:text-base ',
     textLarge:'text-base sm:text-lg ',
-    paragraph:'text-base text-left py-5 px-4 md:px-11 ',
+    paragraph:'text-sm sm:text-base text-left py-5 px-4 md:px-11 ',
+    // arrowLeft:'absolute md:left-1 rounded-full bg-black opacity-20 hover:opacity-60 p-1 '
+    arrowBg:'absolute rounded-full flex justify-center items-center bg-white shadow-md p-5 '
     // textSmall:'text-sm sm:text-base ',
 }
