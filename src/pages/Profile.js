@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Header from '../components/Header/Header';
 import { styles } from '../Styles/Styles';
 import { NavLink } from 'react-router-dom';
@@ -7,6 +7,7 @@ import PropertyListCard from '../components/PropertyListCard';
 import Footer from '../components/Footer';
 import RightListCard from '../components/RightListCard';
 import Contact from '../components/Contact';
+import BHKmenu, { BudgetMenu, FurnishingTypeMenu, MoreMenu, PropertyMenu, ShortByMenu } from '../components/Dropdowns';
 
 const Data = [
     {
@@ -79,6 +80,8 @@ const Data = [
 const Profile = () => {
 
     const [contactModalStatus, setcontactModalStatus] = useState({ show: false, data: {} });
+    const [navClassState, setNavClassState] = useState('');
+    const listElement = useRef();
 
     const onClickContactBtn = (item) => {
         setcontactModalStatus({ show: true, data: item });
@@ -87,15 +90,32 @@ const Profile = () => {
         setcontactModalStatus({ show: false, data: null });
     }
 
-    // useEffect(()=>{
-    //     window.onscroll = ()=>{
-    //         console.log(document.body.scrollTop);
-    //     };
-    // },[]);
+    useEffect(() => {
+        // window.onscroll = ()=>{
+        //     console.log(document.body.scrollTop);
+        // };
+        ovserveIntersection();
+    }, []);
+
+    const ovserveIntersection = () => {
+        let observer = new IntersectionObserver((entries) => {
+            if (!entries[0].isIntersecting) {
+                setNavClassState('fixed -top-5 w-full shadow-md z-[1500] left-0 pr-[10%] bg-white');
+            }
+            else {
+                setNavClassState('');
+            }
+        }, {
+            root: null,
+            rootMargin: '200px',
+            threshold: 0
+        });
+        observer.observe(listElement.current);
+    }
 
     return (
         <div>
-            <Header />
+            {navClassState == '' && <Header />}
             <div className='mt-16'>
                 <div className='py-5 ml-[8%] mt-[100px] border-b-[1px] border-green-300]'>
                     <p className={styles.title2}>Agent Profile - VYBHAV KUMAR</p>
@@ -104,12 +124,6 @@ const Profile = () => {
                 <div className='md:flex'>
                     <div className='w-[95%] md:w-[63%] pl-[8%] mb-10'>
                         <div className='flex flex-wrap gap-[15%] py-14 pl-[10%]'>
-                            <div>
-                                <p className={styles.title2}>VYBHAV KUMAR's Listing(s)</p>
-                                <div className='flex flex-wrap border-[1px] border-gray-300'>
-                                     
-                                </div>
-                            </div>
                             <div className='flex flex-col items-center'>
                                 <div className='p-2 border-[1px] w-[190px] border-gray-300'>
                                     <img src={userBackImage} className='h-[180px] w-[180px]' />
@@ -130,13 +144,71 @@ const Profile = () => {
                             </div>
                         </div>
                         <div>
-                            <div>
-                                {Data.map((item, index) => {
-                                    return (
-                                        <PropertyListCard func={onClickContactBtn} Data={item} />
-                                    )
-                                })}
+                            <p ref={listElement} className={styles.title2}>VYBHAV KUMAR's Listing(s)</p>
+                            <div className={navClassState}>
+                                <div className={(navClassState != '' ? 'transition-transform ease-in-out transform translate-x-[8%] pb-2 -mt-5 duration-[1500ms] ' : '') + 'flex flex-wrap items-center text-xs text-gray-700 font-semibold mt-5'}>
+                                    <div className='flex border-[1px] mt-3 justify-center items-center border-gray-300'>
+                                        <span className='bg-gray-900 rounded-r-full text-white py-[8.5px] px-4'>
+                                            FILTER
+                                        </span>
+                                        <div className='relative group'>
+                                            <button className={'px-1 py-2'}>
+                                                BUDGET
+                                                <i class="fa-solid fa-chevron-down ml-[1px] text-gray-600 text-xs"></i>
+                                            </button>
+                                            <BudgetMenu classname={''}/>
+                                        </div>
+                                    </div>
+                                    <div className='mt-3 relative group'>
+                                        <button className={'p-2 border-[1px] border-gray-300 cursor-pointer'}>
+                                            BHK
+                                            <i class="fa-solid fa-chevron-down ml-[1px] text-gray-600 text-xs"></i>
+                                        </button>
+                                        <BHKmenu classname={''}/>
+                                    </div>
+                                    <div className='mt-3 relative group'>
+                                        <button className={'p-2 border-[1px] border-gray-300 cursor-pointer'}>
+                                            PROPERTY TYPE
+                                            <i class="fa-solid fa-chevron-down ml-[1px] text-gray-600 text-xs"></i>
+                                        </button>
+                                        <PropertyMenu classname={''}/>
+                                    </div>
+                                    <div className='mt-3 relative group'>
+                                        <button className={'p-2 border-[1px] border-gray-300'}>
+                                            FURNISHING TYPE
+                                            <i class="fa-solid fa-chevron-down ml-[1px] text-gray-600 text-xs"></i>
+                                        </button>
+                                        <FurnishingTypeMenu/>
+                                    </div>
+                                    <div className='mt-3 relative group'>
+                                        <button className={'p-2 border-[1px] border-gray-300'}>
+                                            MORE
+                                            <i class="fa-solid fa-chevron-down ml-[1px] text-gray-600 text-xs"></i>
+                                        </button>
+                                        <MoreMenu classname={''}/>
+                                    </div>
+                                    <div className='mt-3'>
+                                        <button className={'p-2 py-[8.5px] border-[1px] border-gray-300'}>
+                                            RESET
+                                        </button>
+                                    </div>
+                                    <div className='mt-3 relative group'>
+                                        <button className={'p-2 border-[1px] border-gray-300'}>
+                                            SHORT BY FEATURED
+                                            <i class="fa-solid fa-chevron-down ml-[1px] text-gray-600 text-xs"></i>
+                                        </button>
+                                        <ShortByMenu classname={'text-gray-500'}/>
+                                    </div>
+                                </div>
                             </div>
+
+                        </div>
+                        <div >
+                            {Data.map((item, index) => {
+                                return (
+                                    <PropertyListCard func={onClickContactBtn} Data={item} />
+                                )
+                            })}
                         </div>
 
                     </div>
@@ -148,7 +220,7 @@ const Profile = () => {
                     </div>
                 </div>
                 <div className=''>
-                    {contactModalStatus.show && <Contact Data = {contactModalStatus.data}  func={onCloseContact}/>} 
+                    {contactModalStatus.show && <Contact Data={contactModalStatus.data} func={onCloseContact} />}
                 </div>
                 <Footer />
             </div>

@@ -136,11 +136,11 @@ const rightSectionData = [
     },
 ]
 
-
+const propertyTypes = ['Localities', 'Property Status', 'Budget'];
 
 const PropertyList = () => {
     const [contactModalStatus, setcontactModalStatus] = useState({ show: false, data: {} });
-    const [propertyType, setPropertyType] = useState('localities');
+    const [propertyType, setPropertyType] = useState('Localities');
     // const [moreBestBudget,setMoreBestBudget] = useState(false);
 
     const onClickContactBtn = (item) => {
@@ -163,12 +163,17 @@ const PropertyList = () => {
                             <p className={styles.textMedium}>Showing 1-25 of 356 property for Sale</p>
                             <p className={styles.title3 + 'mt-1'}>Property for Sale in Ahmedabad</p>
                             <div className='flex gap-2 border-b-[1px] mt-2 border-b-gray-200'>
-                                <button
-                                    onClick={() => setPropertyType('localities')}
-                                    className={(propertyType == 'localities' ? 'border-b-[1px]' : '') + ' hover:border-b-[1px] border-b-gray-700 pb-1 mr-3'}>
-                                    <p className={styles.textMedium + ''}>Localities</p>
-                                </button>
-                                <button
+                                {propertyTypes.map((item, index) => {
+                                    return (
+                                        <button
+                                            onClick={() => setPropertyType(item)}
+                                            className={(propertyType == item ? 'border-b-[1px]' : '') + ' hover:border-b-[1px] border-b-gray-700 pb-1 mr-3'}>
+                                            <p className={styles.textMedium + ''}>{item}</p>
+                                        </button>
+                                    )
+                                })}
+
+                                {/* <button
                                     onClick={() => setPropertyType('status')}
                                     className={(propertyType == 'status' ? 'border-b-[1px]' : '') + ' hover:border-b-[1px] border-b-gray-700 pb-1 mx-3'}>
                                     <p className={styles.textMedium}>Property Status</p>
@@ -177,7 +182,7 @@ const PropertyList = () => {
                                     onClick={() => setPropertyType('budget')}
                                     className={(propertyType == 'budget' ? 'border-b-[1px]' : '') + ' hover:border-b-[1px] border-b-gray-700 pb-1 mx-3'}>
                                     <p className={styles.textMedium}>Budget</p>
-                                </button>
+                                </button> */}
                             </div>
                             <div className='shadow-sm rounded flex flex-wrap max-h-[140px] border-[1px] border-gray-200 mt-5 mx-2 overflow-y-scroll p-2'>
                                 {Localities.map((item, index) => {

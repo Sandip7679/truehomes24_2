@@ -7,7 +7,7 @@ import homeLoan from '../../assets/Icons/homeLoan.png';
 import postPropertyPerDay from '../../assets/Icons/post-property-per-day.png';
 
 import cityIcon from '../../assets/Icons/amedabad.jpg';
-import  {Dropdown, MenuIcon, SearchIcon } from '../svgIcons';
+import { Dropdown, MenuIcon, SearchIcon } from '../svgIcons';
 import { styles } from '../../Styles/Styles';
 import { NavLink } from 'react-router-dom';
 import Auth from '../Auth';
@@ -202,24 +202,32 @@ const Header = () => {
                             <Dropdown classname={'text-white opacity-95'} />
                         </button>
                         <div id='post-property-menu' className={styles.dropdownMenu + 'w-[250px]'}>
-                            <a href="#" class={styles.dropdownItem}>
-                                <img src={postPropertyPerDay} className='h-5 w-6 mr-5 ' />
-                                <span className=''>
-                                    Post-Property-Rs 10/day
-                                </span>
-                            </a>
-                            <a href="#" class={styles.dropdownItem}>
-                                <img src={postPropertyPerDay} className='h-5 w-6 mr-5 ' />
-                                <span className=''>
-                                    Featured-Property-Rs 100/day
-                                </span>
-                            </a>
-                            <a href="#" class='text-black p-2 text-sm hover:bg-gray-100 border-gray-100 flex'>
-                                <span>
+                            <NavLink to={'/post_property'} >
+                                <div class={styles.dropdownItem}>
+                                    <img src={postPropertyPerDay} className='h-5 w-6 mr-5 ' />
+                                    <span className=''>
+                                        Post-Property-Rs 10/day
+                                    </span>
+                                </div>
+                            </NavLink>
+                            <NavLink to={'/post_property'} >
+                                <div class={styles.dropdownItem}>
+                                    <img src={postPropertyPerDay} className='h-5 w-6 mr-5 ' />
+                                    <span className=''>
+                                        Featured-Property-Rs 100/day
+                                    </span>
+                                </div>
+                            </NavLink>
+
+                            <NavLink to={'/post_property'}>
+                                <div  class={styles.dropdownItem + 'border-b-0'}>
                                     <img src={postPropertyPerDay} className='h-5 w-6 mr-5' />
-                                </span>
-                                New Property-Rs 100/day
-                            </a>
+                                    <span>
+                                        New Property-Rs 100/day
+                                    </span>
+                                </div>
+
+                            </NavLink>
                         </div>
                     </div>
                 </div>

@@ -23,7 +23,7 @@ const RightListCard = ({ title, data }) => {
                             </div>
                                 :
                                 <div className='w-[75%]'>
-                                    <p className={'font-semibold sm:text-[1.05rem]'}>{item.title}</p>
+                                    <p className={'font-semibold'}>{item.title}</p>
                                     <div className='flex mt-1'>
                                         <LocationIcon classname={'h-4 w-4 mt-1'} />
                                         <p className='ml-1 text-gray-500'>{item.location}</p>

@@ -148,7 +148,6 @@ const TopSearchNavBar = () => {
                                     </label>
                                 )
                             })}
-
                         </div>
                     </div>
                 </div>
@@ -267,8 +266,6 @@ const TopSearchNavBar = () => {
                                 })}
                             </div>
                         </div>
-
-
                     </div>
                 </div>
 
