@@ -101,11 +101,11 @@ export const BudgetMenu = ({ classname }) => {
             className={styles.dropdownContainer + '-left-[100px] group-hover:block ' + classname}>
             <div className='flex gap-5 mt-5'>
                 <div className='relative'>
-                    <span className='absolute top-2 left-2'>{'\u20B9'}</span>
+                    <span className='absolute top-3 left-2 text-sm'>{'\u20B9'}</span>
                     <input placeholder='Min' className={styles.input + ' pl-5 rounded-md'} />
                 </div>
                 <div className='relative'>
-                    <span className='absolute top-2 left-2'>{'\u20B9'}</span>
+                    <span className='absolute top-3 left-2 text-sm'>{'\u20B9'}</span>
                     <input placeholder='Max' className={styles.input + 'pl-5 rounded-md'} />
                 </div>
             </div>

@@ -171,7 +171,7 @@ const Header = () => {
                                 More Services
                                 <Dropdown classname={'text-white mt-[4px]'} />
                             </button>
-                            <div id='more-services-menu' className={styles.dropdownMenu + ' w-[200px]'}>
+                            <div id='more-services-menu' className={styles.dropdownMenu + 'top-[24px] w-[200px]'}>
                                 <a href="#" class={styles.dropdownItem}>
                                     <img src={interiorDesiginStudio} className='h-5 w-6 mr-3 ' />
                                     <span className=''>
@@ -202,7 +202,7 @@ const Header = () => {
                             <Dropdown classname={'text-white opacity-95'} />
                         </button>
                         <div id='post-property-menu' className={styles.dropdownMenu + 'w-[250px]'}>
-                            <NavLink to={'/post_property'} >
+                            <NavLink to={'/post-property'} >
                                 <div class={styles.dropdownItem}>
                                     <img src={postPropertyPerDay} className='h-5 w-6 mr-5 ' />
                                     <span className=''>
@@ -210,7 +210,7 @@ const Header = () => {
                                     </span>
                                 </div>
                             </NavLink>
-                            <NavLink to={'/post_property'} >
+                            <NavLink to={'/post-property'} >
                                 <div class={styles.dropdownItem}>
                                     <img src={postPropertyPerDay} className='h-5 w-6 mr-5 ' />
                                     <span className=''>
@@ -219,7 +219,7 @@ const Header = () => {
                                 </div>
                             </NavLink>
 
-                            <NavLink to={'/post_property'}>
+                            <NavLink to={'/post-property/new-project'}>
                                 <div  class={styles.dropdownItem + 'border-b-0'}>
                                     <img src={postPropertyPerDay} className='h-5 w-6 mr-5' />
                                     <span>

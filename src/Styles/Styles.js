@@ -8,6 +8,7 @@ export const styles = {
     dropdownMenu:'absolute hidden group-hover:block z-50 bg-white text-gray-800 top-8 pb-2 border-gray-300 border-[1px] w-[100%] shadow-sm text-sm ',
     dropdownContainer:'absolute hidden z-50 bg-white p-2 pt-2 w-[180px] overflow-auto max-h-[300px] md:w-[335px] lg:w-[460px] sm:ml-0 text-gray-800 top-8 border-gray-300 border-[1px] ',
     dropdownItem:'p-2 text-sm border-b-[1px] border-gray-100 flex hover:bg-gray-100 ',
+    dropdownIcon:'fa-solid fa-chevron-down ml-[1px] text-gray-600 text-xs ',
     input:'border-[1px] border-gray-300 pl-2 py-2 w-[100%] focus:outline-none focus:border-gray-400 placeholder:text-gray-400 text-sm sm:text-base ',
     title1:'px-2 text-center text-xl sm:text-2xl font-semibold ',
     // title2:'text-xl md:text-2xl font-semibold ',
@@ -20,6 +21,13 @@ export const styles = {
     textLarge:'text-base sm:text-lg ',
     paragraph:'text-sm sm:text-base text-left py-5 px-4 md:px-11 ',
     // arrowLeft:'absolute md:left-1 rounded-full bg-black opacity-20 hover:opacity-60 p-1 '
-    arrowBg:'absolute rounded-full flex justify-center items-center bg-white shadow-md p-5 '
+    arrowBg:'absolute rounded-full flex justify-center items-center bg-white shadow-md p-5 ',
+
+    lightBorder:'border-b-[1px] border-b-gray-300 ',
     // textSmall:'text-sm sm:text-base ',
+
+    //postpropertyStyles
+    postpropTitle:'text-orange-500 text-center py-2 sm:text-lg font-semibold bg-gray-50 ',
+    formCard:' border-[1px] border-gray-100 rounded-md shadow-xl bg-white p-2 px-2 sm:px-5 my-5 pb-5',
+
 }

@@ -154,36 +154,36 @@ const Profile = () => {
                                         <div className='relative group'>
                                             <button className={'px-1 py-2'}>
                                                 BUDGET
-                                                <i class="fa-solid fa-chevron-down ml-[1px] text-gray-600 text-xs"></i>
+                                                <i class={styles.dropdownIcon}></i>
                                             </button>
                                             <BudgetMenu classname={''}/>
                                         </div>
                                     </div>
                                     <div className='mt-3 relative group'>
-                                        <button className={'p-2 border-[1px] border-gray-300 cursor-pointer'}>
+                                        <button className={'p-2 border-[1px] border-gray-300'}>
                                             BHK
-                                            <i class="fa-solid fa-chevron-down ml-[1px] text-gray-600 text-xs"></i>
+                                            <i class={styles.dropdownIcon}></i>
                                         </button>
                                         <BHKmenu classname={''}/>
                                     </div>
                                     <div className='mt-3 relative group'>
-                                        <button className={'p-2 border-[1px] border-gray-300 cursor-pointer'}>
+                                        <button className={'p-2 border-[1px] border-gray-300'}>
                                             PROPERTY TYPE
-                                            <i class="fa-solid fa-chevron-down ml-[1px] text-gray-600 text-xs"></i>
+                                            <i class={styles.dropdownIcon}></i>
                                         </button>
                                         <PropertyMenu classname={''}/>
                                     </div>
                                     <div className='mt-3 relative group'>
                                         <button className={'p-2 border-[1px] border-gray-300'}>
                                             FURNISHING TYPE
-                                            <i class="fa-solid fa-chevron-down ml-[1px] text-gray-600 text-xs"></i>
+                                            <i class={styles.dropdownIcon}></i>
                                         </button>
                                         <FurnishingTypeMenu/>
                                     </div>
                                     <div className='mt-3 relative group'>
                                         <button className={'p-2 border-[1px] border-gray-300'}>
                                             MORE
-                                            <i class="fa-solid fa-chevron-down ml-[1px] text-gray-600 text-xs"></i>
+                                            <i class={styles.dropdownIcon}></i>
                                         </button>
                                         <MoreMenu classname={''}/>
                                     </div>
@@ -195,7 +195,7 @@ const Profile = () => {
                                     <div className='mt-3 relative group'>
                                         <button className={'p-2 border-[1px] border-gray-300'}>
                                             SHORT BY FEATURED
-                                            <i class="fa-solid fa-chevron-down ml-[1px] text-gray-600 text-xs"></i>
+                                            <i class={styles.dropdownIcon}></i>
                                         </button>
                                         <ShortByMenu classname={'text-gray-500'}/>
                                     </div>
