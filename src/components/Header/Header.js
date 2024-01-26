@@ -190,9 +190,12 @@ const Header = () => {
                     </div>
                 </div>
                 <div className="hidden lg:flex justify-between items-center">
-                    <button className={styles.btn + 'border-green-500 px-4 hover:bg-gray-700 text-white opacity-95'}>
+                    <NavLink to={'/buyer-registration'}>
+                       <button className={styles.btn + 'border-green-500 px-4 hover:bg-gray-700 text-white opacity-95'}>
                         Buyer/Tenant Registration
-                    </button>
+                    </button>  
+                    </NavLink>
+                   
                     <div className='relative group z-10'>
                         <button
                             id='post-property-btn'

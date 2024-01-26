@@ -8,6 +8,7 @@ import ProjectDetails from './pages/ProjectDetails/ProjectDetails';
 import Profile from './pages/Profile';
 import PostProperty from './pages/PostProperty/PostProperty';
 import NewProject from './pages/PostProperty/NewProject';
+import BuyerRegistration from './pages/BuyerRegistration';
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
         <Route path='/profile' element={<Profile/>} />
         <Route path='/post-property' element={<PostProperty/>} />
         <Route path='/post-property/new-project' element={<NewProject/>} />
+        <Route path='/buyer-registration' element={<BuyerRegistration/>} />
       </Routes>
       {/* <Home/> */}
       {/* <PropertyList/> */}
