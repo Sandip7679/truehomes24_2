@@ -84,8 +84,8 @@ const Header = () => {
     return (
         <nav className="bg-gray-800 fixed top-0 z-[2000] p-2 w-screen">
             <div className="flex justify-between">
-                <div className="flex items-center space-x-2">
-                    <div class="lg:hidden z-[200] group">
+                <div className="flex">
+                    <div class="xl:hidden z-[200] group">
                         <button id="mobile-menu-button" class="text-white focus:outline-none h-6 w-6 sm:h-8 sm:w-8" onClick={() => document.getElementById('mobile-menu').classList.toggle('hidden')}>
                             <MenuIcon />
                         </button>
@@ -98,8 +98,8 @@ const Header = () => {
                     </NavLink>
                     <div ref={cityRef}
                         id='dropdown-city'
-                        className="relative group z-10">
-                        <button id='city-btn' className={styles.dropdown + 'opacity-95'}
+                        className="relative group z-10 ml-2">
+                        <button id='city-btn' className={styles.dropdown + 'opacity-95 mr-[2px] lg:mr-4 xl:mr-8'}
                             onClick={() => document.getElementById('city-menu').classList.toggle('hidden')}
                         >
                             City
@@ -128,7 +128,7 @@ const Header = () => {
                                 <div className='flex flex-wrap gap-2 mt-4'>
                                     {cities.map((item) => {
                                         return (
-                                            <a href="#" className="px-2 py-4 rounded-md w-[47%] hover:bg-gray-100 max-w-[100px] flex flex-col border-[1px] shadow-lg items-center justify-center">
+                                            <a href="#" className="px-2 py-2 rounded-md w-[47%] hover:bg-gray-100 max-w-[100px] flex flex-col border-[1px] shadow-lg items-center justify-center">
                                                 <img src={cityIcon} className='h-5 w-6' />
                                                 <span className='text-xs'>{item.city}</span>
                                             </a>
@@ -139,7 +139,7 @@ const Header = () => {
 
                             <div className='w-[100%]'>
                                 <div className='text-left pl-1'>Other Cities</div>
-                                <div className='w-[100%] pl-5'>
+                                <div className='w-[100%] pl-2'>
                                     {otherCities.map((item) => {
                                         return (
                                             <a href="#" className="px-2 -mt-5 -pt-5  text-left">
@@ -158,16 +158,19 @@ const Header = () => {
                         </div> */}
                     </div>
                     <div className='hidden lg:flex space-x-4'>
-                        <a href="#" className="text-gray-100 hover:text-gray-400">Buy</a>
-                        <a href="#" className="text-gray-100 hover:text-gray-400">Rent</a>
-                        <a href="#" className="text-gray-100 hover:text-gray-400">New Project</a>
+                        <div className='hidden xl:flex md:gap-5'>
+                            <a href="#" className="text-gray-100 hover:text-gray-400">Buy</a>
+                            <a href="#" className="text-gray-100 hover:text-gray-400">Rent</a>
+                            <a href="#" className="text-gray-100 hover:text-gray-400">New Project</a>
+                        </div>
+
                         <NavLink to="/agents" className="text-gray-100 hover:text-gray-400">Agents</NavLink>
                         <NavLink to="/builders" className="text-gray-100 hover:text-gray-400">Builders</NavLink>
                         <div className='relative group z-10'>
                             <button
                                 id='more-services-btn'
                                 onClick={() => document.getElementById('more-services-menu').classList.toggle('hidden')}
-                                className={styles.dropdown + 'text-gray-50 opacity-95'}>
+                                className={styles.dropdown + 'text-gray-50 opacity-95 mr-[2px]'}>
                                 More Services
                                 <Dropdown classname={'text-white mt-[4px]'} />
                             </button>
@@ -189,58 +192,61 @@ const Header = () => {
 
                     </div>
                 </div>
-                <div className="hidden lg:flex justify-between items-center">
-                    <NavLink to={'/buyer-registration'}>
-                       <button className={styles.btn + 'border-green-500 px-4 hover:bg-gray-700 text-white opacity-95'}>
-                        Buyer/Tenant Registration
-                    </button>  
-                    </NavLink>
-                   
-                    <div className='relative group z-10'>
-                        <button
-                            id='post-property-btn'
-                            onClick={() => document.getElementById('post-property-menu').classList.toggle('hidden')}
-                            className={styles.dropdownBtn + 'text-gray-50 opacity-95'}>
-                            Post Property
-                            <Dropdown classname={'text-white opacity-95'} />
-                        </button>
-                        <div id='post-property-menu' className={styles.dropdownMenu + 'w-[250px]'}>
-                            <NavLink to={'/post-property'} >
-                                <div class={styles.dropdownItem}>
-                                    <img src={postPropertyPerDay} className='h-5 w-6 mr-5 ' />
-                                    <span className=''>
-                                        Post-Property-Rs 10/day
-                                    </span>
-                                </div>
-                            </NavLink>
-                            <NavLink to={'/post-property'} >
-                                <div class={styles.dropdownItem}>
-                                    <img src={postPropertyPerDay} className='h-5 w-6 mr-5 ' />
-                                    <span className=''>
-                                        Featured-Property-Rs 100/day
-                                    </span>
-                                </div>
-                            </NavLink>
+                <div className='flex'>
+                    <div className="hidden md:flex">
+                        <NavLink to={'/buyer-registration'}>
+                            <button className={styles.btn + 'border-green-500 px-4 hover:bg-gray-700 text-white opacity-95'}>
+                                Buyer/Tenant Registration
+                            </button>
+                        </NavLink>
 
-                            <NavLink to={'/post-property/new-project'}>
-                                <div  class={styles.dropdownItem + 'border-b-0'}>
-                                    <img src={postPropertyPerDay} className='h-5 w-6 mr-5' />
-                                    <span>
-                                        New Property-Rs 100/day
-                                    </span>
-                                </div>
+                        <div className='relative group z-10'>
+                            <button
+                                id='post-property-btn'
+                                onClick={() => document.getElementById('post-property-menu').classList.toggle('hidden')}
+                                className={styles.dropdownBtn + ' text-gray-50 opacity-95'}>
+                                Post Property
+                                <Dropdown classname={'text-white opacity-95'} />
+                            </button>
+                            <div id='post-property-menu' className={styles.dropdownMenu + 'w-[250px]'}>
+                                <NavLink to={'/post-property'} >
+                                    <div class={styles.dropdownItem}>
+                                        <img src={postPropertyPerDay} className='h-5 w-6 mr-5 ' />
+                                        <span className=''>
+                                            Post-Property-Rs 10/day
+                                        </span>
+                                    </div>
+                                </NavLink>
+                                <NavLink to={'/post-property'} >
+                                    <div class={styles.dropdownItem}>
+                                        <img src={postPropertyPerDay} className='h-5 w-6 mr-5 ' />
+                                        <span className=''>
+                                            Featured-Property-Rs 100/day
+                                        </span>
+                                    </div>
+                                </NavLink>
 
-                            </NavLink>
+                                <NavLink to={'/post-property/new-project'}>
+                                    <div class={styles.dropdownItem + 'border-b-0'}>
+                                        <img src={postPropertyPerDay} className='h-5 w-6 mr-5' />
+                                        <span>
+                                            New Property-Rs 100/day
+                                        </span>
+                                    </div>
+
+                                </NavLink>
+                            </div>
                         </div>
                     </div>
+                    <div className='pr-2 md:pr-5'>
+                        <button
+                            onClick={() => setShowLoginPopup(true)}
+                            className={styles.textMedium + 'text-white px-2 sm:px-4 py-1 rounded-md ml-4 bg-gray-600  hover:bg-gray-500'}>
+                            Register/Login
+                        </button>
+                    </div>
                 </div>
-                <div className='pr-2 md:pr-5'>
-                    <button
-                        onClick={() => setShowLoginPopup(true)}
-                        className={styles.textMedium + 'text-white px-2 sm:px-4 py-1 rounded-md ml-4 bg-gray-600  hover:bg-gray-500'}>
-                        Register/Login
-                    </button>
-                </div>
+
 
             </div>
 

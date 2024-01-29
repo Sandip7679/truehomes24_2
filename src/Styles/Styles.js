@@ -4,7 +4,7 @@ export const styles = {
     btn:'flex item-center justify-center text-gray-800 text-sm sm:text-base border-gray-300 rounded-md py-1 px-2 border-[1.5px] ',
     labelBtn:'py-[1px] px-[5px] text-white text-sm ',
     btnFull:'text-white text-base sm:text-lg w-full py-1 rounded ',
-    btnBorderLess:'flex text-black px-2 py-1 rounded-md ml-0 hover:bg-gray-200 ',
+    btnBorderLess:'flex text-black text-sm md:text-base px-2 py-1 rounded-md ml-0 hover:bg-gray-200 ',
     dropdownMenu:'absolute hidden group-hover:block z-50 bg-white text-gray-800 top-8 pb-2 border-gray-300 border-[1px] w-[100%] shadow-sm text-sm ',
     dropdownContainer:'absolute hidden z-50 bg-white p-2 pt-2 w-[180px] overflow-auto max-h-[300px] md:w-[335px] lg:w-[460px] sm:ml-0 text-gray-800 top-8 border-gray-300 border-[1px] ',
     dropdownItem:'p-2 text-sm border-b-[1px] border-gray-100 flex hover:bg-gray-100 ',
@@ -29,6 +29,7 @@ export const styles = {
     //postpropertyStyles
     postpropTitle:'text-orange-500 text-center py-2 sm:text-lg font-semibold bg-gray-50 ',
     formCard:' border-[1px] border-gray-100 rounded-md shadow-xl bg-white p-2 px-2 sm:px-5 my-5 pb-5',
-    formBtn:'bg-gray-700 text-white text-sm sm:text-base px-4 py-1 rounded ',
+    btnBlackHover:' hover:bg-white hover:text-black border-[1px] border-black duration-500 ',
+    formBtn:'hover:bg-gray-600 bg-gray-700 text-white text-sm sm:text-base px-4 py-1 rounded ',
 
 }

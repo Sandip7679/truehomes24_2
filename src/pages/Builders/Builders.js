@@ -58,7 +58,7 @@ const Builders = () => {
               </button>
               <div className='flex min-w-[250px] w-[45%]'>
                 <input placeholder='Type a builder name here' className={styles.input + 'border-r-0 pl-6'} />
-                <button className={styles.btn + 'border-[2px border-gray-700] rounded-none md:w-[25%] bg-gray-700 text-white items-center'}>
+                <button className={styles.btn+styles.btnBlackHover + ' border-gray-700 rounded-none md:w-[25%] bg-gray-700 text-white items-center'}>
                   Search
                 </button>
               </div>

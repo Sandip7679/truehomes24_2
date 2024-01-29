@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { styles } from '../../Styles/Styles';
+import JoditEditor from 'jodit-react';
 
 const FormCatagories = ({ catagories, activeCatagory, onClickItem }) => {
     return (
@@ -17,7 +18,7 @@ const FormCatagories = ({ catagories, activeCatagory, onClickItem }) => {
     );
 }
 
-export const CategoryTitle = ({title,icon}) => {
+export const CategoryTitle = ({ title, icon }) => {
     return (
         <div className='flex my-5 text-gray-700 bg-gray-50 p-3 -mx-[1.6%]'>
             <i class={icon + " mt-[5px] mr-2"}></i>
@@ -51,7 +52,7 @@ export const InputList = ({ inputs, classname }) => {
         <div className={classname ? classname : 'mt-5 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3'}>
             {inputs.map((item, index) => {
                 return (
-                    <DropdownInput title={item.name} options={item.dropdownData} placeholder={item.name} required={item.star} />
+                    <DropdownInput title={item.name} options={item.dropdownData} placeholder={item.placeholder} required={item.star} />
                 )
             })}
         </div>
@@ -93,6 +94,26 @@ export const AreaInputs = ({ inputDatas }) => {
                     </div>
                 )
             })}
+        </div>
+    )
+}
+
+export const JoditTextEditor = ({title}) => {
+    const [content, setContent] = useState('');
+    const editor = useRef(null);
+    return (
+        <div className='mt-10'>
+            <p className='mb-2'>{title}<span className='text-red-500'>*</span> </p>
+            <JoditEditor
+                ref={editor}
+                value={content}
+                // config={config}
+                tabIndex={1} // tabIndex of textarea
+                onBlur={newContent => setContent(newContent)} // preferred to use only this option to update the content for performance reasons
+                onChange={newContent => { }}
+                className='shadow-md'
+            // onChange={newContent => setContent(newContent)}
+            />
         </div>
     )
 }

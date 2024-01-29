@@ -12,6 +12,7 @@ import homeLoan from '../../assets/Icons/homeLoan.png';
 
 import DropdownIcon from '../svgIcons';
 import { styles } from '../../Styles/Styles';
+import { NavLink } from 'react-router-dom';
 
 const MobileMenu = () => {
 
@@ -35,18 +36,23 @@ const MobileMenu = () => {
                 </span>
                 <p className={styles.textMedium}>New Project</p>
             </a>
-            <a href="#" class={styles.dropdownItem}>
-                <span>
-                    <img src={agentIcon} className='h-5 w-6 mr-5' />
-                </span>
-                <p className={styles.textMedium}>Agent</p>
-            </a>
-            <a href="#" class={styles.dropdownItem}>
-                <span>
-                    <img src={agentIcon} className='h-5 w-6 mr-5' />
-                </span>
-                <p className={styles.textMedium}>Builders</p>
-            </a>
+            <NavLink to="/agents" >
+                <div class={styles.dropdownItem}>
+                    <span>
+                        <img src={agentIcon} className='h-5 w-6 mr-5' />
+                    </span>
+                    <p className={styles.textMedium}>Agent</p>
+                </div>
+
+            </NavLink>
+            <NavLink to="/builders">
+                <div class={styles.dropdownItem}>
+                    <span>
+                        <img src={agentIcon} className='h-5 w-6 mr-5' />
+                    </span>
+                    <p className={styles.textMedium}>Builders</p>
+                </div>
+            </NavLink >
             <div className='relative group'>
                 <div
                     onClick={() => setShowMoreServiceMenu(!showMoreServiceMenu)}
@@ -73,13 +79,16 @@ const MobileMenu = () => {
                 </div>}
             </div>
 
-            <a href="#" class={styles.dropdownItem}>
-                <span>
-                    <img src={buyerIcon} className='h-5 w-6 mr-5' />
-                </span>
-                <p className={styles.textMedium}> Buyer/Tenant Registration</p>
-            </a>
-            <div className='relative group'>
+            <NavLink to={'/buyer-registration'}>
+                <div class={styles.dropdownItem + 'md:hidden'}>
+                    <span>
+                        <img src={buyerIcon} className='h-5 w-6 mr-5' />
+                    </span>
+                    <p className={styles.textMedium}> Buyer/Tenant Registration</p>
+                </div>
+            </NavLink>
+
+            <div className='relative group md:hidden'>
                 <div
                     onClick={() => setShowPostProperty(!showPostPropertyMenu)}
                     class={styles.dropdownItem}>
@@ -90,24 +99,32 @@ const MobileMenu = () => {
                     <DropdownIcon />
                 </div>
                 {showPostPropertyMenu && <div className={'z-50 bg-white p-2 pt-2 text-gray-800 top-8 border-gray-300 border-[1px] group-hover:block w-[100%]'}>
-                    <a href="#" class={styles.dropdownItem}>
-                        <img src={postPropertyPerDay} className='h-5 w-6 mr-5 ' />
-                        <span className=''>
-                            Post-Property-Rs 10/day
-                        </span>
-                    </a>
-                    <a href="#" class={styles.dropdownItem}>
-                        <img src={postPropertyPerDay} className='h-5 w-6 mr-5 ' />
-                        <span className=''>
-                            Featured-Property-Rs 100/day
-                        </span>
-                    </a>
-                    <a href="#" class='text-black p-2 text-sm hover:bg-gray-100 border-gray-100 flex'>
-                        <span>
-                            <img src={postPropertyPerDay} className='h-5 w-6 mr-5' />
-                        </span>
-                        New Property-Rs 100/day
-                    </a>
+                    <NavLink to={'/post-property'}>
+                        <a href="#" class={styles.dropdownItem}>
+                            <img src={postPropertyPerDay} className='h-5 w-6 mr-5 ' />
+                            <span className=''>
+                                Post-Property-Rs 10/day
+                            </span>
+                        </a>
+                    </NavLink>
+
+                    <NavLink to={'/post-property'}>
+                        <a href="#" class={styles.dropdownItem}>
+                            <img src={postPropertyPerDay} className='h-5 w-6 mr-5 ' />
+                            <span className=''>
+                                Featured-Property-Rs 100/day
+                            </span>
+                        </a>
+                    </NavLink>
+                    <NavLink to={'/post-property/new-project'}>
+                        <a href="#" class='text-black p-2 text-sm hover:bg-gray-100 border-gray-100 flex'>
+                            <span>
+                                <img src={postPropertyPerDay} className='h-5 w-6 mr-5' />
+                            </span>
+                            New Property-Rs 100/day
+                        </a>
+                    </NavLink>
+
                 </div>}
             </div>
 

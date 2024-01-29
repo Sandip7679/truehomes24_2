@@ -26,7 +26,7 @@ const GetCallBack = () => {
                     <input type='checkbox' className='' />
                     <p className='text-gray-500 text-sm'>I agree to Truehomes24.com Terms of use</p>
                 </label>
-                <button className={styles.btn + 'bg-orange-600 py-[6px] opacity-90 w-full text-white mt-5'}>
+                <button className={styles.btn + 'hover:bg-orange-700 bg-orange-600 py-[6px] opacity-90 w-full text-white mt-5'}>
                     GET CALL BACK
                 </button>
             </div>

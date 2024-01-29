@@ -1,6 +1,6 @@
 import React, { useRef, useState } from 'react';
 import Header from '../../components/Header/Header';
-import FormCatagories, { AreaInputs, ButtonList, DropdownInput, InputList } from '../../components/PostProperty/PostPropertyComp';
+import FormCatagories, { AreaInputs, ButtonList, DropdownInput, InputList, JoditTextEditor } from '../../components/PostProperty/PostPropertyComp';
 import { styles } from '../../Styles/Styles';
 import Select from 'react-select';
 
@@ -78,6 +78,7 @@ const furnishingItem = [
 
 const NewProject = () => {
     const [selectedOption, setSelectedOption] = useState(null);
+    const [formCatagory, setFormCategory] = useState('New Project Info');
     const editor = useRef(null);
     const [content, setContent] = useState('');
 
@@ -95,7 +96,7 @@ const NewProject = () => {
             <div className='mt-[80px]'>
                 <div className={styles.postpropTitle}>New Projects</div>
                 <div className='mt-5 px-[5%] sm:px-[8%] mb-10'>
-                    <FormCatagories catagories={formCatagories} />
+                    <FormCatagories catagories={formCatagories} activeCatagory={formCatagory} onClickItem={(item)=>setFormCategory(item)}/>
                     <div className={styles.formCard}>
                         <InputList inputs={inputs} />
                         <ButtonList title={'Amenities'} btnNames={amenities} initialName={''} classname={'mt-5'} required={true} />
@@ -112,32 +113,8 @@ const NewProject = () => {
                         </div>
                         <AreaInputs inputDatas={areasInputs} />
                         <InputList inputs={inputs2} classname={'mt-5 grid grid-cols-1 sm:grid-cols-2 gap-3'} />
-                        <div className='mt-5'>
-                            <p className='mb-2'>Description <span className='text-red-500'>*</span></p>
-                            <JoditEditor
-                                ref={editor}
-                                value={content}
-                                // config={config}
-                                tabIndex={1} // tabIndex of textarea
-                                onBlur={newContent => setContent(newContent)} // preferred to use only this option to update the content for performance reasons
-                                onChange={newContent => { }}
-                                // onChange={newContent => setContent(newContent)}
-                                className='shadow-md'
-                            />
-                        </div>
-                        <div className='mt-10'>
-                            <p className='mb-2'>About Builder <span className='text-red-500'>*</span> </p>
-                            <JoditEditor
-                                ref={editor}
-                                value={content}
-                                // config={config}
-                                tabIndex={1} // tabIndex of textarea
-                                onBlur={newContent => setContent(newContent)} // preferred to use only this option to update the content for performance reasons
-                                onChange={newContent => { }}
-                                className='shadow-md'
-                            // onChange={newContent => setContent(newContent)}
-                            />
-                        </div>
+                        <JoditTextEditor title = {'Description'}/>
+                        <JoditTextEditor title = {'About Builder'}/>
                         <div className='mt-10 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3'>
                             <DropdownInput title={'Project Link'} placeholder={'Example:https//www.truehomes24.com'} required={true}/>
                             <DropdownInput title={'Image'} placeholder={'Example:https//www.truehomes24.com'} required={true} type={'file'}/>

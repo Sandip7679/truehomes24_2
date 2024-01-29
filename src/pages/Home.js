@@ -9,6 +9,7 @@ import Footer from '../components/Footer';
 import RecentAdded from '../components/RecentAdded';
 import Contact from '../components/Contact';
 import ScrollUp from '../components/ScrollUp';
+import BHKmenu, { BudgetMenu, PropertyMenu } from '../components/Dropdowns';
 // import { NavLink } from 'react-router-dom';
 // import ApiConf from '../ApiConf';
 
@@ -123,21 +124,22 @@ const Home = () => {
 
     useEffect(() => {
 
-        document.getElementById('bugdet-btn').addEventListener('blur', () => {
-            document.getElementById('bugdet-menu').classList.add('hidden');
-        });
-        document.getElementById('bhk-btn').addEventListener('blur', () => {
-            document.getElementById('bhk-menu').classList.add('hidden');
-        });
+        // document.getElementById('bugdet-btn').addEventListener('blur', () => {
+        //     document.getElementById('bugdet-menu').classList.add('hidden');
+        // });
+
+        // document.getElementById('bhk-btn').addEventListener('blur', () => {
+        //     document.getElementById('bhk-menu').classList.add('hidden');
+        // });
         // document.getElementById('property-type-btn').addEventListener('blur', () => {
         //     document.getElementById('property-type-menu').classList.add('hidden');
         // });
 
-        let url = baseURL + 'featured-property-slider?limit=5&page=1';
-        fetch(url).then((res) => res.json()).then((res) => {
-            console.log('res properties....', res.content);
-            setPropertyData(res.content);
-        })
+        // let url = baseURL + 'featured-property-slider?limit=5&page=1';
+        // fetch(url).then((res) => res.json()).then((res) => {
+        //     console.log('res properties....', res.content);
+        //     setPropertyData(res.content);
+        // })
         //  getProperties('featured-property-slider');
     }, [])
 
@@ -181,57 +183,34 @@ const Home = () => {
                             New Project
                         </button>
                     </div>
-                    <div className='bg-white px-5 py-5 '>
-                        <div className='sm:flex bg-white justify-between  border-[1px] border-gray-300'>
-                            <div className='lg:flex px-2 py-2 justify-between w-[90%]'>
+                    <div className='relative bg-white px-5 py-5 '>
+                        <div className='sm:flex mt-5 lg:mt-0 bg-white justify-between  border-[1px] border-gray-300'>
+                            <div className='lg:flex px-2 py-2 w-[90%] justify-between'>
                                 <SearchIcon
                                     imageClass='w-5 h-5 absolute left-2 top-[1px]  md:top-2'
                                 />
-                                <input placeholder='Pick City, Location, Project/Society...' className='pl-7 min-w-[60%] focus:outline-none' />
-                                <div className='hidden lg:flex'>
+                                <input placeholder='Pick City, Location, Project/Society...' className='pl-7 xl:pl-0 focus:outline-none min-w-[48%]' />
+                                <div className='absolute top-1 left-4 lg:relative flex min-w-[320px]'>
                                     <div className='relative group z-10'>
                                         <button
                                             id='bugdet-btn'
-                                            onClick={() => document.getElementById('bugdet-menu').classList.toggle('hidden')}
-                                            className={styles.btnBorderLess}>
+                                            // onClick={() => document.getElementById('bugdet-menu').classList.toggle('hidden')}
+                                            className={styles.btnBorderLess + 'px-[5px]'}>
                                             BUGDET
                                             <Dropdown />
                                         </button>
-                                        <div
-                                            id='bugdet-menu'
-                                            className={`${styles.dropdownContainer} group-hover:block`}>
-                                            <div className='flex gap-5 mt-5'>
-                                                <div className='relative'>
-                                                    <span className='absolute top-2 left-2'>{'\u20B9'}</span>
-                                                    <input placeholder='Min' className={styles.input + ' pl-5 rounded-md'} />
-                                                </div>
-                                                <div className='relative'>
-                                                    <span className='absolute top-2 left-2'>{'\u20B9'}</span>
-                                                    <input placeholder='Max' className={styles.input + ' pl-5 rounded-md'} />
-                                                </div>
-                                            </div>
-                                            <div>
-                                                {rupees.map((item, index) => {
-                                                    return (
-                                                        <div className='flex gap-5 mt-2'>
-                                                            <div className='flex-1 text-left font-semibold text-lg ml-2'>{'\u20B9'} 20 Lacs</div>
-                                                            <div className='flex-1 text-left font-semibold text-lg ml-2'> {'\u20B9'} 20 Lacs</div>
-                                                        </div>
-                                                    )
-                                                })}
-                                            </div>
-
-                                        </div>
+                                        <BudgetMenu/>
                                     </div>
                                     <div className='relative group z-10'>
                                         <button
                                             onClick={() => document.getElementById('bhk-menu').classList.toggle('hidden')}
                                             id='bhk-btn'
-                                            className={styles.btnBorderLess}>
+                                            className={styles.btnBorderLess + 'px-[5px]'}>
                                             BHK
                                             <Dropdown />
                                         </button>
-                                        <div
+                                        <BHKmenu/>
+                                        {/* <div
                                             id='bhk-menu'
                                             // className='absolute hidden top-[50px] w-[200px] md:w-[300px] border-[1px] p-3 border-gray-700 bg-white'
                                             className={`${styles.dropdownMenu} w-[260px] p-2 py-4`}
@@ -254,7 +233,7 @@ const Home = () => {
                                                 </button>
                                             </div>
 
-                                        </div>
+                                        </div> */}
                                     </div>
                                     <div
                                         id='property-type'
@@ -262,11 +241,12 @@ const Home = () => {
                                         <button
                                             onClick={() => document.getElementById('property-type-menu').classList.toggle('hidden')}
                                             id='property-type-btn'
-                                            className={styles.btnBorderLess}>
+                                            className={styles.btnBorderLess + 'px-[5px]'}>
                                             PROPERTY TYPE
                                             <Dropdown />
                                         </button>
-                                        <div
+                                        <PropertyMenu/>
+                                        {/* <div
                                             // onClick={() => document.getElementById('property-type-menu').classList.toggle('hidden')}
                                             id='property-type-menu'
                                             className={`${styles.dropdownMenu} w-[260px] group-hover:block`}>
@@ -281,14 +261,14 @@ const Home = () => {
                                                 })}
 
                                             </div>
-                                        </div>
+                                        </div> */}
                                     </div>
 
                                 </div>
 
                             </div>
                             <div className='items-center h-full justify-center'>
-                                <button className='px-4 py-2 w-full sm:w-[100px] sm:h-[48px] bg-black text-white items-center justify-center'>
+                                <button className='hover:bg-white hover:text-black border-[1px] border-gray-400 duration-500 px-4 py-2 w-full sm:w-[100px] sm:h-[48px] bg-black text-white items-center justify-center'>
                                     Search
                                 </button>
                             </div>

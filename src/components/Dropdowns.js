@@ -73,7 +73,7 @@ export const PropertyMenu = ({ classname }) => {
                 return (
                     <label class="flex hover:cursor-pointer hover:bg-gray-100 py-1 pl-2 items-center">
                         <input type="checkbox" class="form-checkbox mt-1 h-4 w-4 text-blue-500" />
-                        <span class={"ml-2 font-semibold"}>{item.type}</span>
+                        <span class={"ml-2 text-gray-600 font-semibold"}>{item.type}</span>
                     </label>
                 )
             })}
