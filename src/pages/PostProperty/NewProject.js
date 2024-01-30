@@ -5,6 +5,8 @@ import { styles } from '../../Styles/Styles';
 import Select from 'react-select';
 
 import JoditEditor from 'jodit-react';
+import TopCItiesFilter from '../../components/TopCItiesFilter';
+import Footer from '../../components/Footer';
 
 
 const formCatagories = ['New Project Info', 'Gallery', 'Unit Configuration'];
@@ -129,6 +131,8 @@ const NewProject = () => {
                     </div>
                 </div>
             </div>
+            <TopCItiesFilter/>
+            <Footer/>
         </div>
     );
 }

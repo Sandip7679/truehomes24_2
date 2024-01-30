@@ -6,6 +6,8 @@ import PropertyInfo from '../../components/PostProperty/PropertyInfo';
 import Amenities from '../../components/PostProperty/Amenities';
 import NearbyPlaces from '../../components/PostProperty/NearbyPlaces';
 import Gallery from '../../components/PostProperty/Gallery';
+import TopCItiesFilter from '../../components/TopCItiesFilter';
+import Footer from '../../components/Footer';
 
 
 const formCatagories = ['Property Info', 'Amenities', 'Nearby Places', 'Gallery'];
@@ -25,8 +27,9 @@ const PostProperty = () => {
                     {formCatagory == 'Nearby Places' && <NearbyPlaces />}
                     {formCatagory == 'Gallery' && <Gallery />}
                 </div>
-               
             </div>
+            <TopCItiesFilter/>
+            <Footer/>
         </div>
     );
 }
