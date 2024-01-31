@@ -41,7 +41,7 @@ const Gallery = () => {
           <input accept='image/*' ref={inputRef} type='file' onChange={handleFileChange} className='w-[80%] absolute opacity-0 py-14 cursor-pointer' />
           <div className='text-gray-400 flex flex-col items-center justify-center py-10 text-cente'>
             <i class="fa-solid fa-cloud-arrow-up text-4xl"></i>
-            <p className=''>Click here to upload your images, Max file size 5 MB allowed.</p>
+            <p className=''>Click here to upload your images. Max file size of 5 MB is allowed.</p>
           </div>
         </div>
         <div className='mt-5 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 lg:grid-cols-7 xl:grid-cols-8 gap-3 sm:gap-5'>

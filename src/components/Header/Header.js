@@ -12,6 +12,7 @@ import { styles } from '../../Styles/Styles';
 import { NavLink } from 'react-router-dom';
 import Auth from '../Auth';
 import MobileMenu from './MobileMenu';
+import { DropdownHover } from '../Dropdowns';
 const cities = [
     { city: 'Dubai' },
     { city: 'Toronto' },
@@ -36,11 +37,25 @@ const otherCities = [
     { city: 'Chennai' },
 ]
 
+const postPropertyItems = [
+    { name: 'Post-Property-Rs 10/day', imgSrc: postPropertyPerDay, endpoint: '/post-property' },
+    { name: 'Featured-Property-Rs 100/day', imgSrc: postPropertyPerDay, endpoint: '/post-property' },
+    { name: 'New Property-Rs 100/day', imgSrc: postPropertyPerDay, endpoint: '/post-property/new-project' },
+];
+const moreServicesItem = [
+    { name: ' Interior Design Studio', imgSrc: interiorDesiginStudio, endpoint: null },
+    { name: ' Home Loan', imgSrc: homeLoan, endpoint: null },
+]
+
+
+let myDashboardItems = [];
+
 const Header = () => {
 
     const cityRef = useRef(null);
 
     const [showLoginPopup, setShowLoginPopup] = useState(false);
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
 
     useEffect(() => {
         // document.getElementById('dropdown-city').addEventListener('blur', () => {
@@ -51,21 +66,36 @@ const Header = () => {
         //         document.getElementById('city-menu').classList.add('hidden');
         //     }
         // });
+         myDashboardItems = [
+            { name: 'View Response', endpoint: null },
+            { name: 'Manage Property', endpoint: '/manage-property' },
+            { name: 'My Order', endpoint: null },
+            { name: 'Manage Profile', endpoint: null },
+            { name: 'Sign Out', endpoint: '/',onClick:logout},
+        
+        ];
         closeOnClickOutside('dropdown-city', 'city-menu');
         document.getElementById('mobile-menu-button').addEventListener('blur', () => {
             document.getElementById('mobile-menu').classList.add('hidden');
         });
 
-        document.getElementById('more-services-btn').addEventListener('blur', () => {
-            document.getElementById('more-services-menu').classList.add('hidden');
-        });
-        document.getElementById('post-property-btn').addEventListener('blur', () => {
-            document.getElementById('post-property-menu').classList.add('hidden');
-        });
+        // document.getElementById('more-services-btn').addEventListener('blur', () => {
+        //     document.getElementById('more-services-menu').classList.add('hidden');
+        // });
+        // document.getElementById('post-property-btn').addEventListener('blur', () => {
+        //     document.getElementById('post-property-menu').classList.add('hidden');
+        // });
+
+         if(localStorage.getItem('isLoggedIn')=='true'){
+            setIsLoggedIn(true);
+         }
 
     }, []);
 
-
+    const logout = ()=>{
+        localStorage.setItem('isLoggedIn',false);
+        setIsLoggedIn(false);
+    }
     const closeOnClickOutside = (parentId, childId) => {
         document.addEventListener('click', (e) => {
             let dropdownElement = document.getElementById(parentId);
@@ -79,7 +109,10 @@ const Header = () => {
     const onCloseLoginPopup = () => {
         setShowLoginPopup(false);
     }
-
+    const onLoggedIn = ()=>{
+        setIsLoggedIn(true);
+        localStorage.setItem('isLoggedIn',true);
+    }
 
     return (
         <nav className="bg-gray-800 fixed top-0 z-[2000] p-2 w-screen">
@@ -169,12 +202,13 @@ const Header = () => {
                         <div className='relative group z-10'>
                             <button
                                 id='more-services-btn'
-                                onClick={() => document.getElementById('more-services-menu').classList.toggle('hidden')}
+                                // onClick={() => document.getElementById('more-services-menu').classList.toggle('hidden')}
                                 className={styles.dropdown + 'text-gray-50 opacity-95 mr-[2px]'}>
                                 More Services
                                 <Dropdown classname={'text-white mt-[4px]'} />
                             </button>
-                            <div id='more-services-menu' className={styles.dropdownMenu + 'top-[24px] w-[200px]'}>
+                            <DropdownHover Items={moreServicesItem} />
+                            {/* <div id='more-services-menu' className={styles.dropdownMenu + 'top-[24px] w-[200px]'}>
                                 <a href="#" class={styles.dropdownItem}>
                                     <img src={interiorDesiginStudio} className='h-5 w-6 mr-3 ' />
                                     <span className=''>
@@ -187,7 +221,7 @@ const Header = () => {
                                     </span>
                                     Home Loan
                                 </a>
-                            </div>
+                            </div> */}
                         </div>
 
                     </div>
@@ -203,54 +237,37 @@ const Header = () => {
                         <div className='relative group z-10'>
                             <button
                                 id='post-property-btn'
-                                onClick={() => document.getElementById('post-property-menu').classList.toggle('hidden')}
+                                // onClick={() => document.getElementById('post-property-menu').classList.toggle('hidden')}
                                 className={styles.dropdownBtn + ' text-gray-50 opacity-95'}>
                                 Post Property
                                 <Dropdown classname={'text-white opacity-95'} />
                             </button>
-                            <div id='post-property-menu' className={styles.dropdownMenu + 'w-[250px]'}>
-                                <NavLink to={'/post-property'} >
-                                    <div class={styles.dropdownItem}>
-                                        <img src={postPropertyPerDay} className='h-5 w-6 mr-5 ' />
-                                        <span className=''>
-                                            Post-Property-Rs 10/day
-                                        </span>
-                                    </div>
-                                </NavLink>
-                                <NavLink to={'/post-property'} >
-                                    <div class={styles.dropdownItem}>
-                                        <img src={postPropertyPerDay} className='h-5 w-6 mr-5 ' />
-                                        <span className=''>
-                                            Featured-Property-Rs 100/day
-                                        </span>
-                                    </div>
-                                </NavLink>
-
-                                <NavLink to={'/post-property/new-project'}>
-                                    <div class={styles.dropdownItem + 'border-b-0'}>
-                                        <img src={postPropertyPerDay} className='h-5 w-6 mr-5' />
-                                        <span>
-                                            New Property-Rs 100/day
-                                        </span>
-                                    </div>
-
-                                </NavLink>
-                            </div>
+                            <DropdownHover Items={postPropertyItems} />
                         </div>
                     </div>
                     <div className='pr-2 md:pr-5'>
-                        <button
+                        {!isLoggedIn ? <button
                             onClick={() => setShowLoginPopup(true)}
                             className={styles.textMedium + 'text-white px-2 sm:px-4 py-1 rounded-md ml-4 bg-gray-600  hover:bg-gray-500'}>
                             Register/Login
                         </button>
+                            :
+                            <div className='relative group z-10'>
+                                <button
+                                    className={styles.dropdownBtn + ' text-gray-50 opacity-95'}>
+                                    My Dashboard
+                                    <Dropdown classname={'text-white opacity-95'} />
+                                </button>
+                                <DropdownHover Items={myDashboardItems} MenuClass={'w-[180px]'} ItemClass={'border-b-[0px]'}/>
+                            </div>
+                        }
                     </div>
                 </div>
 
 
             </div>
 
-            {showLoginPopup && <Auth onClose={onCloseLoginPopup} />}
+            {showLoginPopup && <Auth login={onLoggedIn} onClose={onCloseLoginPopup} />}
         </nav>
 
     );

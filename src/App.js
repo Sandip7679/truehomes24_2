@@ -9,7 +9,8 @@ import Profile from './pages/Profile';
 import PostProperty from './pages/PostProperty/PostProperty';
 import NewProject from './pages/PostProperty/NewProject';
 import BuyerRegistration from './pages/BuyerRegistration';
-import AdPackages from './components/AdPackages';
+import AdPackages from './pages/PostProperty/AdPackages';
+import ManageProperty from './pages/MyDashboard/ManageProperty';
 
 function App() {
   return (
@@ -25,9 +26,8 @@ function App() {
         <Route path='/post-property/new-project' element={<NewProject/>} />
         <Route path='/buyer-registration' element={<BuyerRegistration/>} />
         <Route path='/add-packages' element={<AdPackages/>} />
+        <Route path='/manage-property' element={<ManageProperty/>} />
       </Routes>
-      {/* <Home/> */}
-      {/* <PropertyList/> */}
     </>
   );
 }

@@ -1,5 +1,6 @@
 import React from 'react';
 import { styles } from '../Styles/Styles';
+import { NavLink } from 'react-router-dom';
 
 let BHKtype = [
     { type: '1 RK' },
@@ -19,9 +20,9 @@ const propertyTypes = [
     { type: 'Serviced' },
 ]
 const furnishingType = [
-    {type:'Furnished'},
-    {type:'Semi Furnished'},
-    {type:'Unfurnnished'},
+    { type: 'Furnished' },
+    { type: 'Semi Furnished' },
+    { type: 'Unfurnnished' },
 ];
 const shortByItems = [
     { type: 'Short By Newest' },
@@ -47,6 +48,25 @@ const moreDatas = {
 //     { type: 'New Projects', icon: newProjectIcon }
 // ]
 
+export const DropdownHover = ({ Items,ItemClass,MenuClass }) => {
+    return (
+        <div className={styles.dropdownMenu+ (MenuClass? MenuClass:' w-[250px]')}>
+            {Items.map((item, index) => {
+                return (
+                    <NavLink to={item.endpoint} onClick={item.onClick} >
+                        <div class={styles.dropdownItem+ItemClass}>
+                            {item.imgSrc && <img src={item.imgSrc} className='h-5 w-6 mr-5 ' />}
+                            <span className=''>
+                                {item.name}
+                            </span>
+                        </div>
+                    </NavLink>
+                )
+            })}
+
+        </div>
+    )
+}
 
 const BHKmenu = ({ classname }) => {
     return (
@@ -199,9 +219,9 @@ export const MoreMenu = ({ classname }) => {
     )
 }
 
-export const ShortByMenu = ({classname}) => {
+export const ShortByMenu = ({ classname }) => {
     return (
-        <div className={styles.dropdownMenu + 'w-[220px] group-hover:block sm:-ml-[95px] '+classname}>
+        <div className={styles.dropdownMenu + 'w-[220px] group-hover:block sm:-ml-[95px] ' + classname}>
             {shortByItems.map((item, index) => {
                 return (
                     <label

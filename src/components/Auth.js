@@ -3,7 +3,7 @@ import { styles } from '../Styles/Styles';
 import { CrossIcon } from './svgIcons';
 import loginImage from '../assets/images/login-1.png'
 
-const Auth = ({ onClose }) => {
+const Auth = ({ onClose,login }) => {
     const [isLogin, setIsLogin] = useState(true);
     return (
         <div className='fixed top-0 z-[2000] flex -ml-2 w-full h-[100%] items-center justify-center bg-black bg-opacity-60'>
@@ -32,7 +32,12 @@ const Auth = ({ onClose }) => {
                             </div>
                             <span className='ml-3'>Remember me</span>
                         </label>
-                        <button className={styles.btn + 'w-full hover:bg-gray-700 bg-gray-800 text-white mt-10 py-2 border-none'}>Login</button>
+                        <button 
+                        onClick={()=>{
+                          onClose();
+                          login();
+                        }} 
+                        className={styles.btn + 'w-full hover:bg-gray-700 bg-gray-800 text-white mt-10 py-2 border-none'}>Login</button>
                     </div>
                         :
                         <div className='w-full md:w-[55%] mb-10'>
@@ -67,9 +72,9 @@ const Auth = ({ onClose }) => {
                         </p>
                     </div>
                 </div>
-                {!isLogin && <div>
+                {/* {!isLogin && <div>
 
-                </div>}
+                </div>} */}
 
             </div>
         </div>

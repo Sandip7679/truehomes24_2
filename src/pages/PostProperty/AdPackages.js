@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
-import Header from './Header/Header';
-import { styles } from '../Styles/Styles';
-import TopCItiesFilter from './TopCItiesFilter';
-import Footer from './Footer';
+import Header from '../../components/Header/Header';
+import { styles } from '../../Styles/Styles';
+import TopCItiesFilter from '../../components/TopCItiesFilter';
+import Footer from '../../components/Footer';
 
 let days = [];
 for (let i = 0; i <= 170; i++) {
@@ -25,10 +25,10 @@ const AdPackages = () => {
                     <p className={styles.title2}>Add Packages</p>
                     <span className='text-sm'><span>Home</span> / Ad Package</span>
                 </div>
-                <div className='mt-10 mb-5 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 sm:gap-5'>
+                <div className='mt-10 mb-5 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 sm:gap-6'>
                     {[0, 1, 2, 3, 4, 5, 6, 7, 8].map((item, index) => {
                         return (
-                            <div className='border-2 border-red-200 rounded py-2 text-base sm:text-lg'>
+                            <div className='mt-2 border-2 border-red-200 rounded py-2 text-base sm:text-lg'>
                                 <div className='mt-2 bg-orange-600 text-white text-lg font-bold py-4 mx-2 flex items-center justify-center'>
                                     GOLD
                                 </div>
