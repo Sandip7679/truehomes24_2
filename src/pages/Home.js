@@ -9,14 +9,14 @@ import Footer from '../components/Footer';
 import RecentAdded from '../components/RecentAdded';
 import Contact from '../components/Contact';
 import ScrollUp from '../components/ScrollUp';
-import BHKmenu, { BudgetMenu, PropertyMenu } from '../components/Dropdowns';
+import { BudgetMenu, PropertyMenu } from '../components/Dropdowns';
 // import { NavLink } from 'react-router-dom';
 // import ApiConf from '../ApiConf';
 
 
 
-const rupees = [30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80];
-const baseURL = "https://www.truehomes24.com/api/"
+// const rupees = [30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80];
+// const baseURL = "https://www.truehomes24.com/api/"
 
 
 
@@ -89,16 +89,16 @@ const Data = [
 ]
 
 
-const propertyTypes = [
-    { type: 'Apartment' },
-    { type: 'Independent House/Villa' },
-    { type: 'Residential Land' },
-    { type: 'Warehouse' },
-    { type: 'Builder Floor' },
-    { type: 'Office Space' },
-    { type: 'Shop/Showroom' },
-    { type: 'Serviced' },
-]
+// const propertyTypes = [
+//     { type: 'Apartment' },
+//     { type: 'Independent House/Villa' },
+//     { type: 'Residential Land' },
+//     { type: 'Warehouse' },
+//     { type: 'Builder Floor' },
+//     { type: 'Office Space' },
+//     { type: 'Shop/Showroom' },
+//     { type: 'Serviced' },
+// ]
 
 const TopDevelopersData = [
     { name: 'Adani Realty', project: '15', icon: 'https://static.squareyards.com/resources/images/developerlogo/adani-realty-4.jpg' },
@@ -118,7 +118,7 @@ const topLocalities = [
 
 const Home = () => {
 
-    const [propertyData, setPropertyData] = useState(null);
+    // const [propertyData, setPropertyData] = useState(null);
     const [contactModalStatus, setcontactModalStatus] = useState({ show: false, data: {} });
     const propertyElement = useRef();
 
@@ -209,13 +209,13 @@ const Home = () => {
                                             BHK
                                             <Dropdown />
                                         </button>
-                                        <BHKmenu/>
-                                        {/* <div
+                                        {/* <BHKmenu/> */}
+                                        <div
                                             id='bhk-menu'
                                             // className='absolute hidden top-[50px] w-[200px] md:w-[300px] border-[1px] p-3 border-gray-700 bg-white'
                                             className={`${styles.dropdownMenu} w-[260px] p-2 py-4`}
                                         >
-                                            <div className='flex gap-2 flex-wrap justify-between'>
+                                            <div className='flex gap-2 flex-wrap justify-between pb-2'>
                                                 <button className='p-1 px-2 rounded-lg border-[1px] border-gray-500 hover:border-orange-500 hover:text-orange-500'>
                                                     <p>1 RK</p>
                                                 </button>
@@ -232,8 +232,7 @@ const Home = () => {
                                                     <p>4 BHK+</p>
                                                 </button>
                                             </div>
-
-                                        </div> */}
+                                        </div>
                                     </div>
                                     <div
                                         id='property-type'
@@ -311,7 +310,7 @@ const Home = () => {
                                 <div className='group border-[1px] cursor-pointer hover:bg-gray-50 border-gray-300 p-2 rounded-md shadow-md'>
                                     <div className='flex flex-col sm:flex-row items-center sm:p-2 sm:py-4 gap-5'>
                                         <div className='border-[1px] w-[120px] border-gray-300 p-2 rounded-md'>
-                                            <img className='h-[100px]' src={item.icon} />
+                                            <img alt='' className='h-[100px]' src={item.icon} />
                                         </div>
                                         <b className='group-hover:text-green-600 text-gray-600'>
                                             {item.name}
@@ -333,7 +332,7 @@ const Home = () => {
                             return (
                                 <div className='shadow-md rounded-md border-[1px] border-gray-300'>
                                     <div className='flex flex-col sm:flex-row flex-start group p-2 border-b-gray-300 border-b-[1px]'>
-                                        <img className='rounded-md w-[90px] h-[50px] cursor-pointer'
+                                        <img alt='' className='rounded-md w-[90px] h-[50px] cursor-pointer'
                                             src="https://static.squareyards.com/cdn-cgi/image/width=81,height=49,quality=80,fit=crop,gravity=auto,format=webp/localitymap-thumnail/chandkheda-ahmedabad.png"
                                         />
                                         <div className='pl-0 sm:pl-5'>

@@ -115,7 +115,7 @@ const Profile = () => {
 
     return (
         <div>
-            {navClassState == '' && <Header />}
+            {navClassState === '' && <Header />}
             <div className='mt-16'>
                 <div className='py-5 ml-[8%] mt-[100px] border-b-[1px] border-green-300]'>
                     <p className={styles.title2}>Agent Profile - VYBHAV KUMAR</p>
@@ -126,7 +126,7 @@ const Profile = () => {
                         <div className='flex flex-wrap gap-[15%] py-14 pl-[10%]'>
                             <div className='flex flex-col items-center'>
                                 <div className='p-2 border-[1px] w-[190px] border-gray-300'>
-                                    <img src={userBackImage} className='h-[180px] w-[180px]' />
+                                    <img alt='' src={userBackImage} className='h-[180px] w-[180px]' />
                                 </div>
                                 <div className='text-sm text-gray-700 mt-4 text-center'>
                                     <p>0 Sale Properties</p>
@@ -146,7 +146,7 @@ const Profile = () => {
                         <div>
                             <p ref={listElement} className={styles.title2}>VYBHAV KUMAR's Listing(s)</p>
                             <div className={navClassState}>
-                                <div className={(navClassState != '' ? 'transition-transform ease-in-out transform translate-x-[8%] pb-2 -mt-5 duration-[1500ms] ' : '') + 'flex flex-wrap items-center text-xs text-gray-700 font-semibold mt-5'}>
+                                <div className={(navClassState !== '' ? 'transition-transform ease-in-out transform translate-x-[8%] pb-2 -mt-5 duration-[1500ms] ' : '') + 'flex flex-wrap items-center text-xs text-gray-700 font-semibold mt-5'}>
                                     <div className='flex border-[1px] mt-3 justify-center items-center border-gray-300'>
                                         <span className='bg-gray-900 rounded-r-full text-white py-[8.5px] px-4'>
                                             FILTER

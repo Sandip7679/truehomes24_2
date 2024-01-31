@@ -55,7 +55,7 @@ export const DropdownHover = ({ Items,ItemClass,MenuClass }) => {
                 return (
                     <NavLink to={item.endpoint} onClick={item.onClick} >
                         <div class={styles.dropdownItem+ItemClass}>
-                            {item.imgSrc && <img src={item.imgSrc} className='h-5 w-6 mr-5 ' />}
+                            {item.imgSrc && <img alt='' src={item.imgSrc} className='h-5 w-6 mr-5 ' />}
                             <span className=''>
                                 {item.name}
                             </span>

@@ -13,7 +13,7 @@ const Gallery = () => {
 
   const handleDeleteFile = (index) => {
 
-    if (files.length == 1) {
+    if (files.length === 1) {
       inputRef.current.value = null
     }
     setFiles([...files.slice(0, index), ...files.slice(index + 1)]);

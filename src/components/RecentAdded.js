@@ -2,7 +2,7 @@ import React from 'react';
 import Carousel from 'react-multi-carousel';
 import { NavLink } from 'react-router-dom';
 import { styles } from '../Styles/Styles';
-import { ArrowLeft, ArrowRight } from './svgIcons';
+// import { ArrowLeft, ArrowRight } from './svgIcons';
 
 
 // import { Bedroom, LandArea } from './svgIcons';
@@ -42,7 +42,7 @@ const RecentAdded = ({ Data, func }) => {
                         <div className='rounded-xl shadow-lg border-[1px] mx-2 h-full group'>
                             <NavLink to={'/project_details'}>
                                 <div className='relative items-center rounded-lg overflow-hidden hover:cursor-pointer'>
-                                    <img src={item.image}
+                                    <img alt='' src={item.image}
                                         className='h-[170px] w-full transform transition-transform hover:scale-110 duration-1000'
                                     />
                                 </div>

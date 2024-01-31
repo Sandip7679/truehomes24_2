@@ -1,10 +1,10 @@
-import React, { useRef, useState } from 'react';
+import React, { useState } from 'react';
 import Header from '../../components/Header/Header';
 import FormCatagories, { AreaInputs, ButtonList, DropdownInput, InputList, JoditTextEditor } from '../../components/PostProperty/PostPropertyComp';
 import { styles } from '../../Styles/Styles';
 import Select from 'react-select';
 
-import JoditEditor from 'jodit-react';
+// import JoditEditor from 'jodit-react';
 import TopCItiesFilter from '../../components/TopCItiesFilter';
 import Footer from '../../components/Footer';
 
@@ -81,8 +81,8 @@ const furnishingItem = [
 const NewProject = () => {
     const [selectedOption, setSelectedOption] = useState(null);
     const [formCatagory, setFormCategory] = useState('New Project Info');
-    const editor = useRef(null);
-    const [content, setContent] = useState('');
+    // const editor = useRef(null);
+    // const [content, setContent] = useState('');
 
     // const config = useMemo(
     // 	{

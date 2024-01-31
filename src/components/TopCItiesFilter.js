@@ -70,7 +70,7 @@ const TopCItiesFilter = () => {
                     return (
                         <button
                             onClick={() => getLocations(item.id)}
-                            className={`p-1 hover:opacity-60 animated-border ${item.id == currCityId ? 'border-b-[1px] border-gray-600' : ''}`}>
+                            className={`p-1 hover:opacity-60 animated-border ${item.id === currCityId ? 'border-b-[1px] border-gray-600' : ''}`}>
                             {item.city}
                         </button>
                     )

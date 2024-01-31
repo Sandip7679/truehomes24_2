@@ -22,10 +22,10 @@ const PostProperty = () => {
                 <div className={styles.postpropTitle}>Post your Property</div>
                 <div className='mt-5 px-[5%] sm:px-[8%]'>
                     <FormCatagories catagories={formCatagories} activeCatagory={formCatagory} onClickItem={(item) => setFormCategory(item)} />
-                    {formCatagory == 'Property Info' && <PropertyInfo />}
-                    {formCatagory == 'Amenities' && <Amenities />}
-                    {formCatagory == 'Nearby Places' && <NearbyPlaces />}
-                    {formCatagory == 'Gallery' && <Gallery />}
+                    {formCatagory === 'Property Info' && <PropertyInfo />}
+                    {formCatagory === 'Amenities' && <Amenities />}
+                    {formCatagory === 'Nearby Places' && <NearbyPlaces />}
+                    {formCatagory === 'Gallery' && <Gallery />}
                 </div>
             </div>
             <TopCItiesFilter/>

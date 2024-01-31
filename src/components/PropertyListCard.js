@@ -12,13 +12,13 @@ const PropertyListCard = ({ Data, func }) => {
     return (
         <div className='rounded-xl flex flex-wrap lg:flex-nowrap shadow-lg border-[1px] h-full mt-6 mx-2 group'>
             <NavLink to={'/project_details'} className='items-center relative border-gray-300 w-[100%] md:min-w-[220px]  h-full border-[1px] rounded-xl overflow-hidden  hover:cursor-pointer'>
-                <img src={Data.image}
+                <img alt='' src={Data.image}
                     className='w-full h-[240px] transform transition-transform hover:scale-110 duration-1000'
                 />
                 <div className='h-[70px] flex justify-between items-center p-2 bg-gradient-to-b from-gray-100 to-gray-400 
                   group-hover:bg-gradient-to-b group-hover:form-gray-300 group-hover:to-black'>
                     <div className='flex gap-1'>
-                        <img src={userIcon} className='h-10 w-10 hidden group-hover:block' />
+                        <img alt='' src={userIcon} className='h-10 w-10 hidden group-hover:block' />
                         <p className='text-base hidden group-hover:block text-white mt-2'>{Data.owner}</p>
                     </div>
 
@@ -40,7 +40,7 @@ const PropertyListCard = ({ Data, func }) => {
                 <div className='min-h-[205px]'>
                     <div className='flex justify-between'>
                         <p className={styles.title4 + 'cursor-pointer hover:text-gray-500'}>{Data.title}</p>
-                        <img src='https://www.truehomes24.com/assets/front_end/images/property/checkmark.svg' className='h-8 w-8 ml-2' />
+                        <img alt='' src='https://www.truehomes24.com/assets/front_end/images/property/checkmark.svg' className='h-8 w-8 ml-2' />
                     </div>
                     <div className='flex mt-3'>
                         <span className=''>
@@ -77,7 +77,7 @@ const PropertyListCard = ({ Data, func }) => {
                         </div>}
                         {Data.possission && <div className='flex w-1/2 mt-2'>
                             <span className=''>
-                                <img src={possession2} className='h-5 w-4 mt-[1px] opacity-70' />
+                                <img alt='' src={possession2} className='h-5 w-4 mt-[1px] opacity-70' />
                             </span>
                             <h1 className='text-sm ml-2'>{Data.possission}</h1>
                         </div>}

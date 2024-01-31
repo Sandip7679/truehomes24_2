@@ -224,19 +224,19 @@ const ProjectDetails = () => {
         observer.observe(observerElement.current);
     }
 
-    const getScrollPosition = () => {
-        document.addEventListener("DOMContentLoaded", ()=> {
-            const handleScroll = ()=>{
-                var scrollPosition = window.scrollY;
-                console.log("Scroll Position:", scrollPosition);
-            }
-            window.addEventListener("scroll", handleScroll);
-        });
-    }
+    // const getScrollPosition = () => {
+    //     document.addEventListener("DOMContentLoaded", ()=> {
+    //         const handleScroll = ()=>{
+    //             var scrollPosition = window.scrollY;
+    //             console.log("Scroll Position:", scrollPosition);
+    //         }
+    //         window.addEventListener("scroll", handleScroll);
+    //     });
+    // }
 
     return (
         <div>
-            {navClassState == '' && <Header />}
+            {navClassState === '' && <Header />}
             <div className='bg-gray-50 pb-5'>
                 <div className='bg-white h-[100px]'>
                 </div>
@@ -246,7 +246,7 @@ const ProjectDetails = () => {
                     </div>
                     <div className='bg-white py-5 px-[2%] mt-1 shadow w-full md:flex md:gap-5'>
                         <div className='relative w-full md:w-[65%]'>
-                            <img src='https://www.truehomes24.com/assets/properties/banner-01/6fbc57095a08783a071945a3507844fa.webp' className='h-[380px] w-full rounded-xl' />
+                            <img alt='' src='https://www.truehomes24.com/assets/properties/banner-01/6fbc57095a08783a071945a3507844fa.webp' className='h-[380px] w-full rounded-xl' />
                             <div ref={observerElement} className='absolute top-[60%] pl-5 py-2 w-[80%] bg-black bg-opacity-10'>
                                 <p className='text-white text-xl sm:text-3xl'>Jakkur, Bangalore</p>
                             </div>
@@ -280,7 +280,7 @@ const ProjectDetails = () => {
                                     </span>
                                 </div>
                                 <div className='flex gap-1 mt-2'>
-                                    <img src={userIcon} className='h-8 w-8' />
+                                    <img alt='' src={userIcon} className='h-8 w-8' />
                                     <p className='text-sm text-gray-500 mt-2'>Owner-314422 ( Individual )</p>
                                 </div>
                                 <button className={styles.btnFull + 'bg-green-600 hover:bg-green-700 mt-5'}>ASK FOR PRICE</button>
@@ -293,12 +293,12 @@ const ProjectDetails = () => {
                         <div className='w-full md:w-[70%]'>
                             <div className='bg-white shadow-md px-[2%] py-5 w-full'>
                                 <div className={navClassState}>
-                                    <div className={(navClassState != '' ? 'transition-transform ease-in-out transform translate-x-[8%] py-2 duration-[1500ms]' : '') + ' flex flex-wrap gap-2 border-b-gray-300 border-b-[1px] px-[2%] -mx-[2%]'}>
+                                    <div className={(navClassState !== '' ? 'transition-transform ease-in-out transform translate-x-[8%] py-2 duration-[1500ms]' : '') + ' flex flex-wrap gap-2 border-b-gray-300 border-b-[1px] px-[2%] -mx-[2%]'}>
                                         {PropertyBarNames.map((item, index) => {
                                             return (
                                                 <a href={`#${index}`}
                                                     onClick={() => setPropDetailsTypeInd(index)}
-                                                    className={(propDetailsTypeInd == index ? 'border-b-[1px] animated-border border-black ' : '') + 'px-1 py-2'}>
+                                                    className={(propDetailsTypeInd === index ? 'border-b-[1px] animated-border border-black ' : '') + 'px-1 py-2'}>
                                                     {item}
                                                 </a>
                                             )
@@ -326,7 +326,7 @@ const ProjectDetails = () => {
                                         {Amenities.map((item, index) => {
                                             return (
                                                 <div className='flex w-[45%] min-w-[180px] md:w-[30%]'>
-                                                    <button className='w-8 h-8 p-1 flex justify-center -mt-1'> {item.icon == '' ? <MenuIcon classname={'h-4 w-4 mt-1'} />
+                                                    <button className='w-8 h-8 p-1 flex justify-center -mt-1'> {item.icon === '' ? <MenuIcon classname={'h-4 w-4 mt-1'} />
                                                         : <i class={item.icon + ' text-gray-600 text-sm'}></i>
                                                     }
                                                     </button>
@@ -373,7 +373,7 @@ const ProjectDetails = () => {
                                     {rightSectionData.map((item, index) => {
                                         return (
                                             <div className='p-2'>
-                                                <img src={item.image} className='h-[450px] w-full rounded-xl' />
+                                                <img alt='' src={item.image} className='h-[450px] w-full rounded-xl' />
                                             </div>
                                         )
                                     })}

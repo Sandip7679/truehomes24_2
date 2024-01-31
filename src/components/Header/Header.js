@@ -86,7 +86,7 @@ const Header = () => {
         //     document.getElementById('post-property-menu').classList.add('hidden');
         // });
 
-         if(localStorage.getItem('isLoggedIn')=='true'){
+         if(localStorage.getItem('isLoggedIn')==='true'){
             setIsLoggedIn(true);
          }
 
@@ -140,44 +140,52 @@ const Header = () => {
                         </button>
                         <div
                             id='city-menu'
-                            className="absolute hidden bg-white p-2 pt-2 w-[320px] overflow-auto max-h-[500px] md:w-[335px] lg:w-[460px] space-y-2 -ml-[100px] sm:ml-0 text-gray-800 top-9 border-gray-300 border-[1px] rounded-md"
+                            className="absolute hidden bg-white p-2 pt-2 w-[280px] overflow-auto h-[500px] pb-10 md:w-[335px] lg:w-[430px] space-y-2 -ml-[90px] sm:ml-0 text-gray-800 top-9 border-gray-300 border-[1px] rounded-md"
                         >
-                            <div className='flex flex-wrap gap-2 mt-2'>
+                            <div className='grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2 mt-2'>
                                 {cities.map((item) => {
                                     return (
-                                        <NavLink to="/property-list" className="px-2 py-4 rounded-md w-[47%] hover:bg-gray-100 max-w-[90px] flex flex-col border-[1px] shadow-lg items-center justify-center">
-                                            <img src={cityIcon} className='h-5 w-6' />
+                                        <NavLink to="/property-list" className="px-2 py-4 rounded-md hover:bg-gray-100 flex flex-col border-[1px] shadow-lg items-center justify-center">
+                                            <img alt='' src={cityIcon} className='h-5 w-6' />
                                             <span className='text-xs text-center'>{item.city}</span>
                                         </NavLink>
                                     )
                                 })}
+                                {/* {cities.map((item) => {
+                                    return (
+                                        <NavLink to="/property-list" className="px-2 py-4 rounded-md w-[47%] hover:bg-gray-100 max-w-[90px] flex flex-col border-[1px] shadow-lg items-center justify-center">
+                                            <img alt='' src={cityIcon} className='h-5 w-6' />
+                                            <span className='text-xs text-center'>{item.city}</span>
+                                        </NavLink>
+                                    )
+                                })} */}
                             </div>
                             <div className='w-[100%]'>
                                 <SearchIcon imageClass={'w-5 h-5 absolute left-2 top-7'} />
                                 <input placeholder='Search City...' className='bg-gray-100 border-[1px] pl-8 py-1 w-[100%] mt-5 focus:outline-none rounded-md' />
                             </div>
-                            <div>
+                            <div className=''>
                                 <div className='text-left mt-5'>Top Cities</div>
-                                <div className='flex flex-wrap gap-2 mt-4'>
+                                <div className='grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2 mt-4'>
                                     {cities.map((item) => {
                                         return (
-                                            <a href="#" className="px-2 py-2 rounded-md w-[47%] hover:bg-gray-100 max-w-[100px] flex flex-col border-[1px] shadow-lg items-center justify-center">
-                                                <img src={cityIcon} className='h-5 w-6' />
+                                            <button className="px-2 py-4 rounded-md hover:bg-gray-100 max-w-[100px] flex flex-col border-[1px] shadow-lg items-center justify-center">
+                                                <img alt='' src={cityIcon} className='h-5 w-6' />
                                                 <span className='text-xs'>{item.city}</span>
-                                            </a>
+                                            </button>
                                         )
                                     })}
                                 </div>
                             </div>
 
-                            <div className='w-[100%]'>
+                            <div className='mt-5 w-[100%]'>
                                 <div className='text-left pl-1'>Other Cities</div>
                                 <div className='w-[100%] pl-2'>
                                     {otherCities.map((item) => {
                                         return (
-                                            <a href="#" className="px-2 -mt-5 -pt-5  text-left">
+                                            <span className="px-2 -mt-5 -pt-5  text-left">
                                                 <div className='text-sm -mt-3 hover:bg-gray-100 w-[100%] pt-0 border-b-[0.5px]'>{item.city}</div>
-                                            </a>
+                                            </span>
                                         )
                                     })}
                                 </div>
@@ -192,9 +200,9 @@ const Header = () => {
                     </div>
                     <div className='hidden lg:flex space-x-4'>
                         <div className='hidden xl:flex md:gap-5'>
-                            <a href="#" className="text-gray-100 hover:text-gray-400">Buy</a>
-                            <a href="#" className="text-gray-100 hover:text-gray-400">Rent</a>
-                            <a href="#" className="text-gray-100 hover:text-gray-400">New Project</a>
+                            <span className="text-gray-100 hover:text-gray-400">Buy</span>
+                            <span className="text-gray-100 hover:text-gray-400">Rent</span>
+                            <span className="text-gray-100 hover:text-gray-400">New Project</span>
                         </div>
 
                         <NavLink to="/agents" className="text-gray-100 hover:text-gray-400">Agents</NavLink>
@@ -210,14 +218,14 @@ const Header = () => {
                             <DropdownHover Items={moreServicesItem} />
                             {/* <div id='more-services-menu' className={styles.dropdownMenu + 'top-[24px] w-[200px]'}>
                                 <a href="#" class={styles.dropdownItem}>
-                                    <img src={interiorDesiginStudio} className='h-5 w-6 mr-3 ' />
+                                    <img alt='' src={interiorDesiginStudio} className='h-5 w-6 mr-3 ' />
                                     <span className=''>
                                         Interior Design Studio
                                     </span>
                                 </a>
                                 <a href="#" class='text-black p-2 hover:bg-gray-100 border-gray-100 flex'>
                                     <span>
-                                        <img src={homeLoan} className='h-5 w-6 mr-3' />
+                                        <img alt='' src={homeLoan} className='h-5 w-6 mr-3' />
                                     </span>
                                     Home Loan
                                 </a>

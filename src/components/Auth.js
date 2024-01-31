@@ -16,10 +16,10 @@ const Auth = ({ onClose,login }) => {
                 <div className='flex gap-5'>
                     <button
                         onClick={() => setIsLogin(true)}
-                        className={(isLogin ? 'text-orange-600' : '') + ' font-semibold text-lg'}>LOGIN</button>
+                        className={(isLogin ? 'text-orange-600 border-b-[1px] border-orange-600' : '') + ' font-semibold text-lg'}>LOGIN</button>
                     <button
                         onClick={() => setIsLogin(false)}
-                        className={(!isLogin ? 'text-orange-600' : '') + ' font-semibold text-lg'}>REGISTER</button>
+                        className={(!isLogin ? 'text-orange-600 border-b-[1px] border-orange-600' : '') + ' font-semibold text-lg'}>REGISTER</button>
                 </div>
                 <div className='mt-8 md:flex md:flex-wrap'>
                     {isLogin ? <div className='transition-transform ease-in-out transform -translate-y-[200px] mt-[200px] py-2 duration-[1500ms] w-full md:w-[55%]'>
@@ -63,7 +63,7 @@ const Auth = ({ onClose,login }) => {
                         </div>
                     }
                     <div className='items-center pl-[10%] w-full md:w-[45%]'>
-                        <img className='w-[60%] md:w-[90%]' src={loginImage} />
+                        <img alt='' className='w-[60%] md:w-[90%]' src={loginImage} />
                         <p className='text-gray-500 mt-2'>
                             {isLogin ?
                                 'Welcome Back! Please login to your account now.'

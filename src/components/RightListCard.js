@@ -11,13 +11,13 @@ const RightListCard = ({ title, data }) => {
                     return (
                         <div className='flex gap-3 mt-5'>
                             <div className='w-[25%] min-w-[60px] max-h-[105px] relative p-1 border-[1px] border-gray-300'>
-                                <img src={item.image} className='h-[95px] w-full' />
-                                {title != 'Recent Blog' && <button className={styles.labelBtn + 'absolute right-2 top-2 rounded bg-orange-600'}>
+                                <img alt='' src={item.image} className='h-[95px] w-full' />
+                                {title !== 'Recent Blog' && <button className={styles.labelBtn + 'absolute right-2 top-2 rounded bg-orange-600'}>
                                     Sale
                                 </button>}
 
                             </div>
-                            {title == 'Recent Blog' ? <div className='w-[75%]'>
+                            {title === 'Recent Blog' ? <div className='w-[75%]'>
                                 <p className={'font-semibold'}>{item.title}</p>
                                 <p className='text-gray-500'>{item.description}</p>
                             </div>

@@ -9,7 +9,7 @@ const FormCatagories = ({ catagories, activeCatagory, onClickItem }) => {
                 return (
                     <button
                         onClick={() => onClickItem(item)}
-                        className={(activeCatagory == item ? 'border-b-[1px]' : '') + ' hover:border-b-[1px] border-b-gray-700 pb-1 mt-2 px-1 mr-[2%]'}>
+                        className={(activeCatagory === item ? 'border-b-[1px]' : '') + ' hover:border-b-[1px] border-b-gray-700 pb-1 mt-2 px-1 mr-[2%]'}>
                         <p className={styles.textMedium + ''}>{item}</p>
                     </button>
                 )
@@ -37,7 +37,7 @@ export const ButtonList = ({ title, btnNames, initialName, classname, required }
                     return (
                         <button
                             onClick={() => setSelectedBtnName(item)}
-                            className={(selectedBtnName == item ? 'border-orange-600 text-orange-600' : 'border-gray-400 text-gray-400') + ' hover:border-orange-600 hover:text-orange-600 border-[1px] px-3 py-1 rounded-xl '}>
+                            className={(selectedBtnName === item ? 'border-orange-600 text-orange-600' : 'border-gray-400 text-gray-400') + ' hover:border-orange-600 hover:text-orange-600 border-[1px] px-3 py-1 rounded-xl '}>
                             {item}
                         </button>
                     )

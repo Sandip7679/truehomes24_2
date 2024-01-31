@@ -61,7 +61,7 @@ const Agents = () => {
                         return (
                             <div className='shadow-md border-[1px] rounded flex flex-col justify-center items-center w-[90%] sm:w-[45%] md:w-[23%] py-5'>
                                 <div className='flex flex-col justify-center items-center'>
-                                    <img src={userIcon} className='h-[70px] w-[70px]' />
+                                    <img alt='' src={userIcon} className='h-[70px] w-[70px]' />
                                     <p className={styles.title4 + 'mt-1'}>{item.name}</p>
                                     <p className='text-gray-600'>{item.type}</p>
                                 </div>

@@ -35,12 +35,12 @@ const FAQs = () => {
                     return (
                         <div className='w-full shadow-lg'>
                             <button
-                                onClick={() =>currInd == index?setCurrInd(null): setCurrInd(index)}
+                                onClick={() =>currInd === index?setCurrInd(null): setCurrInd(index)}
                                 className='flex justify-between w-full px-[1%] py-2 md:py-4 mt-4 border-[1px] border-gray-200 hover:bg-orange-600 tracking-wide hover:text-white '>
                                 <p className={styles.textMedium + 'text-left ml-1'}>{item.question}</p>
                                 <p className='text-lg'>+</p>
                             </button>
-                            {currInd == index && <div className={styles.textMedium + 'bg-white  border-t-[1px] border-t-gray-500 py-2 md:py-4 px-[1%]'}>
+                            {currInd === index && <div className={styles.textMedium + 'bg-white  border-t-[1px] border-t-gray-500 py-2 md:py-4 px-[1%]'}>
                                 {item.answer}
                             </div>}
                         </div>

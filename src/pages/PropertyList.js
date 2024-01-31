@@ -7,8 +7,6 @@ import RecentViewCard from '../components/RecentViewCard';
 import FAQs from '../components/FAQs';
 import Footer from '../components/Footer';
 import TopCItiesFilter from '../components/TopCItiesFilter';
-import userIcon from '../assets/images/user.svg'
-import { CrossIcon, MenuIcon, UserIcon } from '../components/svgIcons';
 import { NavLink } from 'react-router-dom';
 import PropertyForSlides from '../components/PropertyForSlides';
 import Contact from '../components/Contact';
@@ -167,7 +165,7 @@ const PropertyList = () => {
                                     return (
                                         <button
                                             onClick={() => setPropertyType(item)}
-                                            className={(propertyType == item ? 'border-b-[1px]' : '') + ' hover:border-b-[1px] border-b-gray-700 pb-1 mr-3'}>
+                                            className={(propertyType === item ? 'border-b-[1px]' : '') + ' hover:border-b-[1px] border-b-gray-700 pb-1 mr-3'}>
                                             <p className={styles.textMedium + ''}>{item}</p>
                                         </button>
                                     )
@@ -175,12 +173,12 @@ const PropertyList = () => {
 
                                 {/* <button
                                     onClick={() => setPropertyType('status')}
-                                    className={(propertyType == 'status' ? 'border-b-[1px]' : '') + ' hover:border-b-[1px] border-b-gray-700 pb-1 mx-3'}>
+                                    className={(propertyType === 'status' ? 'border-b-[1px]' : '') + ' hover:border-b-[1px] border-b-gray-700 pb-1 mx-3'}>
                                     <p className={styles.textMedium}>Property Status</p>
                                 </button>
                                 <button
                                     onClick={() => setPropertyType('budget')}
-                                    className={(propertyType == 'budget' ? 'border-b-[1px]' : '') + ' hover:border-b-[1px] border-b-gray-700 pb-1 mx-3'}>
+                                    className={(propertyType === 'budget' ? 'border-b-[1px]' : '') + ' hover:border-b-[1px] border-b-gray-700 pb-1 mx-3'}>
                                     <p className={styles.textMedium}>Budget</p>
                                 </button> */}
                             </div>

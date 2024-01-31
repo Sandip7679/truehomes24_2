@@ -43,7 +43,7 @@ const Builders = () => {
       <Header />
       <div className=' fixed top-0 h-full w-full'>
         {/* <img src='https://www.truehomes24.com/assets/front_end/images/breadcrumb/breadcrumb_1.jpg' className='h-[300px] w-[300px]' /> */}
-        <img src={buildersBgImage} className='h-full' />
+        <img alt='' src={buildersBgImage} className='h-full' />
       </div>
       <div className='fixed h-full mb-2 w-full bg-black bg-opacity-50 overflow-y-scroll'>
         <div>
@@ -68,7 +68,7 @@ const Builders = () => {
               {buildersData.map((item, index) => {
                 return (
                   <>
-                    {index == 2 ?
+                    {index === 2 ?
                       <GetCallBack />
                       :
                       <div className='shadow-xl rounded-sm border-[1px] pb-10 px-4 w-[90%] max-w-[360px] md:min-w-[360px] md:w-[32%]'>
@@ -94,11 +94,11 @@ const Builders = () => {
                           <p className='text-gray-700'>Projects by {item.name}</p>
                           <div className='flex gap-4 mt-5'>
                             <div className='w-[95px]'>
-                              <img src='https://www.truehomes24.com/assets/new-projects/banner-01/Goyal-Orchid-Whitefield1.webp' className='h-[100px] w-full' />
+                              <img alt='' src='https://www.truehomes24.com/assets/new-projects/banner-01/Goyal-Orchid-Whitefield1.webp' className='h-[100px] w-full' />
                               <p className='text-xs'>{item.Bhks[0].type}</p>
                             </div>
                             <div className='w-[95px]'>
-                              <img src='https://www.truehomes24.com/assets/new-projects/banner-01/lodhacrown1.webp' className='h-[100px] w-full' />
+                              <img alt='' src='https://www.truehomes24.com/assets/new-projects/banner-01/lodhacrown1.webp' className='h-[100px] w-full' />
                               <p className='text-xs'>{item.Bhks[1].type}</p>
                             </div>
                             <button className='flex flex-col h-[100px] group justify-center items-center p-2 px-6 shadow-md border-[1px] rounded hover:text-white hover:bg-orange-600 hover:bg-opacity-85'>

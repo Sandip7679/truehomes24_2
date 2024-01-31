@@ -1,6 +1,6 @@
 import React from 'react';
 import Carousel from 'react-multi-carousel';
-import { styles } from '../Styles/Styles';
+// import { styles } from '../Styles/Styles';
 
 const bestBudgetSearch = [
     'below 30 lakhs', 'between 30 to 50 lakhs',

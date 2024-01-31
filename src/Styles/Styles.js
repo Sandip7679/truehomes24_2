@@ -1,6 +1,6 @@
 export const styles = {
     dropdown:'text-white text-sm sm:text-base hover:text-gray-300 focus:outline-none mr-7 flex justify-between ',
-    dropdownBtn:'text-white px-4 py-1 justify-between flex border-green-500 rounded-md ml-4 border-[1px] hover:bg-gray-700 ',
+    dropdownBtn:'text-white px-2 sm:px-4 py-1 text-sm sm:text-base justify-between flex border-green-500 rounded-md ml-4 border-[1px] hover:bg-gray-700 ',
     btn:'flex item-center justify-center text-gray-800 text-sm sm:text-base border-gray-300 rounded-md py-1 px-2 border-[1.5px] ',
     labelBtn:'py-[1px] px-[5px] text-white text-sm ',
     btnFull:'text-white text-base sm:text-lg w-full py-1 rounded ',

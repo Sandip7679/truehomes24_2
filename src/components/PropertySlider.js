@@ -8,11 +8,11 @@ import { NavLink } from 'react-router-dom';
 
 
 
-let count = 0;
+// let count = 0;
 const PropertySlider = ({ Data, type }) => {
 
-    const [slides, setSlides] = useState([]);
-    const [currIndex, setCurrIndex] = useState(0);
+    // const [slides, setSlides] = useState([]);
+    // const [currIndex, setCurrIndex] = useState(0);
 
     useEffect(() => {
 
@@ -82,7 +82,7 @@ const PropertySlider = ({ Data, type }) => {
                                 <div className=' rounded-md shadow-lg border-[1px] h-full mx-5 group'>
                                     <NavLink to={'/project_details'}>
                                         <div className='relative items-center rounded-t-md overflow-hidden hover:cursor-pointer'>
-                                            <img src={item.image}
+                                            <img alt='' src={item.image}
                                                 className='h-[170px] w-full transform transition-transform hover:scale-110 duration-1000'
                                             />
                                             {/* <div className='absolute bottom-0 p-2 group-hover:bg-gradient-to-b group-hover:form-gray-300 group-hover:to-black'>
@@ -136,7 +136,7 @@ const PropertySlider = ({ Data, type }) => {
                                         </div>}
                                         {item.possission && <div className='flex mt-1'>
                                             <span className=''>
-                                                <img src={possession2} className='h-5 w-4 mt-[1px] text-gray-100 opacity-70' />
+                                                <img alt='' src={possession2} className='h-5 w-4 mt-[1px] text-gray-100 opacity-70' />
                                             </span>
                                             <h1 className='text-sm ml-2'>{item.possission}</h1>
                                         </div>} */}
@@ -146,7 +146,7 @@ const PropertySlider = ({ Data, type }) => {
                                     </div>
                                     {/* <div className='bottom-0 border-t-[1px] flex justify-between p-2'>
                                         <p className={styles.title3}>{'\u20B9'} 25 Cr</p>
-                                        <img src='https://www.truehomes24.com/assets/front_end/images/property/checkmark.svg' className='h-8 w-8' />
+                                        <img alt='' src='https://www.truehomes24.com/assets/front_end/images/property/checkmark.svg' className='h-8 w-8' />
                                     </div> */}
                                 </div>
                             )
@@ -165,11 +165,11 @@ const PropertySlider = ({ Data, type }) => {
                     {Data.map((item, index) => {
                         return (
                             <>
-                                {(index == currIndex || index == (currIndex+1)%Data.length || index == (currIndex+2)%Data.length || index == (currIndex+3)%Data.length) &&
+                                {(index === currIndex || index === (currIndex+1)%Data.length || index === (currIndex+2)%Data.length || index === (currIndex+3)%Data.length) &&
                                     
                                     <div key={index} className='rounded-xl shadow-lg border-[1px] flex-1'>
                                     <div className='items-center'>
-                                        <img src={item.image} className='rounded-xl h-[200px] w-[100%]' />
+                                        <img alt='' src={item.image} className='rounded-xl h-[200px] w-[100%]' />
                                     </div>
                                     <div className='p-3 text-left'>
                                         <h1 className={styles.title3}>{item.title}</h1>

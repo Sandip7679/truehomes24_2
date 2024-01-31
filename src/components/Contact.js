@@ -14,7 +14,7 @@ const Contact = ({Data,func}) => {
                     <CrossIcon />
                 </button>
                 <div className='flex gap-5'>
-                    <img src={userIcon} className='h-[50px] w-[50px] md:h-[70px] md:w-[70px]' />
+                    <img alt='' src={userIcon} className='h-[50px] w-[50px] md:h-[70px] md:w-[70px]' />
                     <div className='text-gray-900 mt-2'>
                         <div className='flex gap-3'>
                             <UserIcon classname={'h-5 w-5 mt-[2px]'} />
@@ -34,7 +34,7 @@ const Contact = ({Data,func}) => {
                     <div className='flex justify-between mt-4'>
                         <div className='min-w-[105px] w-[30%]'>
                             <div className={styles.btn + 'rounded-none flex py-2 gap-[1px] border-gray-300'}>
-                                <img src='https://upload.wikimedia.org/wikipedia/en/thumb/4/41/Flag_of_India.svg/1280px-Flag_of_India.svg.png' className='w-4 h-3 mt-[4px] sm:mt-[6px]' />
+                                <img alt='' src='https://upload.wikimedia.org/wikipedia/en/thumb/4/41/Flag_of_India.svg/1280px-Flag_of_India.svg.png' className='w-4 h-3 mt-[4px] sm:mt-[6px]' />
                                 +91 India
                             </div>
                         </div>
