@@ -47,7 +47,7 @@ const Gallery = () => {
         <div className='mt-5 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 lg:grid-cols-7 xl:grid-cols-8 gap-3 sm:gap-5'>
           {imgSrcs.map((item, index) => {
             return (
-              <div className='relative'>
+              <div key={index} className='relative'>
                 <img src={item} alt="Selected File" className='h-28 w-full' />
                 <i onClick={() => handleDeleteFile(index)}
                   class="fa-solid fa-circle-xmark absolute -top-2 text-red-600 bg-white rounded-full -right-2 cursor-pointer"></i>

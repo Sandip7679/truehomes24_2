@@ -59,7 +59,7 @@ const Agents = () => {
                 <div className='flex flex-wrap gap-2 justify-start sm:gap-4 pl-[5%]'>
                     {agentsData.map((item, index) => {
                         return (
-                            <div className='shadow-md border-[1px] rounded flex flex-col justify-center items-center w-[90%] sm:w-[45%] md:w-[23%] py-5'>
+                            <div key={index} className='shadow-md border-[1px] rounded flex flex-col justify-center items-center w-[90%] sm:w-[45%] md:w-[23%] py-5'>
                                 <div className='flex flex-col justify-center items-center'>
                                     <img alt='' src={userIcon} className='h-[70px] w-[70px]' />
                                     <p className={styles.title4 + 'mt-1'}>{item.name}</p>
@@ -68,7 +68,7 @@ const Agents = () => {
                                 <span className={styles.btn + 'bg-green-600 text-white my-5'}>N/A</span>
                                 <div className='mt-2 text-gray-600'>{item.saleNum} Properties for <span className='text-orange-500 font-semibold'>Sale</span></div>
                                 <div className='mt-2 text-gray-600'>{item.rentNun} Properties for <span className='text-orange-500 font-semibold'>Rent</span></div>
-                                <NavLink to={'/profile'}
+                                <NavLink to={'/agent-profile'}
                                 className={'mt-5 sm:mt-8 bg-gray-700 px-4 py-1 border-[1px] text-white rounded-md cursor-pointer hover:bg-white hover:text-black hover:border-[1px] hover:border-black duration-500'}>View Profile</NavLink>
                             </div>
                         )

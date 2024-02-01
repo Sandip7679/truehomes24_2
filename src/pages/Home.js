@@ -238,7 +238,7 @@ const Home = () => {
                                         id='property-type'
                                         className='block relative group z-10'>
                                         <button
-                                            onClick={() => document.getElementById('property-type-menu').classList.toggle('hidden')}
+                                            // onClick={() => document.getElementById('property-type-menu').classList.toggle('hidden')}
                                             id='property-type-btn'
                                             className={styles.btnBorderLess + 'px-[5px]'}>
                                             PROPERTY TYPE
@@ -307,7 +307,7 @@ const Home = () => {
                     <div className='grid grid-cols-2 sm:grid-cols-3 gap-2 sm:gap-5 justify-center mt-5'>
                         {TopDevelopersData.map((item, index) => {
                             return (
-                                <div className='group border-[1px] cursor-pointer hover:bg-gray-50 border-gray-300 p-2 rounded-md shadow-md'>
+                                <div key={index} className='group border-[1px] cursor-pointer hover:bg-gray-50 border-gray-300 p-2 rounded-md shadow-md'>
                                     <div className='flex flex-col sm:flex-row items-center sm:p-2 sm:py-4 gap-5'>
                                         <div className='border-[1px] w-[120px] border-gray-300 p-2 rounded-md'>
                                             <img alt='' className='h-[100px]' src={item.icon} />
@@ -330,7 +330,7 @@ const Home = () => {
                     <div className='mt-5 grid grid-cols-2 sm:grid-cols-3 gap-2 sm:gap-5'>
                         {topLocalities.map((item, index) => {
                             return (
-                                <div className='shadow-md rounded-md border-[1px] border-gray-300'>
+                                <div key={index} className='shadow-md rounded-md border-[1px] border-gray-300'>
                                     <div className='flex flex-col sm:flex-row flex-start group p-2 border-b-gray-300 border-b-[1px]'>
                                         <img alt='' className='rounded-md w-[90px] h-[50px] cursor-pointer'
                                             src="https://static.squareyards.com/cdn-cgi/image/width=81,height=49,quality=80,fit=crop,gravity=auto,format=webp/localitymap-thumnail/chandkheda-ahmedabad.png"

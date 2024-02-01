@@ -163,7 +163,7 @@ const PropertyList = () => {
                             <div className='flex gap-2 border-b-[1px] mt-2 border-b-gray-200'>
                                 {propertyTypes.map((item, index) => {
                                     return (
-                                        <button
+                                        <button key={index}
                                             onClick={() => setPropertyType(item)}
                                             className={(propertyType === item ? 'border-b-[1px]' : '') + ' hover:border-b-[1px] border-b-gray-700 pb-1 mr-3'}>
                                             <p className={styles.textMedium + ''}>{item}</p>
@@ -185,7 +185,7 @@ const PropertyList = () => {
                             <div className='shadow-sm rounded flex flex-wrap max-h-[140px] border-[1px] border-gray-200 mt-5 mx-2 overflow-y-scroll p-2'>
                                 {Localities.map((item, index) => {
                                     return (
-                                        <button className={styles.btn + 'm-1 hover:bg-orange-50 border-orange-500'}>
+                                        <button key={index} className={styles.btn + 'm-1 hover:bg-orange-50 border-orange-500'}>
                                             <p className='text-sm'> {item.location}</p>
                                         </button>
                                     )

@@ -296,7 +296,7 @@ const ProjectDetails = () => {
                                     <div className={(navClassState !== '' ? 'transition-transform ease-in-out transform translate-x-[8%] py-2 duration-[1500ms]' : '') + ' flex flex-wrap gap-2 border-b-gray-300 border-b-[1px] px-[2%] -mx-[2%]'}>
                                         {PropertyBarNames.map((item, index) => {
                                             return (
-                                                <a href={`#${index}`}
+                                                <a key={index} href={`#${index}`}
                                                     onClick={() => setPropDetailsTypeInd(index)}
                                                     className={(propDetailsTypeInd === index ? 'border-b-[1px] animated-border border-black ' : '') + 'px-1 py-2'}>
                                                     {item}
@@ -312,7 +312,7 @@ const ProjectDetails = () => {
                                     <div className='mt-5 flex justify-between flex-wrap'>
                                         {PropertyDetailsData.map((item, index) => {
                                             return (
-                                                <div className='w-[50%] sm:w-[30%] mt-2'>
+                                                <div key={index} className='w-[50%] sm:w-[30%] mt-2'>
                                                     <span className=''>{item.key}: </span>
                                                     <span className='text-gray-500 '>{item.val}</span>
                                                 </div>
@@ -325,7 +325,7 @@ const ProjectDetails = () => {
                                     <div className='flex flex-wrap gap-2 px-2 mt-2'>
                                         {Amenities.map((item, index) => {
                                             return (
-                                                <div className='flex w-[45%] min-w-[180px] md:w-[30%]'>
+                                                <div key={index} className='flex w-[45%] min-w-[180px] md:w-[30%]'>
                                                     <button className='w-8 h-8 p-1 flex justify-center -mt-1'> {item.icon === '' ? <MenuIcon classname={'h-4 w-4 mt-1'} />
                                                         : <i class={item.icon + ' text-gray-600 text-sm'}></i>
                                                     }
@@ -345,7 +345,7 @@ const ProjectDetails = () => {
                                     <div className='flex flex-wrap gap-2 mt-2 items-start md:w-[50%]'>
                                         {mapLocations.map((item, index) => {
                                             return (
-                                                <span className='w-[150px]'>{item.key} : <span className='text-gray-500 text-[0.9rem] font-semibold'>{item.val}</span></span>
+                                                <span key={index}  className='w-[150px]'>{item.key} : <span className='text-gray-500 text-[0.9rem] font-semibold'>{item.val}</span></span>
                                             )
                                         })}
                                     </div>
@@ -372,7 +372,7 @@ const ProjectDetails = () => {
                                 >
                                     {rightSectionData.map((item, index) => {
                                         return (
-                                            <div className='p-2'>
+                                            <div key={index} className='p-2'>
                                                 <img alt='' src={item.image} className='h-[450px] w-full rounded-xl' />
                                             </div>
                                         )
@@ -388,7 +388,7 @@ const ProjectDetails = () => {
                                 <div className='mt-5'>
                                     {whatsNearbyData.map((item, index) => {
                                         return (
-                                            <div className={styles.title5 + 'mt-3'}>
+                                            <div key={index} className={styles.title5 + 'mt-3'}>
                                                 <button className='mr-4 h-7 w-7 opacity-85 bg-orange-500 rounded-md' ><i class={item.icon + ' text-white text-sm'}></i></button>
                                                 <span>{item.item}</span>
                                             </div>

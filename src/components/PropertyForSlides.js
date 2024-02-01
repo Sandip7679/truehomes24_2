@@ -39,7 +39,7 @@ const PropertyForSlides = () => {
                     <p className='mb-2 to-gray-200 font-semibold'>BHK-WISE PROPERTY IN BANGALORE</p>
                     {['1', '2', '3', '4', '4+'].map((item, index) => {
                         return (
-                            <p className='text-sm my-2 hover:opacity-80 hover:cursor-pointer text-gray-600'>{item}BHK Apartment in Bangalore</p>
+                            <p key={index} className='text-sm my-2 hover:opacity-80 hover:cursor-pointer text-gray-600'>{item}BHK Apartment in Bangalore</p>
                         )
                     })}
                 </div>
@@ -47,7 +47,7 @@ const PropertyForSlides = () => {
                     <p className='mb-2 to-gray-200 font-semibold'>BEST BUDGET SEARCHES IN BANGALORE</p>
                     {bestBudgetSearch.map((item, index) => {
                         return (
-                            <p className='text-sm my-2 hover:opacity-80 hover:cursor-pointer text-gray-600'>Apartment in Bangalore {item}</p>
+                            <p key={index} className='text-sm my-2 hover:opacity-80 hover:cursor-pointer text-gray-600'>Apartment in Bangalore {item}</p>
                         )
                     })}
                 </div>
@@ -55,7 +55,7 @@ const PropertyForSlides = () => {
                     <p className='mb-2 to-gray-200 font-semibold'>PROPERTY OPTIONS IN BANGALORE</p>
                     {propertyOption.map((item, index) => {
                         return (
-                            <p className='text-sm my-2 hover:opacity-80 hover:cursor-pointer text-gray-600'>{item}</p>
+                            <p key={index} className='text-sm my-2 hover:opacity-80 hover:cursor-pointer text-gray-600'>{item}</p>
                         )
                     })}
                 </div>
@@ -63,7 +63,7 @@ const PropertyForSlides = () => {
                     <p className='mb-2 to-gray-200 font-semibold'>COMMERCIAL INVESTMENT OPTIONS IN BANGALORE</p>
                     {commertialOptions.map((item, index) => {
                         return (
-                            <p className='text-sm my-2 hover:opacity-80 hover:cursor-pointer text-gray-600'>Apartment in Bangalore {item}</p>
+                            <p key={index} className='text-sm my-2 hover:opacity-80 hover:cursor-pointer text-gray-600'>Apartment in Bangalore {item}</p>
                         )
                     })}
                 </div>

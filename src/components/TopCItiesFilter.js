@@ -68,7 +68,7 @@ const TopCItiesFilter = () => {
 
                 {cities.map((item, index) => {
                     return (
-                        <button
+                        <button key={index}
                             onClick={() => getLocations(item.id)}
                             className={`p-1 hover:opacity-60 animated-border ${item.id === currCityId ? 'border-b-[1px] border-gray-600' : ''}`}>
                             {item.city}
@@ -81,7 +81,7 @@ const TopCItiesFilter = () => {
                 <div className=''>
                     {locations.map((item, index) => {
                         return (
-                            <button className='text-left text-sm text-gray-600 mx-4 mt-[1px] min-w-[200px]'>
+                            <button key={index} className='text-left text-sm text-gray-600 mx-4 mt-[1px] min-w-[200px]'>
                                 <div className='flex hover:underline'>
                                     <span><LinkIcon classname={'h-4 w-4 mt-1 mr-1'} /></span>
                                     <span>{item.location}</span>

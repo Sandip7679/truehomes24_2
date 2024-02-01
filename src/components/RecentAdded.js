@@ -39,7 +39,7 @@ const RecentAdded = ({ Data, func }) => {
             >
                 {Data.map((item, index) => {
                     return (
-                        <div className='rounded-xl shadow-lg border-[1px] mx-2 h-full group'>
+                        <div key={index} className='rounded-xl shadow-lg border-[1px] mx-2 h-full group'>
                             <NavLink to={'/project_details'}>
                                 <div className='relative items-center rounded-lg overflow-hidden hover:cursor-pointer'>
                                     <img alt='' src={item.image}

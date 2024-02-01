@@ -1,13 +1,13 @@
 import React, { useEffect, useRef, useState } from 'react';
-import Header from '../components/Header/Header';
-import { styles } from '../Styles/Styles';
+import Header from '../../components/Header/Header';
+import { styles } from '../../Styles/Styles';
 import { NavLink } from 'react-router-dom';
-import userBackImage from '../assets/images/user.svg'
-import PropertyListCard from '../components/PropertyListCard';
-import Footer from '../components/Footer';
-import RightListCard from '../components/RightListCard';
-import Contact from '../components/Contact';
-import BHKmenu, { BudgetMenu, FurnishingTypeMenu, MoreMenu, PropertyMenu, ShortByMenu } from '../components/Dropdowns';
+import userBackImage from '../../assets/images/user.svg'
+import PropertyListCard from '../../components/PropertyListCard';
+import Footer from '../../components/Footer';
+import RightListCard from '../../components/RightListCard';
+import Contact from '../../components/Contact';
+import BHKmenu, { BudgetMenu, FurnishingTypeMenu, MoreMenu, PropertyMenu, ShortByMenu } from '../../components/Dropdowns';
 
 const Data = [
     {
@@ -156,7 +156,7 @@ const Profile = () => {
                                                 BUDGET
                                                 <i class={styles.dropdownIcon}></i>
                                             </button>
-                                            <BudgetMenu classname={''}/>
+                                            <BudgetMenu classname={' -ml-[91px]'}/>
                                         </div>
                                     </div>
                                     <div className='mt-3 relative group'>

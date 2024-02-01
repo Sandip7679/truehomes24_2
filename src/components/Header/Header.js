@@ -70,7 +70,7 @@ const Header = () => {
             { name: 'View Response', endpoint: null },
             { name: 'Manage Property', endpoint: '/manage-property' },
             { name: 'My Order', endpoint: null },
-            { name: 'Manage Profile', endpoint: null },
+            { name: 'Manage Profile', endpoint: '/dashboard/my-profile' },
             { name: 'Sign Out', endpoint: '/',onClick:logout},
         
         ];
@@ -143,9 +143,9 @@ const Header = () => {
                             className="absolute hidden bg-white p-2 pt-2 w-[280px] overflow-auto h-[500px] pb-10 md:w-[335px] lg:w-[430px] space-y-2 -ml-[90px] sm:ml-0 text-gray-800 top-9 border-gray-300 border-[1px] rounded-md"
                         >
                             <div className='grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2 mt-2'>
-                                {cities.map((item) => {
+                                {cities.map((item,index) => {
                                     return (
-                                        <NavLink to="/property-list" className="px-2 py-4 rounded-md hover:bg-gray-100 flex flex-col border-[1px] shadow-lg items-center justify-center">
+                                        <NavLink key={index} to="/property-list" className="px-2 py-4 rounded-md hover:bg-gray-100 flex flex-col border-[1px] shadow-lg items-center justify-center">
                                             <img alt='' src={cityIcon} className='h-5 w-6' />
                                             <span className='text-xs text-center'>{item.city}</span>
                                         </NavLink>
@@ -167,9 +167,9 @@ const Header = () => {
                             <div className=''>
                                 <div className='text-left mt-5'>Top Cities</div>
                                 <div className='grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2 mt-4'>
-                                    {cities.map((item) => {
+                                    {cities.map((item,index) => {
                                         return (
-                                            <button className="px-2 py-4 rounded-md hover:bg-gray-100 max-w-[100px] flex flex-col border-[1px] shadow-lg items-center justify-center">
+                                            <button key={index} className="px-2 py-4 rounded-md hover:bg-gray-100 max-w-[100px] flex flex-col border-[1px] shadow-lg items-center justify-center">
                                                 <img alt='' src={cityIcon} className='h-5 w-6' />
                                                 <span className='text-xs'>{item.city}</span>
                                             </button>
@@ -181,9 +181,9 @@ const Header = () => {
                             <div className='mt-5 w-[100%]'>
                                 <div className='text-left pl-1'>Other Cities</div>
                                 <div className='w-[100%] pl-2'>
-                                    {otherCities.map((item) => {
+                                    {otherCities.map((item,index) => {
                                         return (
-                                            <span className="px-2 -mt-5 -pt-5  text-left">
+                                            <span key={index} className="px-2 -mt-5 -pt-5  text-left">
                                                 <div className='text-sm -mt-3 hover:bg-gray-100 w-[100%] pt-0 border-b-[0.5px]'>{item.city}</div>
                                             </span>
                                         )

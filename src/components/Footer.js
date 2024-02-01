@@ -60,7 +60,7 @@ const Footer = () => {
                 <div className='text-sm tracking-wide'>
                     {populerSearches.map((item, index) => {
                         return (
-                            <div className='mt-2 hover:underline opacity-90' key={index}>
+                            <div key={index} className='mt-2 hover:underline opacity-90' key={index}>
                                 <p>{item.itemName}</p>
                             </div>
                         )
@@ -73,7 +73,7 @@ const Footer = () => {
                 <div className='text-sm tracking-wide opacity-90'>
                     {quickLinks.map((item, index) => {
                         return (
-                            <div className='mt-2 hover:underline' key={index}>
+                            <div key={index} className='mt-2 hover:underline' key={index}>
                                 <p>{item.linkName}</p>
                             </div>
                         )

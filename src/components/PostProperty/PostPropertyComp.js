@@ -7,7 +7,7 @@ const FormCatagories = ({ catagories, activeCatagory, onClickItem }) => {
         <div className={styles.lightBorder + 'flex flex-wrap'}>
             {catagories.map((item, index) => {
                 return (
-                    <button
+                    <button key={index}
                         onClick={() => onClickItem(item)}
                         className={(activeCatagory === item ? 'border-b-[1px]' : '') + ' hover:border-b-[1px] border-b-gray-700 pb-1 mt-2 px-1 mr-[2%]'}>
                         <p className={styles.textMedium + ''}>{item}</p>
@@ -35,7 +35,7 @@ export const ButtonList = ({ title, btnNames, initialName, classname, required }
             <div className='flex flex-wrap gap-2 mt-2 text-sm'>
                 {btnNames.map((item, index) => {
                     return (
-                        <button
+                        <button key={index}
                             onClick={() => setSelectedBtnName(item)}
                             className={(selectedBtnName === item ? 'border-orange-600 text-orange-600' : 'border-gray-400 text-gray-400') + ' hover:border-orange-600 hover:text-orange-600 border-[1px] px-3 py-1 rounded-xl '}>
                             {item}
@@ -67,7 +67,7 @@ export const DropdownInput = ({ title, options, placeholder, required, inputClas
                 <option value="0">{placeholder}</option>
                 {options.map((item, index) => {
                     return (
-                        <option className='text-sm sm:text-base text-gray-500' value={`${item}`}>{item}</option>
+                        <option  key={index} className='text-sm sm:text-base text-gray-500' value={`${item}`}>{item}</option>
                     )
                 })}
             </select>

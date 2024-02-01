@@ -33,7 +33,7 @@ const FAQs = () => {
             <div className=''>
                 {faqData.map((item, index) => {
                     return (
-                        <div className='w-full shadow-lg'>
+                        <div key={index} className='w-full shadow-lg'>
                             <button
                                 onClick={() =>currInd === index?setCurrInd(null): setCurrInd(index)}
                                 className='flex justify-between w-full px-[1%] py-2 md:py-4 mt-4 border-[1px] border-gray-200 hover:bg-orange-600 tracking-wide hover:text-white '>

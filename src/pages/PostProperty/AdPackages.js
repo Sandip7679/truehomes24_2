@@ -20,7 +20,7 @@ const AdPackages = () => {
     return (
         <div>
             <Header />
-            <div className='mt-[80px] mx-[5%]'>
+            <div className='mt-[80px] mx-[5%] xl:mx-[10%]'>
                 <div className='p-1 border-b-[1px] border-b-gray-200'>
                     <p className={styles.title2}>Add Packages</p>
                     <span className='text-sm'><span>Home</span> / Ad Package</span>
@@ -28,7 +28,7 @@ const AdPackages = () => {
                 <div className='mt-10 mb-5 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 sm:gap-6'>
                     {[0, 1, 2, 3, 4, 5, 6, 7, 8].map((item, index) => {
                         return (
-                            <div className='mt-2 border-2 border-red-200 rounded py-2 text-base sm:text-lg'>
+                            <div key={index} className='mt-2 border-2 border-red-200 rounded py-2 text-base sm:text-lg'>
                                 <div className='mt-2 bg-orange-600 text-white text-lg font-bold py-4 mx-2 flex items-center justify-center'>
                                     GOLD
                                 </div>
@@ -38,7 +38,7 @@ const AdPackages = () => {
                                     <select className=' border-[1px] outline-none border-gray-500 w-[70%]'>
                                         {days.map((item, index) => {
                                             return (
-                                                <option>{item}</option>
+                                                <option key={index}>{item}</option>
                                             )
                                         })}
                                     </select>

@@ -4,6 +4,7 @@ import homeKey from '../assets/Icons/home-key.png';
 import buyIcon from '../assets/Icons/buy-buy.png';
 import newProjectIcon from '../assets/Icons/bulding-project.png';
 import { styles } from '../Styles/Styles';
+import { BudgetMenu } from './Dropdowns';
 // import { document } from 'postcss';
 
 
@@ -83,7 +84,7 @@ const TopSearchNavBar = () => {
                 <div className={styles.dropdownMenu + 'p-0 pt-[0px] group-hover:block w-[170px]'}>
                     {searchTypes.map((item, index) => {
                         return (
-                            <button
+                            <button key={index}
                                 onClick={() => setCurrSearchIndex(index)}
                                 className='flex p-2 w-full hover:bg-gray-100'>
                                 <img alt='' className='h-4 w-4 mt-1 mr-2' src={item.icon} />
@@ -114,7 +115,7 @@ const TopSearchNavBar = () => {
                     <div id='bhk-menu' className={styles.dropdownMenu + 'w-[120px] group-hover:block'}>
                         {BHKtype.map((item, index) => {
                             return (
-                                <label
+                                <label key={index}
                                     // onClick={() => setSelectedBHK(index)}
                                     className={styles.dropdownItem}>
                                     <input id={`radioBtn-${index}`} className='mt-[0.5px]' type='radio' />
@@ -141,7 +142,7 @@ const TopSearchNavBar = () => {
                         <div class="space-y-2 max-h-[400px] overflow-y-scroll">
                             {propertyTypes.map((item, index) => {
                                 return (
-                                    <label class="flex hover:cursor-pointer hover:bg-gray-100 pl-2 items-center">
+                                    <label key={index} class="flex hover:cursor-pointer hover:bg-gray-100 pl-2 items-center">
                                         <input type="checkbox" class="form-checkbox mt-1 h-4 w-4 text-blue-500" />
                                         <span class={styles.textMedium + "ml-2"}>{item.type}</span>
                                     </label>
@@ -162,7 +163,7 @@ const TopSearchNavBar = () => {
                         <p className='text-sm lg:text-base'>Budget</p>
                         <Dropdown />
                     </button>
-                    <div
+                    {/* <div
                         id='bugdet-menu'
                         className={`${styles.dropdownContainer} -left-[200px] group-hover:block`}>
                         <div className='flex gap-5 mt-5'>
@@ -186,7 +187,8 @@ const TopSearchNavBar = () => {
                             })}
                         </div>
 
-                    </div>
+                    </div> */}
+                    <BudgetMenu/>
                 </div>
                 <div className='relative group'>
                     <button
@@ -215,7 +217,7 @@ const TopSearchNavBar = () => {
                             <div className='flex flex-wrap gap-4 mt-2'>
                                 {['1', '2', '3', '4+'].map((item, index) => {
                                     return (
-                                        <label className='flex gap-2 hover:bg-gray-100'>
+                                        <label key={index} className='flex gap-2 hover:bg-gray-100'>
                                             <input type='checkbox' className='h-4 w-4 mt-1' />
                                             <p className=''>{item}</p>
                                         </label>
@@ -229,7 +231,7 @@ const TopSearchNavBar = () => {
                             <div className='flex flex-wrap gap-4 mt-2'>
                                 {moreDatas.new.map((item, index) => {
                                     return (
-                                        <label className='flex gap-2 hover:bg-gray-100'>
+                                        <label key={index} className='flex gap-2 hover:bg-gray-100'>
                                             <input type='radio' className='h-4 w-4 mt-1' />
                                             <p className=''>{item}</p>
                                         </label>
@@ -243,7 +245,7 @@ const TopSearchNavBar = () => {
                             <div className='flex flex-wrap gap-4 mt-2'>
                                 {moreDatas.constructionStatus.map((item, index) => {
                                     return (
-                                        <label className='flex gap-2 hover:bg-gray-100'>
+                                        <label key={index} className='flex gap-2 hover:bg-gray-100'>
                                             <input type='radio' className='h-4 w-4 mt-1' />
                                             <p className=''>{item}</p>
                                         </label>
@@ -257,7 +259,7 @@ const TopSearchNavBar = () => {
                             <div className='flex flex-wrap gap-2 mt-2'>
                                 {moreDatas.facing.map((item, index) => {
                                     return (
-                                        <label className='flex gap-2 mt-0 hover:bg-gray-100'>
+                                        <label key={index} className='flex gap-2 mt-0 hover:bg-gray-100'>
                                             <input type='radio' className='h-4 w-4 mt-1' />
                                             <p className=''>{item}</p>
                                         </label>
@@ -280,7 +282,7 @@ const TopSearchNavBar = () => {
                     <div id='shortBy-menu' className={styles.dropdownMenu + 'w-[220px] group-hover:block sm:-ml-[95px]'}>
                         {shortByItems.map((item, index) => {
                             return (
-                                <label
+                                <label key={index}
                                     // onClick={() => setSelectedBHK(index)}
                                     className={styles.dropdownItem}>
                                     <input id={`radioBtn-${index}`} className='mt-[0.5px]' type='radio' />

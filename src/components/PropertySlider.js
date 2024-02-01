@@ -79,7 +79,7 @@ const PropertySlider = ({ Data, type }) => {
                     >
                         {Data.map((item, index) => {
                             return (
-                                <div className=' rounded-md shadow-lg border-[1px] h-full mx-5 group'>
+                                <div key={index} className=' rounded-md shadow-lg border-[1px] h-full mx-5 group'>
                                     <NavLink to={'/project_details'}>
                                         <div className='relative items-center rounded-t-md overflow-hidden hover:cursor-pointer'>
                                             <img alt='' src={item.image}
