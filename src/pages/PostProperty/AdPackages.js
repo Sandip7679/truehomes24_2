@@ -9,8 +9,6 @@ for (let i = 0; i <= 170; i++) {
     days[i] = 10 + i;
 }
 
-
-
 const AdPackages = () => {
 
     useEffect(() => {
