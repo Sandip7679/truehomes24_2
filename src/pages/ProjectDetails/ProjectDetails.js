@@ -10,6 +10,7 @@ import Carousel from 'react-multi-carousel';
 import RightListCard from '../../components/RightListCard';
 import { NavLink } from 'react-router-dom';
 import FAQs from '../../components/FAQs';
+import Contact from '../../components/Contact';
 
 
 const Data = [
@@ -201,6 +202,8 @@ const mapLocations = [
 const ProjectDetails = () => {
     const [propDetailsTypeInd, setPropDetailsTypeInd] = useState(0);
     const [navClassState, setNavClassState] = useState('');
+    const [contactModalStatus, setcontactModalStatus] = useState({ show: false, data: {} });
+
     const observerElement = useRef();
 
     useEffect(() => {
@@ -222,6 +225,13 @@ const ProjectDetails = () => {
             threshold: 0
         });
         observer.observe(observerElement.current);
+    }
+
+    const onClickContactBtn = () => {
+        setcontactModalStatus({ show: true, data: {owner:'Owner-314422'} });
+    }
+    const onCloseContact = () => {
+        setcontactModalStatus({ show: false, data: null });
     }
 
     // const getScrollPosition = () => {
@@ -284,7 +294,7 @@ const ProjectDetails = () => {
                                     <p className='text-sm text-gray-500 mt-2'>Owner-314422 ( Individual )</p>
                                 </div>
                                 <div className=' w-full'>
-                                    <button className={styles.btnFull + 'bg-green-600 hover:bg-green-700 mt-5'}>ASK FOR PRICE</button>
+                                    <button onClick={onClickContactBtn} className={styles.btnFull + 'bg-green-600 hover:bg-green-700 mt-5'}>ASK FOR PRICE</button>
                                     <button className={styles.btnFull + 'bg-green-600 hover:bg-green-700 mt-3'}>Request Contact</button>
                                     <div className='mt-2 text-sm'>
                                         <span>RERA ID: </span><span className='text-cyan-600'>PR/GJ/AHMEDABAD/AHMEDABAD CITY/AUDA/MAA12019/280623</span>
@@ -293,6 +303,10 @@ const ProjectDetails = () => {
 
                             </div>
                         </div>
+                    </div>
+
+                    <div className=''>
+                        {contactModalStatus.show && <Contact Data={contactModalStatus.data} func={onCloseContact} />}
                     </div>
 
                     <div className='md:flex gap-5 mt-10'>
