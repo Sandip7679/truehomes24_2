@@ -3,6 +3,8 @@ import Header from '../../components/Header/Header';
 import { NavLink } from 'react-router-dom';
 import { styles } from '../../Styles/Styles';
 import userBackImage from '../../assets/images/user.svg'
+import TopCItiesFilter from '../../components/TopCItiesFilter';
+import Footer from '../../components/Footer';
 
 
 const ManageProfile = () => {
@@ -14,7 +16,7 @@ const ManageProfile = () => {
                     <p className={styles.title2}>Profile Details</p>
                     <div className='text-sm text-gray-700'><NavLink to={'/'}>Home</NavLink>{'/'}<span>Profile Details</span></div>
                 </div>
-                <div className='flex flex-wrap gap-[15%] pt-8 py-14 pl-[10%]'>
+                <div className='flex flex-wrap gap-[15%] pt-8 pl-[10%]'>
                     <div className='flex flex-col items-center mb-5'>
                         <div className='p-2 border-[1px] w-[190px] border-gray-300'>
                             <img alt='' src={userBackImage} className='h-[200px] w-[200px]' />
@@ -37,6 +39,8 @@ const ManageProfile = () => {
                     </div>
                 </div>
             </div>
+            <TopCItiesFilter/>
+            <Footer/>
 
         </div>
     );

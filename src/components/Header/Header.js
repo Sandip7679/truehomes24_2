@@ -117,7 +117,7 @@ const Header = () => {
     return (
         <nav className="bg-gray-800 fixed top-0 z-[2000] p-2 w-screen">
             <div className="flex justify-between">
-                <div className="flex">
+                <div className="flex items-center">
                     <div class="xl:hidden z-[200] group">
                         <button id="mobile-menu-button" class="text-white focus:outline-none h-6 w-6 sm:h-8 sm:w-8" onClick={() => document.getElementById('mobile-menu').classList.toggle('hidden')}>
                             <MenuIcon />

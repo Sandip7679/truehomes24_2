@@ -237,16 +237,16 @@ const ProjectDetails = () => {
     return (
         <div>
             {navClassState === '' && <Header />}
-            <div className='bg-gray-50 pb-5'>
-                <div className='bg-white h-[100px]'>
-                </div>
-                <div className='mt-5 px-[8%] '>
+            <div className='bg-gray-50 py-5'>
+                {/* <div className='bg-white h-[100px]'>
+                </div> */}
+                <div className='mt-14 container mx-auto px-[2%]'>
                     <div className='text-sm text-gray-500'> <NavLink to={'/'}>Home</NavLink>{' > '}<span> Property for Rent in Bangalore</span>{' > '}<span>Property for Rent in Jakkur</span>
                         {' > '}<span className='text-base'>Residential Land for Rent in Jakkur, Bangalore</span>
                     </div>
                     <div className='bg-white py-5 px-[2%] mt-1 shadow w-full md:flex md:gap-5'>
                         <div className='relative w-full md:w-[65%]'>
-                            <img alt='' src='https://www.truehomes24.com/assets/properties/banner-01/6fbc57095a08783a071945a3507844fa.webp' className='h-[380px] w-full rounded-xl' />
+                            <img alt='' src='https://www.truehomes24.com/assets/properties/banner-01/6fbc57095a08783a071945a3507844fa.webp' className='h-[300px] sm:h-[350px] lg:h-[400px] w-full rounded-xl' />
                             <div ref={observerElement} className='absolute top-[60%] pl-5 py-2 w-[80%] bg-black bg-opacity-10'>
                                 <p className='text-white text-xl sm:text-3xl'>Jakkur, Bangalore</p>
                             </div>
@@ -264,7 +264,7 @@ const ProjectDetails = () => {
                                 </div>
                             </div>
                         </div>
-                        <div className='p-2 px-2 w-full md:w-[35%]'>
+                        <div className='p-2 relative px-2 w-full md:w-[35%]'>
                             <span className={styles.title2 + 'mr-2'}>Residential Land for Rent in Jakkur, Bangalore</span>
                             <span className=''><button className='cursor-text mt-1 px-2 py-[2px] bg-orange-600 text-xs font-medium opacity-90 text-white mr-2'>FOR RENT</button></span>
                             <span className=''><button className='cursor-text mt-1 px-2 py-[2px] bg-cyan-600 text-xs font-medium text-white mr-2'>RESIDENTIAL LAND</button></span>
@@ -283,8 +283,14 @@ const ProjectDetails = () => {
                                     <img alt='' src={userIcon} className='h-8 w-8' />
                                     <p className='text-sm text-gray-500 mt-2'>Owner-314422 ( Individual )</p>
                                 </div>
-                                <button className={styles.btnFull + 'bg-green-600 hover:bg-green-700 mt-5'}>ASK FOR PRICE</button>
-                                <button className={styles.btnFull + 'bg-green-600 hover:bg-green-700 mt-3'}>Request Contact</button>
+                                <div className='absolute bottom-20 w-full'>
+                                    <button className={styles.btnFull + 'bg-green-600 hover:bg-green-700 mt-5'}>ASK FOR PRICE</button>
+                                    <button className={styles.btnFull + 'bg-green-600 hover:bg-green-700 mt-3'}>Request Contact</button>
+                                    <div className='mt-2 text-sm'>
+                                        <span>RERA ID: </span><span className='text-cyan-600'>PR/GJ/AHMEDABAD/AHMEDABAD CITY/AUDA/MAA12019/280623</span>
+                                    </div>
+                                </div>
+
                             </div>
                         </div>
                     </div>
@@ -345,7 +351,7 @@ const ProjectDetails = () => {
                                     <div className='flex flex-wrap gap-2 mt-2 items-start md:w-[50%]'>
                                         {mapLocations.map((item, index) => {
                                             return (
-                                                <span key={index}  className='w-[150px]'>{item.key} : <span className='text-gray-500 text-[0.9rem] font-semibold'>{item.val}</span></span>
+                                                <span key={index} className='w-[150px]'>{item.key} : <span className='text-gray-500 text-[0.9rem] font-semibold'>{item.val}</span></span>
                                             )
                                         })}
                                     </div>

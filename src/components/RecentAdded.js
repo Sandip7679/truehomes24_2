@@ -11,7 +11,7 @@ import { styles } from '../Styles/Styles';
 
 const RecentAdded = ({ Data, func }) => {
     return (
-        <div className='mt-10 md:px-[10%]'>
+        <div className='mt-10'>
             <h1 className={styles.title1 + 'mb-8 text-start'}>Recnetly Added</h1>
             <Carousel
                 swipeable={true}

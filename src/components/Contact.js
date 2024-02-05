@@ -6,7 +6,7 @@ import userIcon from '../assets/images/user.svg'
 
 const Contact = ({Data,func}) => {
     return (
-        <div className='fixed top-0 z-[2000] flex -ml-2 w-full h-[100%] items-center justify-center bg-black bg-opacity-60'>
+        <div className='fixed top-0 z-[2000] flex left-0 w-screen h-screen items-center justify-center bg-black bg-opacity-60'>
             <div className='relative bg-white shadow-lg border-[1px] p-4 w-[90%] sm:w-[85%] max-w-[360px]'>
                 <button
                     onClick={() => func()}

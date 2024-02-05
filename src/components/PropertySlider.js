@@ -48,8 +48,8 @@ const PropertySlider = ({ Data, type }) => {
 
     return (
         <div>
-            <div className='w-full mb-10'>
-                <div className='mt-10 md:px-[10%]'>
+            <div className='mb-10'>
+                <div className='mt-10'>
                     {type && <h1 className={styles.title1 + 'text-start mb-7 ml-2'}>{type}</h1>}
                     <Carousel
                         swipeable={true}

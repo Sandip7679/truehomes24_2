@@ -152,11 +152,11 @@ const PropertyList = () => {
             <Header />
             <div className={'mt-[50px]'}>
                 <TopSearchNavBar />
-                <div className='px-[2%] py-5'>
+                <div className='px-[2%] sm:px-10% container mx-auto py-5'>
                     <div className={styles.textMedium}>
                         <NavLink to="/">Home</NavLink> {'> '}
                         Property for Sale in Ahmedabad</div>
-                    <div className=' md:flex gap-5'>
+                    <div className='xl:flex gap-5'>
                         <div className='mt-5 tracking-wide'>
                             <p className={styles.textMedium}>Showing 1-25 of 356 property for Sale</p>
                             <p className={styles.title3 + 'mt-1'}>Property for Sale in Ahmedabad</p>
@@ -203,7 +203,7 @@ const PropertyList = () => {
                             </div>
                         </div>
 
-                        <div className='sm:w-[35%] bg-slate-50 py-4 px-1'>
+                        <div className='lg:w-[35%] bg-slate-50 py-4 px-1'>
                             <div>
                                 <RecentViewCard title={'Recent View Property'} Data={rightSectionData} />
                             </div>

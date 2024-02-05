@@ -60,7 +60,7 @@ const TopCItiesFilter = () => {
     }
 
     return (
-        <div className=' pt-5 px-[5%] py-5 bg-gray-50'>
+        <div className=' pt-5 px-[5%] pb-10 bg-gray-50 mt-14'>
              <h1 className={styles.title1}>Browse Residential Projects In Top Cities</h1>
 
             <div className='w-[95%] sm:flex justify-between pt-2 border-b-[1px] mt-10 border-b-gray-200'>
@@ -81,13 +81,11 @@ const TopCItiesFilter = () => {
                 <div className=''>
                     {locations.map((item, index) => {
                         return (
-                            <button key={index} className='text-left text-sm text-gray-600 mx-4 mt-[1px] min-w-[200px]'>
+                            <button key={index} className='text-left text-sm text-gray-600 mx-4 mt-[2px] min-w-[200px]'>
                                 <div className='flex hover:underline'>
                                     <span><LinkIcon classname={'h-4 w-4 mt-1 mr-1'} /></span>
                                     <span>{item.location}</span>
                                 </div>
-
-
                             </button>
                         )
                     })}

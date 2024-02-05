@@ -3,6 +3,8 @@ import Header from '../components/Header/Header';
 import { styles } from '../Styles/Styles';
 import { InputList } from '../components/PostProperty/PostPropertyComp';
 import { NavLink } from 'react-router-dom';
+import TopCItiesFilter from '../components/TopCItiesFilter';
+import Footer from '../components/Footer';
 
 const countries = ['India', 'Singapore', 'UAE', 'United States'];
 const indianStates = [
@@ -49,6 +51,8 @@ const BuyerRegistration = () => {
                     </div>
                 </div>
             </div>
+            <TopCItiesFilter/>
+            <Footer/>
         </div>
     );
 }

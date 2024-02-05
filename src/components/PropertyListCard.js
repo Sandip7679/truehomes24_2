@@ -11,7 +11,7 @@ const PropertyListCard = ({ Data, func }) => {
 
     return (
         <div className='rounded-xl flex flex-wrap lg:flex-nowrap shadow-lg border-[1px] h-full mt-6 mx-2 group'>
-            <NavLink to={'/project_details'} className='items-center relative border-gray-300 w-[100%] md:min-w-[220px]  h-full border-[1px] rounded-xl overflow-hidden  hover:cursor-pointer'>
+            <NavLink to={'/project_details'} className='items-center relative border-gray-300 w-full  md:min-w-[33%]  h-full border-[1px] rounded-xl overflow-hidden  hover:cursor-pointer'>
                 <img alt='' src={Data.image}
                     className='w-full h-[240px] transform transition-transform hover:scale-110 duration-1000'
                 />
@@ -36,7 +36,7 @@ const PropertyListCard = ({ Data, func }) => {
                 </div>
             </NavLink>
 
-            <div className='p-3 pb-0 min-w-[65%] text-left h-full ml-[2%]'>
+            <div className='p-3 pb-0 text-left h-full w-full md:min-w-[62%] ml-[2%]'>
                 <div className='min-h-[205px]'>
                     <div className='flex justify-between'>
                         <p className={styles.title4 + 'cursor-pointer hover:text-gray-500'}>{Data.title}</p>

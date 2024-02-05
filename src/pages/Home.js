@@ -294,15 +294,15 @@ const Home = () => {
                 </div>
             </div>
 
-            <div ref={propertyElement} id="properties" className=''>
+            <div ref={propertyElement} id="properties" className='container mx-auto xl:px-10'>
                 <PropertySlider Data={Data} type={'Featured Properties'} />
                 <div className='my-10 mt-[50px]'>
                     <PropertySlider type={'New Project'} Data={Data} />
                 </div>
-                <div className='my-10 mt-[50px]'>
+                <div className='my-10 mt-[50px] px-5'>
                     <RecentAdded Data={Data} func={onClickContactBtn} />
                 </div>
-                <div className='px-[2%] md:px-[10%] mb-16'>
+                <div className='mb-16 mt-20 px-2 sm:px-5'>
                     <p className={styles.title2}>Top Developers in Ahmedabad</p>
                     <div className='grid grid-cols-2 sm:grid-cols-3 gap-2 sm:gap-5 justify-center mt-5'>
                         {TopDevelopersData.map((item, index) => {
@@ -325,7 +325,7 @@ const Home = () => {
                     </div>
                 </div>
 
-                <div className='px-[2%] md:px-[10%] mb-16'>
+                <div className='mb-16 mt-5 px-2 sm:px-5'>
                     <p className={styles.title2}>Top Localities in Ahmedabad</p>
                     <div className='mt-5 grid grid-cols-2 sm:grid-cols-3 gap-2 sm:gap-5'>
                         {topLocalities.map((item, index) => {
@@ -366,8 +366,8 @@ const Home = () => {
                 </div>
                 {/* <div className='px-2 md:px-10 mt-[80px] w-full items-center'>
                 </div> */}
-                <TopCItiesFilter />
             </div>
+                <TopCItiesFilter />
             <ScrollUp targetElement={propertyElement} />
             <div className=''>
                 <Footer />
