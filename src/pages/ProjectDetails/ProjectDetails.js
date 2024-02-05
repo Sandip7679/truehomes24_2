@@ -11,7 +11,45 @@ import RightListCard from '../../components/RightListCard';
 import { NavLink } from 'react-router-dom';
 import FAQs from '../../components/FAQs';
 import Contact from '../../components/Contact';
+// import ImageGallery from "react-image-gallery";
+// import "react-image-gallery/styles/css/image-gallery.css";
 
+// import LightGallery from 'lightgallery/react';
+
+// // import styles
+// import 'lightgallery/css/lightgallery.css';
+// import 'lightgallery/css/lg-zoom.css';
+// import 'lightgallery/css/lg-thumbnail.css';
+
+// import lgThumbnail from 'lightgallery/plugins/thumbnail';
+// import lgZoom from 'lightgallery/plugins/zoom';
+
+import Lightbox from "yet-another-react-lightbox";
+import "yet-another-react-lightbox/styles.css";
+import Thumbnails from "yet-another-react-lightbox/plugins/thumbnails";
+import "yet-another-react-lightbox/plugins/thumbnails.css";
+import Download from "yet-another-react-lightbox/plugins/download";
+import Fullscreen from "yet-another-react-lightbox/plugins/fullscreen";
+import Zoom from "yet-another-react-lightbox/plugins/zoom";
+
+
+
+
+
+// const images = [
+//   {
+//     original: "https://picsum.photos/id/1018/1000/600/",
+//     thumbnail: "https://picsum.photos/id/1018/250/150/",
+//   },
+//   {
+//     original: "https://picsum.photos/id/1015/1000/600/",
+//     thumbnail: "https://picsum.photos/id/1015/250/150/",
+//   },
+//   {
+//     original: "https://picsum.photos/id/1019/1000/600/",
+//     thumbnail: "https://picsum.photos/id/1019/250/150/",
+//   },
+// ];
 
 const Data = [
     {
@@ -203,7 +241,8 @@ const ProjectDetails = () => {
     const [propDetailsTypeInd, setPropDetailsTypeInd] = useState(0);
     const [navClassState, setNavClassState] = useState('');
     const [contactModalStatus, setcontactModalStatus] = useState({ show: false, data: {} });
-
+    const [open, setOpen] = useState(false);
+    const [currSlide, setCurrSlide] = useState(1);
     const observerElement = useRef();
 
     useEffect(() => {
@@ -228,7 +267,7 @@ const ProjectDetails = () => {
     }
 
     const onClickContactBtn = () => {
-        setcontactModalStatus({ show: true, data: {owner:'Owner-314422'} });
+        setcontactModalStatus({ show: true, data: { owner: 'Owner-314422' } });
     }
     const onCloseContact = () => {
         setcontactModalStatus({ show: false, data: null });
@@ -266,7 +305,8 @@ const ProjectDetails = () => {
                                     <p className='text-sm'>Property Type</p>
                                 </div>
                                 <div className='sm:w-[30%] sm:border-x-2 sm:border-gray-300 mt-1 text-center'>
-
+                                    <p className='font-semibold'>Ready to Move</p>
+                                    <p className='text-sm'>Project Status</p>
                                 </div>
                                 <div className='sm:w-[30%] mt-1 text-center'>
                                     <p className='font-semibold'>1 Sq. Ft</p>
@@ -328,8 +368,8 @@ const ProjectDetails = () => {
 
 
                                 <div id='0' className='scroll-mt-20'>
-                                    <p className={styles.title4 + 'mt-5'}>Property Details</p>
-                                    <div className='mt-5 flex justify-between flex-wrap'>
+                                    <p className={styles.title4 + 'mt-8'}>Property Details</p>
+                                    <div className='flex justify-between flex-wrap'>
                                         {PropertyDetailsData.map((item, index) => {
                                             return (
                                                 <div key={index} className='w-[50%] sm:w-[30%] mt-2'>
@@ -340,12 +380,12 @@ const ProjectDetails = () => {
                                         })}
                                     </div>
                                 </div>
-                                <div className='mt-5'>
+                                <div className='mt-8'>
                                     <p className={styles.title4 + 'ml-1'}>Amnetities</p>
-                                    <div className='flex flex-wrap gap-2 px-2 mt-2'>
+                                    <div className='flex flex-wrap justify-between mt-2'>
                                         {Amenities.map((item, index) => {
                                             return (
-                                                <div key={index} className='flex w-[45%] min-w-[180px] md:w-[30%]'>
+                                                <div key={index} className='flex w-[50%] min-w-[180px] sm:w-[30%]'>
                                                     <button className='w-8 h-8 p-1 flex justify-center -mt-1'> {item.icon === '' ? <MenuIcon classname={'h-4 w-4 mt-1'} />
                                                         : <i class={item.icon + ' text-gray-600 text-sm'}></i>
                                                     }
@@ -389,18 +429,65 @@ const ProjectDetails = () => {
                                     autoPlaySpeed={2000}
                                     keyBoardControl={true}
                                     transitionDuration={2000}
+                                    afterChange={(Ind) => {
+                                        setCurrSlide(Ind - 1)
+                                    }}
                                 >
                                     {rightSectionData.map((item, index) => {
                                         return (
-                                            <div key={index} className='p-2'>
+                                            <div onClick={() => setOpen(true)} key={index} className='p-2 hover:cursor-pointer'>
                                                 <img alt='' src={item.image} className='h-[450px] w-full rounded-xl' />
                                             </div>
                                         )
                                     })}
                                 </Carousel>
                                 <div className='flex justify-end mr-2'>
-                                    <p className='text-gray-800 font-semibold'>1/4</p>
+                                    <p className='text-gray-800 font-semibold'>{currSlide}/{rightSectionData.length}</p>
                                 </div>
+                                {/* <ImageGallery
+                                    items={rightSectionData.map((item, index) => {
+                                        return {
+                                            original: item.image,
+                                            thumbnail:item.image,
+                                            thumbnailHeight:'80'
+                                        }
+                                    })}
+                                    autoPlay
+                                    showBullets
+                                /> */}
+
+                                <Lightbox
+                                    open={open}
+                                    plugins={[Thumbnails, Download, Fullscreen, Zoom]}
+                                    close={() => setOpen(false)}
+                                    slides={rightSectionData.map((item, index) => {
+                                        return { src: item.image }
+                                    })}
+                                // slides={[
+                                //     {
+                                //         src: rightSectionData[0].image,
+                                //         width: 3840,
+                                //         height: 2560,
+                                //         srcSet: rightSectionData.map((item, index) => {
+                                //             return { src: item.image }
+                                //         })
+                                //     }
+                                // ]}
+
+                                />
+                                {/* <LightGallery
+                                 speed = {500}
+                                 pligins={[lgThumbnail]}
+                                >
+                                     {rightSectionData.map((item, index) => {
+                                        return (
+                                            <a href={item.image} >
+                                                <img alt='' src={item.image} />
+                                            </a>
+                                        )
+                                    })}
+
+                                </LightGallery> */}
 
                             </div>
                             <div id='4' className='mt-10 bg-white shadow-md px-5 py-5 mb-10 scroll-mt-20'>
