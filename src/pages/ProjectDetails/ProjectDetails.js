@@ -283,7 +283,7 @@ const ProjectDetails = () => {
                                     <img alt='' src={userIcon} className='h-8 w-8' />
                                     <p className='text-sm text-gray-500 mt-2'>Owner-314422 ( Individual )</p>
                                 </div>
-                                <div className='absolute bottom-20 w-full'>
+                                <div className=' w-full'>
                                     <button className={styles.btnFull + 'bg-green-600 hover:bg-green-700 mt-5'}>ASK FOR PRICE</button>
                                     <button className={styles.btnFull + 'bg-green-600 hover:bg-green-700 mt-3'}>Request Contact</button>
                                     <div className='mt-2 text-sm'>
