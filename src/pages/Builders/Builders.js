@@ -6,6 +6,7 @@ import DropdownIcon from '../../components/svgIcons';
 import GetCallBack from '../../components/GetCallBack';
 import TopCItiesFilter from '../../components/TopCItiesFilter';
 import Footer from '../../components/Footer';
+import { NavLink } from 'react-router-dom';
 
 const buildersData = [
   { name: 'Lodha Group', totalProjects: '162', onGoingProj: '118', Bhks: [{ type: '2,3 BHK Mumbai', }, { type: '1,2 BHK Thane' }] },
@@ -101,11 +102,11 @@ const Builders = () => {
                               <img alt='' src='https://www.truehomes24.com/assets/new-projects/banner-01/lodhacrown1.webp' className='h-[100px] w-full' />
                               <p className='text-xs'>{item.Bhks[1].type}</p>
                             </div>
-                            <button className='flex flex-col h-[100px] group justify-center items-center p-2 px-6 shadow-md border-[1px] rounded hover:text-white hover:bg-orange-600 hover:bg-opacity-85'>
+                            <NavLink to={''} className='flex flex-col h-[100px] group justify-center items-center p-2 px-6 shadow-md border-[1px] rounded hover:text-white hover:bg-orange-600 hover:bg-opacity-85'>
                               <p className='text-sm'>View</p>
                               <p className='font-semibold text-lg group-hover:text-white text-orange-600 my-2'>115</p>
                               <p className='text-sm'>more</p>
-                            </button>
+                            </NavLink>
                           </div>
                         </div>
                       </div>}

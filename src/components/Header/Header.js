@@ -200,9 +200,9 @@ const Header = () => {
                     </div>
                     <div className='hidden lg:flex space-x-4'>
                         <div className='hidden xl:flex md:gap-5'>
-                            <NavLink to={'/property-list'} className="text-gray-100 hover:text-gray-400">Buy</NavLink>
-                            <NavLink to={'/property-list'} className="text-gray-100 hover:text-gray-400">Rent</NavLink>
-                            <NavLink to={'/property-list'} className="text-gray-100 hover:text-gray-400">New Project</NavLink>
+                            <NavLink to={'/property-list'} className="text-gray-100 hover:cursor-pointer hover:text-gray-400">Buy</NavLink>
+                            <NavLink to={'/property-list'} className="text-gray-100 hover:cursor-pointer hover:text-gray-400">Rent</NavLink>
+                            <NavLink to={'/property-list'} className="text-gray-100 hover:cursor-pointer hover:text-gray-400">New Project</NavLink>
                         </div>
 
                         <NavLink to="/agents" className="text-gray-100 hover:text-gray-400">Agents</NavLink>

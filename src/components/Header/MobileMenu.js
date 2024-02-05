@@ -21,21 +21,28 @@ const MobileMenu = () => {
 
     return (
         <div class="flex flex-col">
-            <span class={styles.dropdownItem}>
-                <img alt='' src={buyIcon} className='h-5 w-6 mr-5' />Buy
-            </span>
-            <span class={styles.dropdownItem}>
-                <span>
-                    <img alt='' src={rentIcon} className='h-5 w-6 mr-5' />
+            <NavLink to={'/property-list'}>
+                <span class={styles.dropdownItem}>
+                    <img alt='' src={buyIcon} className='h-5 w-6 mr-5' />Buy
                 </span>
-                <p className={styles.textMedium}>Rent</p>
-            </span>
-            <span class={styles.dropdownItem}>
-                <span>
-                    <img alt='' src={projectIcon} className='h-5 w-6 mr-5' />
+            </NavLink>
+            <NavLink to={'/property-list'}>
+                <span class={styles.dropdownItem}>
+                    <span>
+                        <img alt='' src={rentIcon} className='h-5 w-6 mr-5' />
+                    </span>
+                    <p className={styles.textMedium}>Rent</p>
                 </span>
-                <p className={styles.textMedium}>New Project</p>
-            </span>
+            </NavLink>
+            <NavLink to={'/property-list'}>
+                <span class={styles.dropdownItem}>
+                    <span>
+                        <img alt='' src={projectIcon} className='h-5 w-6 mr-5' />
+                    </span>
+                    <p className={styles.textMedium}>New Project</p>
+                </span>
+            </NavLink>
+
             <NavLink to="/agents" >
                 <div class={styles.dropdownItem}>
                     <span>
