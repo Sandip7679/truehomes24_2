@@ -28,7 +28,7 @@ export const styles = {
 
     //postpropertyStyles
     postpropTitle:'text-orange-500 text-center py-2 sm:text-lg font-semibold bg-gray-50 ',
-    formCard:' border-[1px] border-gray-100 rounded-md shadow-xl bg-white p-2 px-2 sm:px-5 my-5 pb-5',
+    formCard:' border-[1px] border-gray-100 rounded-md shadow-xl bg-white p-2 px-2 sm:px-5 my-5 pb-5 ',
     btnBlackHover:' hover:bg-white hover:text-black border-[1px] border-black duration-500 ',
     formBtn:'hover:bg-gray-600 bg-gray-700 text-white text-sm sm:text-base px-4 py-1 rounded ',
 

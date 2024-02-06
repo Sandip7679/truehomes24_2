@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { ButtonList, CategoryTitle, DropdownInput, JoditTextEditor } from './PostPropertyComp';
 import { styles } from '../../Styles/Styles';
 
@@ -11,8 +11,13 @@ const furnishingStatus = ['Furinshed', 'Semi Furnished', 'Unfurnished'];
 const amenities = ['24by7Water', 'CCTV Camera', 'Gated Society', 'Gym', 'Internet Connectivity', 'Jogging Track', 'Kid Play Area', 'Kid Play Pool'];
 
 const Amenities = () => {
+    const [animation,setAnimation] = useState(false);
+    useEffect(()=>{
+        setAnimation(true);
+    },[])
+    
     return (
-        <form className={styles.formCard}>
+        <form className={'mt-16 '+ (animation?'transition-transform ease-in-out transform -translate-y-10 duration-1000':'')}>
             <CategoryTitle title={'Amenities :'} icon={'fa fa-house'} />
             <div className='mt-5 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3'>
                 <DropdownInput title={'Sale Price ( Rs. )'} required={true} placeholder={'Enter Sale price'} inputClass={'w-[100%] mt-2'} />

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { styles } from '../../Styles/Styles';
 import { AreaInputs, ButtonList, CategoryTitle, DropdownInput, InputList } from './PostPropertyComp';
 
@@ -44,9 +44,12 @@ const months = nums.map((item,index)=>`${index} Month`);
 const years = nums.map((item,index)=>`${index} Year`);
 
 const PropertyInfo = () => {
+    const [animation,setAnimation] = useState(false);
+    useEffect(()=>{
+        setAnimation(true);
+    },[])
     return (
-        <div>
-            <form className={styles.formCard}>
+            <form className={'mt-16 '+ (animation?'transition-transform ease-in-out transform -translate-y-10 duration-1000':'')}>
                 <CategoryTitle title={'Property Information :'} icon={'fa-regular fa-building'}/>
                 <div className='md:flex gap-[5%]'>
                     <div className='mb-5 flex-none'>
@@ -85,8 +88,6 @@ const PropertyInfo = () => {
                     <button type='submit' className={styles.formBtn}>Save & Next</button>
                 </div>
             </form>
-
-        </div>
     );
 }
 

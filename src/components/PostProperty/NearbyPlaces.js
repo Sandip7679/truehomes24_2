@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { CategoryTitle, InputList } from './PostPropertyComp';
 import { styles } from '../../Styles/Styles';
 
@@ -30,9 +30,12 @@ const inputs = [
 ]
 
 const NearbyPlaces = () => {
+    const [animation,setAnimation] = useState(false);
+    useEffect(()=>{
+        setAnimation(true);
+    },[])
     return (
-        <div>
-            <form className={styles.formCard}>
+            <form className={'mt-16 '+ (animation?'transition-transform ease-in-out transform -translate-y-10 duration-1000':'')}>
                 <CategoryTitle title={'Nearby Places :'} icon={'fa fa-house'} />
                 <InputList inputs={inputs} classname={'mt-5 grid grid-cols-1 sm:grid-cols-2 sm:gap-7'} />
                 <div className='my-7 flex gap-5'>
@@ -40,7 +43,6 @@ const NearbyPlaces = () => {
                     <button type='submit' className={styles.formBtn}>Save & Next</button>
                 </div>
             </form>
-        </div>
     );
 }
 

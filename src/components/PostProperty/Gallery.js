@@ -1,15 +1,19 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { CategoryTitle } from './PostPropertyComp';
 import { styles } from '../../Styles/Styles';
 import { NavLink } from 'react-router-dom';
 
 const Gallery = () => {
-
+  const [animation, setAnimation] = useState(false);
   const [files, setFiles] = useState([]);
   // const [selectedFile,setSelectedFile] = useState(null);
   const [imgSrcs, setImgSrcs] = useState([]);
   const inputRef = useRef(null);
   const [checked, setChecked] = useState(false);
+
+  useEffect(() => {
+    setAnimation(true);
+  }, [])
 
   const handleDeleteFile = (index) => {
 
@@ -34,7 +38,7 @@ const Gallery = () => {
   }
 
   return (
-    <form className={styles.formCard}>
+    <form className={'mt-16 '+ (animation?'transition-transform ease-in-out transform -translate-y-10 duration-1000':'')}>
       <div>
         <CategoryTitle title={'Gallery : Allow max photo upload - 15'} icon={'fa-regular fa-file-image'} />
         <div className='border-dashed border-gray-600 border-[1px]'>
