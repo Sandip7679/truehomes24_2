@@ -75,7 +75,7 @@ const Gallery = () => {
         </div>
         <div className='mt-5 flex gap-5'>
           <button className={styles.formBtn}>Back</button>
-          <NavLink to={'/add-packages'}>
+          <NavLink to={'/membership'}>
             <button type='submit' disabled={!checked} className={styles.formBtn + (checked ? '' : ' bg-gray-500')}>Save & Payment</button>
           </NavLink>
         </div>

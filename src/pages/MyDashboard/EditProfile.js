@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Header from '../../components/Header/Header';
 import { styles } from '../../Styles/Styles';
 import userBackImage from '../../assets/images/user.svg'
@@ -35,17 +35,35 @@ const personalInputs = [
 
 
 const EditProfile = () => {
+
+    const [profileImage,setProfileImage] = useState(null);
+    const [profileImgSrc,setProfileImgSrc] = useState(null);
+
+
+    const handleFileChange = (e) => {
+        if (e.target.files.length > 0) {
+          let file = e.target.files[0];
+          setProfileImage(file);
+          const reader = new FileReader();
+          reader.onload = () => {
+           setProfileImgSrc(reader.result);
+          }
+          reader.readAsDataURL(file);
+        }
+    
+      }
+
     return (
         <div>
             <Header />
             <div className='my-16 container mx-auto px-2'>
                 <p className={styles.title3}>Eidt Profile:</p>
                 <div className='grid grid-cols-1 md:grid-cols-2 gap-8'>
-                    <div className='p-2 border-gray-300 mx-auto'>
-                        <img alt='' src={userBackImage} className=' h-[100%] w-[100%]' />
-                        <div className='text-gray-400 flex flex-col items-center justify-center py-2 text-cente mt-2'>
-                            <input accept='image/*'  type='file'  className='w-[80%] absolute opacity-0 py-14 cursor-pointer' />
-                            <button className='border-[1px] border-gray-500 px-2 py-1 rounded-xl text-gray-700'>Upload Photo</button>
+                    <div className='p-2 border-gray-300 mx-auto my-auto'>
+                        <img alt='' src={profileImgSrc? profileImgSrc : userBackImage} className='h-[150px] w-[150px] md:h-[220px] md:w-[220px] rounded-full' />
+                        <div className='group text-gray-400 flex flex-col items-center justify-center py-2 text-cente mt-2'>
+                            <input accept='image/*' onChange={handleFileChange}  type='file'  className='w-[300px] absolute opacity-0 py-8 cursor-pointer' />
+                            <button className='border-[1px] border-gray-500 px-2 py-1 rounded-xl text-gray-700 group-hover:bg-gray-800 group-hover:text-white duration-500'>Upload Photo</button>
                         </div>
                     </div>
                     <div>

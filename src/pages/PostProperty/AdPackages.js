@@ -3,6 +3,7 @@ import Header from '../../components/Header/Header';
 import { styles } from '../../Styles/Styles';
 import TopCItiesFilter from '../../components/TopCItiesFilter';
 import Footer from '../../components/Footer';
+import { NavLink } from 'react-router-dom';
 
 let days = [];
 for (let i = 0; i <= 170; i++) {
@@ -24,7 +25,7 @@ const AdPackages = () => {
                     <span className='text-sm'><span>Home</span> / Ad Package</span>
                 </div>
                 <div className='mt-10 mb-5 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 sm:gap-6'>
-                    {[0, 1, 2, 3, 4, 5, 6, 7, 8].map((item, index) => {
+                    {[50, 60, 90, 60, 40, 85, 65, 80, 85].map((item, index) => {
                         return (
                             <div key={index} className='mt-2 border-2 border-red-200 rounded py-2 text-base sm:text-lg'>
                                 <div className='mt-2 bg-orange-600 text-white text-lg font-bold py-4 mx-2 flex items-center justify-center'>
@@ -42,7 +43,7 @@ const AdPackages = () => {
                                     </select>
                                 </div>
                                 <div className='flex justify-center'>
-                                    <button className='mt-5 bg-gray-600 opacity-90 px-4 py-1 border-[1px] text-white rounded-md cursor-pointer hover:bg-white hover:text-black hover:border-[1px] hover:border-black duration-500'>Pay Rs. 50</button>
+                                    <NavLink to={'/membership/detail'} className='mt-5 bg-gray-600 opacity-90 px-4 py-1 border-[1px] text-white rounded-md cursor-pointer hover:bg-white hover:text-black hover:border-[1px] hover:border-black duration-500'>Pay Rs. {item}</NavLink>
                                 </div>
                                 <div className='p-4 mt-5 border-y-[1px] border-x-gray-300 flex items-center justify-center gap-2'>
                                     Visible to

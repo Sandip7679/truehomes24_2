@@ -33,14 +33,14 @@ const FAQs = () => {
             <div className=''>
                 {faqData.map((item, index) => {
                     return (
-                        <div key={index} className='w-full relative shadow-lg'>
+                        <div key={index} className='w-full relative'>
                             <button
                                 onClick={() => currInd === index ? setCurrInd(null) : setCurrInd(index)}
-                                className='z-50 flex justify-between w-full px-[1%] py-2 md:py-4 mt-4 border-[1px] border-gray-200 hover:bg-orange-600 tracking-wide hover:text-white '>
+                                className='z-50 shadow-lg flex justify-between w-full px-[1%] py-2 md:py-4 mt-4 border-[1px] border-gray-200 hover:bg-orange-600 tracking-wide hover:text-white '>
                                 <p className={styles.textMedium + 'text-left ml-1'}>{item.question}</p>
                                 <p className='text-lg'>+</p>
                             </button>
-                           {currInd ==index && <div className={styles.textMedium + (currInd === index?'transition-transform duration-500 ease-in-out transform ':'') + ' border-t-[1px] border-t-gray-500 py-2 md:py-4 px-[1%]'}>
+                           {currInd ==index && <div className={styles.textMedium + (currInd === index?'transition-transform duration-500 ease-in-out transform ':'') + ' border-t-[1px] z-10 shadow-lg border-t-gray-500 py-2 md:py-4 px-[1%]'}>
                                 {item.answer}
                             </div>}
                         </div>

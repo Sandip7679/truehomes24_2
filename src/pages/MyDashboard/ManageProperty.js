@@ -100,7 +100,7 @@ const ManageProperty = () => {
                                     <p>Get Verified</p>
                                     <i class="fa-solid fa-chevron-right mt-1"></i>
                                 </button>
-                                <NavLink to={'/add-packages'}>
+                                <NavLink to={'/membership'}>
                                     <button className='bg-gray-100 py-1 px-2 flex gap-2 rounded-md hover:opacity-70 text-sm'>
                                         <p>Upgrade to Paid Package</p>
                                         <i class="fa-solid fa-chevron-right mt-1"></i>
@@ -147,7 +147,7 @@ const ManageProperty = () => {
                         </div>
                     </div>
                     <div className='flex items-center justify-center mt-5'>
-                        <NavLink to={'/add-packages'} className={styles.formBtn + styles.btnBlackHover}>Continue to Refresh</NavLink>
+                        <NavLink to={'/membership'} className={styles.formBtn + styles.btnBlackHover}>Continue to Refresh</NavLink>
                     </div>
                 </div>
             </div>}

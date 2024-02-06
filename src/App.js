@@ -13,6 +13,7 @@ import ManageProperty from './pages/MyDashboard/ManageProperty';
 import ManageProfile from './pages/MyDashboard/ManageProfile';
 import Profile from './pages/Agents/Profile';
 import EditProfile from './pages/MyDashboard/EditProfile';
+import AdPackageDetail from './pages/PostProperty/AdPackageDetail';
 
 function App() {
   return (
@@ -27,7 +28,8 @@ function App() {
         <Route path='/post-property' element={<PostProperty/>} />
         <Route path='/post-property/new-project' element={<NewProject/>} />
         <Route path='/buyer-registration' element={<BuyerRegistration/>} />
-        <Route path='/add-packages' element={<AdPackages/>} />
+        <Route path='/membership' element={<AdPackages/>} />
+        <Route path='/membership/detail' element={<AdPackageDetail/>} />
         <Route path='/manage-property' element={<ManageProperty/>} />
         <Route path='/dashboard/my-profile' element={<ManageProfile/>} />
         <Route path='/dashboard/edit-profile' element={<EditProfile/>} />
