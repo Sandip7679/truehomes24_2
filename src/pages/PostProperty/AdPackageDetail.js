@@ -57,7 +57,7 @@ const AdPackageDetail = () => {
                     <div className=''>Grand Total<span className='font-semibold ml-4'>Rs. 59</span></div>
                   </div>
                   <div className='mx-auto my-auto'>
-                    <button onClick={()=>setOpenGateway(true)} className={styles.formBtn + styles.btnBlackHover + 'px-14'}>Pay Now</button>
+                    <button onClick={()=>setOpenGateway(true)} className={styles.formBtn + styles.btnBlackHover + ' w-[180px] py-[5px] px-14'}>Pay Now</button>
                      {openGateway && <PaymentGateway closeGateway={()=>setOpenGateway(false)} />}
                   </div>
                 </div>

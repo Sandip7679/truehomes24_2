@@ -26,7 +26,7 @@ const PaymentGateway = ({closeGateway}) => {
             const options = {
                 key: 'rzp_test_YoJ0a1xySRHBf7',// Replace this with your actual Razorpay key
                 key_secret: '9jRq5GsulKHvNOTgAT69T5AH',
-                amount: 100, // Amount in paise (e.g., 10000 paise = ₹100)
+                amount: 5900, // Amount in paise (e.g., 10000 paise = ₹100)
                 currency: 'INR',
                 name: 'Your Company Name',
                 description: 'Test Transaction',
