@@ -40,7 +40,7 @@ const FAQs = () => {
                                 <p className={styles.textMedium + 'text-left ml-1'}>{item.question}</p>
                                 <p className='text-lg'>+</p>
                             </button>
-                            {currInd == index && <div className={styles.textMedium + (currInd === index ? 'transition-transform ease-in-out transform duration-500 ' : '') + ' border-t-[1px] shadow-lg border-t-gray-500 py-2 md:py-4 px-[1%]'}>
+                            {currInd == index && <div className={styles.textMedium + (currInd === index ? 'duration-500 ' : '') + ' border-t-[1px] shadow-lg border-t-gray-500 py-2 md:py-4 px-[1%]'}>
                                 {item.answer}
                             </div>}
                         </div>
