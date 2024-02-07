@@ -5,7 +5,7 @@ import Carousel from 'react-multi-carousel';
 
 const RecentViewCard = ({ title, Data }) => {
     return (
-        <div className='px-[1%] bg-white py-5 pb-2 shadow-sm sm:min-w-[280px] lg:min-w-[350] cursor-pointer'>
+        <div className='px-[1%] bg-white py-5 pb-2 shadow-sm sm:min-w-[280px] lg:min-w-[320px] xl:max-w-[380px] cursor-pointer'>
             <h1 className={styles.title2 + 'text-gray-700 pl-2 sm:pl-5'}>{title}</h1>
             <Carousel
                 swipeable={true}

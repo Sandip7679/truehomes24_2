@@ -3,7 +3,7 @@ import { styles } from '../Styles/Styles';
 
 const GetCallBack = () => {
     return (
-        <div className='shadow-xl rounded-sm border-[1px] bg-white pb-8 px-4 w-[90%] max-w-[360px] md:w-[30%] py-1'>
+        <div className='shadow-xl rounded-sm border-[1px] bg-white pb-8 px-4 py-1'>
             <div className='text-center py-2'>
                  <p className='text-gray-400'>We will take care of</p>
                  <p className={styles.title2+'text-orange-500'}>SEARCH</p>

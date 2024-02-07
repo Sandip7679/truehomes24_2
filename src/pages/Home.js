@@ -168,7 +168,7 @@ const Home = () => {
                     backgroundImage: `url(${bgImage})`,
                 }}
             >
-                <div className='min-w-[70%]'>
+                <div className='container px-2 sm:px-[10%] mx-auto'>
                     <div className='sm:flex border-black '>
                         <button className='px-2 lg:px-5 py-2 border-black bg-white hover:bg-gray-800 hover:text-white border-r-0 border-[1px]'>
                             Buy
@@ -278,7 +278,7 @@ const Home = () => {
                 </div>
             </main>
 
-            <div className="items-center bg-center mt-4 py-5">
+            <div className="container mx-auto mt-4 py-5">
                 <h1 className={styles.title1}>Truehomes24 - Among The best Real Estate Websites in India</h1>
                 <div className="">
                     <p className={styles.paragraph}>
