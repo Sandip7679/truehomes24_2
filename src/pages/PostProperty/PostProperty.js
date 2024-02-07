@@ -9,20 +9,20 @@ import Gallery from '../../components/PostProperty/Gallery';
 import TopCItiesFilter from '../../components/TopCItiesFilter';
 import Footer from '../../components/Footer';
 import GeneralInfo from '../../components/PostProperty/GeneralInfo';
+import { useSelector } from 'react-redux';
 
 
-const catagories = ['General Info','Property Info', 'Amenities', 'Nearby Places', 'Gallery'];
+const catagories = ['Property Info', 'Amenities', 'Nearby Places', 'Gallery'];
+
 
 const PostProperty = () => {
-    const [formCatagory, setFormCategory] = useState('General Info');
-    const [formCatagories,setFormCategories] = useState(catagories);
+    const { login_status} = useSelector(state => state.User)
+    const [currCatagory, setCurrCategory] = useState(login_status?'Property Info':'General Info');
     useEffect(()=>{
-        if(localStorage.getItem('isLoggedIn') ==='true'){
-            let arr = ['Property Info', 'Amenities', 'Nearby Places', 'Gallery'];
-            setFormCategory('Property Info');
-            setFormCategories(arr);
-         }
-    },[])
+        if(login_status){
+            setCurrCategory('Property Info');
+        }
+    },[login_status])
 
     return (
         <div>
@@ -30,13 +30,13 @@ const PostProperty = () => {
             <div className='mt-[80px]'>
                 <div className={styles.postpropTitle}>Post your Property</div>
                 <div className='mt-5 px-2 container mx-auto'>
-                    <FormCatagories catagories={formCatagories} activeCatagory={formCatagory} onClickItem={(item) => setFormCategory(item)} />
+                    <FormCatagories catagories={login_status?catagories:['General Info',...catagories]} activeCatagory={currCatagory} onClickItem={(item) => setCurrCategory(item)} />
                     <div className={styles.formCard}>
-                        {formCatagory === 'General Info' && <GeneralInfo />}
-                        {formCatagory === 'Property Info' && <PropertyInfo />}
-                        {formCatagory === 'Amenities' && <Amenities />}
-                        {formCatagory === 'Nearby Places' && <NearbyPlaces />}
-                        {formCatagory === 'Gallery' && <Gallery />}
+                        {currCatagory === 'General Info' && <GeneralInfo />}
+                        {currCatagory === 'Property Info' && <PropertyInfo />}
+                        {currCatagory === 'Amenities' && <Amenities />}
+                        {currCatagory === 'Nearby Places' && <NearbyPlaces />}
+                        {currCatagory === 'Gallery' && <Gallery />}
                     </div>
 
                 </div>

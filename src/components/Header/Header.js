@@ -13,6 +13,8 @@ import { NavLink } from 'react-router-dom';
 import Auth from '../Auth';
 import MobileMenu from './MobileMenu';
 import { DropdownHover } from '../Dropdowns';
+import { useDispatch, useSelector } from 'react-redux';
+import { logout } from '../../Redux/reducer/User';
 const cities = [
     { city: 'Dubai' },
     { city: 'Toronto' },
@@ -55,7 +57,8 @@ const Header = () => {
     const cityRef = useRef(null);
 
     const [showLoginPopup, setShowLoginPopup] = useState(false);
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const { login_status,userData } = useSelector(state => state.User)
+    const dispatch = useDispatch();
 
     useEffect(() => {
         // document.getElementById('dropdown-city').addEventListener('blur', () => {
@@ -71,7 +74,7 @@ const Header = () => {
             { name: 'Manage Property', endpoint: '/manage-property' },
             { name: 'My Order', endpoint: null },
             { name: 'Manage Profile', endpoint: '/dashboard/my-profile' },
-            { name: 'Sign Out', endpoint: '/',onClick:logout},
+            { name: 'Sign Out', endpoint: '/',onClick:handleLogout},
         
         ];
         closeOnClickOutside('dropdown-city', 'city-menu');
@@ -86,15 +89,16 @@ const Header = () => {
         //     document.getElementById('post-property-menu').classList.add('hidden');
         // });
 
-         if(localStorage.getItem('isLoggedIn')==='true'){
-            setIsLoggedIn(true);
-         }
+        //  if(localStorage.getItem('isLoggedIn')==='true'){
+        //     setIsLoggedIn(true);
+        //  }
 
     }, []);
 
-    const logout = ()=>{
+    const handleLogout = ()=>{
         localStorage.setItem('isLoggedIn',false);
-        setIsLoggedIn(false);
+        dispatch(logout());
+        // setIsLoggedIn(false);
     }
     const closeOnClickOutside = (parentId, childId) => {
         document.addEventListener('click', (e) => {
@@ -108,10 +112,6 @@ const Header = () => {
 
     const onCloseLoginPopup = () => {
         setShowLoginPopup(false);
-    }
-    const onLoggedIn = ()=>{
-        setIsLoggedIn(true);
-        localStorage.setItem('isLoggedIn',true);
     }
 
     return (
@@ -254,7 +254,7 @@ const Header = () => {
                         </div>
                     </div>
                     <div className='pr-2 md:pr-5'>
-                        {!isLoggedIn ? <button
+                        {!login_status ? <button
                             onClick={() => setShowLoginPopup(true)}
                             className={styles.textMedium + 'text-white px-2 sm:px-4 py-1 rounded-md ml-4 bg-gray-600  hover:bg-gray-500'}>
                             Register/Login
@@ -275,7 +275,7 @@ const Header = () => {
 
             </div>
 
-            {showLoginPopup && <Auth login={onLoggedIn} onClose={onCloseLoginPopup} />}
+            {showLoginPopup && <Auth onClose={onCloseLoginPopup} />}
         </nav>
 
     );

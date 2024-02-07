@@ -14,13 +14,25 @@ import ManageProfile from './pages/MyDashboard/ManageProfile';
 import Profile from './pages/Agents/Profile';
 import EditProfile from './pages/MyDashboard/EditProfile';
 import AdPackageDetail from './pages/PostProperty/AdPackageDetail';
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { setuser } from './Redux/reducer/User';
 
 function App() {
+  const dispatch = useDispatch();
+
+  useEffect(()=>{
+     if(localStorage.getItem('isLoggedIn') == 'true'){
+       dispatch(setuser({}));
+     };
+  },[])
+
   return (
     <>
       <Routes>
         <Route path='/' element={<Home />} />
-        <Route path='/property-list' element={<PropertyList />} />
+        <Route path='/property-list' element={<PropertyList />}/>
+        <Route path='/:propertyFor' element={<PropertyList />}/>
         <Route path='/agents' element={<Agents/>} />
         <Route path='/builders' element={<Builders/>} />
         <Route path='/project_details' element={<ProjectDetails/>} />

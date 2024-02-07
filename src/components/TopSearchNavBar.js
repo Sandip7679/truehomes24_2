@@ -5,6 +5,7 @@ import buyIcon from '../assets/Icons/buy-buy.png';
 import newProjectIcon from '../assets/Icons/bulding-project.png';
 import { styles } from '../Styles/Styles';
 import { BudgetMenu } from './Dropdowns';
+import { useParams, useHistory } from 'react-router-dom';
 // import { document } from 'postcss';
 
 
@@ -44,18 +45,18 @@ const moreDatas = {
 }
 
 const searchTypes = [
-    { type: 'Buy', icon: buyIcon },
-    { type: 'Rent', icon: homeKey },
-    { type: 'New Projects', icon: newProjectIcon }
+    { type: 'Buy', icon: buyIcon,value:'buy' },
+    { type: 'Rent', icon: homeKey,value:'rent' },
+    { type: 'New Projects', icon: newProjectIcon,value:'new-project' }
 ]
 
 
 const TopSearchNavBar = () => {
-
-    // const [selectedBHK, setSelectedBHK] = useState(null);
     const [currSearchIndex, setCurrSearchIndex] = useState(0);
+    const {propertyFor} = useParams();
 
     useEffect(() => {
+        console.log('propertyFor..',propertyFor);
         closeOnClickOutside('budget-dropdown', 'budget-menu');
         closeOnClickOutside('bhk-dropdown', 'bhk-menu');
         closeOnClickOutside('property-type-dropdown', 'property-type-menu');

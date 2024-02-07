@@ -2,9 +2,19 @@ import React, { useState } from 'react';
 import { styles } from '../Styles/Styles';
 import { CrossIcon } from './svgIcons';
 import loginImage from '../assets/images/login-1.png'
+import { useDispatch} from 'react-redux';
+import { setuser } from '../Redux/reducer/User';
 
-const Auth = ({ onClose,login }) => {
+const Auth = ({ onClose }) => {
     const [isLogin, setIsLogin] = useState(true);
+    const dispatch = useDispatch();
+
+    const handleLogin = ()=>{
+        dispatch(setuser({}));
+        localStorage.setItem('isLoggedIn',true);
+        onClose();
+    }
+
     return (
         <div className='fixed top-0 z-[2000] flex -ml-2 w-full h-[100%] items-center justify-center bg-black bg-opacity-60'>
             <div className='relative overflow-auto min-h-[560px] max-h-screen w-[90%] sm:w-1/2 px-[3%] py-5 bg-white'>
@@ -32,12 +42,9 @@ const Auth = ({ onClose,login }) => {
                             </div>
                             <span className='ml-3'>Remember me</span>
                         </label>
-                        <button 
-                        onClick={()=>{
-                          onClose();
-                          login();
-                        }} 
-                        className={styles.btn + 'w-full hover:bg-gray-700 bg-gray-800 text-white mt-10 py-2 border-none'}>Login</button>
+                        <button
+                            onClick={handleLogin}
+                            className={styles.btn + 'w-full hover:bg-gray-700 bg-gray-800 text-white mt-10 py-2 border-none'}>Login</button>
                     </div>
                         :
                         <div className='w-full md:w-[55%] mb-10'>

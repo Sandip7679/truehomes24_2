@@ -31,7 +31,7 @@ const NewProject = () => {
             <Header />
             <div className='mt-[80px]'>
                 <div className={styles.postpropTitle}>New Projects</div>
-                <div className='mt-5 px-[5%] sm:px-[8%] mb-10'>
+                <div className='mt-5 px-2 container mx-auto mb-10'>
                     <FormCatagories catagories={formCatagories} activeCatagory={formCatagory} onClickItem={(item)=>setFormCategory(item)}/>
                     <div className={styles.formCard}>
                         <NewProjectInfo/>

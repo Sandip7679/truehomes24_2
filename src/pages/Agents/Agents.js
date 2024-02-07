@@ -27,8 +27,8 @@ const Agents = () => {
     return (
         <div className=''>
             <Header />
-            <div className='px-2'>
-                <div className='mt-16 px-[2%] py-10'>
+            <div className='mt-16 px-2 container mx-auto'>
+                <div className='py-10'>
                     <div className='flex flex-wrap justify-between w-[90%]'>
                         <div className='mb-5'>
                             <p className={styles.title4}>Real Estate Agents</p>
@@ -56,7 +56,7 @@ const Agents = () => {
                         </div>
                     </div>
                 </div>
-                <div className='flex flex-wrap gap-2 justify-start sm:gap-4 pl-[5%]'>
+                <div className='flex flex-wrap gap-2 justify-start sm:gap-4'>
                     {agentsData.map((item, index) => {
                         return (
                             <div key={index} className='shadow-md border-[1px] rounded flex flex-col justify-center items-center w-[90%] sm:w-[45%] md:w-[23%] py-5'>
