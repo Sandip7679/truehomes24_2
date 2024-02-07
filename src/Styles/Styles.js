@@ -7,7 +7,7 @@ export const styles = {
     btnBorderLess:'flex text-black text-sm md:text-base px-2 py-1 rounded-md ml-0 hover:bg-gray-200 ',
     dropdownMenu:'absolute hidden group-hover:block z-50 bg-white text-gray-800 top-8 pb-0 border-gray-300 border-[1px] w-[100%] shadow-sm text-sm ',
     dropdownContainer:'absolute hidden z-50 bg-white p-2 pt-2 w-[180px] overflow-auto max-h-[300px] md:w-[335px] lg:w-[460px] sm:ml-0 text-gray-800 top-8 border-gray-300 border-[1px] ',
-    dropdownItem:'p-2 text-sm border-b-[1px] border-gray-100 flex hover:bg-gray-100 ',
+    dropdownItem:'p-2 text-sm border-b-[1px] border-gray-100 flex hover:cursor-pointer hover:bg-gray-100 ',
     dropdownIcon:'fa-solid fa-chevron-down ml-[1px] text-gray-600 text-xs ',
     input:'border-[1px] border-gray-300 pl-2 py-2 w-[100%] focus:outline-none focus:border-gray-400 placeholder:text-gray-400 text-sm sm:text-base ',
     title1:'px-2 text-center text-xl sm:text-2xl font-semibold ',

@@ -56,10 +56,10 @@ const Agents = () => {
                         </div>
                     </div>
                 </div>
-                <div className='flex flex-wrap gap-2 justify-start sm:gap-4'>
+                <div className='px-[2%] grid grid-cols-1 xs:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2 sm:gap-4'>
                     {agentsData.map((item, index) => {
                         return (
-                            <div key={index} className='shadow-md border-[1px] rounded flex flex-col justify-center items-center w-[90%] sm:w-[45%] md:w-[23%] py-5'>
+                            <div key={index} className='shadow-md border-[1px] rounded flex flex-col justify-center items-center py-5'>
                                 <div className='flex flex-col justify-center items-center'>
                                     <img alt='' src={userIcon} className='h-[70px] w-[70px]' />
                                     <p className={styles.title4 + 'mt-1'}>{item.name}</p>

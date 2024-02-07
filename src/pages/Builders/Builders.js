@@ -7,6 +7,7 @@ import GetCallBack from '../../components/GetCallBack';
 import TopCItiesFilter from '../../components/TopCItiesFilter';
 import Footer from '../../components/Footer';
 import { NavLink } from 'react-router-dom';
+import { DropdownInput } from '../../components/PostProperty/PostPropertyComp';
 
 const buildersData = [
   { name: 'Lodha Group', totalProjects: '162', onGoingProj: '118', Bhks: [{ type: '2,3 BHK Mumbai', }, { type: '1,2 BHK Thane' }] },
@@ -38,6 +39,8 @@ const topBuildersData = [
   { name: 'Lodha Codename Never Before', project: '42' },
 ];
 
+const builderGallery = ['Builder Gallery','Builder Gallery in Kolkata',]
+
 const Builders = () => {
   return (
     <div>
@@ -54,10 +57,11 @@ const Builders = () => {
           <div className='mt-10 pt-10 min-h-[500px] bg-white'>
             <div className='container mx-auto px-2'>
               <div className='flex flex-wrap mx-auto gap-5 justify-between'>
-                <button className={styles.btn + 'w-[30%] min-w-[150px] py-[6px] rounded-none items-center pl-5 justify-between'}>
+                {/* <button className={styles.btn + 'w-[30%] min-w-[150px] py-[6px] rounded-none items-center pl-5 justify-between'}>
                   Builder Galary
                   <DropdownIcon />
-                </button>
+                </button> */}
+                <DropdownInput options={builderGallery} placeholder={'Builder Gallery'} inputClass={'w-[30%] min-w-[150px] h-10 max-w-[400px]'}/>
                 <div className='flex min-w-[250px] w-[45%]'>
                   <input placeholder='Type a builder name here' className={styles.input + 'border-r-0 pl-6'} />
                   <button className={styles.btn + styles.btnBlackHover + ' border-gray-700 rounded-none md:w-[25%] bg-gray-700 text-white items-center'}>

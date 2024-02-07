@@ -15,6 +15,8 @@ import MobileMenu from './MobileMenu';
 import { DropdownHover } from '../Dropdowns';
 import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../../Redux/reducer/User';
+import useApi from '../../ApiConf';
+
 const cities = [
     { city: 'Dubai' },
     { city: 'Toronto' },
@@ -57,6 +59,7 @@ const Header = () => {
     const cityRef = useRef(null);
 
     const [showLoginPopup, setShowLoginPopup] = useState(false);
+    const {fetchData,loading,error} = useApi();
     const { login_status,userData } = useSelector(state => state.User)
     const dispatch = useDispatch();
 
@@ -92,8 +95,15 @@ const Header = () => {
         //  if(localStorage.getItem('isLoggedIn')==='true'){
         //     setIsLoggedIn(true);
         //  }
-
+        //    getCities();
     }, []);
+
+    const getCities = async ()=>{
+         
+         const data = await fetchData('header-menu?property_status=new project', 'GET');
+         console.log('data...',data);
+
+    }
 
     const handleLogout = ()=>{
         localStorage.setItem('isLoggedIn',false);
@@ -216,7 +226,7 @@ const Header = () => {
                                 More Services
                                 <Dropdown classname={'text-white mt-[4px]'} />
                             </button>
-                            <DropdownHover Items={moreServicesItem} />
+                            <DropdownHover MenuClass={'top-6 w-[250px]'} Items={moreServicesItem} />
                             {/* <div id='more-services-menu' className={styles.dropdownMenu + 'top-[24px] w-[200px]'}>
                                 <a href="#" class={styles.dropdownItem}>
                                     <img alt='' src={interiorDesiginStudio} className='h-5 w-6 mr-3 ' />
