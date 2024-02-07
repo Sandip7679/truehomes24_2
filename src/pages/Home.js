@@ -278,7 +278,7 @@ const Home = () => {
                 </div>
             </main>
 
-            <div className="container mx-auto mt-4 py-5">
+            <div className="container mx-auto px-[3%] mt-4 py-5">
                 <h1 className={styles.title1}>Truehomes24 - Among The best Real Estate Websites in India</h1>
                 <div className="">
                     <p className={styles.paragraph}>
@@ -294,7 +294,7 @@ const Home = () => {
                 </div>
             </div>
 
-            <div ref={propertyElement} id="properties" className='container mx-auto xl:px-10'>
+            <div ref={propertyElement} id="properties" className='container mx-auto px-[3%] xl:px-10'>
                 <PropertySlider Data={Data} type={'Featured Properties'} />
                 <div className='my-10 mt-[50px]'>
                     <PropertySlider type={'New Project'} Data={Data} />
