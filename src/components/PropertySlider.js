@@ -245,11 +245,11 @@ const responsive = {
         items: 3,
     },
     tablet: {
-        breakpoint: { max: 1024, min: 576 },
+        breakpoint: { max: 1024, min: 640 },
         items: 2,
     },
     mobile: {
-        breakpoint: { max: 576, min: 0 },
+        breakpoint: { max: 640, min: 0 },
         items: 1,
     },
 };

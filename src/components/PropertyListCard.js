@@ -10,7 +10,7 @@ import { NavLink } from 'react-router-dom';
 const PropertyListCard = ({ Data, func }) => {
 
     return (
-        <div className='rounded-xl flex flex-wrap md:flex-nowrap shadow-lg border-[1px] h-full mt-6 mx-2 group'>
+        <div className='rounded-xl flex flex-wrap md:flex-nowrap  lg:flex-wrap xl:flex-nowrap shadow-lg border-[1px] h-full mt-6 mx-2 group'>
             <NavLink to={'/project_details'} className='items-center relative border-gray-300 w-full  md:min-w-[33%]  h-full border-[1px] rounded-xl overflow-hidden  hover:cursor-pointer'>
                 <img alt='' src={Data.image}
                     className='w-full h-[240px] transform transition-transform hover:scale-110 duration-1000'
