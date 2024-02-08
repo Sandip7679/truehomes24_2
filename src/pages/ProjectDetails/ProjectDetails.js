@@ -253,7 +253,7 @@ const ProjectDetails = () => {
     const ovserveIntersection = () => {
         let observer = new IntersectionObserver((entries) => {
             if (!entries[0].isIntersecting) {
-                setNavClassState('fixed top-0 w-full shadow-md z-[1500] -ml-[9%] pr-[10%] mx-0 bg-white');
+                setNavClassState('fixed top-0 left-0 w-screen  shadow-md z-[1500] pr-[10%] bg-white');
             }
             else {
                 setNavClassState('');
@@ -286,29 +286,45 @@ const ProjectDetails = () => {
     return (
         <div>
             {navClassState === '' && <Header />}
+            {/* <div className={navClassState}>
+                <div className={(navClassState !== '' ? 'transition-transform ease-in-out transform translate-x-[8%] py-2 duration-[1500ms]' : 'hidden -mx-[8%]') + 'w-screen flex flex-wrap gap-2 border-b-gray-300 border-b-[1px] px-[2%] -mx-[2%]'}>
+                    {PropertyBarNames.map((item, index) => {
+                        return (
+                            <a key={index} href={`#${index}`}
+                                onClick={() => setPropDetailsTypeInd(index)}
+                                className={(propDetailsTypeInd === index ? 'border-b-[1px] animated-border border-black ' : '') + 'px-1 py-2'}>
+                                {item}
+                            </a>
+                        )
+                    })}
+                </div>
+            </div> */}
+
             <div className='bg-gray-50 py-5'>
                 {/* <div className='bg-white h-[100px]'>
                 </div> */}
-                <div className='mt-14 container mx-auto px-[2%]'>
-                    <div className='text-sm text-gray-500'> <NavLink to={'/'}>Home</NavLink>{' > '}<span> Property for Rent in Bangalore</span>{' > '}<span>Property for Rent in Jakkur</span>
+                <div className='mt-14 container mx-auto'>
+                    <div className='text-sm px-2 text-gray-500'> <NavLink to={'/'}>Home</NavLink>{' > '}<span> Property for Rent in Bangalore</span>{' > '}<span>Property for Rent in Jakkur</span>
                         {' > '}<span className='text-base'>Residential Land for Rent in Jakkur, Bangalore</span>
                     </div>
                     <div className='bg-white py-5 px-[2%] mt-1 shadow w-full md:flex md:gap-5'>
-                        <div className='relative w-full md:w-[65%]'>
-                            <img alt='' src='https://www.truehomes24.com/assets/properties/banner-01/6fbc57095a08783a071945a3507844fa.webp' className='h-[300px] sm:h-[350px] lg:h-[400px] w-full rounded-xl' />
-                            <div ref={observerElement} className='absolute top-[60%] pl-5 py-2 w-[80%] bg-black bg-opacity-10'>
-                                <p className='text-white text-xl sm:text-3xl'>Jakkur, Bangalore</p>
+                        <div className=' w-full md:w-[65%]'>
+                            <div className='relative'>
+                                <img alt='' src='https://www.truehomes24.com/assets/properties/banner-01/6fbc57095a08783a071945a3507844fa.webp' className='h-[300px] sm:h-[350px] lg:h-[400px] w-full rounded-xl' />
+                                <div ref={observerElement} className='absolute bottom-16 pl-5 py-2 w-[80%] bg-black bg-opacity-10'>
+                                    <p className='text-white text-xl sm:text-3xl'>Jakkur, Bangalore</p>
+                                </div>
                             </div>
-                            <div className='sm:flex mt-5 '>
-                                <div className=' sm:w-[30%] mt-1 text-center'>
+                            <div className='xs:flex my-5'>
+                                <div className=' xs:w-[30%] mt-1 text-center'>
                                     <p className='font-semibold'>Residential Land</p>
                                     <p className='text-sm'>Property Type</p>
                                 </div>
-                                <div className='sm:w-[30%] sm:border-x-2 sm:border-gray-300 mt-1 text-center'>
+                                <div className='xs:w-[30%] border-y-[1px] xs:border-y-0 xs:border-x-2 xs:border-gray-300 mt-1 text-center'>
                                     <p className='font-semibold'>Ready to Move</p>
                                     <p className='text-sm'>Project Status</p>
                                 </div>
-                                <div className='sm:w-[30%] mt-1 text-center'>
+                                <div className='xs:w-[30%] mt-1 text-center'>
                                     <p className='font-semibold'>1 Sq. Ft</p>
                                     <p className='text-sm'>(Total Area)</p>
                                 </div>
@@ -349,8 +365,8 @@ const ProjectDetails = () => {
                         {contactModalStatus.show && <Contact Data={contactModalStatus.data} func={onCloseContact} />}
                     </div>
 
-                    <div className='md:flex gap-5 mt-10'>
-                        <div className='w-full md:w-[70%]'>
+                    <div className='lg:flex justify-between mt-10'>
+                        <div className='w-full lg:w-[65%]'>
                             <div className='bg-white shadow-md px-[2%] py-5 w-full'>
                                 <div className={navClassState}>
                                     <div className={(navClassState !== '' ? 'transition-transform ease-in-out transform translate-x-[8%] py-2 duration-[1500ms]' : '') + ' flex flex-wrap gap-2 border-b-gray-300 border-b-[1px] px-[2%] -mx-[2%]'}>
@@ -370,14 +386,44 @@ const ProjectDetails = () => {
                                 <div id='0' className='scroll-mt-20'>
                                     <p className={styles.title4 + 'mt-8'}>Property Details</p>
                                     <div className='flex justify-between flex-wrap'>
-                                        {PropertyDetailsData.map((item, index) => {
-                                            return (
-                                                <div key={index} className='w-[50%] sm:w-[30%] mt-2'>
-                                                    <span className=''>{item.key}: </span>
-                                                    <span className='text-gray-500 '>{item.val}</span>
-                                                </div>
-                                            )
-                                        })}
+                                        <div className='w-[50%] sm:w-[30%] mt-2'>
+                                            {PropertyDetailsData.map((item, index) => {
+                                                return (
+                                                    <>
+                                                       {index < 3 && <div key={index} className='mt-1' >
+                                                            <span className=''>{item.key}: </span>
+                                                            <span className='text-gray-500 '>{item.val}</span>
+                                                        </div>}
+                                                    </>
+                                                )
+                                            })}
+                                        </div>
+                                        <div className='w-[50%] sm:w-[30%] mt-2'>
+                                            {PropertyDetailsData.map((item, index) => {
+                                                return (
+                                                    <>
+                                                       {index > 2 && index < 6 && <div key={index} className='mt-1'>
+                                                            <span className=''>{item.key}: </span>
+                                                            <span className='text-gray-500 '>{item.val}</span>
+                                                        </div>}
+                                                    </>
+                                                )
+                                            })}
+                                        </div>
+                                        <div className='w-[50%] sm:w-[30%] mt-2'>
+                                            {PropertyDetailsData.map((item, index) => {
+                                                return (
+                                                    <>
+                                                       {index > 5 && <div key={index} className='mt-1'>
+                                                            <span className=''>{item.key}: </span>
+                                                            <span className='text-gray-500 '>{item.val}</span>
+                                                        </div>}
+                                                    </>
+                                                )
+                                            })}
+                                        </div>
+
+
                                     </div>
                                 </div>
                                 <div className='mt-8'>
@@ -509,7 +555,7 @@ const ProjectDetails = () => {
 
                         </div>
 
-                        <div className='w-full md:w-[30%]'>
+                        <div className='w-full lg:w-[33%] xl:max-w-[400px]'>
                             <RecentViewCard title={'Featured Property'} Data={rightSectionData} />
                             <RightListCard title={'Recently Added Property'} data={Data} />
                             <RightListCard title={'Recent Blog'} data={recentBlogsData} />

@@ -10,7 +10,7 @@ const RightListCard = ({ title, data }) => {
                 {data.map((item, index) => {
                     return (
                         <div key={index} className='flex gap-3 mt-5'>
-                            <div className='w-[25%] min-w-[60px] max-h-[105px] relative p-1 border-[1px] border-gray-300'>
+                            <div className='w-[25%] min-w-[85px] max-h-[105px] relative p-1 border-[1px] border-gray-300'>
                                 <img alt='' src={item.image} className='h-[95px] w-full' />
                                 {title !== 'Recent Blog' && <button className={styles.labelBtn + 'absolute right-2 top-2 rounded bg-orange-600'}>
                                     Sale
