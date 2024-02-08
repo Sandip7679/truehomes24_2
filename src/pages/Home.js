@@ -205,7 +205,7 @@ const Home = () => {
                                     </div>
                                     <div className='relative group z-10'>
                                         <button
-                                            onClick={() => document.getElementById('bhk-menu').classList.toggle('hidden')}
+                                            // onClick={() => document.getElementById('bhk-menu').classList.toggle('hidden')}
                                             id='bhk-btn'
                                             className={styles.btnBorderLess + 'px-[5px]'}>
                                             BHK

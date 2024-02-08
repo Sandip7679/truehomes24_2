@@ -151,7 +151,7 @@ const Header = () => {
                         </button>
                         <div
                             id='city-menu'
-                            className="absolute hidden bg-white p-2 pt-2 w-[280px] overflow-auto h-[500px] pb-10 md:w-[335px] lg:w-[430px] space-y-2 -ml-[90px] sm:ml-0 text-gray-800 top-9 border-gray-300 border-[1px] rounded-md"
+                            className="absolute hidden bg-white p-2 pt-2 overflow-auto h-[500px] pb-10 w-screen max-w-[430px] space-y-2 -ml-[90px] sm:ml-0 text-gray-800 top-9 border-gray-300 border-[1px] rounded-md"
                         >
                             <div className='grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2 mt-2'>
                                 {cities.map((item,index) => {
@@ -209,7 +209,7 @@ const Header = () => {
                             </div>
                         </div> */}
                     </div>
-                    <div className='hidden lg:flex space-x-4'>
+                    <div className='hidden lg:flex flex-shrink-0 space-x-4'>
                         <div className='hidden xl:flex md:gap-5'>
                             <NavLink to={'/property-list'} className="text-gray-100 hover:cursor-pointer hover:text-gray-400">Buy</NavLink>
                             <NavLink to={'/property-list'} className="text-gray-100 hover:cursor-pointer hover:text-gray-400">Rent</NavLink>
@@ -245,7 +245,7 @@ const Header = () => {
 
                     </div>
                 </div>
-                <div className='flex'>
+                <div className='flex flex-shrink-0'>
                     <div className="hidden md:flex">
                         <NavLink to={'/buyer-registration'}>
                             <button className={styles.btn + 'border-green-500 px-4 hover:bg-gray-700 text-white opacity-95'}>

@@ -76,9 +76,9 @@ const TopSearchNavBar = () => {
 
     return (
         <div className={styles.textMedium + 'w-full shadow'}>
-            <div className='p-2 xl:container pt-5 xl:flex gap-2 pl-[1%]'>
-                <div className='flex gap-1 sm:gap-2 xl:w-full sm:max-w-[80%]'>
-                    <div className='relative group'>
+            <div className='relative p-2 xl:container pt-5 xl:flex gap-2 pl-[1%]'>
+                <div className='flex gap-1 sm:gap-2 xl:w-full sm:max-w-[780px]'>
+                    <div className='absolute top-[110px] xs:top-[65px] xl:top-0 xl:relative group'>
                         <button className='p-0 pr-0 flex w-[147px]'>
                             <img alt='' className='h-4 w-4 mt-1 mr-2' src={searchTypes[currSearchIndex].icon} />
                             <p className={styles.textMedium + 'font-bold text-gray-800'}>{searchTypes[currSearchIndex].type}</p>
@@ -98,22 +98,23 @@ const TopSearchNavBar = () => {
                         </div>
                     </div>
 
-                    <div className='flex h-10 w-full'>
+                    <div className='xs:flex w-full'>
                         <div>
                             <SearchIcon imageClass={'w-5 h-5 absolute left-2 top-3'} />
                         </div>
-                        <input className={styles.textMedium + ' overflow-ellipsis focus:outline-none border-gray-300 rounded border-r-0 rounded-r-none border-[1px] w-[100%] pl-8'} placeholder='Pick City, Location, Project/Society...' />
-                        <button className='bg-orange-500 hover:bg-orange-600 hover: rounded-r-full p-2'>
+                        <input className={styles.textMedium + ' overflow-ellipsis focus:outline-none border-gray-300 rounded xs:border-r-0 rounded-r-none border-[1px] w-[100%] py-2 pl-8'} placeholder='Pick City, Location, Project/Society...' />
+                        <button className='bg-orange-500 hover:bg-orange-600 rounded xs:rounded-none xs:rounded-r-full p-2 w-full xs:w-16 mt-2 xs:mt-0'>
                             <p className={styles.textMedium + 'text-white'}>Search</p>
                         </button>
                     </div>
                 </div>
 
-                <div className='flex flex-wrap flex-shrink-0 mt-1 gap-1'>
+                <div className='flex flex-wrap flex-shrink-0 mt-1 gap-2'>
+                    <div className='w-[145px] xl:hidden'/>
                     <div id='bhk-dropdown' className='relative group'>
                         <button
                             onClick={() => document.getElementById('bhk-menu').classList.toggle('hidden')}
-                            id='bhk-btn' className={styles.btn + 'mx-1 py-[2px] sm:py-1'}>
+                            id='bhk-btn' className={styles.btn + 'py-[2px] sm:py-1 '}>
                             <p className='text-sm lg:text-base'>BHK</p>
                             <Dropdown />
                         </button>
@@ -137,7 +138,7 @@ const TopSearchNavBar = () => {
                         className='relative group'>
                         <button
                             onClick={() => document.getElementById('property-type-menu').classList.toggle('hidden')}
-                            className={styles.btn + 'mx-1 py-[2px] sm:py-1'}>
+                            className={styles.btn + 'py-[2px] sm:py-1 '}>
                             <p className='text-sm lg:text-base'>Property Type</p>
                             <Dropdown />
                         </button>
@@ -164,7 +165,7 @@ const TopSearchNavBar = () => {
                                     document.getElementById('budget-menu').classList.toggle('hidden');
                                 }
                             }}
-                            className={styles.btn + 'mx-1 py-[2px] sm:py-1'}>
+                            className={styles.btn + 'py-[2px] sm:py-1 '}>
                             <p className='text-sm lg:text-base'>Budget</p>
                             <Dropdown />
                         </button>
@@ -198,7 +199,7 @@ const TopSearchNavBar = () => {
                     <div className='relative group'>
                         <button
                             onClick={() => document.getElementById('more-menu').classList.toggle('hidden')}
-                            className={styles.btn + 'mx-1 py-[2px] sm:py-1'}>
+                            className={styles.btn + 'py-[2px] sm:py-1 '}>
                             <p className='text-sm lg:text-base'>More</p>
                             <Dropdown />
                         </button>
@@ -280,7 +281,7 @@ const TopSearchNavBar = () => {
                         className='relative group'>
                         <button
                             onClick={() => document.getElementById('shortBy-menu').classList.toggle('hidden')}
-                            className={styles.btn + 'mx-1 py-[2px] sm:py-1'}>
+                            className={styles.btn + 'py-[2px] sm:py-1 '}>
                             <p className='text-sm lg:text-base'>Short By</p>
                             <Dropdown />
                         </button>
@@ -299,7 +300,7 @@ const TopSearchNavBar = () => {
                         </div>
                     </div>
 
-                    <button className='ml-2 opacity-80 py-[2px] sm:py-1'>
+                    <button className='ml-2 opacity-80 py-[2px] sm:py-1 '>
                         <i class="fa-solid fa-rotate-right mr-1 text-sm lg:text-base"></i>
                         Clear All
                     </button>

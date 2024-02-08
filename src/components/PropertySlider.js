@@ -5,6 +5,7 @@ import { styles } from '../Styles/Styles';
 import Carousel from 'react-multi-carousel';
 import "react-multi-carousel/lib/styles.css";
 import { NavLink } from 'react-router-dom';
+import { ArrowLeft } from './svgIcons';
 
 
 
@@ -65,6 +66,10 @@ const PropertySlider = ({ Data, type }) => {
 
                         customButtonGroup={<div></div>}
                         customLeftArrow={
+                            // <button className='absolute rounded-full flex justify-center items-center -left-5  p-5'>
+                            //     <ArrowLeft classname={'w-10 h-10 text-blue-500'}/>
+                            //     <i class="hidden fa-solid fa-arrow-left text-gray-500 "></i>
+                            // </button>
                             <button className='absolute rounded-full flex justify-center items-center bg-white shadow-md p-5'>
                                 {/* <ArrowLeft /> */}
                                 <i class="fa-solid fa-arrow-left  text-gray-500 "></i>
