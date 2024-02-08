@@ -185,11 +185,13 @@ const Home = () => {
                     </div>
                     <div className='relative bg-white px-5 py-5 '>
                         <div className='sm:flex mt-5 lg:mt-0 bg-white justify-between  border-[1px] border-gray-300'>
-                            <div className='lg:flex px-2 py-2 w-[90%] justify-between'>
-                                <SearchIcon
-                                    imageClass='w-5 h-5 absolute left-2 top-[1px]  md:top-2'
-                                />
-                                <input placeholder='Pick City, Location, Project/Society...' className='pl-7 xl:pl-0 focus:outline-none min-w-[48%]' />
+                            <div className='lg:flex justify-between px-2 py-2 w-[90%]'>
+                                <div className='flex min-w-[48%]'>
+                                    <SearchIcon
+                                        imageClass='w-5 h-5 mt-[6px]'
+                                    />
+                                    <input placeholder='Pick City, Location, Project/Society...' className='pl-2 overflow-ellipsis text-sm sm:text-base w-full focus:outline-none' />
+                                </div>
                                 <div className='absolute top-1 left-4 lg:relative flex min-w-[320px]'>
                                     <div className='relative group z-10'>
                                         <button
@@ -199,7 +201,7 @@ const Home = () => {
                                             BUGDET
                                             <Dropdown />
                                         </button>
-                                        <BudgetMenu/>
+                                        <BudgetMenu />
                                     </div>
                                     <div className='relative group z-10'>
                                         <button
@@ -244,7 +246,7 @@ const Home = () => {
                                             PROPERTY TYPE
                                             <Dropdown />
                                         </button>
-                                        <PropertyMenu/>
+                                        <PropertyMenu />
                                         {/* <div
                                             // onClick={() => document.getElementById('property-type-menu').classList.toggle('hidden')}
                                             id='property-type-menu'
@@ -304,7 +306,7 @@ const Home = () => {
                 </div>
                 <div className='mb-16 mt-20 px-2 sm:px-5'>
                     <p className={styles.title2}>Top Developers in Ahmedabad</p>
-                    <div className='grid grid-cols-2 sm:grid-cols-3 gap-2 sm:gap-5 justify-center mt-5'>
+                    <div className='grid grid-cols-1 xs:grid-cols-2 lg:grid-cols-3 gap-2 sm:gap-5 justify-center mt-5'>
                         {TopDevelopersData.map((item, index) => {
                             return (
                                 <div key={index} className='group border-[1px] cursor-pointer hover:bg-gray-50 border-gray-300 p-2 rounded-md shadow-md'>
@@ -312,12 +314,12 @@ const Home = () => {
                                         <div className='border-[1px] w-[120px] border-gray-300 p-2 rounded-md'>
                                             <img alt='' className='h-[100px]' src={item.icon} />
                                         </div>
-                                        <b className='group-hover:text-green-600 text-gray-600'>
+                                        <b className='group-hover:text-green-600 text-gray-600 mb-2'>
                                             {item.name}
                                         </b>
                                     </div>
-                                    <div className='border-gray-300 sm:border-t-[1px] sm:p-2 flex justify-center item-center text-sm text-sky-700 font-semibold hover:underline'>
-                                        {item.project} project <span className='hidden sm:block ml-1'>by {item.name} in Ahmedabad</span>
+                                    <div className='border-gray-300 sm:border-t-[1px] sm:p-2 text-sm text-center text-sky-700 font-semibold hover:underline'>
+                                        <p>{item.project} project by {item.name} in Ahmedabad</p>
                                     </div>
                                 </div>
                             )
@@ -327,26 +329,26 @@ const Home = () => {
 
                 <div className='mb-16 mt-5 px-2 sm:px-5'>
                     <p className={styles.title2}>Top Localities in Ahmedabad</p>
-                    <div className='mt-5 grid grid-cols-2 sm:grid-cols-3 gap-2 sm:gap-5'>
+                    <div className='mt-5 grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-2 sm:gap-5'>
                         {topLocalities.map((item, index) => {
                             return (
                                 <div key={index} className='shadow-md rounded-md border-[1px] border-gray-300'>
-                                    <div className='flex flex-col sm:flex-row flex-start group p-2 border-b-gray-300 border-b-[1px]'>
+                                    <div className='flex gap-[2%] group p-2 border-b-gray-300 border-b-[1px]'>
                                         <img alt='' className='rounded-md w-[90px] h-[50px] cursor-pointer'
                                             src="https://static.squareyards.com/cdn-cgi/image/width=81,height=49,quality=80,fit=crop,gravity=auto,format=webp/localitymap-thumnail/chandkheda-ahmedabad.png"
                                         />
-                                        <div className='pl-0 sm:pl-5'>
+                                        <div className=''>
                                             <p className='font-semibold text-sm'>{item.name}</p>
                                             <p className='text-xs font-semibold text-blue-800 hover:underline cursor-pointer '>{item.projectNum} projects</p>
                                             <p className='text-xs font-semibold text-blue-800 hover:underline cursor-pointer'>{item.locality}</p>
                                         </div>
                                     </div>
-                                    <div className='sm:flex justify-between gap-1 p-2 py-4'>
-                                        <div className=''> 
+                                    <div className='flex flex-wrap justify-between gap-1 p-2 py-3'>
+                                        <div className='mb-1'>
                                             <p className='text-sm font-semibold'>{item.forSale} Properties for Sale </p>
                                             <p className='text-xs'>{item.locality}</p>
                                         </div>
-                                        <div className='border-t-[1px] mt-2 sm:mt-0 sm:border-0 sm:border-gray-300]'> 
+                                        <div className='mb-1'>
                                             <p className='text-sm font-semibold'>{item.forRent} Properties for Rent</p>
                                             <p className='text-xs'>{item.locality}</p>
                                         </div>
@@ -367,7 +369,7 @@ const Home = () => {
                 {/* <div className='px-2 md:px-10 mt-[80px] w-full items-center'>
                 </div> */}
             </div>
-                <TopCItiesFilter />
+            <TopCItiesFilter />
             <ScrollUp targetElement={propertyElement} />
             <div className=''>
                 <Footer />
