@@ -2,6 +2,7 @@ import React from 'react';
 import Carousel from 'react-multi-carousel';
 import { NavLink } from 'react-router-dom';
 import { styles } from '../Styles/Styles';
+import { ArrowLeft, ArrowRight } from './svgIcons';
 // import { ArrowLeft, ArrowRight } from './svgIcons';
 
 
@@ -12,7 +13,7 @@ import { styles } from '../Styles/Styles';
 const RecentAdded = ({ Data, func }) => {
     return (
         <div className='mt-10'>
-            <h1 className={styles.title1 + 'mb-8 text-start'}>Recnetly Added</h1>
+            <h1 className={styles.title1 + 'text-start px-0'}>Recnetly Added</h1>
             <Carousel
                 swipeable={true}
                 draggable={false}
@@ -23,18 +24,34 @@ const RecentAdded = ({ Data, func }) => {
                 autoPlaySpeed={2000}
                 keyBoardControl={true}
                 transitionDuration={2000}
-
+                itemClass='pt-10'
 
                 customButtonGroup={<div></div>}
                 customLeftArrow={
-                    <button className='absolute rounded-full flex justify-center items-center bg-white shadow-md p-5'>
-                        <i class="fa-solid fa-arrow-left "></i>
-                    </button>
+                    // <button className='absolute rounded-full flex justify-center items-center bg-white shadow-md p-5'>
+                    //     <i class="fa-solid fa-arrow-left "></i>
+                    // </button>
+                    <>
+                        <button className='absolute sm:hidden bg-black bg-opacity-30 opacity-70 hover:bg-opacity-60 rounded-full flex justify-center items-center p-2'>
+                            <ArrowLeft classname={'w-7 h-7 text-white'} />
+                        </button>
+                        <button className='hidden sm:flex justify-center items-center absolute rounded-full  bg-white shadow-md p-4'>
+                            <i class="fa-solid fa-arrow-left  text-gray-500 "></i>
+                        </button>
+                    </>
                 }
                 customRightArrow={
-                    <button className='absolute right-1 rounded-full flex justify-center items-center bg-white shadow-md p-5'>
-                        <i class="fa-solid fa-arrow-right "></i>
-                    </button>
+                    // <button className='absolute right-1 rounded-full flex justify-center items-center bg-white shadow-md p-5'>
+                    //     <i class="fa-solid fa-arrow-right "></i>
+                    // </button>
+                    <>
+                        <button className='absolute sm:hidden right-0 bg-black bg-opacity-30 opacity-70 hover:bg-opacity-60 rounded-full flex justify-center items-center p-2'>
+                            <ArrowRight classname={'w-7 h-7 text-white'} />
+                        </button>
+                        <button className='hidden absolute right-0 rounded-full sm:flex justify-center items-center bg-white shadow-md p-4'>
+                            <i class="fa-solid fa-arrow-right text-gray-500  "></i>
+                        </button>
+                    </>
                 }
             >
                 {Data.map((item, index) => {

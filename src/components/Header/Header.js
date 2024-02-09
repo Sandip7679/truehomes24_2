@@ -125,7 +125,7 @@ const Header = () => {
     }
 
     return (
-        <nav className="bg-gray-800 fixed top-0 z-[2000] p-2 w-screen">
+        <nav className="bg-gray-800 fixed top-0 z-[2000] left-0 p-2 w-screen">
             <div className="flex justify-between">
                 <div className="flex items-center">
                     <div class="xl:hidden z-[200] group">

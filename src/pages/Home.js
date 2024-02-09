@@ -10,6 +10,7 @@ import RecentAdded from '../components/RecentAdded';
 import Contact from '../components/Contact';
 import ScrollUp from '../components/ScrollUp';
 import { BudgetMenu, PropertyMenu } from '../components/Dropdowns';
+import NewsAndArticles from '../components/NewsAndArticles';
 // import { NavLink } from 'react-router-dom';
 // import ApiConf from '../ApiConf';
 
@@ -18,7 +19,43 @@ import { BudgetMenu, PropertyMenu } from '../components/Dropdowns';
 // const rupees = [30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80];
 // const baseURL = "https://www.truehomes24.com/api/"
 
-
+const NewsArticlesData = [
+    {
+        title:'Stamp duty and registration charges in Mumbai',
+        description:'We examine the cost that buyers have to bear as stamp duty and registration charges in Mumbai.',
+        writer:'Sunita Mishra',
+        date:'Feb 2024',
+        image: "https://www.truehomes24.com/assets/properties/banner-01/6fbc57095a08783a071945a3507844fa.webp",
+    },
+    {
+        title:'Stamp duty and registration charges in Mumbai',
+        description:'We examine the cost that buyers have to bear as stamp duty and registration charges in Mumbai.',
+        writer:'Sunita Mishra',
+        date:'Feb 2024',
+        image: "https://www.truehomes24.com/assets/properties/banner-02/6195f1a4b44efe4bd85420205df57e4a.webp",
+    },
+    {
+        title:'Stamp duty and registration charges in Mumbai',
+        description:'We examine the cost that buyers have to bear as stamp duty and registration charges in Mumbai.',
+        writer:'Sunita Mishra',
+        date:'Feb 2024',
+        image: "https://www.truehomes24.com/assets/properties/banner-02/3fa85544ffca6abb5843dd1aeedf1c73.webp",
+    },
+    {
+        title:'Stamp duty and registration charges in Mumbai',
+        description:'We examine the cost that buyers have to bear as stamp duty and registration charges in Mumbai.',
+        writer:'Sunita Mishra',
+        date:'Feb 2024',
+        image: "https://www.truehomes24.com/assets/properties/banner-02/93a4b41ca5c17860d1b44af1f032afa9.webp",
+    },
+    {
+        title:'Stamp duty and registration charges in Mumbai',
+        description:'We examine the cost that buyers have to bear as stamp duty and registration charges in Mumbai.',
+        writer:'Sunita Mishra',
+        date:'Feb 2024',
+        image: "https://www.truehomes24.com/assets/properties/banner-01/6fbc57095a08783a071945a3507844fa.webp",
+    },
+]
 
 const Data = [
     {
@@ -168,7 +205,7 @@ const Home = () => {
                     backgroundImage: `url(${bgImage})`,
                 }}
             >
-                <div className='container px-2 sm:px-[10%] mx-auto'>
+                <div className='container px-2 mx-auto sm:px-[10%]'>
                     <div className='sm:flex border-black '>
                         <button className='px-2 lg:px-5 py-2 border-black bg-white hover:bg-gray-800 hover:text-white border-r-0 border-[1px]'>
                             Buy
@@ -280,7 +317,7 @@ const Home = () => {
                 </div>
             </main>
 
-            <div className="container mx-auto px-[3%] mt-4 py-5">
+            <div className="container mx-auto px-2 mt-4 py-5">
                 <h1 className={styles.title1}>Truehomes24 - Among The best Real Estate Websites in India</h1>
                 <div className="">
                     <p className={styles.paragraph}>
@@ -304,6 +341,7 @@ const Home = () => {
                 <div className='my-10 mt-[50px] px-5'>
                     <RecentAdded Data={Data} func={onClickContactBtn} />
                 </div>
+                <NewsAndArticles Data={NewsArticlesData} type={'News & Articles'}/>
                 <div className='mb-16 mt-20 px-2 sm:px-5'>
                     <p className={styles.title2}>Top Developers in Ahmedabad</p>
                     <div className='grid grid-cols-1 xs:grid-cols-2 lg:grid-cols-3 gap-2 sm:gap-5 justify-center mt-5'>

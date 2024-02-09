@@ -286,20 +286,6 @@ const ProjectDetails = () => {
     return (
         <div>
             {navClassState === '' && <Header />}
-            {/* <div className={navClassState}>
-                <div className={(navClassState !== '' ? 'transition-transform ease-in-out transform translate-x-[8%] py-2 duration-[1500ms]' : 'hidden -mx-[8%]') + 'w-screen flex flex-wrap gap-2 border-b-gray-300 border-b-[1px] px-[2%] -mx-[2%]'}>
-                    {PropertyBarNames.map((item, index) => {
-                        return (
-                            <a key={index} href={`#${index}`}
-                                onClick={() => setPropDetailsTypeInd(index)}
-                                className={(propDetailsTypeInd === index ? 'border-b-[1px] animated-border border-black ' : '') + 'px-1 py-2'}>
-                                {item}
-                            </a>
-                        )
-                    })}
-                </div>
-            </div> */}
-
             <div className='bg-gray-50 py-5'>
                 {/* <div className='bg-white h-[100px]'>
                 </div> */}
@@ -369,7 +355,7 @@ const ProjectDetails = () => {
                         <div className='w-full lg:w-[65%]'>
                             <div className='bg-white shadow-md px-[2%] py-5 w-full'>
                                 <div className={navClassState}>
-                                    <div className={(navClassState !== '' ? 'transition-transform ease-in-out transform translate-x-[8%] py-2 duration-[1500ms]' : '') + ' flex flex-wrap gap-2 border-b-gray-300 border-b-[1px] px-[2%] -mx-[2%]'}>
+                                    <div className={(navClassState !== '' ? 'transition-transform ease-in-out transform translate-x-[8%] py-2 duration-[1500ms] border-b-0 ' : ' border-b-[1px]') + ' flex flex-wrap gap-2 border-b-gray-300  px-[2%] -mx-[2%]'}>
                                         {PropertyBarNames.map((item, index) => {
                                             return (
                                                 <a key={index} href={`#${index}`}
@@ -422,13 +408,11 @@ const ProjectDetails = () => {
                                                 )
                                             })}
                                         </div>
-
-
                                     </div>
                                 </div>
-                                <div className='mt-8'>
+                                <div className='mt-8 pb-5'>
                                     <p className={styles.title4 + 'ml-1'}>Amnetities</p>
-                                    <div className='flex flex-wrap justify-between mt-2'>
+                                    <div className='flex flex-wrap justify-between mt-4'>
                                         {Amenities.map((item, index) => {
                                             return (
                                                 <div key={index} className='flex w-[50%] min-w-[180px] sm:w-[30%]'>

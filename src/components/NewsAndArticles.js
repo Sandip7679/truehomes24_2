@@ -1,12 +1,10 @@
-import React, { useEffect, useState } from 'react';
-import { styles } from '../Styles/Styles';
+import React from 'react';
 import Carousel from 'react-multi-carousel';
-import "react-multi-carousel/lib/styles.css";
-import { NavLink } from 'react-router-dom';
 import { ArrowLeft, ArrowRight } from './svgIcons';
+import { styles } from '../Styles/Styles';
+import { NavLink } from 'react-router-dom';
 
-const PropertySlider = ({ Data, type }) => {
-
+const NewsAndArticles = ({Data,type}) => {
     return (
         <div>
             <div className='mb-10'>
@@ -51,8 +49,8 @@ const PropertySlider = ({ Data, type }) => {
                     >
                         {Data.map((item, index) => {
                             return (
-                                <div key={index} className=' rounded-md shadow-lg border-[1px] h-full mx-4  group'>
-                                    <NavLink to={'/project_details'}>
+                                <div key={index} className=' rounded-md shadow-lg border-[1px] h-full mx-4 group'>
+                                    <NavLink to={''}>
                                         <div className='relative items-center rounded-t-md overflow-hidden hover:cursor-pointer'>
                                             <img alt='' src={item.image}
                                                 className='h-[170px] w-full transform transition-transform hover:scale-110 duration-1000'
@@ -60,17 +58,13 @@ const PropertySlider = ({ Data, type }) => {
                                         </div>
                                     </NavLink>
 
-                                    <div className='relative p-3 min-h-[230px] text-left'>
-                                        <h1 className={styles.title4}>{item.title}</h1>
-                                        <p className='text-sm'>by {item.listedBy}</p>
-                                        <p className='text-sm mt-3'>3.5, 4, 5 BHK Apartment </p>
-                                        <div className='flex'>
-                                            <h1 className='text-sm text-gray-500'>{item.location}</h1>
-                                        </div>
-
-                                        <div className='absolute bottom-1'>
-                                            <p className={styles.title4 + 'mt-3'}>{'\u20B9'} 25 Cr</p>
-                                        </div>
+                                    <div className='relative p-3 text-left border-b-[1px] border-gray-300'>
+                                        <p className={styles.title4}>{item.title}</p>
+                                        <p className='text-sm text-gray-600 '>{item.description}</p>
+                                    </div>
+                                    <div className='px-3 pb-3 pt-1 flex justify-between text-sm text-gray-600'>
+                                        <p>{item.writer}</p>
+                                        <p>{item.date}</p>
                                     </div>
                                 </div>
                             )
@@ -81,6 +75,8 @@ const PropertySlider = ({ Data, type }) => {
         </div>
     );
 }
+
+export default NewsAndArticles;
 
 const responsive = {
     superLargeDesktop: {
@@ -101,5 +97,3 @@ const responsive = {
         items: 1,
     },
 };
-
-export default PropertySlider;

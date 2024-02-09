@@ -4,7 +4,7 @@ import { LocationIcon } from './svgIcons';
 
 const RightListCard = ({ title, data }) => {
     return (
-        <div className='px-2 mt-8 bg-white py-5 pb-2 shadow-sm sm:min-w-[280px] lg:min-w-[350] cursor-pointer'>
+        <div className='px-2 mt-10 bg-white py-5 pb-2 shadow-sm sm:min-w-[280px] lg:min-w-[350] cursor-pointer'>
             <h1 className={styles.title2 + 'text-gray-700'}>{title}</h1>
             <div>
                 {data.map((item, index) => {

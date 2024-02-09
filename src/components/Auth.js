@@ -2,16 +2,16 @@ import React, { useState } from 'react';
 import { styles } from '../Styles/Styles';
 import { CrossIcon } from './svgIcons';
 import loginImage from '../assets/images/login-1.png'
-import { useDispatch} from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { setuser } from '../Redux/reducer/User';
 
 const Auth = ({ onClose }) => {
     const [isLogin, setIsLogin] = useState(true);
     const dispatch = useDispatch();
 
-    const handleLogin = ()=>{
+    const handleLogin = () => {
         dispatch(setuser({}));
-        localStorage.setItem('isLoggedIn',true);
+        localStorage.setItem('isLoggedIn', true);
         onClose();
     }
 
@@ -31,53 +31,68 @@ const Auth = ({ onClose }) => {
                         onClick={() => setIsLogin(false)}
                         className={(!isLogin ? 'text-orange-600 border-b-[1px] border-orange-600' : '') + ' font-semibold text-lg'}>REGISTER</button>
                 </div>
-                <div className='mt-8 md:flex md:flex-wrap'>
-                    {isLogin ? <div className='transition-transform ease-in-out transform -translate-y-[200px] mt-[200px] py-2 duration-[1500ms] w-full md:w-[55%]'>
-                        <input className={styles.input + 'rounded py-2'} placeholder='Enter your email address' />
-                        <input className={styles.input + 'rounded py-2 mt-5'} placeholder='Enter your password' />
-                        <div className='text-end mt-2 cursor-pointer'>Forgot Password?</div>
-                        <label className='flex gap-2'>
-                            <div className='mt-[2px]'>
-                                <input type='checkbox' className='w-4 h-4' />
-                            </div>
-                            <span className='ml-3'>Remember me</span>
-                        </label>
-                        <button
-                            onClick={handleLogin}
-                            className={styles.btn + 'w-full hover:bg-gray-700 bg-gray-800 text-white mt-10 py-2 border-none'}>Login</button>
-                    </div>
-                        :
-                        <div className='w-full md:w-[55%] mb-10'>
-                            <input className={styles.input + 'rounded py-2'} placeholder='Register As' />
-                            <input className={styles.input + 'rounded py-2 mt-5'} placeholder='Your Good Name' />
-                            <input className={styles.input + 'rounded py-2 mt-5'} placeholder='Your Email Address' />
-                            <input className={styles.input + 'rounded py-2 mt-5'} placeholder='Your Password' />
-                            <div className='flex gap-2 mt-5'>
-                                <div className='w-[50%]'>
-                                    <div className={styles.btn + 'rounded-sm py-2'}>
-                                        +91 (India)
+                <div className={' mt-8'}>
+                    {isLogin ?
+                        <div className='transition-transform ease-in-out transform -translate-y-[100px] mt-[120px] py-2 duration-[1000ms] w-full md:flex md:flex-wrap'>
+                            <div className='w-full md:w-[55%] mb-6'>
+                                <input className={styles.input + 'rounded py-2'} placeholder='Enter your email address' />
+                                <input className={styles.input + 'rounded py-2 mt-5'} placeholder='Enter your password' />
+                                <div className='text-end mt-2 cursor-pointer'>Forgot Password?</div>
+                                <label className='flex gap-2'>
+                                    <div className='mt-[2px]'>
+                                        <input type='checkbox' className='w-4 h-4' />
                                     </div>
-                                </div>
-                                <input className={styles.input + 'rounded py-2 w-[50%]'} placeholder='Your Contact Number' />
+                                    <span className='ml-3'>Remember me</span>
+                                </label>
+                                <button
+                                    onClick={handleLogin}
+                                    className={styles.btn + 'w-full hover:bg-gray-700 bg-gray-800 text-white mt-10 py-2 border-none'}>Login</button>
                             </div>
-                            <label className='flex gap-2 mt-5'>
-                                <div className='mt-[2px]'>
-                                    <input type='checkbox' className='w-4 h-4' />
+                            <div className='items-center pl-[10%] w-full md:w-[45%]'>
+                                <img alt='' className='w-[60%] md:w-[90%]' src={loginImage} />
+                                <p className='text-gray-500 mt-2'>
+                                    {isLogin ?
+                                        'Welcome Back! Please login to your account now.'
+                                        : 'Create an account to find the best Property for you.'
+                                    }
+                                </p>
+                            </div>
+                        </div>
+                        :
+                        <div className='mt-8 md:flex md:flex-wrap'>
+                            <div className='w-full md:w-[55%] mb-10'>
+                                <input className={styles.input + 'rounded py-2'} placeholder='Register As' />
+                                <input className={styles.input + 'rounded py-2 mt-5'} placeholder='Your Good Name' />
+                                <input className={styles.input + 'rounded py-2 mt-5'} placeholder='Your Email Address' />
+                                <input className={styles.input + 'rounded py-2 mt-5'} placeholder='Your Password' />
+                                <div className='flex gap-2 mt-5'>
+                                    <div className='w-[50%]'>
+                                        <div className={styles.btn + 'rounded-sm py-2'}>
+                                            +91 (India)
+                                        </div>
+                                    </div>
+                                    <input className={styles.input + 'rounded py-2 w-[50%]'} placeholder='Your Contact Number' />
                                 </div>
-                                <span className='ml-3'>I've read and accept terms & conditions</span>
-                            </label>
-                            <button className={styles.btn + 'hover:bg-gray-700 w-full bg-gray-800 text-white mt-10 py-2'}>Sign Up</button>
+                                <label className='flex gap-2 mt-5'>
+                                    <div className='mt-[2px]'>
+                                        <input type='checkbox' className='w-4 h-4' />
+                                    </div>
+                                    <span className='ml-3'>I've read and accept terms & conditions</span>
+                                </label>
+                                <button className={styles.btn + 'hover:bg-gray-700 w-full bg-gray-800 text-white mt-10 py-2'}>Sign Up</button>
+                            </div>
+                            <div className='items-center pl-[10%] w-full md:w-[45%]'>
+                                <img alt='' className='w-[60%] md:w-[90%]' src={loginImage} />
+                                <p className='text-gray-500 mt-2'>
+                                    {isLogin ?
+                                        'Welcome Back! Please login to your account now.'
+                                        : 'Create an account to find the best Property for you.'
+                                    }
+                                </p>
+                            </div>
                         </div>
                     }
-                    <div className='items-center pl-[10%] w-full md:w-[45%]'>
-                        <img alt='' className='w-[60%] md:w-[90%]' src={loginImage} />
-                        <p className='text-gray-500 mt-2'>
-                            {isLogin ?
-                                'Welcome Back! Please login to your account now.'
-                                : 'Create an account to find the best Property for you.'
-                            }
-                        </p>
-                    </div>
+
                 </div>
                 {/* {!isLogin && <div>
 
