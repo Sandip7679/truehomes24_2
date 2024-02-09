@@ -17,6 +17,8 @@ import AdPackageDetail from './pages/PostProperty/AdPackageDetail';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { setuser } from './Redux/reducer/User';
+import ContactUs from './pages/QuickLinks/ContactUs';
+import FAQs from './pages/QuickLinks/FAQs';
 
 function App() {
   const dispatch = useDispatch();
@@ -45,6 +47,8 @@ function App() {
         <Route path='/manage-property' element={<ManageProperty/>} />
         <Route path='/dashboard/my-profile' element={<ManageProfile/>} />
         <Route path='/dashboard/edit-profile' element={<EditProfile/>} />
+        <Route path='/contact-us' element={<ContactUs/>} />
+        <Route path='/faqs' element={<FAQs/>} />
       </Routes>
     </>
   );

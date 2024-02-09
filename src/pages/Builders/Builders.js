@@ -2,7 +2,6 @@ import React from 'react';
 import Header from '../../components/Header/Header';
 import buildersBgImage from '../../assets/images/buildersBg.jpg'
 import { styles } from '../../Styles/Styles';
-import DropdownIcon from '../../components/svgIcons';
 import GetCallBack from '../../components/GetCallBack';
 import TopCItiesFilter from '../../components/TopCItiesFilter';
 import Footer from '../../components/Footer';
@@ -46,7 +45,6 @@ const Builders = () => {
     <div>
       <Header />
       <div className=' fixed top-0 h-full w-full'>
-        {/* <img src='https://www.truehomes24.com/assets/front_end/images/breadcrumb/breadcrumb_1.jpg' className='h-[300px] w-[300px]' /> */}
         <img alt='' src={buildersBgImage} className='h-full' />
       </div>
       <div className='fixed h-full mb-2 w-full bg-black bg-opacity-50 overflow-y-scroll'>

@@ -1,6 +1,9 @@
 import React, { useEffect, useRef, useState } from 'react';
 import Header from '../components/Header/Header';
-import bgImage from '../assets/images/homecity.jpeg'
+import bgImage from '../assets/images/homecity.jpeg';
+import propertyCount1 from '../assets/images/propertyCount1.png';
+import propertyCount2 from '../assets/images/propertyCount2.png';
+import propertyCount3 from '../assets/images/propertyCount3.png';
 import { styles } from '../Styles/Styles';
 import Dropdown, { SearchIcon } from '../components/svgIcons';
 import PropertySlider from '../components/PropertySlider';
@@ -21,38 +24,38 @@ import NewsAndArticles from '../components/NewsAndArticles';
 
 const NewsArticlesData = [
     {
-        title:'Stamp duty and registration charges in Mumbai',
-        description:'We examine the cost that buyers have to bear as stamp duty and registration charges in Mumbai.',
-        writer:'Sunita Mishra',
-        date:'Feb 2024',
+        title: 'Stamp duty and registration charges in Mumbai',
+        description: 'We examine the cost that buyers have to bear as stamp duty and registration charges in Mumbai.',
+        writer: 'Sunita Mishra',
+        date: 'Feb 2024',
         image: "https://www.truehomes24.com/assets/properties/banner-01/6fbc57095a08783a071945a3507844fa.webp",
     },
     {
-        title:'Stamp duty and registration charges in Mumbai',
-        description:'We examine the cost that buyers have to bear as stamp duty and registration charges in Mumbai.',
-        writer:'Sunita Mishra',
-        date:'Feb 2024',
+        title: 'Stamp duty and registration charges in Mumbai',
+        description: 'We examine the cost that buyers have to bear as stamp duty and registration charges in Mumbai.',
+        writer: 'Sunita Mishra',
+        date: 'Feb 2024',
         image: "https://www.truehomes24.com/assets/properties/banner-02/6195f1a4b44efe4bd85420205df57e4a.webp",
     },
     {
-        title:'Stamp duty and registration charges in Mumbai',
-        description:'We examine the cost that buyers have to bear as stamp duty and registration charges in Mumbai.',
-        writer:'Sunita Mishra',
-        date:'Feb 2024',
+        title: 'Stamp duty and registration charges in Mumbai',
+        description: 'We examine the cost that buyers have to bear as stamp duty and registration charges in Mumbai.',
+        writer: 'Sunita Mishra',
+        date: 'Feb 2024',
         image: "https://www.truehomes24.com/assets/properties/banner-02/3fa85544ffca6abb5843dd1aeedf1c73.webp",
     },
     {
-        title:'Stamp duty and registration charges in Mumbai',
-        description:'We examine the cost that buyers have to bear as stamp duty and registration charges in Mumbai.',
-        writer:'Sunita Mishra',
-        date:'Feb 2024',
+        title: 'Stamp duty and registration charges in Mumbai',
+        description: 'We examine the cost that buyers have to bear as stamp duty and registration charges in Mumbai.',
+        writer: 'Sunita Mishra',
+        date: 'Feb 2024',
         image: "https://www.truehomes24.com/assets/properties/banner-02/93a4b41ca5c17860d1b44af1f032afa9.webp",
     },
     {
-        title:'Stamp duty and registration charges in Mumbai',
-        description:'We examine the cost that buyers have to bear as stamp duty and registration charges in Mumbai.',
-        writer:'Sunita Mishra',
-        date:'Feb 2024',
+        title: 'Stamp duty and registration charges in Mumbai',
+        description: 'We examine the cost that buyers have to bear as stamp duty and registration charges in Mumbai.',
+        writer: 'Sunita Mishra',
+        date: 'Feb 2024',
         image: "https://www.truehomes24.com/assets/properties/banner-01/6fbc57095a08783a071945a3507844fa.webp",
     },
 ]
@@ -153,6 +156,11 @@ const topLocalities = [
     { name: 'Chandkheda', projectNum: '190', locality: 'in Chandkheda, Ahmedabad', forSale: '90', forRent: '90' },
 ];
 
+const propertyCount = [
+    { image: propertyCount1, count: '4,34,125', title: 'Properties & Counting...' },
+    { image: propertyCount2, count: '4,125', title: 'Properties Listed' },
+    { image: propertyCount3, count: '6,125', title: 'Sellers Contacted' }
+];
 const Home = () => {
 
     // const [propertyData, setPropertyData] = useState(null);
@@ -341,8 +349,24 @@ const Home = () => {
                 <div className='my-10 mt-[50px] px-5'>
                     <RecentAdded Data={Data} func={onClickContactBtn} />
                 </div>
-                <NewsAndArticles Data={NewsArticlesData} type={'News & Articles'}/>
-                <div className='mb-16 mt-20 px-2 sm:px-5'>
+                <NewsAndArticles Data={NewsArticlesData} type={'News & Articles'} />
+                <div className='mt-10'>
+                    <p className={styles.title2}>Our Property Stats</p>
+                    <div className='mt-5 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3'>
+                        {propertyCount.map((item, index) => {
+                            return (
+                                <div className='text-center mb-5'>
+                                    <img src={item.image} className='mx-auto w-[150px] h-[100px] md:h-[150px] md:w-[180px]' />
+                                    <p className='text-2xl md:text-3xl'>{item.count}</p>
+                                    <p className='text-gray-500 text-lg md:text-xl'>{item.title}</p>
+                                    {index > 0 && <p className='text-xs opacity-70 text-gray-600'>in the last 24 hours</p>}
+                                </div>
+                            )
+                        })}
+                    </div>
+                </div>
+
+                <div className='mb-16 mt-10 px-2 sm:px-5'>
                     <p className={styles.title2}>Top Developers in Ahmedabad</p>
                     <div className='grid grid-cols-1 xs:grid-cols-2 lg:grid-cols-3 gap-2 sm:gap-5 justify-center mt-5'>
                         {TopDevelopersData.map((item, index) => {

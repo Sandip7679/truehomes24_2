@@ -1,6 +1,7 @@
 import React from 'react';
 import { CallIcon, EmailIcon, LocationIcon } from './svgIcons';
 import { styles } from '../Styles/Styles';
+import { NavLink } from 'react-router-dom';
 
 
 const populerSearches = [
@@ -15,14 +16,14 @@ const populerSearches = [
     { itemName: 'Property for Sale' }
 ];
 const quickLinks = [
-    { linkName: 'Contuct Us' },
-    { linkName: 'FAQS' },
-    { linkName: 'Blogs' },
-    { linkName: 'Terms and Conditions' },
-    { linkName: 'About Us' },
-    { linkName: 'Privacy Policy' },
-    { linkName: 'Refund Policy' },
-    { linkName: 'Sitemap' },
+    { linkName: 'Contact Us', endpoint: '/contact-us' },
+    { linkName: 'FAQS', endpoint: '/faqs' },
+    { linkName: 'Blogs', endpoint: '/' },
+    { linkName: 'Terms and Conditions', endpoint: '/' },
+    { linkName: 'About Us', endpoint: '/' },
+    { linkName: 'Privacy Policy', endpoint: '/' },
+    { linkName: 'Refund Policy', endpoint: '/' },
+    { linkName: 'Sitemap', endpoint: '/' },
 ]
 const Footer = () => {
     return (
@@ -60,7 +61,7 @@ const Footer = () => {
                 <div className='text-sm tracking-wide'>
                     {populerSearches.map((item, index) => {
                         return (
-                            <div key={index} className='mt-2 hover:underline opacity-90' key={index}>
+                            <div key={index} className='mt-2 hover:underline opacity-90'>
                                 <p>{item.itemName}</p>
                             </div>
                         )
@@ -73,8 +74,10 @@ const Footer = () => {
                 <div className='text-sm tracking-wide opacity-90'>
                     {quickLinks.map((item, index) => {
                         return (
-                            <div key={index} className='mt-2 hover:underline' key={index}>
-                                <p>{item.linkName}</p>
+                            <div key={index} className='mt-2 hover:underline cursor-pointer'>
+                                <NavLink to={item.endpoint}>
+                                    <p className='ml-1'>{item.linkName}</p>
+                                </NavLink>
                             </div>
                         )
                     })}
