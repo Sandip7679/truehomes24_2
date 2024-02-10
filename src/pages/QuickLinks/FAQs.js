@@ -4,6 +4,8 @@ import BgImage from '../../assets/images/buildersBg.jpg'
 import { NavLink } from 'react-router-dom';
 import FormCatagories from '../../components/PostProperty/PostPropertyComp';
 import { styles } from '../../Styles/Styles';
+import TopCItiesFilter from '../../components/TopCItiesFilter';
+import Footer from '../../components/Footer';
 
 const catagories = ['Home Loan', 'Properties', 'Projects'];
 
@@ -63,38 +65,41 @@ const FAQs = () => {
                                 <NavLink to={'/'}>HOME</NavLink> / <span>FAQ</span>
                             </div>
                         </div>
-                        <div className='mt-10 pt-10 min-h-[500px] bg-white px-2 sm:px-[10%]'>
-                            <FormCatagories catagories={catagories} activeCatagory={currCatagory} onClickItem={(item) => setCurrCategory(item)} />
-                            <div className='mt-5'>
-                                {Faqs.map((item, index) => {
-                                    return (
-                                        <div className='mt-10'>
-                                            <p className={styles.title3}>{item.title}</p>
-                                            <div className='mt-5'>
-                                                {item.questions.map((itm, ind) => {
-                                                    return (
-                                                        <div>
-                                                            <div
-                                                                onClick={() => setCurrQusInds([index,ind])}
-                                                                className='mt-2 w-full p-2 py-4 bg-gray-100 border-[1px] border-gray-300 rounded tracking-wider text-xs font-semibold cursor-pointer'>
-                                                                {itm.question}
-                                                                <span>{currQuesInds == [index,ind] ? '-' : '+'}</span>
+                        <div className='mt-10 pt-10 min-h-[500px] bg-white'>
+                            <div className='px-2 sm:px-[10%]'>
+                                <FormCatagories catagories={catagories} activeCatagory={currCatagory} onClickItem={(item) => setCurrCategory(item)} />
+                                <div className='mt-5'>
+                                    {Faqs.map((item, index) => {
+                                        return (
+                                            <div id={`${index}`} className='mt-10 scroll-mt-20'>
+                                                <p className={styles.title3}>{item.title}</p>
+                                                <div className='mt-5'>
+                                                    {item.questions.map((itm, ind) => {
+                                                        return (
+                                                            <div>
+                                                                <div
+                                                                    onClick={() => currQuesInds[0] == index && currQuesInds[1] == ind ? setCurrQusInds([null, null]) : setCurrQusInds([index, ind])}
+                                                                    className={
+                                                                        (currQuesInds[0] == index && currQuesInds[1] == ind ? 'bg-violet-400 text-white' : 'bg-gray-100')
+                                                                        + ' flex justify-between gap-1 mt-2 w-full p-2 pt-2 pb-3 border-[1px] border-gray-300 rounded tracking-wider text-xs font-semibold cursor-pointer'}>
+                                                                    <div className={'mt-2'}>{itm.question}</div>
+                                                                    <div className='text-xl font-semibold'>{currQuesInds[0] == index && currQuesInds[1] == ind ? '-' : '+'}</div>
+                                                                </div>
+                                                                <div className={(currQuesInds[0] == index && currQuesInds[1] == ind ? 'block duration-700' : 'hidden') + ' border-[1px] p-2 bg-gray-50 rounded-b-md text-sm'}>
+                                                                    {itm.ans}
+                                                                </div>
                                                             </div>
-                                                        </div>
-                                                    )
-                                                })}
+                                                        )
+                                                    })}
+                                                </div>
                                             </div>
-
-                                        </div>
-                                    )
-                                })}
-                                {<div>
-                                    <p className={styles.title2}>Home Loan</p>
-                                    <div>
-
-                                    </div>
-                                </div>}
+                                        )
+                                    })}
+                                </div>
                             </div>
+
+                            <TopCItiesFilter />
+                            <Footer />
                         </div>
                     </div>
 

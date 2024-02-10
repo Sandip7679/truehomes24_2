@@ -60,7 +60,7 @@ const TopCItiesFilter = () => {
     }
 
     return (
-        <div className=' pt-5 px-[5%] pb-10 bg-gray-50 mt-14'>
+        <div className='pt-5 px-[5%] pb-10 bg-gray-50 mt-14'>
              <h1 className={styles.title1}>Browse Residential Projects In Top Cities</h1>
 
             <div className='w-[95%] sm:flex justify-between pt-2 border-b-[1px] mt-10 border-b-gray-200'>

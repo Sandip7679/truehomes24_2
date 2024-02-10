@@ -7,11 +7,11 @@ const FormCatagories = ({ catagories, activeCatagory, onClickItem }) => {
         <div className={styles.lightBorder + 'flex flex-wrap'}>
             {catagories.map((item, index) => {
                 return (
-                    <button key={index}
+                    <a key={index} href={`#${index}`}
                         onClick={() => onClickItem(item)}
-                        className={(activeCatagory === item ? 'border-b-[1px]' : '') + ' hover:border-b-[1px] border-b-gray-700 pb-1 mt-2 px-1 mr-[2%]'}>
+                        className={(activeCatagory === item ? 'border-b-[1px]' : '') + ' cursor-pointer hover:border-b-[1px] border-b-gray-700 pb-1 mt-2 px-1 mr-[2%]'}>
                         <p className={styles.textMedium + ''}>{item}</p>
-                    </button>
+                    </a>
                 )
             })}
         </div>

@@ -4,7 +4,7 @@ import { ArrowLeft, ArrowRight } from './svgIcons';
 import { styles } from '../Styles/Styles';
 import { NavLink } from 'react-router-dom';
 
-const NewsAndArticles = ({Data,type}) => {
+const NewsAndArticles = ({ Data, type }) => {
     return (
         <div>
             <div className='mb-10'>

@@ -25,8 +25,8 @@ const ContactUs = () => {
                 <NavLink to={'/'}>HOME</NavLink> / <span>CONTACT US</span>
               </div>
             </div>
-            <div className='mt-10 pt-10 min-h-[500px] bg-white px-2 sm:px-10'>
-              <div className='mb-10 grid gap-5 grid-cols-1 md:grid-cols-2 lg:grid-cols-3'>
+            <div className='mt-10 pt-10 min-h-[500px] bg-white'>
+              <div className='px-2 sm:px-10 mb-10 grid gap-5 grid-cols-1 md:grid-cols-2 lg:grid-cols-3'>
                 <div className='text-center tracking-wider'>
                   <i class="fa-solid fa-location-dot text-2xl"></i>
                   <p className={styles.title3}>Corporate office</p>
@@ -50,7 +50,7 @@ const ContactUs = () => {
                   <a className='mt-5 hover:opacity-60 cursor-pointer' href='mailto:info@truehomes24.com'>info@truehomes24.com</a>
                 </div>
               </div>
-              <div className='grid grid-cols-1 md:grid-cols-2 gap-5 mb-10'>
+              <div className='px-2 sm:px-10 grid grid-cols-1 md:grid-cols-2 gap-5 mb-10'>
                 <div>
                   <iframe
                     className='h-[480px] w-full mb-5'
@@ -74,21 +74,24 @@ const ContactUs = () => {
                         required: true,
                         autoFocus: true
                       }}
-                      // buttonClass='w-[100px]'
-                      // value={value}
-                      // onChange={val => setValue(val)}
+                    // buttonClass='w-[100px]'
+                    // value={value}
+                    // onChange={val => setValue(val)}
                     />
                   </div>
                   {/* <div className='mt-5'>
                       
                   </div> */}
                   <input required className={styles.input + 'my-5'} placeholder='Subject*' />
-                  <textarea required placeholder='Your Message*' className={styles.input+'h-28'} />
+                  <textarea required placeholder='Your Message*' className={styles.input + 'h-28'} />
                   <button type='submit' className='px-2 py-1 mt-5 rounded-md bg-orange-600 text-white hover:text-gray-800 hover:bg-white hover:border-[1px] border-orange-600'>Send Message</button>
                 </form>
               </div>
-               <TopCItiesFilter/>
-               <Footer/>
+              <div className=''>
+                <TopCItiesFilter />
+                <Footer />
+              </div>
+
 
             </div>
           </div>

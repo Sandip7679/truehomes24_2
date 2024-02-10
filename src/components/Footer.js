@@ -18,7 +18,7 @@ const populerSearches = [
 const quickLinks = [
     { linkName: 'Contact Us', endpoint: '/contact-us' },
     { linkName: 'FAQS', endpoint: '/faqs' },
-    { linkName: 'Blogs', endpoint: '/' },
+    { linkName: 'Blogs', endpoint: '/blogs' },
     { linkName: 'Terms and Conditions', endpoint: '/' },
     { linkName: 'About Us', endpoint: '/' },
     { linkName: 'Privacy Policy', endpoint: '/' },

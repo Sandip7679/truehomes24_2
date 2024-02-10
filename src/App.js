@@ -19,6 +19,8 @@ import { useDispatch } from 'react-redux';
 import { setuser } from './Redux/reducer/User';
 import ContactUs from './pages/QuickLinks/ContactUs';
 import FAQs from './pages/QuickLinks/FAQs';
+import Blogs from './pages/QuickLinks/Blogs';
+import BlogDetails from './pages/QuickLinks/BlogDetails';
 
 function App() {
   const dispatch = useDispatch();
@@ -49,6 +51,8 @@ function App() {
         <Route path='/dashboard/edit-profile' element={<EditProfile/>} />
         <Route path='/contact-us' element={<ContactUs/>} />
         <Route path='/faqs' element={<FAQs/>} />
+        <Route path='/blogs' element={<Blogs/>} />
+        <Route path='/blog-detail' element={<BlogDetails/>} />
       </Routes>
     </>
   );

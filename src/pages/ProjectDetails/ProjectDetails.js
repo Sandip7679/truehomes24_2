@@ -360,7 +360,7 @@ const ProjectDetails = () => {
                                             return (
                                                 <a key={index} href={`#${index}`}
                                                     onClick={() => setPropDetailsTypeInd(index)}
-                                                    className={(propDetailsTypeInd === index ? 'border-b-[1px] animated-border border-black ' : '') + 'px-1 py-2'}>
+                                                    className={(propDetailsTypeInd === index ? 'border-b-[1px] animated-border border-black ' : '') + ' px-1 py-2'}>
                                                     {item}
                                                 </a>
                                             )
@@ -411,7 +411,7 @@ const ProjectDetails = () => {
                                     </div>
                                 </div>
                                 <div className='mt-8 pb-5'>
-                                    <p className={styles.title4 + 'ml-1'}>Amnetities</p>
+                                    <p className={styles.title4 + 'ml-1'}>Amenities</p>
                                     <div className='flex flex-wrap justify-between mt-4'>
                                         {Amenities.map((item, index) => {
                                             return (
