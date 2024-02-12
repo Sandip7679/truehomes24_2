@@ -2,9 +2,9 @@ import React, { useRef, useState } from 'react';
 import { styles } from '../../Styles/Styles';
 import JoditEditor from 'jodit-react';
 
-const FormCatagories = ({ catagories, activeCatagory, onClickItem }) => {
+const FormCatagories = ({ catagories, activeCatagory, onClickItem,classname }) => {
     return (
-        <div className={styles.lightBorder + 'flex flex-wrap'}>
+        <div className={styles.lightBorder + classname + ' flex flex-wrap'}>
             {catagories.map((item, index) => {
                 return (
                     <a key={index} href={`#${index}`}

@@ -2,6 +2,7 @@ import React from 'react';
 import { CallIcon, EmailIcon, LocationIcon } from './svgIcons';
 import { styles } from '../Styles/Styles';
 import { NavLink } from 'react-router-dom';
+import logoImage from '../assets/images/logo.jpg'
 
 
 const populerSearches = [
@@ -30,6 +31,7 @@ const Footer = () => {
         <div className='bg-black w-full p-10 text-white flex flex-wrap justify-between gap-5 px-[2%] lg:px-[5%]'>
             <div className='text-left text-sm w-[300px]'>
                 <img alt='' src='https://www.truehomes24.com/assets/images/footer_logo.png' />
+                {/* <img alt='' src={logoImage} /> */}
                 <p className='my-5'>Welcome to Truehomes24.com</p>
                 <ul>
                     <li className='flex'>
@@ -87,24 +89,24 @@ const Footer = () => {
                 <div className='text-left mt-5'>
                     <h1 className={styles.title2Bold}>Property in India</h1>
                     <div className='text-left text-sm mt-2 opacity-90'>
-                        <p className='hover:underline'>Property inAhmedabad | Property inBangalore</p>
-                        <p className='hover:underline'>Property inDelhi | Property inHyderabad</p>
-                        <p className='hover:underline'>Property inMumbai | Property inPune</p>
+                        <p className='hover:underline'>Property in Ahmedabad | Property in Bangalore</p>
+                        <p className='hover:underline'>Property in Delhi | Property in Hyderabad</p>
+                        <p className='hover:underline'>Property in Mumbai | Property in Pune</p>
                     </div>
                 </div>
                 <div className='text-left mt-4'>
                     <h1 className={styles.title2Bold}>New Projects in India</h1>
                     <div className='text-left text-sm mt-2 opacity-90'>
-                        <p className='hover:underline'>Property inAhmedabad | Property inBangalore</p>
-                        <p className='hover:underline'>Property inDelhi | Property inHyderabad</p>
-                        <p className='hover:underline'>Property inMumbai | Property inPune</p>
+                        <p className='hover:underline'>Property in Ahmedabad | Property in Bangalore</p>
+                        <p className='hover:underline'>Property in Delhi | Property in Hyderabad</p>
+                        <p className='hover:underline'>Property in Mumbai | Property in Pune</p>
                     </div>
                 </div>
                 <div className='text-left mt-4'>
                     <h1 className={styles.title2Bold}>Properties in International Cities</h1>
                     <div className='text-left text-sm mt-2 opacity-90'>
-                        <p className='hover:underline'>Property inAhmedabad | Property inBangalore</p>
-                        <p className='hover:underline'>Property inMumbai | Property inPune</p>
+                        <p className='hover:underline'>Property in Ahmedabad | Property in Bangalore</p>
+                        <p className='hover:underline'>Property in Mumbai | Property in Pune</p>
                     </div>
                 </div>
                 <div className='bg-gray-200 text-center w-[180px] mt-5 text-black'>

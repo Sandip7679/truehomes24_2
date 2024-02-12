@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Header from '../../components/Header/Header';
 import BgImage from '../../assets/images/buildersBg.jpg'
 import { NavLink } from 'react-router-dom';
@@ -50,9 +50,33 @@ const Faqs = [
 const FAQs = () => {
     const [currCatagory, setCurrCategory] = useState('Home Loan');
     const [currQuesInds, setCurrQusInds] = useState([null, null]);
+    const [navClassState, setNavClassState] = useState('');
+    const observerElement = useRef();
+
+    useEffect(() => {
+        ovserveIntersection();
+        // getScrollPosition();
+    }, []);
+
+    const ovserveIntersection = () => {
+        let observer = new IntersectionObserver((entries) => {
+            if (!entries[0].isIntersecting) {
+                setNavClassState('fixed top-0 left-0 w-screen  shadow-md z-[1500] pr-[10%] bg-white');
+            }
+            else {
+                setNavClassState('');
+            }
+        }, {
+            root: null,
+            rootMargin: '0px',
+            threshold: 1
+        });
+        observer.observe(observerElement.current);
+    }
+
     return (
         <div className='container mx-auto'>
-            <Header />
+            {navClassState === '' && <Header />}
             <div>
                 <div className=' fixed left-0 top-0 h-screen w-screen'>
                     <img alt='' src={BgImage} className='h-full' />
@@ -67,11 +91,16 @@ const FAQs = () => {
                         </div>
                         <div className='mt-10 pt-10 min-h-[500px] bg-white'>
                             <div className='px-2 sm:px-[10%]'>
-                                <FormCatagories catagories={catagories} activeCatagory={currCatagory} onClickItem={(item) => setCurrCategory(item)} />
+                                <div className={navClassState}>
+                                    <div className={(navClassState !== '' ? 'transition-transform ease-in-out transform translate-x-[8%] py-2 duration-[1500ms] border-b-0 ' : ' border-b-[1px]')}>
+                                        <FormCatagories classname={navClassState !== '' ?'border-b-0 ':'border-b-[1px] '} catagories={catagories} activeCatagory={currCatagory} onClickItem={(item) => setCurrCategory(item)} />
+                                    </div>
+                                </div>
+
                                 <div className='mt-5'>
                                     {Faqs.map((item, index) => {
                                         return (
-                                            <div id={`${index}`} className='mt-10 scroll-mt-20'>
+                                            <div ref={index == 0 ? observerElement : null} id={`${index}`} className='mt-10 scroll-mt-20'>
                                                 <p className={styles.title3}>{item.title}</p>
                                                 <div className='mt-5'>
                                                     {item.questions.map((itm, ind) => {
@@ -81,14 +110,17 @@ const FAQs = () => {
                                                                     onClick={() => currQuesInds[0] == index && currQuesInds[1] == ind ? setCurrQusInds([null, null]) : setCurrQusInds([index, ind])}
                                                                     className={
                                                                         (currQuesInds[0] == index && currQuesInds[1] == ind ? 'bg-violet-400 text-white' : 'bg-gray-100')
-                                                                        + ' flex justify-between gap-1 mt-2 w-full p-2 pt-2 pb-3 border-[1px] border-gray-300 rounded tracking-wider text-xs font-semibold cursor-pointer'}>
+                                                                        + ' flex justify-between gap-1 w-full p-2 pt-2 pb-3 border-[1px] border-gray-300 rounded tracking-wider text-xs font-semibold cursor-pointer'}>
                                                                     <div className={'mt-2'}>{itm.question}</div>
                                                                     <div className='text-xl font-semibold'>{currQuesInds[0] == index && currQuesInds[1] == ind ? '-' : '+'}</div>
                                                                 </div>
                                                                 {/* transition-transform ease-in-out transform translate-y-8 duration-[1500ms] */}
-                                                                <div className={(currQuesInds[0] == index && currQuesInds[1] == ind ? 'block' : 'hidden') + ' border-[1px] p-2 bg-gray-50 rounded-b-md text-sm'}>
-                                                                    {itm.ans}
+                                                                <div className={(currQuesInds[0] == index && currQuesInds[1] == ind ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0') + ' grid overflow-hidden transition-all duration-500 ease-in-out border-[1px] p-2 mb-2 bg-gray-50 rounded-b-md text-sm'}>
+                                                                    <div className='overflow-hidden'>{itm.ans}</div>
                                                                 </div>
+                                                                {/* {currQuesInds[0] == index && currQuesInds[1] == ind && <div className={ 'border-[1px] p-2 bg-gray-50 rounded-b-md text-sm'}>
+                                                                     {itm.ans}
+                                                                </div>} */}
                                                             </div>
                                                         )
                                                     })}
