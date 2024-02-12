@@ -38,11 +38,11 @@ const topBuildersData = [
   { name: 'Lodha Codename Never Before', project: '42' },
 ];
 
-const builderGallery = ['Builder Gallery','Builder Gallery in Kolkata',]
+const builderGallery = ['Builder Gallery', 'Builder Gallery in Kolkata',]
 
 const Builders = () => {
   return (
-    <div>
+    <div className=''>
       <Header />
       <div className=' fixed top-0 h-full w-full'>
         <img alt='' src={buildersBgImage} className='h-full' />
@@ -55,68 +55,64 @@ const Builders = () => {
           <div className='mt-10 pt-10 min-h-[500px] bg-white'>
             <div className='container mx-auto px-2'>
               <div className='flex flex-wrap mx-auto gap-5 justify-between'>
-                {/* <button className={styles.btn + 'w-[30%] min-w-[150px] py-[6px] rounded-none items-center pl-5 justify-between'}>
-                  Builder Galary
-                  <DropdownIcon />
-                </button> */}
-                <DropdownInput options={builderGallery} placeholder={'Builder Gallery'} inputClass={'w-[30%] min-w-[150px] h-10 max-w-[400px]'}/>
-                <div className='flex min-w-[250px] w-[45%]'>
+                <DropdownInput options={builderGallery} placeholder={'Builder Gallery'} inputClass={'w-full sm:w-[30%] min-w-[150px] h-10'} />
+                <div className='flex min-w-[250px] w-full sm:w-[45%]'>
                   <input placeholder='Type a builder name here' className={styles.input + 'border-r-0 pl-6'} />
                   <button className={styles.btn + styles.btnBlackHover + ' border-gray-700 rounded-none md:w-[25%] bg-gray-700 text-white items-center'}>
                     Search
                   </button>
                 </div>
               </div>
+              {/* (index == 0 ? 'md:order-first lg:order-none' : index == 1 ? 'lg:-order-first' : '') + */}
               <div className='mt-16 pb-5 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4'>
+                 {/* <GetCallBack /> */}
                 {buildersData.map((item, index) => {
                   return (
-                    <>
-                      {index === 2 ?
-                          <GetCallBack />
-                        :
-                        <div className='shadow-xl rounded-sm border-[1px] pb-10 px-4'>
-                          <div className='py-8'>
-                            <p className={styles.title3 + 'text-orange-600'}>{item.name}</p>
+                    <> 
+                      {index == 2 && <GetCallBack />}
+                      <div className={ (index == 1? 'md:order-last lg:order-none':'')+' shadow-xl rounded-sm border-[1px] pb-10 px-4'}>
+                        <div className='py-8'>
+                          <p className={styles.title3 + 'text-orange-600'}>{item.name}</p>
+                        </div>
+                        <div className=' flex flex-wrap gap-5 border-y-[1px] -mx-4 px-4 pb-16 pt-3'>
+                          <div className='flex gap-1 tracking-wide justify-center items-center'>
+                            <span className='text-gray-600 opacity-85 text-sm sm:text-base font-semibold rounded-full border-orange-500 border-[1px] p-1'>
+                              {item.totalProjects}
+                            </span>
+                            <p className={styles.textMedium}>Total Projects</p>
                           </div>
-                          <div className=' flex flex-wrap gap-5 border-y-[1px] -mx-4 px-4 pb-16 pt-3'>
-                            <div className='flex gap-1 tracking-wide justify-center items-center'>
-                              <span className='text-gray-600 opacity-85 text-sm sm:text-base font-semibold rounded-full border-orange-500 border-[1px] p-1'>
-                                {item.totalProjects}
-                              </span>
-                              <p className={styles.textMedium}>Total Projects</p>
-                            </div>
-                            <div className='flex gap-1 tracking-wide justify-center items-center'>
-                              <span className='text-gray-600 opacity-85 text-sm sm:text-base font-semibold rounded-full border-orange-500 border-[1px] p-1'>
-                                {item.totalProjects}
-                              </span>
-                              <p className={styles.textMedium}>Total Projects</p>
-                            </div>
+                          <div className='flex gap-1 tracking-wide justify-center items-center'>
+                            <span className='text-gray-600 opacity-85 text-sm sm:text-base font-semibold rounded-full border-orange-500 border-[1px] p-1'>
+                              {item.totalProjects}
+                            </span>
+                            <p className={styles.textMedium}>Total Projects</p>
                           </div>
+                        </div>
 
-                          <div className='my-7'>
-                            <p className='text-gray-700'>Projects by {item.name}</p>
-                            <div className='flex gap-4 mt-5'>
-                              <div className='w-[95px]'>
-                                <img alt='' src='https://www.truehomes24.com/assets/new-projects/banner-01/Goyal-Orchid-Whitefield1.webp' className='h-[100px] w-full' />
-                                <p className='text-xs'>{item.Bhks[0].type}</p>
-                              </div>
-                              <div className='w-[95px]'>
-                                <img alt='' src='https://www.truehomes24.com/assets/new-projects/banner-01/lodhacrown1.webp' className='h-[100px] w-full' />
-                                <p className='text-xs'>{item.Bhks[1].type}</p>
-                              </div>
-                              <NavLink to={''} className='flex flex-col h-[100px] group justify-center items-center p-2 px-6 shadow-md border-[1px] rounded hover:text-white hover:bg-orange-600 hover:bg-opacity-85'>
-                                <p className='text-sm'>View</p>
-                                <p className='font-semibold text-lg group-hover:text-white text-orange-600 my-2'>115</p>
-                                <p className='text-sm'>more</p>
-                              </NavLink>
+                        <div className='my-7'>
+                          <p className='text-gray-700'>Projects by {item.name}</p>
+                          <div className='flex gap-4 mt-5'>
+                            <div className='w-[95px]'>
+                              <img alt='' src='https://www.truehomes24.com/assets/new-projects/banner-01/Goyal-Orchid-Whitefield1.webp' className='h-[100px] w-full' />
+                              <p className='text-xs'>{item.Bhks[0].type}</p>
                             </div>
+                            <div className='w-[95px]'>
+                              <img alt='' src='https://www.truehomes24.com/assets/new-projects/banner-01/lodhacrown1.webp' className='h-[100px] w-full' />
+                              <p className='text-xs'>{item.Bhks[1].type}</p>
+                            </div>
+                            <NavLink to={''} className='flex flex-col h-[100px] group justify-center items-center p-2 px-6 shadow-md border-[1px] rounded hover:text-white hover:bg-orange-600 hover:bg-opacity-85'>
+                              <p className='text-sm'>View</p>
+                              <p className='font-semibold text-lg group-hover:text-white text-orange-600 my-2'>115</p>
+                              <p className='text-sm'>more</p>
+                            </NavLink>
                           </div>
-                        </div>}
+                        </div>
+                      </div>
                     </>
                   )
                 })}
               </div>
-              <div className='border-[1px] border-gray-300 w-[90%] mx-auto p-[2%] mt-14'>
+              <div className='border-[1px] border-gray-300 w-full lg:w-[90%] p-[2%] mt-14'>
                 <div className='border-b-2 border-gray-200'>
                   <p className={styles.title2 + 'py-5 text-center'}>Top Builders in India</p>
                   <div className='flex justify-between font-semibold py-2'>

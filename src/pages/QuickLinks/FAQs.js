@@ -85,7 +85,8 @@ const FAQs = () => {
                                                                     <div className={'mt-2'}>{itm.question}</div>
                                                                     <div className='text-xl font-semibold'>{currQuesInds[0] == index && currQuesInds[1] == ind ? '-' : '+'}</div>
                                                                 </div>
-                                                                <div className={(currQuesInds[0] == index && currQuesInds[1] == ind ? 'block duration-700' : 'hidden') + ' border-[1px] p-2 bg-gray-50 rounded-b-md text-sm'}>
+                                                                {/* transition-transform ease-in-out transform translate-y-8 duration-[1500ms] */}
+                                                                <div className={(currQuesInds[0] == index && currQuesInds[1] == ind ? 'block' : 'hidden') + ' border-[1px] p-2 bg-gray-50 rounded-b-md text-sm'}>
                                                                     {itm.ans}
                                                                 </div>
                                                             </div>

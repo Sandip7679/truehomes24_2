@@ -21,6 +21,11 @@ import ContactUs from './pages/QuickLinks/ContactUs';
 import FAQs from './pages/QuickLinks/FAQs';
 import Blogs from './pages/QuickLinks/Blogs';
 import BlogDetails from './pages/QuickLinks/BlogDetails';
+import TermsAndCondition from './pages/QuickLinks/TermsAndCondition';
+import AboutUs from './pages/QuickLinks/AboutUs';
+import PrivacyPolicy from './pages/QuickLinks/PrivacyPolicy';
+import RefundPolicy from './pages/QuickLinks/RefundPolicy';
+import Sitemap from './pages/QuickLinks/Sitemap';
 
 function App() {
   const dispatch = useDispatch();
@@ -53,6 +58,11 @@ function App() {
         <Route path='/faqs' element={<FAQs/>} />
         <Route path='/blogs' element={<Blogs/>} />
         <Route path='/blog-detail' element={<BlogDetails/>} />
+        <Route path='/terms-conditions' element={<TermsAndCondition/>} />
+        <Route path='/about-us' element={<AboutUs/>} />
+        <Route path='/privacy-policy' element={<PrivacyPolicy/>} />
+        <Route path='/refund-policy' element={<RefundPolicy/>} />
+        <Route path='/sitemap' element={<Sitemap/>} />
       </Routes>
     </>
   );

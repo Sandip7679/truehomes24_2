@@ -19,11 +19,11 @@ const quickLinks = [
     { linkName: 'Contact Us', endpoint: '/contact-us' },
     { linkName: 'FAQS', endpoint: '/faqs' },
     { linkName: 'Blogs', endpoint: '/blogs' },
-    { linkName: 'Terms and Conditions', endpoint: '/' },
-    { linkName: 'About Us', endpoint: '/' },
-    { linkName: 'Privacy Policy', endpoint: '/' },
-    { linkName: 'Refund Policy', endpoint: '/' },
-    { linkName: 'Sitemap', endpoint: '/' },
+    { linkName: 'Terms and Conditions', endpoint: '/terms-conditions' },
+    { linkName: 'About Us', endpoint: '/about-us' },
+    { linkName: 'Privacy Policy', endpoint: '/privacy-policy' },
+    { linkName: 'Refund Policy', endpoint: '/refund-policy' },
+    { linkName: 'Sitemap', endpoint: '/sitemap' },
 ]
 const Footer = () => {
     return (
