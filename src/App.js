@@ -1,4 +1,4 @@
-import { Route, Routes } from 'react-router-dom';
+import { Route, Routes, useLocation } from 'react-router-dom';
 import './App.css';
 import Home from './pages/Home';
 import PropertyList from './pages/PropertyList';
@@ -29,6 +29,7 @@ import Sitemap from './pages/QuickLinks/Sitemap';
 
 function App() {
   const dispatch = useDispatch();
+  const location = useLocation();
 
   useEffect(()=>{
      if(localStorage.getItem('isLoggedIn') == 'true'){

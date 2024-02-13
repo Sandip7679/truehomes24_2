@@ -9,7 +9,7 @@ import postPropertyPerDay from '../../assets/Icons/post-property-per-day.png';
 import cityIcon from '../../assets/Icons/amedabad.jpg';
 import { Dropdown, MenuIcon, SearchIcon } from '../svgIcons';
 import { styles } from '../../Styles/Styles';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useLocation } from 'react-router-dom';
 import Auth from '../Auth';
 import MobileMenu from './MobileMenu';
 import { DropdownHover } from '../Dropdowns';
@@ -17,29 +17,29 @@ import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../../Redux/reducer/User';
 import useApi from '../../ApiConf';
 
-const cities = [
-    { city: 'Dubai' },
-    { city: 'Toronto' },
-    { city: 'Hong Kong' },
-    { city: 'Singapore' },
-    { city: 'New York City' },
-]
+// const cities = [
+//     { city: 'Dubai' },
+//     { city: 'Toronto' },
+//     { city: 'Hong Kong' },
+//     { city: 'Singapore' },
+//     { city: 'New York City' },
+// ]
 
-const otherCities = [
-    { city: 'Kolkata' },
-    { city: 'Patna' },
-    { city: 'Delhi' },
-    { city: 'Gujrat' },
-    { city: 'Mumbai' },
-    { city: 'Pune' },
-    { city: 'Chennai' },
-    { city: 'Chennai' },
-    { city: 'Chennai' },
-    { city: 'Chennai' },
-    { city: 'Chennai' },
-    { city: 'Chennai' },
-    { city: 'Chennai' },
-]
+// const otherCities = [
+//     { city: 'Kolkata' },
+//     { city: 'Patna' },
+//     { city: 'Delhi' },
+//     { city: 'Gujrat' },
+//     { city: 'Mumbai' },
+//     { city: 'Pune' },
+//     { city: 'Chennai' },
+//     { city: 'Chennai' },
+//     { city: 'Chennai' },
+//     { city: 'Chennai' },
+//     { city: 'Chennai' },
+//     { city: 'Chennai' },
+//     { city: 'Chennai' },
+// ]
 
 const postPropertyItems = [
     { name: 'Post-Property-Rs 10/day', imgSrc: postPropertyPerDay, endpoint: '/post-property' },
@@ -55,13 +55,16 @@ const moreServicesItem = [
 let myDashboardItems = [];
 
 const Header = () => {
-
+    const location = useLocation();
     const cityRef = useRef(null);
-
+    const citymenu = useRef(null);
     const [showLoginPopup, setShowLoginPopup] = useState(false);
-    const {fetchData,loading,error} = useApi();
-    const { login_status,userData } = useSelector(state => state.User)
+    const { fetchData, loading, error } = useApi();
+    const { login_status, userData } = useSelector(state => state.User)
     const dispatch = useDispatch();
+    const [searchText, setSearchText] = useState(null);
+    const [AllCities, setAllCities] = useState({ international: [], topCities: [], otherCities: [] });
+    const [currLocation, setCurrLocation] = useState({ country: null, city: 'Ahmedabad', loaction: null, area: 'Ahmedabad' });
 
     useEffect(() => {
         // document.getElementById('dropdown-city').addEventListener('blur', () => {
@@ -72,13 +75,13 @@ const Header = () => {
         //         document.getElementById('city-menu').classList.add('hidden');
         //     }
         // });
-         myDashboardItems = [
+        myDashboardItems = [
             { name: 'View Response', endpoint: null },
             { name: 'Manage Property', endpoint: '/manage-property' },
             { name: 'My Order', endpoint: null },
             { name: 'Manage Profile', endpoint: '/dashboard/my-profile' },
-            { name: 'Sign Out', endpoint: '/',onClick:handleLogout},
-        
+            { name: 'Sign Out', endpoint: '/', onClick: handleLogout },
+
         ];
         closeOnClickOutside('dropdown-city', 'city-menu');
         document.getElementById('mobile-menu-button').addEventListener('blur', () => {
@@ -95,18 +98,53 @@ const Header = () => {
         //  if(localStorage.getItem('isLoggedIn')==='true'){
         //     setIsLoggedIn(true);
         //  }
-        //    getCities();
+        //   console.log('location.pathname..',location.pathname);
+        getMenuDetails();
     }, []);
 
-    const getCities = async ()=>{
-         
-         const data = await fetchData('header-menu?property_status=new project', 'GET');
-         console.log('data...',data);
+    useEffect(() => {
+        if (searchText && searchText != '') {
+            let clearTime = setTimeout(() => {
+                let cities = AllCities.otherCities.filter((item) => item.text.toLowerCase().includes(searchText.toLowerCase()));
+                if (cities.length > 0) {
+                    setAllCities(pre => ({ ...pre, otherCities: cities }))
+                }
+            }, 600)
+            console.log('searText cleartime.....', searchText)
+            return () => clearTimeout(clearTime);
+        }
+        else if (searchText == '') {
+            getMenuDetails();
+        }
+
+    }, [searchText])
+
+    // const debounceSearching = (searchText) => {
+    //     let clearTime = setTimeout(() => {
+    //         // searchDocument();
+    //         let cities = AllCities.otherCities.filter((item) => item.text == searchText);
+    //         setAllCities(pre => ({ ...pre, otherCities: cities }))
+    //     }, 600)
+    //     console.log('searText cleartime.....', searchText)
+    //     return () => clearTimeout(clearTime);
+    // }
+
+    const getMenuDetails = async () => {
+        let data;
+        try {
+            data = await fetchData('header-menu?property_status=', 'GET');
+        } catch (err) {
+            console.log(err);
+        }
+        if (data && data[0]) {
+            let cityMenu = data[0].menuDetails
+            setAllCities({ international: cityMenu?.international, topCities: cityMenu?.topCities, otherCities: cityMenu?.otherCities });
+        }
 
     }
 
-    const handleLogout = ()=>{
-        localStorage.setItem('isLoggedIn',false);
+    const handleLogout = () => {
+        localStorage.setItem('isLoggedIn', false);
         dispatch(logout());
         // setIsLoggedIn(false);
     }
@@ -137,28 +175,39 @@ const Header = () => {
                         </div>
                     </div>
                     <NavLink to={'/'}>
-                        <img src={logoImage} alt="Logo" className="h-9 w-12 sm:w-14 ml-1 sm:ml-2"/>
+                        <img src={logoImage} alt="Logo" className="h-9 w-12 sm:w-14 ml-1 sm:ml-2" />
                         {/* <img src='https://www.truehomes24.com/assets/dynamic/logo/3231ba59af210a5c3273fb2440e10cd6.jpg' alt="Logo" className="h-9 w-12 sm:w-14 ml-1 sm:ml-2" /> Adjust the size as needed */}
                     </NavLink>
                     <div ref={cityRef}
                         id='dropdown-city'
                         className="relative group z-10 ml-2">
-                        <button id='city-btn' className={styles.dropdown + 'opacity-95 mr-[2px] lg:mr-4 xl:mr-8'}
-                            onClick={() => document.getElementById('city-menu').classList.toggle('hidden')}
+                        <button id='city-btn'
+                            //    className={styles.dropdown + 'opacity-95 min-w-[110px] mr-[2px] lg:mr-4 xl:mr-8'}
+                            className={`${styles.dropdown} justify-center opacity-95 min-w-[110px] mr-[2px] lg:mr-4 xl:mr-8`}
+                            // onClick={() => document.getElementById('city-menu').classList.toggle('hidden')}
+                            onClick={() => citymenu.current.classList.toggle('hidden')}
                         >
-                            City
+                            {currLocation.area}
                             <Dropdown classname={'text-white'} />
                         </button>
                         <div
+                            ref={citymenu}
                             id='city-menu'
                             className="absolute hidden bg-white p-2 pt-2 overflow-auto h-[500px] pb-10 w-screen max-w-[430px] space-y-2 -ml-[90px] sm:ml-0 text-gray-800 top-9 border-gray-300 border-[1px] rounded-md"
                         >
                             <div className='grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2 mt-2'>
-                                {cities.map((item,index) => {
+                                {AllCities.international?.map((item, index) => {
                                     return (
-                                        <NavLink key={index} to="/property-list" className="px-2 py-4 rounded-md hover:bg-gray-100 flex flex-col border-[1px] shadow-lg items-center justify-center">
+                                        <NavLink onClick={() => {
+                                            citymenu.current.classList.add('hidden');
+                                            setCurrLocation(pre => ({ ...pre, country: item.text, area: item.text }));
+                                        }}
+                                            key={index}
+                                            to={location.pathname != '/' ? "/property-list" : '/'}
+                                            className="px-2 py-4 rounded-md hover:bg-gray-100 flex flex-col border-[1px] shadow-lg items-center justify-center">
                                             <img alt='' src={cityIcon} className='h-5 w-6' />
-                                            <span className='text-xs text-center'>{item.city}</span>
+                                            {/* <img alt='' src="https://www.truehomes24.com/assets/images/header/cities/amedabad.jpg" class='h-5 w-6' /> */}
+                                            <span className='text-xs text-center mt-1'>{item.text}</span>
                                         </NavLink>
                                     )
                                 })}
@@ -173,30 +222,46 @@ const Header = () => {
                             </div>
                             <div className='w-[100%]'>
                                 <SearchIcon imageClass={'w-5 h-5 absolute left-2 top-7'} />
-                                <input placeholder='Search City...' className='bg-gray-100 border-[1px] pl-8 py-1 w-[100%] mt-5 focus:outline-none rounded-md' />
+                                <input
+                                    onChange={(e) => setSearchText(e.target.value)}
+                                    placeholder='Search City...'
+                                    className='bg-gray-100 border-[1px] pl-8 py-1 w-[100%] mt-5 focus:outline-none rounded-md' />
                             </div>
-                            <div className=''>
-                                <div className='text-left mt-5'>Top Cities</div>
+                           {(!searchText || searchText == '') && <div className=''>
+                                <div className='text-left mt-5 font-semibold'>Top Cities</div>
                                 <div className='grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2 mt-4'>
-                                    {cities.map((item,index) => {
+                                    {AllCities.topCities?.map((item, index) => {
                                         return (
-                                            <button key={index} className="px-2 py-4 rounded-md hover:bg-gray-100 max-w-[100px] flex flex-col border-[1px] shadow-lg items-center justify-center">
+                                            <NavLink
+                                                to={location.pathname != '/' ? "/property-list" : '/'}
+                                                onClick={() => {
+                                                    setCurrLocation(pre => ({ ...pre, city: item.text, area: item.text }));
+                                                    citymenu.current.classList.add('hidden');
+                                                }}
+                                                key={index}
+                                                className="px-2 py-4 rounded-md hover:bg-gray-100 max-w-[100px] flex flex-col border-[1px] shadow-lg items-center justify-center">
                                                 <img alt='' src={cityIcon} className='h-5 w-6' />
-                                                <span className='text-xs'>{item.city}</span>
-                                            </button>
+                                                <span className='text-xs mt-1'>{item.text}</span>
+                                            </NavLink>
                                         )
                                     })}
                                 </div>
-                            </div>
+                            </div>}
 
-                            <div className='mt-5 w-[100%]'>
-                                <div className='text-left pl-1'>Other Cities</div>
+                            <div className='mt-5 pt-5 w-[100%]'>
+                                <div className='text-left pl-1 font-semibold'>Other Cities</div>
                                 <div className='w-[100%] pl-2'>
-                                    {otherCities.map((item,index) => {
+                                    {AllCities.otherCities?.map((item, index) => {
                                         return (
-                                            <span key={index} className="px-2 -mt-5 -pt-5  text-left">
-                                                <div className='text-sm -mt-3 hover:bg-gray-100 w-[100%] pt-0 border-b-[0.5px]'>{item.city}</div>
-                                            </span>
+                                            <NavLink
+                                                to={location.pathname != '/' ? "/property-list" : '/'}
+                                                onClick={() => {
+                                                    setCurrLocation(pre => ({ ...pre, city: item.text, area: item.text }));
+                                                    citymenu.current.classList.add('hidden');
+                                                }}
+                                                key={index} className="px-2 -mt-5 -pt-5  text-left cursor-pointer">
+                                                <div className='text-sm -mt-3 hover:bg-gray-100 w-[100%] pt-0 border-b-[0.5px]'>{item.text}</div>
+                                            </NavLink>
                                         )
                                     })}
                                 </div>
@@ -277,7 +342,7 @@ const Header = () => {
                                     My Dashboard
                                     <Dropdown classname={'text-white opacity-95'} />
                                 </button>
-                                <DropdownHover Items={myDashboardItems} MenuClass={'w-[180px]'} ItemClass={'border-b-[0px]'}/>
+                                <DropdownHover Items={myDashboardItems} MenuClass={'w-[180px]'} ItemClass={'border-b-[0px]'} />
                             </div>
                         }
                     </div>

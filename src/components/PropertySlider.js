@@ -11,7 +11,7 @@ const PropertySlider = ({ Data, type }) => {
         <div>
             <div className='mb-10'>
                 <div className='mt-10'>
-                    {type && <h1 className={styles.title1 + 'text-start mb-5 px-0'}>{type}</h1>}
+                    {type && <h1 className={styles.title1 + 'text-start pl-0 mb-5 px-0'}>{type}</h1>}
                     <Carousel
                         swipeable={true}
                         draggable={false}
@@ -70,6 +70,7 @@ const PropertySlider = ({ Data, type }) => {
 
                                         <div className='absolute bottom-1'>
                                             <p className={styles.title4 + 'mt-3'}>{'\u20B9'} 25 Cr</p>
+                                            {/* <i class="fas fa-rupee-sign"></i> */}
                                         </div>
                                     </div>
                                 </div>

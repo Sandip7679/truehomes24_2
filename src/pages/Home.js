@@ -14,6 +14,7 @@ import Contact from '../components/Contact';
 import ScrollUp from '../components/ScrollUp';
 import { BudgetMenu, PropertyMenu } from '../components/Dropdowns';
 import NewsAndArticles from '../components/NewsAndArticles';
+import useApi from '../ApiConf';
 // import { NavLink } from 'react-router-dom';
 // import ApiConf from '../ApiConf';
 
@@ -166,6 +167,8 @@ const Home = () => {
     // const [propertyData, setPropertyData] = useState(null);
     const [contactModalStatus, setcontactModalStatus] = useState({ show: false, data: {} });
     const propertyElement = useRef();
+    const { fetchData, loading, error } = useApi();
+    const [featuredProperties, setFeaturedProperties] = useState([]);
 
     useEffect(() => {
 
@@ -186,12 +189,25 @@ const Home = () => {
         //     setPropertyData(res.content);
         // })
         //  getProperties('featured-property-slider');
+        getFeaturedProperties();
     }, [])
 
     // const getProperties = async (endpoint)=>{
     //     let res = await ApiConf(endpoint);
     //     console.log('res....',res);
     // }
+
+    const getFeaturedProperties = async () => {
+        let data;
+        try {
+            data = await fetchData('featured-property-slider?limit=5&page=1', 'GET');
+        } catch (err) {
+            console.log(err);
+        }
+        if (data) {
+            setFeaturedProperties(Object.values(data.content));
+        }
+    }
 
 
     const onClickContactBtn = (item) => {
