@@ -2,31 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { CallIcon, EmailIcon, LocationIcon } from './svgIcons';
 import { styles } from '../Styles/Styles';
 import { NavLink } from 'react-router-dom';
-import logoImage from '../assets/images/logo.jpg'
+// import logoImage from '../assets/images/logo.jpg'
 import useApi from '../ApiConf';
 
 
-const populerSearches = [
-    { itemName: 'Property for Sale' },
-    { itemName: 'Property for Sale' },
-    { itemName: 'Property for Sale' },
-    { itemName: 'Residential Plot ( Land )' },
-    { itemName: 'Commercial Property' },
-    { itemName: 'Residential Plot ( Land )' },
-    { itemName: 'Property for Sale' },
-    { itemName: 'Property for Sale' },
-    { itemName: 'Property for Sale' }
-];
-const quickLinks = [
-    { linkName: 'Contact Us', endpoint: '/contact-us' },
-    { linkName: 'FAQS', endpoint: '/faqs' },
-    { linkName: 'Blogs', endpoint: '/blogs' },
-    { linkName: 'Terms and Conditions', endpoint: '/terms-conditions' },
-    { linkName: 'About Us', endpoint: '/about-us' },
-    { linkName: 'Privacy Policy', endpoint: '/privacy-policy' },
-    { linkName: 'Refund Policy', endpoint: '/refund-policy' },
-    { linkName: 'Sitemap', endpoint: '/sitemap' },
-]
 const Footer = () => {
     const { fetchData } = useApi();
     const [footerData, setFooterData] = useState(null);
@@ -42,7 +21,6 @@ const Footer = () => {
             console.log(err);
         }
         if (data) {
-            // console.log('footerdat....',data);
             setFooterData(data);
         }
     }

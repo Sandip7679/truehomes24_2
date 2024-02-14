@@ -41,8 +41,14 @@ function App() {
     <>
       <Routes>
         <Route path='/' element={<Home />} />
-        <Route path='/property-list' element={<PropertyList />}/>
-        <Route path='/:propertyFor' element={<PropertyList />}/>
+        {/* <Route path='/property-list' element={<PropertyList />}/> */}
+        <Route path='/sale/:pathCity' element={<PropertyList />}/>
+        <Route path='/rent/:pathCity' element={<PropertyList />}/>
+        <Route path='/new-projects/:pathCity' element={<PropertyList />}/>
+        {/* <Route path='/sale/property-for-sale-in-:pathCity' element={<PropertyList />}/>
+        <Route path='/rent/property-for-rent-in-:pathCity' element={<PropertyList />}/>
+        <Route path='/new-projects/new-projects-for-sale-in-:pathCity' element={<PropertyList />}/> */}
+        {/* <Route path='/:propertyFor' element={<PropertyList />}/> */}
         <Route path='/agents' element={<Agents/>} />
         <Route path='/builders' element={<Builders/>} />
         <Route path='/project_details' element={<ProjectDetails/>} />
@@ -64,6 +70,7 @@ function App() {
         <Route path='/privacy-policy' element={<PrivacyPolicy/>} />
         <Route path='/refund-policy' element={<RefundPolicy/>} />
         <Route path='/sitemap' element={<Sitemap/>} />
+        {/* <Route path='/:notfound' element={<Home/>} /> */}
       </Routes>
     </>
   );

@@ -9,9 +9,8 @@ const PropertySlider = ({ Data, type }) => {
 
     return (
         <div>
-            <div className='mb-10'>
-                <div className='mt-10'>
-                    {type && <h1 className={styles.title1 + 'text-start pl-0 mb-5 px-0'}>{type}</h1>}
+            <div className='my-10'>
+                    {type && <h1 className={styles.title1 + 'text-start mb-5 px-0'}>{type}</h1>}
                     <Carousel
                         swipeable={true}
                         draggable={false}
@@ -27,25 +26,25 @@ const PropertySlider = ({ Data, type }) => {
                         containerClass='mx-auto'
                         itemClass='pt-2'
                         customLeftArrow={
-                            <>
-                                <button className='absolute sm:hidden bg-black bg-opacity-30 opacity-70 hover:bg-opacity-60 rounded-full flex justify-center items-center p-2'>
+                            <div className='absolute'>
+                                <button className='sm:hidden bg-black bg-opacity-30 opacity-70 hover:bg-opacity-60 rounded-full flex justify-center items-center p-2'>
                                     <ArrowLeft classname={'w-7 h-7 text-white'} />
                                 </button>
-                                <button className='hidden sm:flex justify-center items-center absolute rounded-full  bg-white shadow-md p-4'>
+                                <button className='hidden sm:flex justify-center items-center rounded-full  bg-white shadow-md p-4'>
                                     <i class="fa-solid fa-arrow-left  text-gray-500 "></i>
                                 </button>
-                            </>
+                            </div>
 
                         }
                         customRightArrow={
-                            <>
-                                <button className='absolute sm:hidden right-0 bg-black bg-opacity-30 opacity-70 hover:bg-opacity-60 rounded-full flex justify-center items-center p-2'>
+                            <div className='absolute right-0'>
+                                <button className='sm:hidden bg-black bg-opacity-30 opacity-70 hover:bg-opacity-60 rounded-full flex justify-center items-center p-2'>
                                     <ArrowRight classname={'w-7 h-7 text-white'} />
                                 </button>
-                                <button className='hidden absolute right-0 rounded-full sm:flex justify-center items-center bg-white shadow-md p-4'>
+                                <button className='hidden rounded-full sm:flex justify-center items-center bg-white shadow-md p-4'>
                                     <i class="fa-solid fa-arrow-right text-gray-500  "></i>
                                 </button>
-                            </>
+                            </div>
 
                         }
                     >
@@ -77,7 +76,6 @@ const PropertySlider = ({ Data, type }) => {
                             )
                         })}
                     </Carousel>
-                </div>
             </div>
         </div>
     );

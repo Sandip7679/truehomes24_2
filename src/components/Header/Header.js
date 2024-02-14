@@ -14,7 +14,7 @@ import Auth from '../Auth';
 import MobileMenu from './MobileMenu';
 import { DropdownHover } from '../Dropdowns';
 import { useDispatch, useSelector } from 'react-redux';
-import { logout } from '../../Redux/reducer/User';
+import { logout, setlocation } from '../../Redux/reducer/User';
 import useApi from '../../ApiConf';
 
 // const cities = [
@@ -55,16 +55,16 @@ const moreServicesItem = [
 let myDashboardItems = [];
 
 const Header = () => {
-    const location = useLocation();
+    const locationPath = useLocation();
     const cityRef = useRef(null);
     const citymenu = useRef(null);
     const [showLoginPopup, setShowLoginPopup] = useState(false);
     const { fetchData, loading, error } = useApi();
-    const { login_status, userData } = useSelector(state => state.User)
-    const dispatch = useDispatch();
+    const { login_status, currLocation } = useSelector(state => state.User)
     const [searchText, setSearchText] = useState(null);
     const [AllCities, setAllCities] = useState({ international: [], topCities: [], otherCities: [] });
-    const [currLocation, setCurrLocation] = useState({ country: null, city: 'Ahmedabad', loaction: null, area: 'Ahmedabad' });
+    const dispatch = useDispatch();
+    // const [currLocation, setCurrLocation] = useState({ country: null, city: 'Ahmedabad', loaction: null, area: 'Ahmedabad' });
 
     useEffect(() => {
         // document.getElementById('dropdown-city').addEventListener('blur', () => {
@@ -100,6 +100,7 @@ const Header = () => {
         //  }
         //   console.log('location.pathname..',location.pathname);
         getMenuDetails();
+        getCurrLocation();
     }, []);
 
     useEffect(() => {
@@ -143,6 +144,34 @@ const Header = () => {
 
     }
 
+    const getCurrLocation = async () => {
+        let location = localStorage.getItem('location');
+        if (location || location != '') {
+            dispatch(setlocation(JSON.parse(location)));
+        }
+    }
+    const setLocation = (location) => {
+        dispatch(setlocation({ ...currLocation, ...location }));
+        localStorage.setItem('location', JSON.stringify({ ...currLocation, ...location }));
+        citymenu.current.classList.add('hidden');
+    }
+
+    const getRoutePath = (city) => {
+
+        if (locationPath.pathname == '/') {
+            return '/'
+        }
+        else {
+            let propertyStatus = localStorage.getItem('propertyStatus');
+            if (propertyStatus == 'rent' || propertyStatus == 'sale') {
+                return `/${propertyStatus}/property-for-${propertyStatus}-in-${city.toLowerCase()}`;
+            }
+            else if (propertyStatus == 'new projects') {
+                return '/new-projects/new-projects-for-sale-in-' + city.toLowerCase();
+            }
+        }
+    }
+
     const handleLogout = () => {
         localStorage.setItem('isLoggedIn', false);
         dispatch(logout());
@@ -157,6 +186,8 @@ const Header = () => {
             }
         });
     }
+
+
 
     const onCloseLoginPopup = () => {
         setShowLoginPopup(false);
@@ -187,7 +218,7 @@ const Header = () => {
                             // onClick={() => document.getElementById('city-menu').classList.toggle('hidden')}
                             onClick={() => citymenu.current.classList.toggle('hidden')}
                         >
-                            {currLocation.area}
+                            {currLocation?.area}
                             <Dropdown classname={'text-white'} />
                         </button>
                         <div
@@ -198,12 +229,11 @@ const Header = () => {
                             <div className='grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2 mt-2'>
                                 {AllCities.international?.map((item, index) => {
                                     return (
-                                        <NavLink onClick={() => {
-                                            citymenu.current.classList.add('hidden');
-                                            setCurrLocation(pre => ({ ...pre, country: item.text, area: item.text }));
-                                        }}
+                                        <NavLink
+                                            onClick={() => setLocation({ country: item.text, area: item.text })}
                                             key={index}
-                                            to={location.pathname != '/' ? "/property-list" : '/'}
+                                            // to={()=>setLocation()}
+                                            to={locationPath.pathname != '/' ? "/" : '/'}
                                             className="px-2 py-4 rounded-md hover:bg-gray-100 flex flex-col border-[1px] shadow-lg items-center justify-center">
                                             <img alt='' src={cityIcon} className='h-5 w-6' />
                                             {/* <img alt='' src="https://www.truehomes24.com/assets/images/header/cities/amedabad.jpg" class='h-5 w-6' /> */}
@@ -227,17 +257,15 @@ const Header = () => {
                                     placeholder='Search City...'
                                     className='bg-gray-100 border-[1px] pl-8 py-1 w-[100%] mt-5 focus:outline-none rounded-md' />
                             </div>
-                           {(!searchText || searchText == '') && <div className=''>
+                            {(!searchText || searchText == '') && <div className=''>
                                 <div className='text-left mt-5 font-semibold'>Top Cities</div>
                                 <div className='grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2 mt-4'>
                                     {AllCities.topCities?.map((item, index) => {
                                         return (
                                             <NavLink
-                                                to={location.pathname != '/' ? "/property-list" : '/'}
-                                                onClick={() => {
-                                                    setCurrLocation(pre => ({ ...pre, city: item.text, area: item.text }));
-                                                    citymenu.current.classList.add('hidden');
-                                                }}
+                                                // to={locationPath.pathname != '/' ? "/sale" : '/'}
+                                                to={`${getRoutePath(item.text)}`}
+                                                onClick={() => setLocation({ city: item.text, area: item.text })}
                                                 key={index}
                                                 className="px-2 py-4 rounded-md hover:bg-gray-100 max-w-[100px] flex flex-col border-[1px] shadow-lg items-center justify-center">
                                                 <img alt='' src={cityIcon} className='h-5 w-6' />
@@ -254,11 +282,8 @@ const Header = () => {
                                     {AllCities.otherCities?.map((item, index) => {
                                         return (
                                             <NavLink
-                                                to={location.pathname != '/' ? "/property-list" : '/'}
-                                                onClick={() => {
-                                                    setCurrLocation(pre => ({ ...pre, city: item.text, area: item.text }));
-                                                    citymenu.current.classList.add('hidden');
-                                                }}
+                                                // to={locationPath.pathname != '/' ? "/sale" : '/'}
+                                                to={() => setLocation({ city: item.text, area: item.text })()}
                                                 key={index} className="px-2 -mt-5 -pt-5  text-left cursor-pointer">
                                                 <div className='text-sm -mt-3 hover:bg-gray-100 w-[100%] pt-0 border-b-[0.5px]'>{item.text}</div>
                                             </NavLink>
@@ -276,9 +301,24 @@ const Header = () => {
                     </div>
                     <div className='hidden lg:flex flex-shrink-0 space-x-4'>
                         <div className='hidden xl:flex md:gap-5'>
-                            <NavLink to={'/property-list'} className="text-gray-100 hover:cursor-pointer hover:text-gray-400">Buy</NavLink>
-                            <NavLink to={'/property-list'} className="text-gray-100 hover:cursor-pointer hover:text-gray-400">Rent</NavLink>
-                            <NavLink to={'/property-list'} className="text-gray-100 hover:cursor-pointer hover:text-gray-400">New Project</NavLink>
+                            <NavLink
+                                onClick={() => { localStorage.setItem('propertyStatus', 'sale') }}
+                                to={'/sale/property-for-sale-in-' + currLocation?.city}
+                                className="text-gray-100 hover:cursor-pointer hover:text-gray-400">
+                                Buy
+                            </NavLink>
+                            <NavLink
+                                onClick={() => { localStorage.setItem('propertyStatus', 'rent') }}
+                                to={'/rent/property-for-rent-in-' + currLocation?.city}
+                                className="text-gray-100 hover:cursor-pointer hover:text-gray-400">
+                                Rent
+                            </NavLink>
+                            <NavLink
+                                onClick={() => { localStorage.setItem('propertyStatus', 'new projects') }}
+                                to={'/new-projects/new-projects-for-sale-in-' + currLocation?.city}
+                                className="text-gray-100 hover:cursor-pointer hover:text-gray-400">
+                                New Project
+                            </NavLink>
                         </div>
 
                         <NavLink to="/agents" className="text-gray-100 hover:text-gray-400">Agents</NavLink>

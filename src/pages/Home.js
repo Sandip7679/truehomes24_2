@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import Header from '../components/Header/Header';
-import bgImage from '../assets/images/homecity.jpeg';
+import bgImage from '../assets/images/homecity.png';
 import propertyCount1 from '../assets/images/propertyCount1.png';
 import propertyCount2 from '../assets/images/propertyCount2.png';
 import propertyCount3 from '../assets/images/propertyCount3.png';
@@ -114,19 +114,19 @@ const Data = [
         "price": "<i class=\"fas fa-rupee-sign\"></i> 45 L",
         "listedBy": 'RainBow Foundation Ltd[Builder]'
     },
-    // {
-    //     "title": "Residential Land  for Sale  in Bhogapuram International Airport Road, Visakhapatnam",
-    //     "link": "https://www.truehomes24.com/api/sale/residential-land-for-sale-in-bhogapuram-international-airport-road-visakhapatnam/1000-64481",
-    //     "property_url": "/sale/residential-land-for-sale-in-bhogapuram-international-airport-road-visakhapatnam/1000-64481",
-    //     "image": "https://www.truehomes24.com/assets/properties/banner-02/bfa1673f343a2fe32d1b31e3f202a402.jpg",
-    //     "location": "Bhogapuram International Airport Road, Visakhapatnam",
-    //     "propertyType": "Residential Land",
-    //     "area": "57600 sq.ft.",
-    //     "bedroom": "",
-    //     "possission": "",
-    //     "price": "<i class=\"fas fa-rupee-sign\"></i> 25.60 Cr",
-    //     "listedBy":'RainBow Foundation Ltd[Builder]'
-    // },
+    {
+        "title": "Residential Land  for Sale  in Bhogapuram International Airport Road, Visakhapatnam",
+        "link": "https://www.truehomes24.com/api/sale/residential-land-for-sale-in-bhogapuram-international-airport-road-visakhapatnam/1000-64481",
+        "property_url": "/sale/residential-land-for-sale-in-bhogapuram-international-airport-road-visakhapatnam/1000-64481",
+        "image": "https://www.truehomes24.com/assets/properties/banner-02/bfa1673f343a2fe32d1b31e3f202a402.jpg",
+        "location": "Bhogapuram International Airport Road, Visakhapatnam",
+        "propertyType": "Residential Land",
+        "area": "57600 sq.ft.",
+        "bedroom": "",
+        "possission": "",
+        "price": "<i class=\"fas fa-rupee-sign\"></i> 25.60 Cr",
+        "listedBy": 'RainBow Foundation Ltd[Builder]'
+    },
 ]
 
 
@@ -169,6 +169,7 @@ const Home = () => {
     const propertyElement = useRef();
     const { fetchData, loading, error } = useApi();
     const [featuredProperties, setFeaturedProperties] = useState([]);
+    const [allProperties, setAllProperties] = useState({featured:[],newProjects:[]});
 
     useEffect(() => {
 
@@ -183,32 +184,43 @@ const Home = () => {
         //     document.getElementById('property-type-menu').classList.add('hidden');
         // });
 
-        // let url = baseURL + 'featured-property-slider?limit=5&page=1';
-        // fetch(url).then((res) => res.json()).then((res) => {
-        //     console.log('res properties....', res.content);
-        //     setPropertyData(res.content);
-        // })
-        //  getProperties('featured-property-slider');
-        getFeaturedProperties();
+        // getFeaturedProperties();
+        getAllProperties();
+
     }, [])
 
-    // const getProperties = async (endpoint)=>{
-    //     let res = await ApiConf(endpoint);
-    //     console.log('res....',res);
+
+    // const getFeaturedProperties = async () => {
+    //     let data;
+    //     try {
+    //         data = await fetchData('featured-property-slider?limit=5&page=1', 'GET');
+    //     } catch (err) {
+    //         console.log(err);
+    //     }
+    //     if (data) {
+    //         setFeaturedProperties(Object.values(data.content));
+    //     }
     // }
 
-    const getFeaturedProperties = async () => {
-        let data;
+    const getAllProperties = async () => {
+        let featured;
         try {
-            data = await fetchData('featured-property-slider?limit=5&page=1', 'GET');
+            featured = await fetchData('featured-property-slider?limit=5&page=1', 'GET');
         } catch (err) {
             console.log(err);
         }
-        if (data) {
-            setFeaturedProperties(Object.values(data.content));
-        }
-    }
+        if(featured){featured = Object.values(featured?.content)}
 
+        let newProjects;
+        try {
+            newProjects = await fetchData('new-projects-slider?limit=5&page=1', 'GET');
+        } catch (err) {
+            console.log(err);
+        }
+        if(newProjects){newProjects = Object.values(newProjects.content)}
+
+        setAllProperties(pre=>({...pre,featured:featured,newProjects:newProjects}));
+    }
 
     const onClickContactBtn = (item) => {
         setcontactModalStatus({ show: true, data: item });
@@ -358,14 +370,16 @@ const Home = () => {
             </div>
 
             <div ref={propertyElement} id="properties" className='container mx-auto px-[3%] xl:px-10'>
-                <PropertySlider Data={Data} type={'Featured Properties'} />
-                <div className='my-10 mt-[50px]'>
-                    <PropertySlider type={'New Project'} Data={Data} />
+                <PropertySlider Data={allProperties.featured} type={'Featured Properties'} />
+                <div className='mt-[50px]'>
+                    <PropertySlider type={'New Project'} Data={allProperties.newProjects} />
                 </div>
-                <div className='my-10 mt-[50px] px-5'>
+                <div className='mt-[50px]'>
                     <RecentAdded Data={Data} func={onClickContactBtn} />
                 </div>
-                <NewsAndArticles Data={NewsArticlesData} type={'News & Articles'} />
+                <div className='mt-5'>
+                    <NewsAndArticles Data={NewsArticlesData} type={'News & Articles'} />
+                </div>
                 <div className='mt-10'>
                     <p className={styles.title2}>Our Property Stats</p>
                     <div className='mt-5 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3'>

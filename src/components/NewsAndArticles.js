@@ -7,70 +7,68 @@ import { NavLink } from 'react-router-dom';
 const NewsAndArticles = ({ Data, type }) => {
     return (
         <div>
-            <div className='mb-10'>
-                <div className='mt-10'>
-                    {type && <h1 className={styles.title1 + 'text-start mb-5 px-0'}>{type}</h1>}
-                    <Carousel
-                        swipeable={true}
-                        draggable={false}
-                        responsive={responsive}
-                        // ssr={true}
-                        infinite={true}
-                        autoPlay={true}
-                        autoPlaySpeed={2000}
-                        keyBoardControl={true}
-                        transitionDuration={2000}
-                        // partialVisbile
-                        customButtonGroup={<div className=''></div>}
-                        containerClass='mx-auto'
-                        itemClass='pt-2'
-                        customLeftArrow={
-                            <>
-                                <button className='absolute sm:hidden bg-black bg-opacity-30 opacity-70 hover:bg-opacity-60 rounded-full flex justify-center items-center p-2'>
-                                    <ArrowLeft classname={'w-7 h-7 text-white'} />
-                                </button>
-                                <button className='hidden sm:flex justify-center items-center absolute rounded-full  bg-white shadow-md p-4'>
-                                    <i class="fa-solid fa-arrow-left  text-gray-500 "></i>
-                                </button>
-                            </>
+            <div className='my-10'>
+                {type && <h1 className={styles.title1 + 'text-start mb-5 px-0'}>{type}</h1>}
+                <Carousel
+                    swipeable={true}
+                    draggable={false}
+                    responsive={responsive}
+                    // ssr={true}
+                    infinite={true}
+                    autoPlay={true}
+                    autoPlaySpeed={2000}
+                    keyBoardControl={true}
+                    transitionDuration={2000}
+                    // partialVisbile
+                    customButtonGroup={<div className=''></div>}
+                    containerClass='mx-auto'
+                    itemClass='pt-2'
+                    customLeftArrow={
+                        <div className='absolute'>
+                            <button className='sm:hidden bg-black bg-opacity-30 opacity-70 hover:bg-opacity-60 rounded-full flex justify-center items-center p-2'>
+                                <ArrowLeft classname={'w-7 h-7 text-white'} />
+                            </button>
+                            <button className='hidden sm:flex justify-center items-center rounded-full  bg-white shadow-md p-4'>
+                                <i class="fa-solid fa-arrow-left  text-gray-500 "></i>
+                            </button>
+                        </div>
 
-                        }
-                        customRightArrow={
-                            <>
-                                <button className='absolute sm:hidden right-0 bg-black bg-opacity-30 opacity-70 hover:bg-opacity-60 rounded-full flex justify-center items-center p-2'>
-                                    <ArrowRight classname={'w-7 h-7 text-white'} />
-                                </button>
-                                <button className='hidden absolute right-0 rounded-full sm:flex justify-center items-center bg-white shadow-md p-4'>
-                                    <i class="fa-solid fa-arrow-right text-gray-500  "></i>
-                                </button>
-                            </>
+                    }
+                    customRightArrow={
+                        <div className='absolute right-0'>
+                            <button className='sm:hidden bg-black bg-opacity-30 opacity-70 hover:bg-opacity-60 rounded-full flex justify-center items-center p-2'>
+                                <ArrowRight classname={'w-7 h-7 text-white'} />
+                            </button>
+                            <button className='hidden rounded-full sm:flex justify-center items-center bg-white shadow-md p-4'>
+                                <i class="fa-solid fa-arrow-right text-gray-500  "></i>
+                            </button>
+                        </div>
 
-                        }
-                    >
-                        {Data.map((item, index) => {
-                            return (
-                                <div key={index} className=' rounded-md shadow-lg border-[1px] h-full mx-4 group'>
-                                    <NavLink to={''}>
-                                        <div className='relative items-center rounded-t-md overflow-hidden hover:cursor-pointer'>
-                                            <img alt='' src={item.image}
-                                                className='h-[170px] w-full transform transition-transform hover:scale-110 duration-1000'
-                                            />
-                                        </div>
-                                    </NavLink>
-
-                                    <div className='relative p-3 text-left border-b-[1px] border-gray-300'>
-                                        <p className={styles.title4}>{item.title}</p>
-                                        <p className='text-sm text-gray-600 '>{item.description}</p>
+                    }
+                >
+                    {Data.map((item, index) => {
+                        return (
+                            <div key={index} className=' rounded-md shadow-lg border-[1px] h-full mx-4 group'>
+                                <NavLink to={''}>
+                                    <div className='relative items-center rounded-t-md overflow-hidden hover:cursor-pointer'>
+                                        <img alt='' src={item.image}
+                                            className='h-[170px] w-full transform transition-transform hover:scale-110 duration-1000'
+                                        />
                                     </div>
-                                    <div className='px-3 pb-3 pt-1 flex justify-between text-sm text-gray-600'>
-                                        <p>{item.writer}</p>
-                                        <p>{item.date}</p>
-                                    </div>
+                                </NavLink>
+
+                                <div className='relative p-3 text-left border-b-[1px] border-gray-300'>
+                                    <p className={styles.title4}>{item.title}</p>
+                                    <p className='text-sm text-gray-600 '>{item.description}</p>
                                 </div>
-                            )
-                        })}
-                    </Carousel>
-                </div>
+                                <div className='px-3 pb-3 pt-1 flex justify-between text-sm text-gray-600'>
+                                    <p>{item.writer}</p>
+                                    <p>{item.date}</p>
+                                </div>
+                            </div>
+                        )
+                    })}
+                </Carousel>
             </div>
         </div>
     );

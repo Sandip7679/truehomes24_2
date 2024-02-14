@@ -4,6 +4,8 @@ export const UserSlice = createSlice({
   name: 'user',
   initialState: {
     userData: null,
+    currLocation:null,
+    propertyStatus:'sale',
     login_status: false,
   },
   reducers: {
@@ -14,9 +16,15 @@ export const UserSlice = createSlice({
     logout(state, action) {
       state.userData = {}
       state.login_status = false;
+    },
+    setlocation(state,action){
+      state.currLocation = action.payload
+    },
+    setPropertyStatus(state,action){
+        state.propertyStatus = action.payload    
     }
   }
 })
-export const { setuser, logout } = UserSlice.actions;
+export const { setuser, logout,setlocation } = UserSlice.actions;
 
 export default UserSlice.reducer;
