@@ -4,7 +4,9 @@ export const UserSlice = createSlice({
   name: 'user',
   initialState: {
     userData: null,
-    currLocation:null,
+    currLocation:{ country: null, city: 'Ahmedabad', loaction: null, area: 'Ahmedabad' },
+    propertyListState:{propertyStatus: { text: 'Buy', value: 'sale',index:0 },BHKtype:'',propertyTypes:[],priceRange:[0, 100000000]},
+    filterMenus:null,
     propertyStatus:'sale',
     login_status: false,
   },
@@ -22,9 +24,15 @@ export const UserSlice = createSlice({
     },
     setPropertyStatus(state,action){
         state.propertyStatus = action.payload    
+    },
+    setPropertyListState(state,action){
+        state.propertyListState = action.payload    
+    },
+    setFileterMenus(state,action){
+        state.filterMenus = action.payload    
     }
   }
 })
-export const { setuser, logout,setlocation } = UserSlice.actions;
+export const { setuser, logout,setlocation,setPropertyListState,setFileterMenus } = UserSlice.actions;
 
 export default UserSlice.reducer;

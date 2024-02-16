@@ -4,8 +4,12 @@ import homeKey from '../assets/Icons/home-key.png';
 import buyIcon from '../assets/Icons/buy-buy.png';
 import newProjectIcon from '../assets/Icons/bulding-project.png';
 import { styles } from '../Styles/Styles';
-import { BudgetMenu } from './Dropdowns';
-import { useParams, useHistory } from 'react-router-dom';
+import BHKmenu, { BudgetMenu, MoreMenu, PropertyTypeMenu } from './Dropdowns';
+// import { useParams, useHistory } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { setFileterMenus, setPropertyListState } from '../Redux/reducer/User';
+import { NavLink } from 'react-router-dom';
+import useApi from '../ApiConf';
 // import { document } from 'postcss';
 
 
@@ -45,21 +49,23 @@ const moreDatas = {
 }
 
 const searchTypes = [
-    { type: 'Buy', icon: buyIcon, value: 'buy' },
-    { type: 'Rent', icon: homeKey, value: 'rent' },
-    { type: 'New Projects', icon: newProjectIcon, value: 'new-project' }
+    { type: 'Buy', icon: buyIcon, value: 'sale', path: '/sale/property-for-sale-in-' },
+    { type: 'Rent', icon: homeKey, value: 'rent', path: '/rent/property-for-rent-in-' },
+    { type: 'New Projects', icon: newProjectIcon, value: 'new-projects', path: '/new-projects/new-projects-for-sale-in-' }
 ]
 
 
 const TopSearchNavBar = () => {
-    const [currSearchIndex, setCurrSearchIndex] = useState(0);
-    const { propertyFor } = useParams();
-
+    const { currLocation, propertyListState, filterMenus } = useSelector(state => state.User);
+    const dispatch = useDispatch();
+    const { fetchData, loading, error } = useApi();
     useEffect(() => {
-        console.log('propertyFor..', propertyFor);
-        closeOnClickOutside('budget-dropdown', 'budget-menu');
-        closeOnClickOutside('bhk-dropdown', 'bhk-menu');
-        closeOnClickOutside('property-type-dropdown', 'property-type-menu');
+
+        getFileterMenus();
+
+        // closeOnClickOutside('budget-dropdown', 'budget-menu');
+        // closeOnClickOutside('bhk-dropdown', 'bhk-menu');
+        // closeOnClickOutside('property-type-dropdown', 'property-type-menu');
         closeOnClickOutside('shortBy-dropdown', 'shortBy-menu');
 
     }, []);
@@ -74,25 +80,42 @@ const TopSearchNavBar = () => {
         });
     }
 
+    const getFileterMenus = async () => {
+        let data;
+        try {
+            data = await fetchData('property-list-filters', 'GET');
+        } catch (err) {
+            console.log(err);
+        }
+        if (data) {
+            dispatch(setFileterMenus(data.filters));
+        }
+    }
+
     return (
         <div className={styles.textMedium + 'w-full shadow'}>
             <div className='relative p-2 xl:container pt-5 xl:flex gap-2 pl-[1%]'>
                 <div className='flex gap-1 sm:gap-2 xl:w-full sm:max-w-[780px]'>
                     <div className='absolute top-[110px] xs:top-[65px] xl:top-0 xl:relative group'>
                         <button className='p-0 pr-0 flex w-[147px]'>
-                            <img alt='' className='h-4 w-4 mt-1 mr-2' src={searchTypes[currSearchIndex].icon} />
-                            <p className={styles.textMedium + 'font-bold text-gray-800'}>{searchTypes[currSearchIndex].type}</p>
+                            <img alt='' className='h-4 w-4 mt-1 mr-2' src={searchTypes[propertyListState?.propertyStatus?.index]?.icon} />
+                            <p className={styles.textMedium + 'font-semibold text-gray-800'}>{propertyListState?.propertyStatus?.text}</p>
                             <Dropdown />
                         </button>
                         <div className={styles.dropdownMenu + 'p-0 pt-[0px] group-hover:block w-[170px]'}>
                             {searchTypes.map((item, index) => {
                                 return (
-                                    <button key={index}
-                                        onClick={() => setCurrSearchIndex(index)}
+                                    <NavLink
+                                        to={item.path + currLocation?.city.toLowerCase()}
+                                        key={index}
+                                        onClick={() => {
+                                            // setCurrSearchIndex(index);
+                                            dispatch(setPropertyListState({ ...propertyListState, propertyStatus: { text: item.type, value: item.value, index: index } }));
+                                        }}
                                         className='flex p-2 w-full hover:bg-gray-100'>
                                         <img alt='' className='h-4 w-4 mt-1 mr-2' src={item.icon} />
                                         <p className={styles.textMedium + 'text-gray-800'}>{item.type}</p>
-                                    </button>
+                                    </NavLink>
                                 )
                             })}
                         </div>
@@ -110,7 +133,7 @@ const TopSearchNavBar = () => {
                 </div>
 
                 <div className='flex flex-wrap flex-shrink-0 mt-1 gap-2'>
-                    <div className='w-[145px] xl:hidden'/>
+                    <div className='w-[145px] xl:hidden' />
                     <div id='bhk-dropdown' className='relative group'>
                         <button
                             onClick={() => document.getElementById('bhk-menu').classList.toggle('hidden')}
@@ -118,7 +141,8 @@ const TopSearchNavBar = () => {
                             <p className='text-sm lg:text-base'>BHK</p>
                             <Dropdown />
                         </button>
-                        <div id='bhk-menu' className={styles.dropdownMenu + 'w-[120px] group-hover:block'}>
+                        <BHKmenu />
+                        {/* <div id='bhk-menu' className={styles.dropdownMenu + 'w-[120px] group-hover:block'}>
                             {BHKtype.map((item, index) => {
                                 return (
                                     <label key={index}
@@ -130,22 +154,23 @@ const TopSearchNavBar = () => {
                                 )
                             })}
                             <p className={styles.textMedium + 'text-center mt-2'}>Clear All</p>
-                        </div>
+                        </div> */}
                     </div>
 
                     <div
                         id='property-type-dropdown'
                         className='relative group'>
                         <button
-                            onClick={() => document.getElementById('property-type-menu').classList.toggle('hidden')}
+                            // onClick={() => document.getElementById('property-type-menu').classList.toggle('hidden')}
                             className={styles.btn + 'py-[2px] sm:py-1 '}>
                             <p className='text-sm lg:text-base'>Property Type</p>
                             <Dropdown />
                         </button>
-                        <div
+                        <PropertyTypeMenu/>
+                        {/* <div
                             id='property-type-menu'
                             className={`${styles.dropdownMenu} w-[260px] group-hover:block`}>
-                            <div class="space-y-2 max-h-[400px] overflow-y-scroll">
+                            <div class="space-y-2 max-h-[400px] overflow-y-auto">
                                 {propertyTypes.map((item, index) => {
                                     return (
                                         <label key={index} class="flex hover:cursor-pointer hover:bg-gray-100 pl-2 items-center">
@@ -155,55 +180,57 @@ const TopSearchNavBar = () => {
                                     )
                                 })}
                             </div>
-                        </div>
+                        </div> */}
                     </div>
 
                     <div id='budget-dropdown' className='relative group'>
                         <button
-                            onClick={() => {
-                                if (document.getElementById('budget-menu')) {
-                                    document.getElementById('budget-menu').classList.toggle('hidden');
-                                }
-                            }}
+                            // onClick={() => {
+                            //     if (document.getElementById('budget-menu')) {
+                            //         document.getElementById('budget-menu').classList.toggle('hidden');
+                            //     }
+                            // }}
                             className={styles.btn + 'py-[2px] sm:py-1 '}>
                             <p className='text-sm lg:text-base'>Budget</p>
                             <Dropdown />
                         </button>
-                        {/* <div
-                        id='bugdet-menu'
-                        className={`${styles.dropdownContainer} -left-[200px] group-hover:block`}>
-                        <div className='flex gap-5 mt-5'>
-                            <div className='relative'>
-                                <span className='absolute top-2 left-2'>{'\u20B9'}</span>
-                                <input placeholder='Min' className={styles.input + ' pl-5 rounded-md'} />
-                            </div>
-                            <div className='relative'>
-                                <span className='absolute top-2 left-2'>{'\u20B9'}</span>
-                                <input placeholder='Max' className={styles.input + 'pl-5 rounded-md'} />
-                            </div>
-                        </div>
-                        <div>
-                            {rupees.map((item, index) => {
-                                return (
-                                    <div className='flex gap-5 mt-2'>
-                                        <div className={styles.textMedium + 'flex-1 text-left font-semibold ml-2'}>{'\u20B9'} {item} Lacs</div>
-                                        <div className={styles.textMedium + 'flex-1 text-left font-semibold ml-2'}> {'\u20B9'} {item} Lacs</div>
-                                    </div>
-                                )
-                            })}
-                        </div>
-
-                    </div> */}
                         <BudgetMenu />
+
+                        {/* <div
+                            id='bugdet-menu'
+                            className={`${styles.dropdownContainer} -left-[200px] group-hover:block`}>
+                            <div className='flex gap-5 mt-5'>
+                                <div className='relative'>
+                                    <span className='absolute top-2 left-2'>{'\u20B9'}</span>
+                                    <input placeholder='Min' className={styles.input + ' pl-5 rounded-md'} />
+                                </div>
+                                <div className='relative'>
+                                    <span className='absolute top-2 left-2'>{'\u20B9'}</span>
+                                    <input placeholder='Max' className={styles.input + 'pl-5 rounded-md'} />
+                                </div>
+                            </div>
+                            <div>
+                                {rupees.map((item, index) => {
+                                    return (
+                                        <div className='flex gap-5 mt-2'>
+                                            <div className={styles.textMedium + 'flex-1 text-left font-semibold ml-2'}>{'\u20B9'} {item} Lacs</div>
+                                            <div className={styles.textMedium + 'flex-1 text-left font-semibold ml-2'}> {'\u20B9'} {item} Lacs</div>
+                                        </div>
+                                    )
+                                })}
+                            </div>
+
+                        </div> */}
                     </div>
                     <div className='relative group'>
                         <button
-                            onClick={() => document.getElementById('more-menu').classList.toggle('hidden')}
+                            // onClick={() => document.getElementById('more-menu').classList.toggle('hidden')}
                             className={styles.btn + 'py-[2px] sm:py-1 '}>
                             <p className='text-sm lg:text-base'>More</p>
                             <Dropdown />
                         </button>
-                        <div id='more-menu' className={styles.dropdownContainer + 'group-hover:block sm:-left-[200px] sm:pl-5'}>
+                        <MoreMenu/>
+                        {/* <div id='more-menu' className={styles.dropdownContainer + 'group-hover:block sm:-left-[200px] sm:pl-5'}>
                             <div>
                                 <p className='text-sm font-semibold'>FURNISHING TYPE</p>
                                 <div className='flex flex-wrap gap-4 mt-2'>
@@ -273,7 +300,7 @@ const TopSearchNavBar = () => {
                                     })}
                                 </div>
                             </div>
-                        </div>
+                        </div> */}
                     </div>
 
                     <div

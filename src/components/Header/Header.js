@@ -14,7 +14,7 @@ import Auth from '../Auth';
 import MobileMenu from './MobileMenu';
 import { DropdownHover } from '../Dropdowns';
 import { useDispatch, useSelector } from 'react-redux';
-import { logout, setlocation } from '../../Redux/reducer/User';
+import { logout, setFileterMenus, setPropertyListState, setlocation } from '../../Redux/reducer/User';
 import useApi from '../../ApiConf';
 
 // const cities = [
@@ -60,10 +60,10 @@ const Header = () => {
     const citymenu = useRef(null);
     const [showLoginPopup, setShowLoginPopup] = useState(false);
     const { fetchData, loading, error } = useApi();
-    const { login_status, currLocation } = useSelector(state => state.User)
+    const { login_status, currLocation, propertyListState,filterMenus } = useSelector(state => state.User);
+    const dispatch = useDispatch();
     const [searchText, setSearchText] = useState(null);
     const [AllCities, setAllCities] = useState({ international: [], topCities: [], otherCities: [] });
-    const dispatch = useDispatch();
     // const [currLocation, setCurrLocation] = useState({ country: null, city: 'Ahmedabad', loaction: null, area: 'Ahmedabad' });
 
     useEffect(() => {
@@ -99,6 +99,7 @@ const Header = () => {
         //     setIsLoggedIn(true);
         //  }
         //   console.log('location.pathname..',location.pathname);
+        getFileterMenus();
         getMenuDetails();
         getCurrLocation();
     }, []);
@@ -119,6 +120,22 @@ const Header = () => {
         }
 
     }, [searchText])
+
+    const getFileterMenus = async () => {
+        
+        if(filterMenus) return;
+
+        let data;
+        try {
+            data = await fetchData('property-list-filters', 'GET');
+        } catch (err) {
+            console.log(err);
+        }
+        if (data && data.filters) {
+            dispatch(setFileterMenus(data.filters));
+        }
+
+    } 
 
     // const debounceSearching = (searchText) => {
     //     let clearTime = setTimeout(() => {
@@ -302,20 +319,29 @@ const Header = () => {
                     <div className='hidden lg:flex flex-shrink-0 space-x-4'>
                         <div className='hidden xl:flex md:gap-5'>
                             <NavLink
-                                onClick={() => { localStorage.setItem('propertyStatus', 'sale') }}
-                                to={'/sale/property-for-sale-in-' + currLocation?.city}
+                                onClick={() => {
+                                    localStorage.setItem('propertyStatus', 'sale');
+                                    dispatch(setPropertyListState({ ...propertyListState, propertyStatus: { text: 'Buy', value: 'sale',index:0 } }));
+                                }}
+                                to={'/sale/property-for-sale-in-' + currLocation?.city.toLowerCase()}
                                 className="text-gray-100 hover:cursor-pointer hover:text-gray-400">
                                 Buy
                             </NavLink>
                             <NavLink
-                                onClick={() => { localStorage.setItem('propertyStatus', 'rent') }}
-                                to={'/rent/property-for-rent-in-' + currLocation?.city}
+                                onClick={() => {
+                                    localStorage.setItem('propertyStatus', 'rent');
+                                    dispatch(setPropertyListState({ ...propertyListState, propertyStatus: { text: 'Rent', value: 'rent',index:1 } }));
+                                }}
+                                to={'/rent/property-for-rent-in-' + currLocation?.city.toLowerCase()}
                                 className="text-gray-100 hover:cursor-pointer hover:text-gray-400">
                                 Rent
                             </NavLink>
                             <NavLink
-                                onClick={() => { localStorage.setItem('propertyStatus', 'new projects') }}
-                                to={'/new-projects/new-projects-for-sale-in-' + currLocation?.city}
+                                onClick={() => {
+                                    localStorage.setItem('propertyStatus', 'new projects');
+                                    dispatch(setPropertyListState({ ...propertyListState, propertyStatus: { text: 'New Project', value: 'new projects',index:2 } }));
+                                }}
+                                to={'/new-projects/new-projects-for-sale-in-' + currLocation?.city.toLowerCase()}
                                 className="text-gray-100 hover:cursor-pointer hover:text-gray-400">
                                 New Project
                             </NavLink>

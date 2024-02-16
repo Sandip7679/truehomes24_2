@@ -51,6 +51,8 @@ const useApi = () => {
       setLoading(false);
       return responseData;
     } catch (error) {
+
+      console.log('err apiconfig.....',error);
       setError(error.message);
       setLoading(false);
     }

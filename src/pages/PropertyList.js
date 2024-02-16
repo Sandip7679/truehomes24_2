@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Header from '../components/Header/Header';
 import TopSearchNavBar from '../components/TopSearchNavBar';
 import { styles } from '../Styles/Styles';
@@ -10,6 +10,8 @@ import TopCItiesFilter from '../components/TopCItiesFilter';
 import { NavLink } from 'react-router-dom';
 import PropertyForSlides from '../components/PropertyForSlides';
 import Contact from '../components/Contact';
+import { useDispatch, useSelector } from 'react-redux';
+import useApi from '../ApiConf';
 
 const Localities = [
     { location: 'Shela (40)' },
@@ -27,73 +29,73 @@ const Localities = [
     { location: 'Shela (40)' },
     { location: 'Shela (40)' },
 ]
-const Data = [
-    {
-        "title": "1 BHK Apartment  for Sale  in Rainbow Chetna, Perambur, Chennai",
-        "link": "https://www.truehomes24.com/api/sale/1-bhk-apartment-for-sale-in-rainbow-chetna-perambur-chennai/1000-57159",
-        "property_url": "/sale/1-bhk-apartment-for-sale-in-rainbow-chetna-perambur-chennai/1000-57159",
-        "image": "https://www.truehomes24.com/assets/properties/banner-02/93a4b41ca5c17860d1b44af1f032afa9.webp",
-        "location": "Perambur, Chennai",
-        "propertyType": "Apartment",
-        "area": "650 sq.ft.",
-        "bedroom": "1 Bedroom(s)",
-        "possission": "Possession By: Jun 2025",
-        "price": "45 L",
-        "owner": 'Owner-36787'
-    },
-    {
-        "title": "2 BHK Apartment  for Sale  in Rainbow Ekanta, Perambur, Chennai",
-        "link": "https://www.truehomes24.com/api/sale/2-bhk-apartment-for-sale-in-rainbow-ekanta-perambur-chennai/1000-57163",
-        "property_url": "/sale/2-bhk-apartment-for-sale-in-rainbow-ekanta-perambur-chennai/1000-57163",
-        "image": "https://www.truehomes24.com/assets/properties/banner-02/6195f1a4b44efe4bd85420205df57e4a.webp",
-        "location": "Perambur, Chennai",
-        "propertyType": "Apartment",
-        "area": "650 sq.ft.",
-        "bedroom": "2 Bedroom(s)",
-        "possission": "Possession By: Nov 2024",
-        "price": "45 L",
-        "owner": 'Owner-67587'
-    },
-    {
-        "title": "1 BHK Apartment  for Sale  in Rainbow Ekanta, Perambur, Chennai",
-        "link": "https://www.truehomes24.com/api/sale/1-bhk-apartment-for-sale-in-rainbow-ekanta-perambur-chennai/1000-57162",
-        "property_url": "/sale/1-bhk-apartment-for-sale-in-rainbow-ekanta-perambur-chennai/1000-57162",
-        "image": "https://www.truehomes24.com/assets/properties/banner-02/3fa85544ffca6abb5843dd1aeedf1c73.webp",
-        "location": "Perambur, Chennai",
-        "propertyType": "Apartment",
-        "area": "650 sq.ft.",
-        "bedroom": "1 Bedroom(s)",
-        "possission": "Possession By: Nov 2024",
-        "price": null,
-        "owner": 'Owner-57587'
-    },
-    {
-        "title": "1 BHK Apartment  for Sale  in Rainbow Chetna, Perambur, Chennai",
-        "link": "https://www.truehomes24.com/api/sale/1-bhk-apartment-for-sale-in-rainbow-chetna-perambur-chennai/1000-57159",
-        "property_url": "/sale/1-bhk-apartment-for-sale-in-rainbow-chetna-perambur-chennai/1000-57159",
-        "image": "https://www.truehomes24.com/assets/properties/banner-02/93a4b41ca5c17860d1b44af1f032afa9.webp",
-        "location": "Perambur, Chennai",
-        "propertyType": "Apartment",
-        "area": "650 sq.ft.",
-        "bedroom": "1 Bedroom(s)",
-        "possission": "Possession By: Jun 2025",
-        "price": "45 L",
-        "owner": 'Owner-36787'
-    },
-    {
-        "title": "Residential Land  for Sale  in Bhogapuram International Airport Road, Visakhapatnam",
-        "link": "https://www.truehomes24.com/api/sale/residential-land-for-sale-in-bhogapuram-international-airport-road-visakhapatnam/1000-64481",
-        "property_url": "/sale/residential-land-for-sale-in-bhogapuram-international-airport-road-visakhapatnam/1000-64481",
-        "image": "https://www.truehomes24.com/assets/properties/banner-02/bfa1673f343a2fe32d1b31e3f202a402.jpg",
-        "location": "Bhogapuram International Airport Road, Visakhapatnam",
-        "propertyType": "Residential Land",
-        "area": "57600 sq.ft.",
-        "bedroom": "",
-        "possission": "",
-        "price": "25.60 Cr",
-        "owner": 'Owner-67587'
-    },
-]
+// const Data = [
+//     {
+//         "title": "1 BHK Apartment  for Sale  in Rainbow Chetna, Perambur, Chennai",
+//         "link": "https://www.truehomes24.com/api/sale/1-bhk-apartment-for-sale-in-rainbow-chetna-perambur-chennai/1000-57159",
+//         "property_url": "/sale/1-bhk-apartment-for-sale-in-rainbow-chetna-perambur-chennai/1000-57159",
+//         "image": "https://www.truehomes24.com/assets/properties/banner-02/93a4b41ca5c17860d1b44af1f032afa9.webp",
+//         "location": "Perambur, Chennai",
+//         "propertyType": "Apartment",
+//         "area": "650 sq.ft.",
+//         "bedroom": "1 Bedroom(s)",
+//         "possission": "Possession By: Jun 2025",
+//         "price": "45 L",
+//         "owner": 'Owner-36787'
+//     },
+//     {
+//         "title": "2 BHK Apartment  for Sale  in Rainbow Ekanta, Perambur, Chennai",
+//         "link": "https://www.truehomes24.com/api/sale/2-bhk-apartment-for-sale-in-rainbow-ekanta-perambur-chennai/1000-57163",
+//         "property_url": "/sale/2-bhk-apartment-for-sale-in-rainbow-ekanta-perambur-chennai/1000-57163",
+//         "image": "https://www.truehomes24.com/assets/properties/banner-02/6195f1a4b44efe4bd85420205df57e4a.webp",
+//         "location": "Perambur, Chennai",
+//         "propertyType": "Apartment",
+//         "area": "650 sq.ft.",
+//         "bedroom": "2 Bedroom(s)",
+//         "possission": "Possession By: Nov 2024",
+//         "price": "45 L",
+//         "owner": 'Owner-67587'
+//     },
+//     {
+//         "title": "1 BHK Apartment  for Sale  in Rainbow Ekanta, Perambur, Chennai",
+//         "link": "https://www.truehomes24.com/api/sale/1-bhk-apartment-for-sale-in-rainbow-ekanta-perambur-chennai/1000-57162",
+//         "property_url": "/sale/1-bhk-apartment-for-sale-in-rainbow-ekanta-perambur-chennai/1000-57162",
+//         "image": "https://www.truehomes24.com/assets/properties/banner-02/3fa85544ffca6abb5843dd1aeedf1c73.webp",
+//         "location": "Perambur, Chennai",
+//         "propertyType": "Apartment",
+//         "area": "650 sq.ft.",
+//         "bedroom": "1 Bedroom(s)",
+//         "possission": "Possession By: Nov 2024",
+//         "price": null,
+//         "owner": 'Owner-57587'
+//     },
+//     {
+//         "title": "1 BHK Apartment  for Sale  in Rainbow Chetna, Perambur, Chennai",
+//         "link": "https://www.truehomes24.com/api/sale/1-bhk-apartment-for-sale-in-rainbow-chetna-perambur-chennai/1000-57159",
+//         "property_url": "/sale/1-bhk-apartment-for-sale-in-rainbow-chetna-perambur-chennai/1000-57159",
+//         "image": "https://www.truehomes24.com/assets/properties/banner-02/93a4b41ca5c17860d1b44af1f032afa9.webp",
+//         "location": "Perambur, Chennai",
+//         "propertyType": "Apartment",
+//         "area": "650 sq.ft.",
+//         "bedroom": "1 Bedroom(s)",
+//         "possission": "Possession By: Jun 2025",
+//         "price": "45 L",
+//         "owner": 'Owner-36787'
+//     },
+//     {
+//         "title": "Residential Land  for Sale  in Bhogapuram International Airport Road, Visakhapatnam",
+//         "link": "https://www.truehomes24.com/api/sale/residential-land-for-sale-in-bhogapuram-international-airport-road-visakhapatnam/1000-64481",
+//         "property_url": "/sale/residential-land-for-sale-in-bhogapuram-international-airport-road-visakhapatnam/1000-64481",
+//         "image": "https://www.truehomes24.com/assets/properties/banner-02/bfa1673f343a2fe32d1b31e3f202a402.jpg",
+//         "location": "Bhogapuram International Airport Road, Visakhapatnam",
+//         "propertyType": "Residential Land",
+//         "area": "57600 sq.ft.",
+//         "bedroom": "",
+//         "possission": "",
+//         "price": "25.60 Cr",
+//         "owner": 'Owner-67587'
+//     },
+// ]
 
 const rightSectionData = [
     {
@@ -139,7 +141,16 @@ const propertyTypes = ['Localities', 'Property Status', 'Budget'];
 const PropertyList = () => {
     const [contactModalStatus, setcontactModalStatus] = useState({ show: false, data: {} });
     const [propertyType, setPropertyType] = useState('Localities');
+    const { fetchData, loading, error } = useApi();
+    const { login_status, currLocation, propertyListState } = useSelector(state => state.User);
+    const dispatch = useDispatch();
     // const [moreBestBudget,setMoreBestBudget] = useState(false);
+    const [propertyListData, setPropertyListData] = useState({ currPage: null, totalProperty: null, propertyList: [] });
+
+    useEffect(() => {
+        getPropertyList();
+    }, [propertyListState]);
+
 
     const onClickContactBtn = (item) => {
         setcontactModalStatus({ show: true, data: item });
@@ -147,6 +158,29 @@ const PropertyList = () => {
     const onCloseContact = () => {
         setcontactModalStatus({ show: false, data: null });
     }
+
+    const getPropertyList = async () => {
+        let data;
+        console.log('propertyListState.priceRange...',propertyListState.priceRange);
+        let quary = `property_status=${propertyListState?.propertyStatus?.value == 'new projects' ? 'new project' : propertyListState?.propertyStatus?.value}` +
+            '&country=90&city=10383&locality=' +
+            `&bedroom=${propertyListState?.BHKtype}` +
+            `&property_type=${propertyListState.propertyTypes?.filter(it=>it).join('-')}` +
+            `&min_price=${propertyListState.priceRange[0]}&max_price=${propertyListState.priceRange[1]}`+
+            '&furnishing=&bathroom=&min_area=&max_area=&availableFor=&availability=&facing=&floor=&amenities=&listed_by=&verified=&page=1'
+        let endpoint = 'property-list?' + quary;
+
+        try {
+            data = await fetchData(endpoint, 'GET');
+            console.log('data...',data);
+        } catch (err) {
+            console.log('err fetching propertylist...', err);
+        }
+        if (data) {
+            setPropertyListData({ currPage: data.page, totalProperty: data.totalProperty, propertyList: data.property });
+        }
+    }
+
     return (
         <div className='' >
             <Header />
@@ -154,7 +188,7 @@ const PropertyList = () => {
                 <TopSearchNavBar />
                 <div className='px-[2%] container mx-auto py-5'>
                     <div className={styles.textMedium}>
-                        <NavLink to="/">Home</NavLink> {'> '}
+                        <NavLink className={'hover:opacity-70'} to="/">Home</NavLink> {'> '}
                         Property for Sale in Ahmedabad</div>
                     <div className='lg:flex gap-5'>
                         <div className='mt-5 tracking-wide'>
@@ -182,7 +216,7 @@ const PropertyList = () => {
                                     <p className={styles.textMedium}>Budget</p>
                                 </button> */}
                             </div>
-                            <div className='shadow-sm rounded flex flex-wrap max-h-[140px] border-[1px] border-gray-200 mt-5 mx-2 overflow-y-scroll p-2'>
+                            <div className='shadow-sm rounded flex flex-wrap max-h-[140px] border-[1px] border-gray-200 mt-5 mx-2 overflow-y-auto p-2'>
                                 {Localities.map((item, index) => {
                                     return (
                                         <button key={index} className={styles.btn + 'm-1 hover:bg-orange-50 border-orange-500'}>
@@ -192,9 +226,9 @@ const PropertyList = () => {
                                 })}
                             </div>
                             <div>
-                                {Data.map((item, index) => {
+                                {propertyListData?.propertyList?.map((item, index) => {
                                     return (
-                                        <PropertyListCard func={onClickContactBtn} Data={item} />
+                                        <PropertyListCard key={index} func={onClickContactBtn} Data={item} />
                                     )
                                 })}
                             </div>

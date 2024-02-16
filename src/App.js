@@ -41,13 +41,12 @@ function App() {
     <>
       <Routes>
         <Route path='/' element={<Home />} />
-        {/* <Route path='/property-list' element={<PropertyList />}/> */}
         <Route path='/sale/:pathCity' element={<PropertyList />}/>
         <Route path='/rent/:pathCity' element={<PropertyList />}/>
         <Route path='/new-projects/:pathCity' element={<PropertyList />}/>
         {/* <Route path='/sale/property-for-sale-in-:pathCity' element={<PropertyList />}/>
-        <Route path='/rent/property-for-rent-in-:pathCity' element={<PropertyList />}/>
-        <Route path='/new-projects/new-projects-for-sale-in-:pathCity' element={<PropertyList />}/> */}
+        <Route path='/rent/property-for-rent-in-:y' element={<PropertyList />}/>
+        <Route path='/new-projects/new-projects-for-sale-in-:z' element={<PropertyList />}/> */}
         {/* <Route path='/:propertyFor' element={<PropertyList />}/> */}
         <Route path='/agents' element={<Agents/>} />
         <Route path='/builders' element={<Builders/>} />
