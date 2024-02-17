@@ -75,6 +75,7 @@ export const DropdownHover = ({ Items, ItemClass, MenuClass }) => {
 const BHKmenu = ({ classname }) => {
     const { filterMenus, propertyListState } = useSelector(state => state.User);
     const dispatch = useDispatch();
+
     return (
         <div className={styles.dropdownMenu + 'w-[120px] group-hover:block ' + classname}>
             {filterMenus?.bhk && filterMenus?.bhk.map((item, index) => {
@@ -82,7 +83,7 @@ const BHKmenu = ({ classname }) => {
                     <label key={index}
                         onClick={() => dispatch(setPropertyListState({ ...propertyListState, BHKtype: item.value }))}
                         className={styles.dropdownItem + 'cursor-pointer'}>
-                        <input checked={propertyListState.BHKtype == item.value} className='mt-[0.5px]' type='radio' />
+                        <input checked={propertyListState.BHKtype === item.value} className='mt-[0.5px]' type='radio' />
                         <p className='ml-1'>{item.label}</p>
                     </label>
                 )
@@ -129,6 +130,8 @@ export const PropertyTypeMenu = ({ classname }) => {
         let arr = [...checkedItems];
         if (e.target.checked) {
             arr[index] = index;
+        } else {
+            arr[index] = false;
         }
         setCheckedItems(arr);
         dispatch(setPropertyListState({ ...propertyListState, propertyTypes: arr }));
@@ -183,12 +186,12 @@ export const BudgetMenu = ({ classname }) => {
             // setMaxPrice(Number(sales[sales.length - 1].value));
             // max = Number(sales[sales.length - 1].value);
         }
-    }, [propertyListState, filterMenus]);
+    }, [propertyListState.propertyStatus, filterMenus]);
 
     useEffect(() => {
-        if (priceRange != [0,100000000]) {
+        if (priceRange != [0, 100000000]) {
             let clearTime = setTimeout(() => {
-                 dispatch(setPropertyListState({...propertyListState,priceRange:[priceRange[0],priceRange[1]]}));
+                dispatch(setPropertyListState({ ...propertyListState, priceRange: [priceRange[0], priceRange[1]] }));
             }, 600)
             // console.log('priceRange cleartime.....',priceRange)
             return () => clearTimeout(clearTime);
@@ -267,6 +270,19 @@ export const BudgetMenu = ({ classname }) => {
 }
 export const MoreMenu = ({ classname }) => {
     const { filterMenus, propertyListState } = useSelector(state => state.User);
+    const [checkedItems, setCheckedItems] = useState([]);
+    const dispatch = useDispatch();
+    const handleOnCheckedItem = (e, index, value, type) => {
+        let arr = [...checkedItems];
+        if (e.target.checked) {
+            arr[index] = value;
+        }
+        else {
+            arr[index] = false;
+        }
+        setCheckedItems(arr);
+        dispatch(setPropertyListState({ ...propertyListState, moreStatus: { ...propertyListState.moreStatus, [type]: arr } }));
+    }
 
     return (
         <div className={styles.dropdownContainer + ' text-sm group-hover:block sm:-left-[200px] sm:pl-5 ' + classname}>
@@ -276,7 +292,9 @@ export const MoreMenu = ({ classname }) => {
                     {filterMenus?.more?.furnish && filterMenus?.more?.furnish.map((item, index) => {
                         return (
                             <label key={index} className='flex gap-2 hover:bg-gray-100'>
-                                <input type='checkbox' className='h-4 w-4 mt-1' />
+                                <input
+                                    onChange={(e) => handleOnCheckedItem(e, index, item.value, 'furnishingTypes')}
+                                    type='checkbox' className='h-4 w-4 mt-1' />
                                 <p className='text-gray-600'>{item.label}</p>
                             </label>
                         )
@@ -290,7 +308,7 @@ export const MoreMenu = ({ classname }) => {
                     {filterMenus?.more?.bathroom && filterMenus?.more?.bathroom.map((item, index) => {
                         return (
                             <label key={index} className='flex gap-2 hover:bg-gray-100'>
-                                <input type='checkbox' className='h-4 w-4 mt-1' />
+                                <input onChange={(e) => handleOnCheckedItem(e, index, item.value, 'bathrooms')} type='checkbox' className='h-4 w-4 mt-1' />
                                 <p className=''>{item.label}</p>
                             </label>
                         )
@@ -303,26 +321,32 @@ export const MoreMenu = ({ classname }) => {
                 <p className='mt-2 text-sm font-medium text-gray-500'>Select area size Sq ft</p>
                 <div className='grid grid-cols-1 md:grid-cols-2 gap-4 mt-2'>
                     <div>
-                        <select className={styles.input + ' py-[4px] mt-1 text-gray-500 '}>
-                            <option className=''>Select Min Area</option>
+                        <select
+                            onClick={(e) => dispatch(setPropertyListState({ ...propertyListState, moreStatus: { ...propertyListState.moreStatus, minArea: e.target.value } }))}
+                            className={styles.input + ' py-[4px] mt-1 text-gray-500 '}>
+                            <option value={''} className=''>Select Min Area</option>
                             {filterMenus?.more?.area && filterMenus?.more?.area.map((item, index) => {
                                 return (
-                                    <option key={index} className='flex gap-2 hover:bg-gray-100'>
-                                        <input type='checkbox' className='h-4 w-4 mt-1' />
-                                        <p className=''>{item.label}</p>
+                                    <option
+                                        value={item.value}
+                                        key={index} className=''>
+                                        {item.label}
                                     </option>
                                 )
                             })}
                         </select>
                     </div>
                     <div>
-                        <select className={styles.input + 'py-[4px] mt-1 text-gray-500 '}>
-                            <option>Select Max Area</option>
+                        <select
+                            onChange={(e) => dispatch(setPropertyListState({ ...propertyListState, moreStatus: { ...propertyListState.moreStatus, maxArea: e.target.value } }))}
+                            className={styles.input + 'py-[4px] mt-1 text-gray-500 '}>
+                            <option value={''}>Select Max Area</option>
                             {filterMenus?.more?.area && filterMenus?.more?.area.map((item, index) => {
                                 return (
-                                    <option key={index} className='flex gap-2 hover:bg-gray-100'>
-                                        <input type='checkbox' className='h-4 w-4 mt-1' />
-                                        <p className=''>{item.label}</p>
+                                    <option
+                                        value={item.value}
+                                        key={index} className=''>
+                                        {item.label}
                                     </option>
                                 )
                             })}
@@ -337,8 +361,10 @@ export const MoreMenu = ({ classname }) => {
                 <div className='flex flex-wrap gap-4 mt-2'>
                     {filterMenus?.more?.newResale && filterMenus?.more?.newResale.map((item, index) => {
                         return (
-                            <label key={index} className='flex gap-2 hover:bg-gray-100'>
-                                <input type='radio' className='h-4 w-4 mt-1' />
+                            <label
+                                onClick={() => dispatch(setPropertyListState({ ...propertyListState, moreStatus: { ...propertyListState.moreStatus, newResale: item.value } }))}
+                                key={index} className='flex gap-2 hover:bg-gray-100'>
+                                <input type='radio' checked={propertyListState.moreStatus.newResale == item.value} className='h-4 w-4 mt-1' />
                                 <p className=''>{item.label}</p>
                             </label>
                         )
@@ -351,7 +377,9 @@ export const MoreMenu = ({ classname }) => {
                 <div className='flex flex-wrap gap-4 mt-2'>
                     {filterMenus?.more?.ConstructionStatus && filterMenus?.more?.ConstructionStatus.map((item, index) => {
                         return (
-                            <label key={index} className='flex gap-2 hover:bg-gray-100'>
+                            <label
+                                onClick={() => dispatch(setPropertyListState({ ...propertyListState, moreStatus: { ...propertyListState.moreStatus, constructionStatus: item.value } }))}
+                                key={index} className='flex gap-2 hover:bg-gray-100'>
                                 <input type='radio' className='h-4 w-4 mt-1' />
                                 <p className=''>{item.label}</p>
                             </label>
@@ -365,7 +393,9 @@ export const MoreMenu = ({ classname }) => {
                 <div className='flex flex-wrap gap-2 mt-2'>
                     {filterMenus?.more?.facing && filterMenus?.more?.facing.map((item, index) => {
                         return (
-                            <label key={index} className='flex gap-2 mt-0 hover:bg-gray-100'>
+                            <label
+                                onChange={(e) => handleOnCheckedItem(e, index, item.value, 'facing')}
+                                key={index} className='flex gap-2 mt-0 hover:bg-gray-100'>
                                 <input type='radio' className='h-4 w-4 mt-1' />
                                 <p className=''>{item.label}</p>
                             </label>
@@ -393,7 +423,9 @@ export const MoreMenu = ({ classname }) => {
                 <div className='flex flex-wrap gap-2 mt-2'>
                     {filterMenus?.more?.amenities && filterMenus?.more?.amenities.map((item, index) => {
                         return (
-                            <label key={index} className='flex gap-2 mt-0 hover:bg-gray-100'>
+                            <label
+                                onChange={(e) => handleOnCheckedItem(e, index, item.value, 'amenities')}
+                                key={index} className='flex gap-2 mt-0 hover:bg-gray-100'>
                                 <input type='checkbox' className='h-4 w-4 mt-1' />
                                 <p className=''>{item.label}</p>
                             </label>
@@ -407,7 +439,9 @@ export const MoreMenu = ({ classname }) => {
                 <div className='my-2'>
                     {filterMenus?.more?.userTypes && filterMenus?.more?.userTypes.map((item, index) => {
                         return (
-                            <label key={index} className='flex gap-2 mt-1 hover:bg-gray-100'>
+                            <label
+                            onChange={(e) => handleOnCheckedItem(e, index, item.value, 'listedBy')}
+                             key={index} className='flex gap-2 mt-1 hover:bg-gray-100'>
                                 <input type='checkbox' className='h-4 w-4 mt-1' />
                                 <p className=''>{item.label}</p>
                             </label>

@@ -86,13 +86,13 @@ const PropertyListCard = ({ Data, func }) => {
                                 </span>
                                 <h1 className='text-sm ml-2'>{Data.totalFloor} Floor</h1>
                             </div>
-                            <div className='flex w-1/2 mt-2'>
+                           {Data.bathrooms && Data.bathroom != '' && <div className='flex w-1/2 mt-2'>
                                 <span className=''>
                                     <i class="fa-solid fa-toilet text-sm opacity-70"></i>
                                 </span>
                                 <h1 className='text-sm ml-2 mt-[2px]'>{Data.bathrooms} {Data.bathrooms > 1 ? 'Bathrooms' : 'Bathroom'}</h1>
-                            </div>
-                            {Data.bedroom && <div className='flex w-1/2 mt-2'>
+                            </div>}
+                            {Data.bedroom  && <div className='flex w-1/2 mt-2'>
                                 <span className=''>
                                     <Bedroom classname={'h-5 w-4 mt-[1px] opacity-80'} />
                                 </span>
@@ -100,18 +100,23 @@ const PropertyListCard = ({ Data, func }) => {
                             </div>}
                             {Data.reservedParking && Data.reservedParking != '' && <div className='flex w-1/2 mt-2'>
                                 <span className=''>
-                                  <i class="fa-solid fa-square-parking opacity-70"></i>
+                                    <i class="fa-solid fa-square-parking opacity-70"></i>
                                 </span>
                                 <h1 className='text-sm ml-2'>{Data.reservedParking}</h1>
                             </div>}
-                           {Data.availability && Data.availability != '' && <div className='flex w-1/2 mt-2'>
+                            {Data.availability && Data.availability != '' && <div className='flex w-1/2 mt-2'>
                                 <span className=''>
                                     <i class="fa-solid fa-bars opacity-70"></i>
                                 </span>
                                 <h1 className='text-sm ml-2'>{Data.availability}</h1>
                             </div>}
-
                         </div>}
+                    {Data.furnishing && Data.furnishing != '' &&  <div className='mt-2'>
+                        <span className='bg-gray-700 px-2 py-[2px] rounded text-white text-sm'>
+                            {Data.furnishing}
+                        </span>
+                    </div>}
+
                 </div>
 
                 <div className='border-t-[1px] mt-2 flex justify-between py-1'>

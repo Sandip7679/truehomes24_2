@@ -149,7 +149,7 @@ const PropertyList = () => {
 
     useEffect(() => {
         getPropertyList();
-    }, [propertyListState]);
+    }, [propertyListState,currLocation]);
 
 
     const onClickContactBtn = (item) => {
@@ -161,18 +161,28 @@ const PropertyList = () => {
 
     const getPropertyList = async () => {
         let data;
-        console.log('propertyListState.priceRange...',propertyListState.priceRange);
+        // console.log('propertyListState.priceRange...',propertyListState.priceRange);
+        console.log('propertyListState..',propertyListState.moreStatus.amenities?.filter(it => it).join('-'))
         let quary = `property_status=${propertyListState?.propertyStatus?.value == 'new projects' ? 'new project' : propertyListState?.propertyStatus?.value}` +
-            '&country=90&city=10383&locality=' +
+            `&country=90&city=${currLocation.code}&locality=` +
             `&bedroom=${propertyListState?.BHKtype}` +
-            `&property_type=${propertyListState.propertyTypes?.filter(it=>it).join('-')}` +
-            `&min_price=${propertyListState.priceRange[0]}&max_price=${propertyListState.priceRange[1]}`+
-            '&furnishing=&bathroom=&min_area=&max_area=&availableFor=&availability=&facing=&floor=&amenities=&listed_by=&verified=&page=1'
+            `&property_type=${propertyListState.propertyTypes?.filter(it => it).join('-')}` +
+            `&min_price=${propertyListState.priceRange[0]}&max_price=${propertyListState.priceRange[1]}` +
+            `&furnishing=${propertyListState.moreStatus.furnishingTypes?.filter(it => it).join('-')}` +
+            `&bathroom=${propertyListState.moreStatus.bathrooms?.filter(it => it).join('-')}` +
+            `&min_area=${propertyListState.moreStatus.minArea}&max_area=${propertyListState.moreStatus.maxArea}` +
+            `&availableFor=${propertyListState.moreStatus.newResale}` +
+            `&availability=${propertyListState.moreStatus.constructionStatus}` +
+            '&facing=&floor=' +
+            // `&amenities=` +
+            `&amenities=${propertyListState.moreStatus.amenities?.filter(it => it).join('-')}`+
+            `&listed_by=${propertyListState.moreStatus.listedBy?.filter(it => it).join('-')}`+
+            '&verified=&page=1'
         let endpoint = 'property-list?' + quary;
 
         try {
             data = await fetchData(endpoint, 'GET');
-            console.log('data...',data);
+            console.log('data...', data);
         } catch (err) {
             console.log('err fetching propertylist...', err);
         }
@@ -186,14 +196,14 @@ const PropertyList = () => {
             <Header />
             <div className={'mt-[50px]'}>
                 <TopSearchNavBar />
-                <div className='px-[2%] container mx-auto py-5'>
+                <div className='px-[2%] pt-24 container mx-auto py-5'>
                     <div className={styles.textMedium}>
                         <NavLink className={'hover:opacity-70'} to="/">Home</NavLink> {'> '}
-                        Property for Sale in Ahmedabad</div>
+                        Property for Sale in {currLocation.city}</div>
                     <div className='lg:flex gap-5'>
                         <div className='mt-5 tracking-wide'>
                             <p className={styles.textMedium}>Showing 1-25 of 356 property for Sale</p>
-                            <p className={styles.title3 + 'mt-1'}>Property for Sale in Ahmedabad</p>
+                            <p className={styles.title3 + 'mt-1'}>Property for Sale in {currLocation.city}</p>
                             <div className='flex gap-2 border-b-[1px] mt-2 border-b-gray-200'>
                                 {propertyTypes.map((item, index) => {
                                     return (

@@ -282,7 +282,7 @@ const Header = () => {
                                             <NavLink
                                                 // to={locationPath.pathname != '/' ? "/sale" : '/'}
                                                 to={`${getRoutePath(item.text)}`}
-                                                onClick={() => setLocation({ city: item.text, area: item.text })}
+                                                onClick={() => setLocation({ city: item.text, area: item.text,code:item.city })}
                                                 key={index}
                                                 className="px-2 py-4 rounded-md hover:bg-gray-100 max-w-[100px] flex flex-col border-[1px] shadow-lg items-center justify-center">
                                                 <img alt='' src={cityIcon} className='h-5 w-6' />
@@ -300,7 +300,7 @@ const Header = () => {
                                         return (
                                             <NavLink
                                                 // to={locationPath.pathname != '/' ? "/sale" : '/'}
-                                                to={() => setLocation({ city: item.text, area: item.text })()}
+                                                to={() => setLocation({ city: item.text, area: item.text,code:item.city })()}
                                                 key={index} className="px-2 -mt-5 -pt-5  text-left cursor-pointer">
                                                 <div className='text-sm -mt-3 hover:bg-gray-100 w-[100%] pt-0 border-b-[0.5px]'>{item.text}</div>
                                             </NavLink>
