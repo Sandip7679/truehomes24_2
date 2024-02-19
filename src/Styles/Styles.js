@@ -6,7 +6,7 @@ export const styles = {
     btnFull:'text-white text-base sm:text-lg w-full py-1 rounded ',
     btnBorderLess:'flex text-black text-sm md:text-base px-2 py-1 rounded-md ml-0 hover:bg-gray-200 ',
     dropdownMenu:'absolute hidden group-hover:block z-50 bg-white text-gray-800 top-8 pb-0 border-gray-300 border-[1px] w-[100%] shadow-sm text-sm ',
-    dropdownContainer:'absolute hidden z-50 bg-white p-2 pt-2 w-[180px] overflow-auto max-h-[300px] md:w-[335px] lg:w-[460px] sm:ml-0 text-gray-800 top-8 border-gray-300 border-[1px] ',
+    dropdownContainer:'absolute hidden z-50 bg-white p-2 pt-2 w-[180px] overflow-auto max-h-[380px] md:w-[335px] lg:w-[460px] sm:ml-0 text-gray-800 top-8 border-gray-300 border-[1px] ',
     dropdownItem:'p-2 text-sm border-b-[1px] border-gray-100 flex hover:cursor-pointer hover:bg-gray-100 ',
     dropdownIcon:'fa-solid fa-chevron-down ml-[1px] text-gray-600 text-xs ',
     input:'border-[1px] border-gray-300 pl-2 py-2 w-[100%] focus:outline-none focus:border-gray-400 placeholder:text-gray-400 text-sm sm:text-base ',
@@ -31,5 +31,6 @@ export const styles = {
     formCard:' border-[1px] border-gray-100 rounded-md shadow-xl bg-white p-2 px-2 sm:px-5 my-5 pb-5 ',
     btnBlackHover:' hover:bg-white hover:text-black border-[1px] border-black duration-500 ',
     formBtn:'hover:bg-gray-600 bg-gray-700 text-white text-sm sm:text-base px-4 py-1 rounded ',
+    paginationBtn:'bg-gray-100 rounded-md font-semibold px-4 py-3 hover:bg-gray-700 hover:text-white duration-500 text-sm tracking-wider '
 
 }

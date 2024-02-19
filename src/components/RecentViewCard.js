@@ -33,15 +33,15 @@ const RecentViewCard = ({ title, Data }) => {
                     return (
                         <div className='p-2 sm:p-5'>
                             <div className='relative items-center border-gray-300 border-[1px] rounded-xl overflow-hidden  hover:cursor-pointer'>
-                                <img alt='' src={item.image}
+                                <img alt='' src={item.img}
                                     className='w-full h-[240px] transform transition-transform hover:scale-110 duration-1000'
                                 />
                                 <div className='flex absolute gap-2 top-5 right-5'>
-                                    <button className={styles.labelBtn + 'bg-green-600'}>
+                                    {/* <button className={styles.labelBtn + 'bg-green-600'}>
                                         Featured
-                                    </button>
+                                    </button> */}
                                     <button className={styles.labelBtn + 'bg-orange-600'}>
-                                        For Sale
+                                       For {item.listedFor}
                                     </button>
                                 </div>
                             </div>

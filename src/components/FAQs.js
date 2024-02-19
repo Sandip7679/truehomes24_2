@@ -1,5 +1,7 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { styles } from '../Styles/Styles';
+import useApi from '../ApiConf';
+import { useSelector } from 'react-redux';
 
 const faqs = [
     {
@@ -25,8 +27,26 @@ const faqs = [
 ]
 
 const FAQs = () => {
-    const [faqData, setFaqData] = useState(faqs);
+    const [faqData, setFaqData] = useState([]);
     const [currInd, setCurrInd] = useState(null);
+    const { fetchData, loading, error } = useApi();
+    const {currLocation } = useSelector(state => state.User);
+
+    useEffect(()=>{
+        getFaqData();
+    },[]);
+
+    const getFaqData = async () => {
+        let res;
+        try {
+            res = await fetchData(`faq-content?city=${currLocation.code}`, 'GET');
+        } catch (err) {
+            console.log(err);
+        }
+        if (res.data) {
+           setFaqData(res.data);
+        }
+    }
     return (
         <div className='mb-10'>
             <p className={styles.title3}>Frequently Asked Questions(FAQ)</p>
@@ -41,7 +61,7 @@ const FAQs = () => {
                                 <p className='text-lg'>+</p>
                             </button>
                             {currInd == index && <div className={styles.textMedium + (currInd === index ? 'duration-500 ' : '') + ' border-t-[1px] shadow-lg border-t-gray-500 py-2 md:py-4 px-[1%]'}>
-                                {item.answer}
+                                   <div dangerouslySetInnerHTML={{__html:item.answer}}/>
                             </div>}
                         </div>
                     )

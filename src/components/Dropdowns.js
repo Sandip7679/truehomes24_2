@@ -88,7 +88,9 @@ const BHKmenu = ({ classname }) => {
                     </label>
                 )
             })}
-            <p className={styles.textMedium + 'text-center my-2'}>Clear All</p>
+            <div
+                onClick={() => dispatch(setPropertyListState({ ...propertyListState, BHKtype: '1-2-3' }))}
+                className={styles.textMedium + 'text-center my-2 cursor-pointer'}>Clear All</div>
         </div>
     );
 }
@@ -105,6 +107,11 @@ export const PropertyMenu = ({ classname }) => {
                     </label>
                 )
             })}
+            {/* <div
+                onClick={() => dispatch(setPropertyListState({ ...propertyListState, BHKtype: '1-2-3' }))}
+                className={styles.textMedium + 'text-center my-2 cursor-pointer'}>
+                Clear All
+            </div> */}
         </div>
     )
 }
@@ -126,10 +133,10 @@ export const PropertyTypeMenu = ({ classname }) => {
     const { filterMenus, propertyListState } = useSelector(state => state.User);
     const dispatch = useDispatch();
     const [checkedItems, setCheckedItems] = useState([]);
-    const handleOnCheckedItem = (e, index) => {
+    const handleOnCheckedItem = (e, index, value) => {
         let arr = [...checkedItems];
         if (e.target.checked) {
-            arr[index] = index;
+            arr[index] = value;
         } else {
             arr[index] = false;
         }
@@ -144,11 +151,16 @@ export const PropertyTypeMenu = ({ classname }) => {
 
                     return (
                         <label key={index} class="flex hover:cursor-pointer hover:bg-gray-100 pl-2 items-center">
-                            <input onChange={(e) => handleOnCheckedItem(e, index)} type="checkbox" class="form-checkbox mt-1 h-4 w-4 text-blue-500" />
+                            <input onChange={(e) => handleOnCheckedItem(e, index, item.value)} type="checkbox" class="form-checkbox mt-1 h-4 w-4 text-blue-500" />
                             <span class={styles.textMedium + "ml-2"}>{item.label}</span>
                         </label>
                     )
                 })}
+                <div
+                    onClick={() => dispatch(setPropertyListState({ ...propertyListState, propertyTypes: [] }))}
+                    className={styles.textMedium + 'text-center my-2 cursor-pointer'}>
+                    Clear All
+                </div>
             </div>
         </div>
         // <div class={styles.dropdownMenu + " w-[260px] group-hover:block max-h-[400px] overflow-y-auto " + classname}>
@@ -254,7 +266,7 @@ export const BudgetMenu = ({ classname }) => {
                     />
                 </div>
             </div>
-            <div className='mt-1 max-h-[300px] overflow-y-auto -mr-4 pt-5 pb-[100px]'>
+            <div className='mt-1 max-h-[200px] overflow-y-auto -mr-4 pt-5 pb-[100px]'>
                 {menus && menus.length > 0 && menus.map((item, index) => {
                     return (
                         <div key={index} className='flex gap-5 cursor-pointer'>
@@ -263,6 +275,11 @@ export const BudgetMenu = ({ classname }) => {
                         </div>
                     )
                 })}
+            </div>
+            <div
+                onClick={() => dispatch(setPropertyListState({ ...propertyListState, priceRange: ['', ''] }))}
+                className={styles.textMedium + 'text-center my-2 cursor-pointer'}>
+                Clear All
             </div>
 
         </div>
@@ -273,7 +290,10 @@ export const MoreMenu = ({ classname }) => {
     const [checkedItems, setCheckedItems] = useState([]);
     const dispatch = useDispatch();
     const handleOnCheckedItem = (e, index, value, type) => {
-        let arr = [...checkedItems];
+        let arr = [];
+        if(checkedItems.length > 0){
+             arr = [...checkedItems];
+        }
         if (e.target.checked) {
             arr[index] = value;
         }
@@ -440,8 +460,8 @@ export const MoreMenu = ({ classname }) => {
                     {filterMenus?.more?.userTypes && filterMenus?.more?.userTypes.map((item, index) => {
                         return (
                             <label
-                            onChange={(e) => handleOnCheckedItem(e, index, item.value, 'listedBy')}
-                             key={index} className='flex gap-2 mt-1 hover:bg-gray-100'>
+                                onChange={(e) => handleOnCheckedItem(e, index, item.value, 'listedBy')}
+                                key={index} className='flex gap-2 mt-1 hover:bg-gray-100'>
                                 <input type='checkbox' className='h-4 w-4 mt-1' />
                                 <p className=''>{item.label}</p>
                             </label>
@@ -449,6 +469,14 @@ export const MoreMenu = ({ classname }) => {
                     })}
                 </div>
             </div>
+            {/* <div
+                onClick={() => dispatch(setPropertyListState({
+                    ...propertyListState,
+                    moreStatus: { furnishingTypes: [], bathrooms: [], minArea: '', maxArea: '', newResale: '', constructionStatus: '', facing: [], amenities: [], listedBy: [] }
+                }))}
+                className={styles.textMedium + 'text-center my-2 cursor-pointer'}>
+                Clear All
+            </div> */}
         </div>
     )
 }

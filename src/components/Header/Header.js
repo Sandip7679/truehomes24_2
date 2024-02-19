@@ -100,9 +100,13 @@ const Header = () => {
         //  }
         //   console.log('location.pathname..',location.pathname);
         getFileterMenus();
-        getMenuDetails();
         getCurrLocation();
     }, []);
+
+    useEffect(()=>{
+        console.log('getmenudetail...');
+        getMenuDetails();
+    },[propertyListState.propertyStatus])
 
     useEffect(() => {
         if (searchText && searchText != '') {
@@ -150,7 +154,7 @@ const Header = () => {
     const getMenuDetails = async () => {
         let data;
         try {
-            data = await fetchData('header-menu?property_status=', 'GET');
+            data = await fetchData(`header-menu?property_status=${propertyListState.propertyStatus.value}`, 'GET');
         } catch (err) {
             console.log(err);
         }
@@ -247,10 +251,10 @@ const Header = () => {
                                 {AllCities.international?.map((item, index) => {
                                     return (
                                         <NavLink
-                                            onClick={() => setLocation({ country: item.text, area: item.text })}
+                                            onClick={() => setLocation({ country: item.city,city:item.text, area: item.text,code:item.city })}
                                             key={index}
-                                            // to={()=>setLocation()}
-                                            to={locationPath.pathname != '/' ? "/" : '/'}
+                                            // to={locationPath.pathname != '/' ? "/" : '/'}
+                                            to={`${getRoutePath(item.text)}`}
                                             className="px-2 py-4 rounded-md hover:bg-gray-100 flex flex-col border-[1px] shadow-lg items-center justify-center">
                                             <img alt='' src={cityIcon} className='h-5 w-6' />
                                             {/* <img alt='' src="https://www.truehomes24.com/assets/images/header/cities/amedabad.jpg" class='h-5 w-6' /> */}
@@ -282,7 +286,7 @@ const Header = () => {
                                             <NavLink
                                                 // to={locationPath.pathname != '/' ? "/sale" : '/'}
                                                 to={`${getRoutePath(item.text)}`}
-                                                onClick={() => setLocation({ city: item.text, area: item.text,code:item.city })}
+                                                onClick={() => setLocation({ city: item.text, area: item.text,code:item.city,country:'90' })}
                                                 key={index}
                                                 className="px-2 py-4 rounded-md hover:bg-gray-100 max-w-[100px] flex flex-col border-[1px] shadow-lg items-center justify-center">
                                                 <img alt='' src={cityIcon} className='h-5 w-6' />
@@ -300,7 +304,7 @@ const Header = () => {
                                         return (
                                             <NavLink
                                                 // to={locationPath.pathname != '/' ? "/sale" : '/'}
-                                                to={() => setLocation({ city: item.text, area: item.text,code:item.city })()}
+                                                to={() => setLocation({ city: item.text, area: item.text,code:item.city,country:'90' })()}
                                                 key={index} className="px-2 -mt-5 -pt-5  text-left cursor-pointer">
                                                 <div className='text-sm -mt-3 hover:bg-gray-100 w-[100%] pt-0 border-b-[0.5px]'>{item.text}</div>
                                             </NavLink>

@@ -93,7 +93,7 @@ const TopSearchNavBar = () => {
     }
 
     return (
-        <div className={styles.textMedium + 'w-full shadow fixed bg-white z-[2000]'}>
+        <div className={styles.textMedium + 'w-full shadow fixed bg-white z-[1500]'}>
             <div className='relative p-2 xl:container pt-5 xl:flex gap-2 pl-[1%]'>
                 <div className='flex gap-1 sm:gap-2 xl:w-full sm:max-w-[780px]'>
                     <div className='absolute top-[110px] xs:top-[65px] xl:top-0 xl:relative group'>
@@ -136,25 +136,12 @@ const TopSearchNavBar = () => {
                     <div className='w-[145px] xl:hidden' />
                     <div id='bhk-dropdown' className='relative group'>
                         <button
-                            onClick={() => document.getElementById('bhk-menu').classList.toggle('hidden')}
+                            // onClick={() => document.getElementById('bhk-menu').classList.toggle('hidden')}
                             id='bhk-btn' className={styles.btn + 'py-[2px] sm:py-1 '}>
                             <p className='text-sm lg:text-base'>BHK</p>
                             <Dropdown />
                         </button>
                         <BHKmenu />
-                        {/* <div id='bhk-menu' className={styles.dropdownMenu + 'w-[120px] group-hover:block'}>
-                            {BHKtype.map((item, index) => {
-                                return (
-                                    <label key={index}
-                                        // onClick={() => setSelectedBHK(index)}
-                                        className={styles.dropdownItem}>
-                                        <input id={`radioBtn-${index}`} className='mt-[0.5px]' type='radio' />
-                                        <p className='ml-1'>{item.type}</p>
-                                    </label>
-                                )
-                            })}
-                            <p className={styles.textMedium + 'text-center mt-2'}>Clear All</p>
-                        </div> */}
                     </div>
 
                     <div
@@ -166,21 +153,7 @@ const TopSearchNavBar = () => {
                             <p className='text-sm lg:text-base'>Property Type</p>
                             <Dropdown />
                         </button>
-                        <PropertyTypeMenu/>
-                        {/* <div
-                            id='property-type-menu'
-                            className={`${styles.dropdownMenu} w-[260px] group-hover:block`}>
-                            <div class="space-y-2 max-h-[400px] overflow-y-auto">
-                                {propertyTypes.map((item, index) => {
-                                    return (
-                                        <label key={index} class="flex hover:cursor-pointer hover:bg-gray-100 pl-2 items-center">
-                                            <input type="checkbox" class="form-checkbox mt-1 h-4 w-4 text-blue-500" />
-                                            <span class={styles.textMedium + "ml-2"}>{item.type}</span>
-                                        </label>
-                                    )
-                                })}
-                            </div>
-                        </div> */}
+                        <PropertyTypeMenu />
                     </div>
 
                     <div id='budget-dropdown' className='relative group'>
@@ -195,32 +168,6 @@ const TopSearchNavBar = () => {
                             <Dropdown />
                         </button>
                         <BudgetMenu />
-
-                        {/* <div
-                            id='bugdet-menu'
-                            className={`${styles.dropdownContainer} -left-[200px] group-hover:block`}>
-                            <div className='flex gap-5 mt-5'>
-                                <div className='relative'>
-                                    <span className='absolute top-2 left-2'>{'\u20B9'}</span>
-                                    <input placeholder='Min' className={styles.input + ' pl-5 rounded-md'} />
-                                </div>
-                                <div className='relative'>
-                                    <span className='absolute top-2 left-2'>{'\u20B9'}</span>
-                                    <input placeholder='Max' className={styles.input + 'pl-5 rounded-md'} />
-                                </div>
-                            </div>
-                            <div>
-                                {rupees.map((item, index) => {
-                                    return (
-                                        <div className='flex gap-5 mt-2'>
-                                            <div className={styles.textMedium + 'flex-1 text-left font-semibold ml-2'}>{'\u20B9'} {item} Lacs</div>
-                                            <div className={styles.textMedium + 'flex-1 text-left font-semibold ml-2'}> {'\u20B9'} {item} Lacs</div>
-                                        </div>
-                                    )
-                                })}
-                            </div>
-
-                        </div> */}
                     </div>
                     <div className='relative group'>
                         <button
@@ -229,80 +176,8 @@ const TopSearchNavBar = () => {
                             <p className='text-sm lg:text-base'>More</p>
                             <Dropdown />
                         </button>
-                        <MoreMenu/>
-                        {/* <div id='more-menu' className={styles.dropdownContainer + 'group-hover:block sm:-left-[200px] sm:pl-5'}>
-                            <div>
-                                <p className='text-sm font-semibold'>FURNISHING TYPE</p>
-                                <div className='flex flex-wrap gap-4 mt-2'>
-                                    {moreDatas.furnishingType.map((item, index) => {
-                                        return (
-                                            <label className='flex gap-2 hover:bg-gray-100'>
-                                                <input type='checkbox' className='h-4 w-4 mt-1' />
-                                                <p className='text-gray-600'>{item}</p>
-                                            </label>
-                                        )
-                                    })}
-                                </div>
-                            </div>
-
-                            <div className='mt-4'>
-                                <p className='text-sm font-semibold'>BATHROOM</p>
-                                <div className='flex flex-wrap gap-4 mt-2'>
-                                    {['1', '2', '3', '4+'].map((item, index) => {
-                                        return (
-                                            <label key={index} className='flex gap-2 hover:bg-gray-100'>
-                                                <input type='checkbox' className='h-4 w-4 mt-1' />
-                                                <p className=''>{item}</p>
-                                            </label>
-                                        )
-                                    })}
-                                </div>
-                            </div>
-
-                            <div className='mt-4'>
-                                <p className='text-sm font-semibold'>NEW/RESALE</p>
-                                <div className='flex flex-wrap gap-4 mt-2'>
-                                    {moreDatas.new.map((item, index) => {
-                                        return (
-                                            <label key={index} className='flex gap-2 hover:bg-gray-100'>
-                                                <input type='radio' className='h-4 w-4 mt-1' />
-                                                <p className=''>{item}</p>
-                                            </label>
-                                        )
-                                    })}
-                                </div>
-                            </div>
-
-                            <div className='mt-4'>
-                                <p className='text-sm font-semibold'>CONSTRUCTION STATUS</p>
-                                <div className='flex flex-wrap gap-4 mt-2'>
-                                    {moreDatas.constructionStatus.map((item, index) => {
-                                        return (
-                                            <label key={index} className='flex gap-2 hover:bg-gray-100'>
-                                                <input type='radio' className='h-4 w-4 mt-1' />
-                                                <p className=''>{item}</p>
-                                            </label>
-                                        )
-                                    })}
-                                </div>
-                            </div>
-
-                            <div className='mt-4'>
-                                <p className='text-sm font-semibold'>FACING</p>
-                                <div className='flex flex-wrap gap-2 mt-2'>
-                                    {moreDatas.facing.map((item, index) => {
-                                        return (
-                                            <label key={index} className='flex gap-2 mt-0 hover:bg-gray-100'>
-                                                <input type='radio' className='h-4 w-4 mt-1' />
-                                                <p className=''>{item}</p>
-                                            </label>
-                                        )
-                                    })}
-                                </div>
-                            </div>
-                        </div> */}
+                        <MoreMenu />
                     </div>
-
                     <div
                         id='shortBy-dropdown'
                         className='relative group'>
@@ -327,7 +202,14 @@ const TopSearchNavBar = () => {
                         </div>
                     </div>
 
-                    <button className='ml-2 opacity-80 py-[2px] sm:py-1 '>
+                    <button
+                        onClick={() => dispatch(setPropertyListState({
+                            propertyStatus: { text: 'Buy', value: 'sale', index: 0 },
+                            BHKtype: '', propertyTypes: [],
+                            priceRange: ['', ''],
+                            moreStatus: { furnishingTypes: [], bathrooms: [], minArea: '', maxArea: '', newResale: '', constructionStatus: '', facing: [], amenities: [], listedBy: [] }
+                        }))}
+                        className='ml-2 opacity-80 py-[2px] sm:py-1 '>
                         <i class="fa-solid fa-rotate-right mr-1 text-sm lg:text-base"></i>
                         Clear All
                     </button>
