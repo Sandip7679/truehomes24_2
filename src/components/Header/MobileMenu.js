@@ -13,20 +13,33 @@ import homeLoan from '../../assets/Icons/homeLoan.png';
 import DropdownIcon from '../svgIcons';
 import { styles } from '../../Styles/Styles';
 import { NavLink } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { setPropertyListState } from '../../Redux/reducer/User';
 
 const MobileMenu = () => {
-
+    const { currLocation, propertyListState } = useSelector(state => state.User);
+    const dispatch = useDispatch();
     const [showMoreServiceMenu, setShowMoreServiceMenu] = useState(false);
     const [showPostPropertyMenu, setShowPostProperty] = useState(false);
 
     return (
         <div class="flex flex-col">
-            <NavLink to={'/property-list'}>
+            <NavLink
+                onClick={() => {
+                    localStorage.setItem('propertyStatus', 'sale');
+                    dispatch(setPropertyListState({ ...propertyListState, propertyStatus: { text: 'Buy', value: 'sale', index: 0 } }));
+                }}
+                to={'/sale/property-for-sale-in-' + currLocation?.city.toLowerCase()}              >
                 <span class={styles.dropdownItem}>
                     <img alt='' src={buyIcon} className='h-5 w-6 mr-5' />Buy
                 </span>
             </NavLink>
-            <NavLink to={'/property-list'}>
+            <NavLink
+                onClick={() => {
+                    localStorage.setItem('propertyStatus', 'rent');
+                    dispatch(setPropertyListState({ ...propertyListState, propertyStatus: { text: 'Rent', value: 'rent', index: 1 } }));
+                }}
+                to={'/rent/property-for-rent-in-' + currLocation?.city.toLowerCase()}            >
                 <span class={styles.dropdownItem}>
                     <span>
                         <img alt='' src={rentIcon} className='h-5 w-6 mr-5' />
@@ -34,7 +47,12 @@ const MobileMenu = () => {
                     <p className={styles.textMedium}>Rent</p>
                 </span>
             </NavLink>
-            <NavLink to={'/property-list'}>
+            <NavLink
+                onClick={() => {
+                    localStorage.setItem('propertyStatus', 'new projects');
+                    dispatch(setPropertyListState({ ...propertyListState, propertyStatus: { text: 'New Project', value: 'new projects', index: 2 } }));
+                }}
+                to={'/new-projects/new-projects-for-sale-in-' + currLocation?.city.toLowerCase()}            >
                 <span class={styles.dropdownItem}>
                     <span>
                         <img alt='' src={projectIcon} className='h-5 w-6 mr-5' />
