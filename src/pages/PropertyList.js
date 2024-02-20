@@ -226,7 +226,7 @@ const PropertyList = () => {
     }
 
     return (
-        <div className='' >
+        <div className='mx-auto' >
             <Header />
             <div className={'mt-[50px]'}>
                 <TopSearchNavBar />

@@ -35,7 +35,7 @@ const Pagenation = ({ lastPage }) => {
                     Previous
                 </button>}
             </div>
-            <div className='flex gap-2'>
+            <div className='flex flex-wrap gap-2'>
                 {[1, 2, 3, 4, 5].map((item, index) => {
                     return (
                         <>
@@ -45,7 +45,6 @@ const Pagenation = ({ lastPage }) => {
                                 {startPage + index}
                             </button>}
                         </>
-
                     )
                 })}
             </div>

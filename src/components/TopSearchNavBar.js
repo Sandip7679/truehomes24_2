@@ -93,7 +93,7 @@ const TopSearchNavBar = () => {
     }
 
     return (
-        <div className={styles.textMedium + 'w-full shadow fixed bg-white z-[1500]'}>
+        <div className={styles.textMedium + 'w-screen mx-auto shadow fixed bg-white z-[1500]'}>
             <div className='relative p-2 xl:container pt-5 xl:flex gap-2 pl-[1%]'>
                 <div className='flex gap-1 sm:gap-2 xl:w-full sm:max-w-[780px]'>
                     <div className='absolute top-[110px] xs:top-[65px] xl:top-0 xl:relative group'>

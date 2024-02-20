@@ -104,7 +104,6 @@ const Header = () => {
     }, []);
 
     useEffect(()=>{
-        console.log('getmenudetail...');
         getMenuDetails();
     },[propertyListState.propertyStatus])
 
@@ -162,12 +161,11 @@ const Header = () => {
             let cityMenu = data[0].menuDetails
             setAllCities({ international: cityMenu?.international, topCities: cityMenu?.topCities, otherCities: cityMenu?.otherCities });
         }
-
     }
 
     const getCurrLocation = async () => {
         let location = localStorage.getItem('location');
-        if (location || location != '') {
+        if (location && location != '') {
             dispatch(setlocation(JSON.parse(location)));
         }
     }
