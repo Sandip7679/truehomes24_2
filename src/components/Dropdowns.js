@@ -6,23 +6,6 @@ import 'rc-slider/assets/index.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { setPropertyListState } from '../Redux/reducer/User';
 
-let BHKtype = [
-    { type: '1 RK' },
-    { type: '1 BHK' },
-    { type: '2 BHK' },
-    { type: '3 BHK' },
-    { type: '4 BHK' }
-];
-const propertyTypes = [
-    { type: 'Apartment' },
-    { type: 'Independent House/Villa' },
-    { type: 'Residential Land' },
-    { type: 'Warehouse' },
-    { type: 'Builder Floor' },
-    { type: 'Office Space' },
-    { type: 'Shop/Showroom' },
-    { type: 'Serviced' },
-]
 const furnishingType = [
     { type: 'Furnished' },
     { type: 'Semi Furnished' },
@@ -35,22 +18,6 @@ const shortByItems = [
     { type: 'Short By Price (Low to Hogh)' },
     { type: 'Short By Price (HIgh to Low)' },
 ]
-const rupees = [5, 10, 15, 20, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80];
-
-const moreDatas = {
-    furnishingType: ['Furnished', 'Semi Furnished', 'Unfurnished'],
-    new: ['Both', 'New', 'Resale'],
-    constructionStatus: ['All', 'Under Construction', 'Ready To Move', 'Upcoming'],
-    facing: ['North', 'East', 'South', 'West', 'North East', 'North West', 'South East', 'South West'],
-    floor: ['1-3', '4-6', '7-10', '11-15', '15+'],
-    Amenities: ['24by7Water', 'CCTV Camera', 'Gated Society', 'Gym', 'Internet Connectivity', 'Jogging Track', 'Kid Play Area', 'Kid Play Pool']
-}
-
-// const searchTypes = [
-//     { type: 'Buy', icon: buyIcon },
-//     { type: 'Rent', icon: homeKey },
-//     { type: 'New Projects', icon: newProjectIcon }
-// ]
 
 export const DropdownHover = ({ Items, ItemClass, MenuClass }) => {
     return (
@@ -81,7 +48,7 @@ const BHKmenu = ({ classname }) => {
             {filterMenus?.bhk && filterMenus?.bhk.map((item, index) => {
                 return (
                     <label key={index}
-                        onClick={() => dispatch(setPropertyListState({ ...propertyListState, BHKtype: item.value }))}
+                        onClick={() => dispatch(setPropertyListState({ ...propertyListState, clearAll: false, BHKtype: item.value }))}
                         className={styles.dropdownItem + 'cursor-pointer'}>
                         <input checked={propertyListState.BHKtype === item.value} className='mt-[0.5px]' type='radio' />
                         <p className='ml-1'>{item.label}</p>
@@ -89,7 +56,7 @@ const BHKmenu = ({ classname }) => {
                 )
             })}
             <div
-                onClick={() => dispatch(setPropertyListState({ ...propertyListState, BHKtype: '1-2-3' }))}
+                onClick={() => dispatch(setPropertyListState({ ...propertyListState, BHKtype: '' }))}
                 className={styles.textMedium + 'text-center my-2 cursor-pointer'}>Clear All</div>
         </div>
     );
@@ -133,6 +100,7 @@ export const PropertyTypeMenu = ({ classname }) => {
     const { filterMenus, propertyListState } = useSelector(state => state.User);
     const dispatch = useDispatch();
     const [checkedItems, setCheckedItems] = useState([]);
+
     const handleOnCheckedItem = (e, index, value) => {
         let arr = [...checkedItems];
         if (e.target.checked) {
@@ -141,8 +109,15 @@ export const PropertyTypeMenu = ({ classname }) => {
             arr[index] = false;
         }
         setCheckedItems(arr);
-        dispatch(setPropertyListState({ ...propertyListState, propertyTypes: arr }));
+        dispatch(setPropertyListState({ ...propertyListState, clearAll: false, propertyTypes: arr.filter(it => it).join('-') }));
     }
+
+    useEffect(() => {
+        if (propertyListState.clearAll) {
+            setCheckedItems([]);
+        }
+    }, [propertyListState.clearAll]);
+
     return (
         <div
             className={`${styles.dropdownMenu} w-[260px] group-hover:block`}>
@@ -151,28 +126,23 @@ export const PropertyTypeMenu = ({ classname }) => {
 
                     return (
                         <label key={index} class="flex hover:cursor-pointer hover:bg-gray-100 pl-2 items-center">
-                            <input onChange={(e) => handleOnCheckedItem(e, index, item.value)} type="checkbox" class="form-checkbox mt-1 h-4 w-4 text-blue-500" />
+                            <input
+                                checked={item.value == checkedItems[index]}
+                                onChange={(e) => handleOnCheckedItem(e, index, item.value)} type="checkbox" class="form-checkbox mt-1 h-4 w-4 text-blue-500" />
                             <span class={styles.textMedium + "ml-2"}>{item.label}</span>
                         </label>
                     )
                 })}
                 <div
-                    onClick={() => dispatch(setPropertyListState({ ...propertyListState, propertyTypes: [] }))}
+                    onClick={() => {
+                        dispatch(setPropertyListState({ ...propertyListState, propertyTypes: [] }));
+                        setCheckedItems([]);
+                    }}
                     className={styles.textMedium + 'text-center my-2 cursor-pointer'}>
                     Clear All
                 </div>
             </div>
         </div>
-        // <div class={styles.dropdownMenu + " w-[260px] group-hover:block max-h-[400px] overflow-y-auto " + classname}>
-        //     {filterMenus?.more?.propertyType && filterMenus?.more?.propertyType.map((item, index) => {
-        //         return (
-        //             <label key={index} class="flex hover:cursor-pointer hover:bg-gray-100 p-2 items-center">
-        //                 <input type="checkbox" class="form-checkbox mt-1 h-4 w-4 text-blue-500" />
-        //                 <span class={"ml-2"}>{item.label}</span>
-        //             </label>
-        //         )
-        //     })}
-        // </div>
     )
 }
 
@@ -188,42 +158,37 @@ export const BudgetMenu = ({ classname }) => {
         if (filterMenus?.rentBudget && propertyListState?.propertyStatus?.value == 'rent') {
             let rents = filterMenus?.rentBudget;
             setMenus(rents);
-            // setPriceRange([rents[0].value, rents[rents.length - 1].value]);
+            // setPriceRange([0, Number(rents[rents.length - 2].value)]);
             // setMaxPrice(Number(rents[rents.length - 1].value));
             // max = Number(rents[rents.length - 1].value);
         } else if (filterMenus?.saleBudget) {
             let sales = filterMenus?.saleBudget;
             setMenus(sales);
-            // setPriceRange([sales[0].value, sales[sales.length - 1].value]);
+            // setPriceRange([0, Number(sales[sales.length - 2].value)]);
             // setMaxPrice(Number(sales[sales.length - 1].value));
             // max = Number(sales[sales.length - 1].value);
         }
     }, [propertyListState.propertyStatus, filterMenus]);
 
     useEffect(() => {
-        if (priceRange != [0, 100000000]) {
+        if (priceRange[0] != 0 && priceRange[1] != 100000000) {
             let clearTime = setTimeout(() => {
                 dispatch(setPropertyListState({ ...propertyListState, priceRange: [priceRange[0], priceRange[1]] }));
             }, 600)
-            // console.log('priceRange cleartime.....',priceRange)
             return () => clearTimeout(clearTime);
         }
 
-    }, [priceRange])
+    }, [priceRange]);
 
     const getMaxPrice = () => {
         if (filterMenus?.rentBudget && propertyListState?.propertyStatus?.value == 'rent') {
             let rents = filterMenus?.rentBudget;
-            return Number(rents[rents.length - 1].value);
+            return Number(rents[rents.length - 2].value);
         } else if (filterMenus?.saleBudget) {
             let sales = filterMenus?.saleBudget;
-            return Number(sales[sales.length - 1].value);
+            return Number(sales[sales.length - 2].value);
         }
     }
-
-    const handlePriceChange = (value) => {
-        setPriceRange(value);
-    };
 
     return (
         <div
@@ -231,12 +196,15 @@ export const BudgetMenu = ({ classname }) => {
             <div className='pr-3 mt-3 pl-2'>
                 <div className=''>
                     {filterMenus && <Slider
+                        step={5000}
                         range
                         min={0}
-                        max={100000000}
+                        max={getMaxPrice()}
+                        // min={Number(priceRange[0])}
+                        // max={Number(priceRange[1])}
                         // defaultValue={priceRange}
                         value={priceRange}
-                        onChange={handlePriceChange}
+                        onChange={(value) => setPriceRange(value)}
                         trackStyle={{ backgroundColor: '#ED8936' }}
                         handleStyle={{ borderColor: '#ED8936' }}
                     />}
@@ -287,22 +255,29 @@ export const BudgetMenu = ({ classname }) => {
 }
 export const MoreMenu = ({ classname }) => {
     const { filterMenus, propertyListState } = useSelector(state => state.User);
-    const [checkedItems, setCheckedItems] = useState([]);
+    const [checkedItems, setCheckedItems] = useState(
+        { furnishingTypes: [], bathrooms: [], minArea: '', maxArea: '', newResale: '', constructionStatus: '', facing: [], amenities: [], listedBy: [] }
+    );
     const dispatch = useDispatch();
     const handleOnCheckedItem = (e, index, value, type) => {
-        let arr = [];
-        if(checkedItems.length > 0){
-             arr = [...checkedItems];
-        }
+        let arr = [...checkedItems[type]];
         if (e.target.checked) {
             arr[index] = value;
         }
         else {
             arr[index] = false;
         }
-        setCheckedItems(arr);
-        dispatch(setPropertyListState({ ...propertyListState, moreStatus: { ...propertyListState.moreStatus, [type]: arr } }));
+        setCheckedItems({ ...checkedItems, [type]: arr });
+        dispatch(setPropertyListState({ ...propertyListState, clearAll: false, moreStatus: { ...propertyListState.moreStatus, [type]: arr.filter(it => it).join('-') } }));
     }
+    useEffect(() => {
+        if (propertyListState.clearAll) {
+            console.log('allClear....');
+            setCheckedItems(
+                { furnishingTypes: [], bathrooms: [], minArea: '', maxArea: '', newResale: '', constructionStatus: '', facing: [], amenities: [], listedBy: [] }
+            );
+        }
+    }, [propertyListState.clearAll]);
 
     return (
         <div className={styles.dropdownContainer + ' text-sm group-hover:block sm:-left-[200px] sm:pl-5 ' + classname}>
@@ -313,6 +288,7 @@ export const MoreMenu = ({ classname }) => {
                         return (
                             <label key={index} className='flex gap-2 hover:bg-gray-100'>
                                 <input
+                                    checked={item.value == checkedItems.furnishingTypes[index]}
                                     onChange={(e) => handleOnCheckedItem(e, index, item.value, 'furnishingTypes')}
                                     type='checkbox' className='h-4 w-4 mt-1' />
                                 <p className='text-gray-600'>{item.label}</p>
@@ -328,7 +304,9 @@ export const MoreMenu = ({ classname }) => {
                     {filterMenus?.more?.bathroom && filterMenus?.more?.bathroom.map((item, index) => {
                         return (
                             <label key={index} className='flex gap-2 hover:bg-gray-100'>
-                                <input onChange={(e) => handleOnCheckedItem(e, index, item.value, 'bathrooms')} type='checkbox' className='h-4 w-4 mt-1' />
+                                <input
+                                    checked={item.value == checkedItems.bathrooms[index]}
+                                    onChange={(e) => handleOnCheckedItem(e, index, item.value, 'bathrooms')} type='checkbox' className='h-4 w-4 mt-1' />
                                 <p className=''>{item.label}</p>
                             </label>
                         )
@@ -342,7 +320,10 @@ export const MoreMenu = ({ classname }) => {
                 <div className='grid grid-cols-1 md:grid-cols-2 gap-4 mt-2'>
                     <div>
                         <select
-                            onClick={(e) => dispatch(setPropertyListState({ ...propertyListState, moreStatus: { ...propertyListState.moreStatus, minArea: e.target.value } }))}
+                            onClick={(e) => dispatch(setPropertyListState({
+                                ...propertyListState, clearAll: false,
+                                moreStatus: { ...propertyListState.moreStatus, minArea: e.target.value }
+                            }))}
                             className={styles.input + ' py-[4px] mt-1 text-gray-500 '}>
                             <option value={''} className=''>Select Min Area</option>
                             {filterMenus?.more?.area && filterMenus?.more?.area.map((item, index) => {
@@ -358,7 +339,10 @@ export const MoreMenu = ({ classname }) => {
                     </div>
                     <div>
                         <select
-                            onChange={(e) => dispatch(setPropertyListState({ ...propertyListState, moreStatus: { ...propertyListState.moreStatus, maxArea: e.target.value } }))}
+                            onChange={(e) => dispatch(setPropertyListState({
+                                ...propertyListState, clearAll: false,
+                                moreStatus: { ...propertyListState.moreStatus, maxArea: e.target.value }
+                            }))}
                             className={styles.input + 'py-[4px] mt-1 text-gray-500 '}>
                             <option value={''}>Select Max Area</option>
                             {filterMenus?.more?.area && filterMenus?.more?.area.map((item, index) => {
@@ -382,7 +366,10 @@ export const MoreMenu = ({ classname }) => {
                     {filterMenus?.more?.newResale && filterMenus?.more?.newResale.map((item, index) => {
                         return (
                             <label
-                                onClick={() => dispatch(setPropertyListState({ ...propertyListState, moreStatus: { ...propertyListState.moreStatus, newResale: item.value } }))}
+                                onClick={() => dispatch(setPropertyListState({
+                                    ...propertyListState, clearAll: false,
+                                    moreStatus: { ...propertyListState.moreStatus, newResale: item.value }
+                                }))}
                                 key={index} className='flex gap-2 hover:bg-gray-100'>
                                 <input type='radio' checked={propertyListState.moreStatus.newResale == item.value} className='h-4 w-4 mt-1' />
                                 <p className=''>{item.label}</p>
@@ -398,7 +385,10 @@ export const MoreMenu = ({ classname }) => {
                     {filterMenus?.more?.ConstructionStatus && filterMenus?.more?.ConstructionStatus.map((item, index) => {
                         return (
                             <label
-                                onClick={() => dispatch(setPropertyListState({ ...propertyListState, moreStatus: { ...propertyListState.moreStatus, constructionStatus: item.value } }))}
+                                onClick={() => dispatch(setPropertyListState({
+                                    ...propertyListState, clearAll: false,
+                                    moreStatus: { ...propertyListState.moreStatus, constructionStatus: item.value }
+                                }))}
                                 key={index} className='flex gap-2 hover:bg-gray-100'>
                                 <input type='radio' className='h-4 w-4 mt-1' />
                                 <p className=''>{item.label}</p>
@@ -414,9 +404,11 @@ export const MoreMenu = ({ classname }) => {
                     {filterMenus?.more?.facing && filterMenus?.more?.facing.map((item, index) => {
                         return (
                             <label
-                                onChange={(e) => handleOnCheckedItem(e, index, item.value, 'facing')}
                                 key={index} className='flex gap-2 mt-0 hover:bg-gray-100'>
-                                <input type='radio' className='h-4 w-4 mt-1' />
+                                <input
+                                    checked={item.value == checkedItems.facing[index]}
+                                    onChange={(e) => handleOnCheckedItem(e, index, item.value, 'facing')}
+                                    type='checkbox' className='h-4 w-4 mt-1' />
                                 <p className=''>{item.label}</p>
                             </label>
                         )
@@ -444,9 +436,11 @@ export const MoreMenu = ({ classname }) => {
                     {filterMenus?.more?.amenities && filterMenus?.more?.amenities.map((item, index) => {
                         return (
                             <label
-                                onChange={(e) => handleOnCheckedItem(e, index, item.value, 'amenities')}
                                 key={index} className='flex gap-2 mt-0 hover:bg-gray-100'>
-                                <input type='checkbox' className='h-4 w-4 mt-1' />
+                                <input
+                                    onChange={(e) => handleOnCheckedItem(e, index, item.value, 'amenities')}
+                                    checked={item.value == checkedItems.amenities[index]}
+                                    type='checkbox' className='h-4 w-4 mt-1' />
                                 <p className=''>{item.label}</p>
                             </label>
                         )
@@ -460,23 +454,29 @@ export const MoreMenu = ({ classname }) => {
                     {filterMenus?.more?.userTypes && filterMenus?.more?.userTypes.map((item, index) => {
                         return (
                             <label
-                                onChange={(e) => handleOnCheckedItem(e, index, item.value, 'listedBy')}
                                 key={index} className='flex gap-2 mt-1 hover:bg-gray-100'>
-                                <input type='checkbox' className='h-4 w-4 mt-1' />
+                                <input
+                                    onChange={(e) => handleOnCheckedItem(e, index, item.value, 'listedBy')}
+                                    checked={item.value == checkedItems.listedBy[index]}
+                                    type='checkbox' className='h-4 w-4 mt-1' />
                                 <p className=''>{item.label}</p>
                             </label>
                         )
                     })}
                 </div>
             </div>
-            {/* <div
-                onClick={() => dispatch(setPropertyListState({
-                    ...propertyListState,
-                    moreStatus: { furnishingTypes: [], bathrooms: [], minArea: '', maxArea: '', newResale: '', constructionStatus: '', facing: [], amenities: [], listedBy: [] }
-                }))}
+            <div
+                onClick={() => {
+                    let initialState = { furnishingTypes: [], bathrooms: [], minArea: '', maxArea: '', newResale: '', constructionStatus: '', facing: [], amenities: [], listedBy: [] };
+                    dispatch(setPropertyListState({
+                        ...propertyListState,
+                        moreStatus: { ...initialState }
+                    }));
+                    setCheckedItems({ ...initialState });
+                }}
                 className={styles.textMedium + 'text-center my-2 cursor-pointer'}>
                 Clear All
-            </div> */}
+            </div>
         </div>
     )
 }

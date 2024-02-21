@@ -4,14 +4,23 @@ import { styles } from '../Styles/Styles';
 // import possession2 from '../assets/Icons/possession2.png'
 import userIcon from '../assets/images/user.svg'
 import { NavLink } from 'react-router-dom';
+// import { useDispatch, useSelector } from 'react-redux';
 
 
 
 const PropertyListCard = ({ Data, func }) => {
+    // const { propertyListState } = useSelector(state => state.User);
+    // const dispatch = useDispatch();
+
+    const getPath = () => {
+        let arr = Data.details.split('/');
+        let lastIndex = arr.length - 1;
+        return `/${arr[lastIndex - 2]}/${arr[lastIndex - 1]}/${arr[lastIndex]}`;
+    }
 
     return (
         <div className='rounded-xl flex flex-wrap md:flex-nowrap  lg:flex-wrap xl:flex-nowrap shadow-lg border-[1px] h-full mt-6 mx-2 group'>
-            <NavLink to={'/project_details'} className='items-center relative border-gray-300 w-full  md:min-w-[33%]  h-full border-[1px] rounded-xl overflow-hidden  hover:cursor-pointer'>
+            <NavLink to={getPath()} className='items-center relative border-gray-300 w-full  md:min-w-[33%]  h-full border-[1px] rounded-xl overflow-hidden  hover:cursor-pointer'>
                 <img alt='' src={Data.image}
                     className='w-full h-[240px] transform transition-transform hover:scale-110 duration-1000'
                 />
@@ -44,7 +53,9 @@ const PropertyListCard = ({ Data, func }) => {
                     </div>
                     {Data.projectName != '' && <div className='text-sm mt-1'>
                         <span className='opacity-80'>By</span> <span>{Data.userDetails?.name}</span>
-                        <div className='font-semibold text-base tracking-wider mt-1'><span className='text-gray-600'>Possession By</span> <span className='text-gray-700'>{Data.possession}</span></div>
+                        {Data.possession && Data.possession != '' && <div className='font-semibold text-base tracking-wider mt-1'>
+                            <span className='text-gray-600'>Possession By</span> <span className='text-gray-700'>{Data.possession}</span>
+                        </div>}
                     </div>}
                     <div className='flex mt-3'>
                         <span className=''>
@@ -86,13 +97,13 @@ const PropertyListCard = ({ Data, func }) => {
                                 </span>
                                 <h1 className='text-sm ml-2'>{Data.totalFloor} Floor</h1>
                             </div>
-                           {Data.bathrooms && Data.bathroom != '' && <div className='flex w-1/2 mt-2'>
+                            {Data.bathrooms && Data.bathroom != '' && <div className='flex w-1/2 mt-2'>
                                 <span className=''>
                                     <i class="fa-solid fa-toilet text-sm opacity-70"></i>
                                 </span>
                                 <h1 className='text-sm ml-2 mt-[2px]'>{Data.bathrooms} {Data.bathrooms > 1 ? 'Bathrooms' : 'Bathroom'}</h1>
                             </div>}
-                            {Data.bedroom  && <div className='flex w-1/2 mt-2'>
+                            {Data.bedroom && <div className='flex w-1/2 mt-2'>
                                 <span className=''>
                                     <Bedroom classname={'h-5 w-4 mt-[1px] opacity-80'} />
                                 </span>
@@ -111,7 +122,7 @@ const PropertyListCard = ({ Data, func }) => {
                                 <h1 className='text-sm ml-2'>{Data.availability}</h1>
                             </div>}
                         </div>}
-                    {Data.furnishing && Data.furnishing != '' &&  <div className='mt-2'>
+                    {Data.furnishing && Data.furnishing != '' && <div className='mt-2'>
                         <span className='bg-gray-700 px-2 py-[2px] rounded text-white text-sm'>
                             {Data.furnishing}
                         </span>

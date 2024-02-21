@@ -8,7 +8,7 @@ import userIcon from '../../assets/images/user.svg'
 import RecentViewCard from '../../components/RecentViewCard';
 import Carousel from 'react-multi-carousel';
 import RightListCard from '../../components/RightListCard';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useLocation } from 'react-router-dom';
 import FAQs from '../../components/FAQs';
 import Contact from '../../components/Contact';
 // import ImageGallery from "react-image-gallery";
@@ -31,10 +31,7 @@ import "yet-another-react-lightbox/plugins/thumbnails.css";
 import Download from "yet-another-react-lightbox/plugins/download";
 import Fullscreen from "yet-another-react-lightbox/plugins/fullscreen";
 import Zoom from "yet-another-react-lightbox/plugins/zoom";
-
-
-
-
+import useApi from '../../ApiConf';
 
 // const images = [
 //   {
@@ -235,8 +232,6 @@ const mapLocations = [
     { key: 'Country', val: 'UAE' },
 ]
 
-
-
 const ProjectDetails = () => {
     const [propDetailsTypeInd, setPropDetailsTypeInd] = useState(0);
     const [navClassState, setNavClassState] = useState('');
@@ -244,11 +239,34 @@ const ProjectDetails = () => {
     const [open, setOpen] = useState(false);
     const [currSlide, setCurrSlide] = useState(1);
     const observerElement = useRef();
+    const routePath = useLocation();
+    const { fetchData } = useApi();
+    const [AllData, setAllData] = useState({ breadcrumb: [],gallery:[], data: null, featuredProperty: [], recentlyAddedProperty: [], recentBlogs: null, similarListing: [] });
 
     useEffect(() => {
         ovserveIntersection();
-        // getScrollPosition();
+        getProjectDetails();
     }, []);
+
+    const getProjectDetails = async () => {
+        let data;
+        try {
+            data = await fetchData(`${routePath.pathname}`, 'GET');
+        } catch (err) {
+            console.log(err);
+        }
+        if (data) {
+            setAllData({
+                breadcrumb: data.breadcrumb,
+                gallery:data.data?.galleryTab?.images? data.data?.galleryTab?.images : [],
+                data: data.data,
+                featuredProperty: data.featuredProperty,
+                recentlyAddedProperty: data.recentlyAddedProperty,
+                recentBlogs: data.recentBlogs,
+                similarListing: data.similarListing
+            });
+        }
+    }
 
     const ovserveIntersection = () => {
         let observer = new IntersectionObserver((entries) => {
@@ -267,7 +285,11 @@ const ProjectDetails = () => {
     }
 
     const onClickContactBtn = () => {
-        setcontactModalStatus({ show: true, data: { owner: 'Owner-314422' } });
+        setcontactModalStatus({ show: true, data: {
+             owner: AllData.data?.userDetails?.name,
+             type:AllData.data?.btnParams[2],
+             icon:AllData.data?.userDetails?.image
+            } });
     }
     const onCloseContact = () => {
         setcontactModalStatus({ show: false, data: null });
@@ -290,37 +312,36 @@ const ProjectDetails = () => {
                 {/* <div className='bg-white h-[100px]'>
                 </div> */}
                 <div className='mt-14 container mx-auto'>
-                    <div className='text-sm px-2 text-gray-500'> <NavLink to={'/'}>Home</NavLink>{' > '}<span> Property for Rent in Bangalore</span>{' > '}<span>Property for Rent in Jakkur</span>
-                        {' > '}<span className='text-base'>Residential Land for Rent in Jakkur, Bangalore</span>
+                    <div className='text-sm px-2 text-gray-500'> <NavLink to={'/'}>Home</NavLink>{' > '}<span>{AllData.breadcrumb[1]?.title}</span>{' > '}<span>{AllData.breadcrumb[2]?.title}</span>
+                        {AllData.breadcrumb[3]?.title && ' > '}<span className='text-base'>{AllData.breadcrumb[3]?.title}</span>
                     </div>
                     <div className='bg-white py-5 px-[2%] mt-1 shadow w-full md:flex md:gap-5'>
                         <div className=' w-full md:w-[65%]'>
                             <div className='relative'>
-                                <img alt='' src='https://www.truehomes24.com/assets/properties/banner-01/6fbc57095a08783a071945a3507844fa.webp' className='h-[300px] sm:h-[350px] lg:h-[400px] w-full rounded-xl' />
+                                <img alt=''
+                                    // src='https://www.truehomes24.com/assets/properties/banner-01/6fbc57095a08783a071945a3507844fa.webp'
+                                    src={AllData.data?.banner}
+                                    className='h-[300px] sm:h-[350px] lg:h-[400px] w-full rounded-xl' />
                                 <div ref={observerElement} className='absolute bottom-16 pl-5 py-2 w-[80%] bg-black bg-opacity-10'>
-                                    <p className='text-white text-xl sm:text-3xl'>Jakkur, Bangalore</p>
+                                    <p className='text-white text-xl sm:text-3xl'>{AllData.data?.bannerTitle}</p>
                                 </div>
                             </div>
                             <div className='xs:flex my-5'>
-                                <div className=' xs:w-[30%] mt-1 text-center'>
-                                    <p className='font-semibold'>Residential Land</p>
-                                    <p className='text-sm'>Property Type</p>
-                                </div>
-                                <div className='xs:w-[30%] border-y-[1px] xs:border-y-0 xs:border-x-2 xs:border-gray-300 mt-1 text-center'>
-                                    <p className='font-semibold'>Ready to Move</p>
-                                    <p className='text-sm'>Project Status</p>
-                                </div>
-                                <div className='xs:w-[30%] mt-1 text-center'>
-                                    <p className='font-semibold'>1 Sq. Ft</p>
-                                    <p className='text-sm'>(Total Area)</p>
-                                </div>
+                                {AllData.data?.bannerFooter && AllData.data?.bannerFooter.map((item, index) => {
+                                    return (
+                                        <div className={'mt-1 text-center px-2 xs:w-[32%] '+ (index == 1? 'border-y-[1px] xs:border-y-0 xs:border-x-2 xs:border-gray-300':'')}>
+                                            <p className='font-semibold'>{item.value}</p>
+                                            <p className='text-sm'>{item.label}</p>
+                                        </div>
+                                    )
+                                })}
                             </div>
                         </div>
                         <div className='p-2 relative px-2 w-full md:w-[35%]'>
-                            <span className={styles.title2 + 'mr-2'}>Residential Land for Rent in Jakkur, Bangalore</span>
-                            <span className=''><button className='cursor-text mt-1 px-2 py-[2px] bg-orange-600 text-xs font-medium opacity-90 text-white mr-2'>FOR RENT</button></span>
-                            <span className=''><button className='cursor-text mt-1 px-2 py-[2px] bg-cyan-600 text-xs font-medium text-white mr-2'>RESIDENTIAL LAND</button></span>
-                            <span className=''><button className='cursor-text mt-1 px-2 py-[2px] bg-cyan-600 text-xs font-medium text-white'>PROPERTY ID: 1000 - 65139</button></span>
+                            <span className={styles.title2 + 'mr-2'}>{AllData.data?.propTitle}</span>
+                            <span className=''><button className='cursor-text mt-1 px-2 py-[2px] bg-orange-600 text-xs font-medium opacity-90 text-white mr-2'>{AllData.data?.listedFor?.toUpperCase()}</button></span>
+                            <span className=''><button className='cursor-text mt-1 px-2 py-[2px] bg-cyan-600 text-xs font-medium text-white mr-2'>{AllData.data?.subTypeName?.toUpperCase()}</button></span>
+                            <span className=''><button className='cursor-text mt-1 px-2 py-[2px] bg-cyan-600 text-xs font-medium text-white'>PROPERTY ID: {AllData.data?.propId}</button></span>
                             <div className='mt-1'>
                                 <div className='flex mt-5'>
                                     <span className=''>
@@ -328,12 +349,12 @@ const ProjectDetails = () => {
                                     </span>
                                     <span className='text-base text-gray-800 ml-1'>
                                         {/* <p className={styles.textMedium + 'text-gray-500 font-medium inline-block'}>Society: </p> */}
-                                        {' '}Jakkur Bangalore, Karnataka, India
+                                        {' '}{AllData.data?.location}
                                     </span>
                                 </div>
                                 <div className='flex gap-1 mt-2'>
-                                    <img alt='' src={userIcon} className='h-8 w-8' />
-                                    <p className='text-sm text-gray-500 mt-2'>Owner-314422 ( Individual )</p>
+                                    <img alt='' src={AllData.data?.userDetails?.image} className='h-8 w-8' />
+                                    <p className='text-sm text-gray-500 mt-2'>{AllData.data?.userDetails?.name} {`(${AllData.data?.btnParams[2]})`} </p>
                                 </div>
                                 <div className=' w-full'>
                                     <button onClick={onClickContactBtn} className={styles.btnFull + 'bg-green-600 hover:bg-green-700 mt-5'}>ASK FOR PRICE</button>
@@ -371,12 +392,13 @@ const ProjectDetails = () => {
 
                                 <div id='0' className='scroll-mt-20'>
                                     <p className={styles.title4 + 'mt-8'}>Property Details</p>
+
                                     <div className='flex justify-between flex-wrap'>
                                         <div className='w-[50%] sm:w-[30%] mt-2'>
                                             {PropertyDetailsData.map((item, index) => {
                                                 return (
                                                     <>
-                                                       {index < 3 && <div key={index} className='mt-1' >
+                                                        {index < 3 && <div key={index} className='mt-1' >
                                                             <span className=''>{item.key}: </span>
                                                             <span className='text-gray-500 '>{item.val}</span>
                                                         </div>}
@@ -388,7 +410,7 @@ const ProjectDetails = () => {
                                             {PropertyDetailsData.map((item, index) => {
                                                 return (
                                                     <>
-                                                       {index > 2 && index < 6 && <div key={index} className='mt-1'>
+                                                        {index > 2 && index < 6 && <div key={index} className='mt-1'>
                                                             <span className=''>{item.key}: </span>
                                                             <span className='text-gray-500 '>{item.val}</span>
                                                         </div>}
@@ -400,7 +422,7 @@ const ProjectDetails = () => {
                                             {PropertyDetailsData.map((item, index) => {
                                                 return (
                                                     <>
-                                                       {index > 5 && <div key={index} className='mt-1'>
+                                                        {index > 5 && <div key={index} className='mt-1'>
                                                             <span className=''>{item.key}: </span>
                                                             <span className='text-gray-500 '>{item.val}</span>
                                                         </div>}
@@ -429,13 +451,14 @@ const ProjectDetails = () => {
                             </div>
                             <div id='1' className='bg-white shadow-md px-[2%] py-5 mt-10 scroll-mt-20'>
                                 <p className={styles.title4}>Property Brief</p>
-                                <p className='mt-2 text-[0.9rem] text-gray-700'>{propertyBrief}</p>
+                                <div className='mt-2 prose' dangerouslySetInnerHTML={{__html:AllData.data?.descriptionTab?.description}}/>
+                                {/* <p className='mt-2 text-[0.9rem] text-gray-700 whitespace-pre-line'>{AllData.data?.descriptionTab?.description}</p> */}
                                 <div className='mt-2'>
                                     <p className={styles.title4}>Map Location</p>
-                                    <div className='flex flex-wrap gap-2 mt-2 items-start md:w-[50%]'>
-                                        {mapLocations.map((item, index) => {
+                                    <div className='flex flex-wrap gap-2 mt-2 items-start w-[80%]'>
+                                        {AllData.data?.descriptionTab?.address?.map((item, index) => {
                                             return (
-                                                <span key={index} className='w-[150px]'>{item.key} : <span className='text-gray-500 text-[0.9rem] font-semibold'>{item.val}</span></span>
+                                                <span key={index} className='w-[250px]'>{item.label} : <span className='text-gray-500 text-[0.9rem] font-semibold'>{item.value}</span></span>
                                             )
                                         })}
                                     </div>
@@ -444,7 +467,8 @@ const ProjectDetails = () => {
 
                             <div id='2' className='bg-white shadow-md px-[2%] py-5 mt-10 scroll-mt-20'>
                                 <p className={styles.title4}>About Builder</p>
-                                <p className='mt-2 text-[0.9rem] text-gray-700'>{aboutBuilder}</p>
+                                {/* <p className='mt-2 text-[0.9rem] text-gray-700'>{aboutBuilder}</p> */}
+                                <div className='mt-2 prose prose-sm sm:prose-base' dangerouslySetInnerHTML={{__html:AllData.data?.aboutBuilderTab?.description}}/>
                             </div>
 
                             <div id='3' className='mt-10 bg-white shadow-md px-[2%] py-5 w-full scroll-mt-20'>
@@ -463,7 +487,7 @@ const ProjectDetails = () => {
                                         setCurrSlide(Ind - 1)
                                     }}
                                 >
-                                    {rightSectionData.map((item, index) => {
+                                    {AllData.gallery?.map((item, index) => {
                                         return (
                                             <div onClick={() => setOpen(true)} key={index} className='p-2 hover:cursor-pointer'>
                                                 <img alt='' src={item.image} className='h-[450px] w-full rounded-xl' />
@@ -472,10 +496,10 @@ const ProjectDetails = () => {
                                     })}
                                 </Carousel>
                                 <div className='flex justify-end mr-2'>
-                                    <p className='text-gray-800 font-semibold'>{currSlide}/{rightSectionData.length}</p>
+                                    <p className='text-gray-800 font-semibold'>{currSlide}/{AllData.gallery?.length}</p>
                                 </div>
                                 {/* <ImageGallery
-                                    items={rightSectionData.map((item, index) => {
+                                    items={AllData.gallery?.map((item, index) => {
                                         return {
                                             original: item.image,
                                             thumbnail:item.image,
@@ -490,7 +514,7 @@ const ProjectDetails = () => {
                                     open={open}
                                     plugins={[Thumbnails, Download, Fullscreen, Zoom]}
                                     close={() => setOpen(false)}
-                                    slides={rightSectionData.map((item, index) => {
+                                    slides={AllData.gallery?.map((item, index) => {
                                         return { src: item.image }
                                     })}
                                 // slides={[
@@ -540,9 +564,9 @@ const ProjectDetails = () => {
                         </div>
 
                         <div className='w-full lg:w-[33%] xl:max-w-[400px]'>
-                            <RecentViewCard title={'Featured Property'} Data={rightSectionData} />
-                            <RightListCard title={'Recently Added Property'} data={Data} />
-                            <RightListCard title={'Recent Blog'} data={recentBlogsData} />
+                            <RecentViewCard title={'Featured Property'} Data={AllData.featuredProperty} />
+                            <RightListCard title={'Recently Added Property'} data={AllData.recentlyAddedProperty} />
+                            <RightListCard title={'Recent Blog'} data={AllData.recentBlogs} />
                         </div>
                     </div>
 

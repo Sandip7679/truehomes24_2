@@ -47,10 +47,12 @@ function App() {
         {/* <Route path='/sale/property-for-sale-in-:pathCity' element={<PropertyList />}/>
         <Route path='/rent/property-for-rent-in-:y' element={<PropertyList />}/>
         <Route path='/new-projects/new-projects-for-sale-in-:z' element={<PropertyList />}/> */}
-        {/* <Route path='/:propertyFor' element={<PropertyList />}/> */}
         <Route path='/agents' element={<Agents/>} />
         <Route path='/builders' element={<Builders/>} />
         <Route path='/project_details' element={<ProjectDetails/>} />
+        <Route path='/sale/:path/:id' element={<ProjectDetails/>} />
+        <Route path='/rent/:path/:id' element={<ProjectDetails/>} />
+        <Route path='/new-projects/:path/:id' element={<ProjectDetails/>} />
         <Route path='/agent-profile' element={<Profile/>} />
         <Route path='/post-property' element={<PostProperty/>} />
         <Route path='/post-property/new-project' element={<NewProject/>} />

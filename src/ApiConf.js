@@ -24,11 +24,11 @@
 import { useState } from 'react';
 
 const useApi = () => {
-  const [loading, setLoading] = useState(false);
+  // const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
   const fetchData = async (endpoint, method, data = null) => {
-    setLoading(true);
+    // setLoading(true);
     setError(null);
        let url = 'https://www.truehomes24.com/api/'+ endpoint;
     try {
@@ -48,17 +48,17 @@ const useApi = () => {
       }
 
       const responseData = await response.json();
-      setLoading(false);
+      // setLoading(false);
       return responseData;
     } catch (error) {
 
       console.log('err apiconfig.....',error);
       setError(error.message);
-      setLoading(false);
+      // setLoading(false);
     }
   };
 
-  return { fetchData, loading, error };
+  return { fetchData, error };
 };
 
 export default useApi;

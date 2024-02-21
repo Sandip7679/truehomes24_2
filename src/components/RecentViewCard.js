@@ -29,7 +29,7 @@ const RecentViewCard = ({ title, Data }) => {
             //     </button>
             // }
             >
-                {Data.map((item, index) => {
+                {Data?.length > 0 && Data?.map((item, index) => {
                     return (
                         <div className='p-2 sm:p-5'>
                             <div className='relative items-center border-gray-300 border-[1px] rounded-xl overflow-hidden  hover:cursor-pointer'>

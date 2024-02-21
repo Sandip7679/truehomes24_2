@@ -58,7 +58,7 @@ const searchTypes = [
 const TopSearchNavBar = () => {
     const { currLocation, propertyListState, filterMenus } = useSelector(state => state.User);
     const dispatch = useDispatch();
-    const { fetchData, loading, error } = useApi();
+    const { fetchData, error } = useApi();
     useEffect(() => {
 
         getFileterMenus();
@@ -207,7 +207,8 @@ const TopSearchNavBar = () => {
                             propertyStatus: { text: 'Buy', value: 'sale', index: 0 },
                             BHKtype: '', propertyTypes: [],
                             priceRange: ['', ''],
-                            moreStatus: { furnishingTypes: [], bathrooms: [], minArea: '', maxArea: '', newResale: '', constructionStatus: '', facing: [], amenities: [], listedBy: [] }
+                            moreStatus: { furnishingTypes: [], bathrooms: [], minArea: '', maxArea: '', newResale: '', constructionStatus: '', facing: [], amenities: [], listedBy: [] },
+                            clearAll: true
                         }))}
                         className='ml-2 opacity-80 py-[2px] sm:py-1 '>
                         <i class="fa-solid fa-rotate-right mr-1 text-sm lg:text-base"></i>

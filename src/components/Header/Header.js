@@ -59,8 +59,8 @@ const Header = () => {
     const cityRef = useRef(null);
     const citymenu = useRef(null);
     const [showLoginPopup, setShowLoginPopup] = useState(false);
-    const { fetchData, loading, error } = useApi();
-    const { login_status, currLocation, propertyListState,filterMenus } = useSelector(state => state.User);
+    const { fetchData, error } = useApi();
+    const { login_status, currLocation, propertyListState, filterMenus } = useSelector(state => state.User);
     const dispatch = useDispatch();
     const [searchText, setSearchText] = useState(null);
     const [AllCities, setAllCities] = useState({ international: [], topCities: [], otherCities: [] });
@@ -103,9 +103,9 @@ const Header = () => {
         getCurrLocation();
     }, []);
 
-    useEffect(()=>{
+    useEffect(() => {
         getMenuDetails();
-    },[propertyListState.propertyStatus])
+    }, [propertyListState.propertyStatus])
 
     useEffect(() => {
         if (searchText && searchText != '') {
@@ -125,8 +125,8 @@ const Header = () => {
     }, [searchText])
 
     const getFileterMenus = async () => {
-        
-        if(filterMenus) return;
+
+        if (filterMenus) return;
 
         let data;
         try {
@@ -138,7 +138,7 @@ const Header = () => {
             dispatch(setFileterMenus(data.filters));
         }
 
-    } 
+    }
 
     // const debounceSearching = (searchText) => {
     //     let clearTime = setTimeout(() => {
@@ -249,7 +249,7 @@ const Header = () => {
                                 {AllCities.international?.map((item, index) => {
                                     return (
                                         <NavLink
-                                            onClick={() => setLocation({ country: item.city,city:item.text, area: item.text,code:item.city })}
+                                            onClick={() => setLocation({ country: item.city, city: item.text, area: item.text, code: item.city })}
                                             key={index}
                                             // to={locationPath.pathname != '/' ? "/" : '/'}
                                             to={`${getRoutePath(item.text)}`}
@@ -284,7 +284,7 @@ const Header = () => {
                                             <NavLink
                                                 // to={locationPath.pathname != '/' ? "/sale" : '/'}
                                                 to={`${getRoutePath(item.text)}`}
-                                                onClick={() => setLocation({ city: item.text, area: item.text,code:item.city,country:'90' })}
+                                                onClick={() => setLocation({ city: item.text, area: item.text, code: item.city, country: '90' })}
                                                 key={index}
                                                 className="px-2 py-4 rounded-md hover:bg-gray-100 max-w-[100px] flex flex-col border-[1px] shadow-lg items-center justify-center">
                                                 <img alt='' src={cityIcon} className='h-5 w-6' />
@@ -301,8 +301,8 @@ const Header = () => {
                                     {AllCities.otherCities?.map((item, index) => {
                                         return (
                                             <NavLink
-                                                // to={locationPath.pathname != '/' ? "/sale" : '/'}
-                                                to={() => setLocation({ city: item.text, area: item.text,code:item.city,country:'90' })()}
+                                                to={`${getRoutePath(item.text)}`}
+                                                onClick={() => setLocation({ city: item.text, area: item.text, code: item.city, country: '90' })}
                                                 key={index} className="px-2 -mt-5 -pt-5  text-left cursor-pointer">
                                                 <div className='text-sm -mt-3 hover:bg-gray-100 w-[100%] pt-0 border-b-[0.5px]'>{item.text}</div>
                                             </NavLink>
@@ -323,7 +323,7 @@ const Header = () => {
                             <NavLink
                                 onClick={() => {
                                     localStorage.setItem('propertyStatus', 'sale');
-                                    dispatch(setPropertyListState({ ...propertyListState, propertyStatus: { text: 'Buy', value: 'sale',index:0 } }));
+                                    dispatch(setPropertyListState({ ...propertyListState, propertyStatus: { text: 'Buy', value: 'sale', index: 0 } }));
                                 }}
                                 to={'/sale/property-for-sale-in-' + currLocation?.city.toLowerCase()}
                                 className="text-gray-100 hover:cursor-pointer hover:text-gray-400">
@@ -332,7 +332,7 @@ const Header = () => {
                             <NavLink
                                 onClick={() => {
                                     localStorage.setItem('propertyStatus', 'rent');
-                                    dispatch(setPropertyListState({ ...propertyListState, propertyStatus: { text: 'Rent', value: 'rent',index:1 } }));
+                                    dispatch(setPropertyListState({ ...propertyListState, propertyStatus: { text: 'Rent', value: 'rent', index: 1 } }));
                                 }}
                                 to={'/rent/property-for-rent-in-' + currLocation?.city.toLowerCase()}
                                 className="text-gray-100 hover:cursor-pointer hover:text-gray-400">
@@ -341,7 +341,7 @@ const Header = () => {
                             <NavLink
                                 onClick={() => {
                                     localStorage.setItem('propertyStatus', 'new projects');
-                                    dispatch(setPropertyListState({ ...propertyListState, propertyStatus: { text: 'New Project', value: 'new projects',index:2 } }));
+                                    dispatch(setPropertyListState({ ...propertyListState, propertyStatus: { text: 'New Project', value: 'new projects', index: 2 } }));
                                 }}
                                 to={'/new-projects/new-projects-for-sale-in-' + currLocation?.city.toLowerCase()}
                                 className="text-gray-100 hover:cursor-pointer hover:text-gray-400">

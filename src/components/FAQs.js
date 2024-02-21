@@ -29,22 +29,24 @@ const faqs = [
 const FAQs = () => {
     const [faqData, setFaqData] = useState([]);
     const [currInd, setCurrInd] = useState(null);
-    const { fetchData, loading, error } = useApi();
-    const {currLocation } = useSelector(state => state.User);
+    const { fetchData, error } = useApi();
+    const { currLocation, propertyListState } = useSelector(state => state.User);
 
-    useEffect(()=>{
+    useEffect(() => {
         getFaqData();
-    },[]);
+    }, [currLocation,propertyListState]);
 
     const getFaqData = async () => {
         let res;
         try {
-            res = await fetchData(`faq-content?city=${currLocation.code}`, 'GET');
+            res = await fetchData(`faq-content?city=${currLocation.code}
+            &property_status=${propertyListState?.propertyStatus?.value == 'new projects' ? 'new project' : propertyListState?.propertyStatus?.value}`,
+                'GET');
         } catch (err) {
             console.log(err);
         }
         if (res.data) {
-           setFaqData(res.data);
+            setFaqData(res.data);
         }
     }
     return (
@@ -61,7 +63,7 @@ const FAQs = () => {
                                 <p className='text-lg'>+</p>
                             </button>
                             {currInd == index && <div className={styles.textMedium + (currInd === index ? 'duration-500 ' : '') + ' border-t-[1px] shadow-lg border-t-gray-500 py-2 md:py-4 px-[1%]'}>
-                                   <div dangerouslySetInnerHTML={{__html:item.answer}}/>
+                                <div dangerouslySetInnerHTML={{ __html: item.answer }} />
                             </div>}
                         </div>
                     )

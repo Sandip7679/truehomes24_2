@@ -13,6 +13,7 @@ import Contact from '../components/Contact';
 import { useDispatch, useSelector } from 'react-redux';
 import useApi from '../ApiConf';
 import Pagenation from '../components/Pagenation';
+import { setCurrPage } from '../Redux/reducer/User';
 
 const Localities = [
     { location: 'Shela (40)' },
@@ -142,19 +143,32 @@ const propertyTypes = ['Localities', 'Property Status', 'Budget'];
 const PropertyList = () => {
     const [contactModalStatus, setcontactModalStatus] = useState({ show: false, data: {} });
     const [propertyType, setPropertyType] = useState('Localities');
-    const { fetchData, loading, error } = useApi();
+    const { fetchData, error } = useApi();
     const { login_status, currLocation, propertyListState, currPage } = useSelector(state => state.User);
+    const dispatch = useDispatch();
     const [propertyListData, setPropertyListData] = useState({ currPage: 1, totalProperty: null, lastPage: null, propertyList: [] });
-    const [rightListData,setRightListData] = useState({recentView:[],newProject:[]});
+    const [rightListData, setRightListData] = useState({ recentView: [], newProject: [] });
+    const [loadingList, setLoadingList] = useState(true);
 
     useEffect(() => {
-        getPropertyList();
-    }, [propertyListState, currLocation, currPage]);
+        setLoadingList(true);
+        if(currPage > 1){
+            dispatch(setCurrPage(1));
+        }
+        getPropertyList(1);
+    }, [propertyListState, currLocation]);
+
+    useEffect(() => {
+        if (currPage > 1) {
+            setLoadingList(true);
+            getPropertyList(currPage);
+            
+        }
+    }, [currPage]);
 
     useEffect(() => {
         getRightListData();
     }, [currLocation]);
-
 
     const getRightListData = async () => {
         let data;
@@ -165,7 +179,7 @@ const PropertyList = () => {
         }
         if (data) {
             // console.log('rightlistdata....', data);
-            setRightListData({recentView:data.recentView,newProject:data.newProjcts});
+            setRightListData({ recentView: data.recentView, newProject: data.newProjcts });
         }
     }
 
@@ -176,52 +190,48 @@ const PropertyList = () => {
     const onCloseContact = () => {
         setcontactModalStatus({ show: false, data: null });
     }
-    const getStatusString = (statusArr) => {
-        console.log('statusAr..', statusArr);
-        if (statusArr.length > 0) {
-            return statusArr.filter(it => it).join('-');
-        } else {
-            return '';
-        }
-    }
+    // const getStatusString = (statusArr) => {
+    //     console.log('statusAr..', statusArr);
+    //     if (statusArr.length > 0) {
+    //         return statusArr.filter(it => it).join('-');
+    //     } else {
+    //         return '';
+    //     }
+    // }
 
-    const getPropertyList = async () => {
+    const getPropertyList = async (currpage) => {
         let data;
-        // console.log('propertyListState.propertyTypes...',propertyListState.propertyTypes?.filter(it => it).join('-'))
-        // console.log('propertyListState.moreStatus.amenities...',propertyListState.moreStatus.amenities)
-        console.log('currpage...',currPage);
         let quary = `property_status=${propertyListState?.propertyStatus?.value == 'new projects' ? 'new project' : propertyListState?.propertyStatus?.value}` +
             `&country=${currLocation.country}&city=${currLocation.code}&locality=` +
             `&bedroom=${propertyListState?.BHKtype}` +
-            // `&property_type=${propertyListState.propertyTypes.length>0? propertyListState.propertyTypes?.filter(it => it).join('-'):''}` +
-            `&property_type=${getStatusString(propertyListState.propertyTypes)}` +
+            `&property_type=${propertyListState.propertyTypes}` +
             `&min_price=${propertyListState.priceRange[0]}&max_price=${propertyListState.priceRange[1]}` +
-            // `&furnishing=${propertyListState.moreStatus.furnishingTypes.length>0 ? propertyListState.moreStatus.furnishingTypes?.filter(it => it).join('-'):''}` +
-            `&furnishing=${getStatusString(propertyListState.moreStatus.furnishingTypes)}` +
-            // `&bathroom=${propertyListState.moreStatus.bathrooms?.filter(it => it).join('-')}` +
-            `&bathroom=${getStatusString(propertyListState.moreStatus.bathrooms)}` +
+            `&furnishing=${propertyListState.moreStatus.furnishingTypes}` +
+            `&bathroom=${propertyListState.moreStatus.bathrooms}` +
             `&min_area=${propertyListState.moreStatus.minArea}&max_area=${propertyListState.moreStatus.maxArea}` +
             `&availableFor=${propertyListState.moreStatus.newResale}` +
             `&availability=${propertyListState.moreStatus.constructionStatus}` +
             '&facing=&floor=' +
-            // `&amenities=` +
-            // `&amenities=${propertyListState.moreStatus.amenities?.filter(it => it).join('-')}`+
-            `&amenities=${getStatusString(propertyListState.moreStatus.amenities)}` +
-            // `&listed_by=${propertyListState.moreStatus.listedBy?.filter(it => it).join('-')}`+
-            `&listed_by=${getStatusString(propertyListState.moreStatus.listedBy)}` +
-            `&verified=&page=${currPage}`
+            `&amenities=${propertyListState.moreStatus.amenities}` +
+            `&listed_by=${propertyListState.moreStatus.listedBy}` +
+            `&verified=&page=${currpage}`
         let endpoint = 'property-list?' + quary;
 
         try {
             data = await fetchData(endpoint, 'GET');
-            console.log('data...', data);
+            // console.log('propertyListState...', propertyListState);
+            // console.log('currLocation...', currLocation);
+            // console.log('currPage...', currPage);
+            // console.log('data...', data);
         } catch (err) {
             console.log('err fetching propertylist...', err);
+            setLoadingList(false);
         }
         if (data) {
-            console.log('data.totalProperty..', data.totalProperty)
+            // console.log('data.totalProperty..', data.totalProperty)
             let lastpage = Math.floor(data.totalProperty / 25) + 1;
             setPropertyListData({ currPage: data.page, totalProperty: data.totalProperty, lastPage: lastpage, propertyList: data.property });
+            setLoadingList(false);
         }
     }
 
@@ -235,44 +245,56 @@ const PropertyList = () => {
                         <NavLink className={'hover:opacity-70'} to="/">Home</NavLink> {'> '}
                         Property for Sale in {currLocation.city}</div>
                     <div className='lg:flex gap-5'>
-                        <div className='mt-5 tracking-wide'>
-                            <p className={styles.textMedium}>Showing 1-25 of 356 property for Sale</p>
-                            <p className={styles.title3 + 'mt-1'}>Property for Sale in {currLocation.city}</p>
-                            <div className='flex gap-2 border-b-[1px] mt-2 border-b-gray-200'>
-                                {propertyTypes.map((item, index) => {
-                                    return (
-                                        <button key={index}
-                                            onClick={() => setPropertyType(item)}
-                                            className={(propertyType === item ? 'border-b-[1px]' : '') + ' hover:border-b-[1px] border-b-gray-700 pb-1 mr-3'}>
-                                            <p className={styles.textMedium + ''}>{item}</p>
-                                        </button>
-                                    )
-                                })}
+                        {<div className='mt-5 tracking-wide'>
+                            <div>
+                                <p className={styles.textMedium}>Showing {(currPage - 1) * 25 + 1}-{(currPage - 1) * 25 + propertyListData?.propertyList?.length} of {propertyListData.totalProperty} property for {propertyListState?.propertyStatus?.text}</p>
+                                <p className={styles.title3 + 'mt-1'}>Property for Sale in {currLocation.city}</p>
+                                <div className='flex gap-2 border-b-[1px] mt-2 border-b-gray-200'>
+                                    {propertyTypes.map((item, index) => {
+                                        return (
+                                            <button key={index}
+                                                onClick={() => setPropertyType(item)}
+                                                className={(propertyType === item ? 'border-b-[1px]' : '') + ' hover:border-b-[1px] border-b-gray-700 pb-1 mr-3'}>
+                                                <p className={styles.textMedium + ''}>{item}</p>
+                                            </button>
+                                        )
+                                    })}
 
+                                </div>
+                                <div className='shadow-sm rounded flex flex-wrap max-h-[140px] border-[1px] border-gray-200 mt-5 mx-2 overflow-y-auto p-2'>
+                                    {Localities.map((item, index) => {
+                                        return (
+                                            <button key={index} className={styles.btn + 'm-1 hover:bg-orange-50 border-orange-500'}>
+                                                <p className='text-sm'> {item.location}</p>
+                                            </button>
+                                        )
+                                    })}
+                                </div>
+                                <div>
+                                    {!loadingList ? propertyListData?.propertyList?.map((item, index) => {
+                                        return (
+                                            <PropertyListCard key={index} func={onClickContactBtn} Data={item} />
+                                        )
+                                    })
+                                        :
+                                        <div className="flex justify-center items-center mt-16">
+                                            {/* <div className="animate-spin ease-linear rounded-full border-8 border-t-8 border-gray-200 h-20 w-20"></div> */}
+                                            <i class={"fa-solid fa-spinner" + styles.loading}></i>
+                                        </div>
+                                    }
+                                    {(!loadingList && propertyListData?.propertyList?.length == 0) && <div className={styles.noDataFound}>
+                                        No Data Available, Please try again.
+                                    </div>}
+                                </div>
+                                {propertyListData?.propertyList?.length != 0 && <div>
+                                    <Pagenation lastPage={propertyListData.lastPage} />
+                                </div>}
+                                <div className='mt-10'>
+                                    <FAQs />
+                                </div>
                             </div>
-                            <div className='shadow-sm rounded flex flex-wrap max-h-[140px] border-[1px] border-gray-200 mt-5 mx-2 overflow-y-auto p-2'>
-                                {Localities.map((item, index) => {
-                                    return (
-                                        <button key={index} className={styles.btn + 'm-1 hover:bg-orange-50 border-orange-500'}>
-                                            <p className='text-sm'> {item.location}</p>
-                                        </button>
-                                    )
-                                })}
-                            </div>
-                            <div>
-                                {propertyListData?.propertyList?.map((item, index) => {
-                                    return (
-                                        <PropertyListCard key={index} func={onClickContactBtn} Data={item} />
-                                    )
-                                })}
-                            </div>
-                            <div>
-                                <Pagenation lastPage={propertyListData.lastPage} />
-                            </div>
-                            <div className='mt-10'>
-                                <FAQs />
-                            </div>
-                        </div>
+                        </div>}
+
 
                         <div className='w-full lg:w-[35%] bg-slate-50 py-4 px-1'>
                             <div>

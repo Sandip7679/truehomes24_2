@@ -10,7 +10,8 @@ export const UserSlice = createSlice({
       BHKtype: '',
       propertyTypes: [],
       priceRange: ['', ''],
-      moreStatus:{furnishingTypes:[],bathrooms:[],minArea:'',maxArea:'',newResale:'',constructionStatus:'',facing:[],amenities:[],listedBy:[]},
+      moreStatus:{furnishingTypes:'',bathrooms:'',minArea:'',maxArea:'',newResale:'',constructionStatus:'',facing:'',amenities:'',listedBy:''},
+      clearAll:false
     },
     currPage:1,
     filterMenus: null,

@@ -167,7 +167,7 @@ const Home = () => {
     // const [propertyData, setPropertyData] = useState(null);
     const [contactModalStatus, setcontactModalStatus] = useState({ show: false, data: {} });
     const propertyElement = useRef();
-    const { fetchData, loading, error } = useApi();
+    const { fetchData, error } = useApi();
     const [featuredProperties, setFeaturedProperties] = useState([]);
     const [allProperties, setAllProperties] = useState({featured:[],newProjects:[]});
 
@@ -203,22 +203,23 @@ const Home = () => {
     // }
 
     const getAllProperties = async () => {
-        let featured;
+        let featured
         try {
             featured = await fetchData('featured-property-slider?limit=5&page=1', 'GET');
+            console.log('featured.... data...',featured)
         } catch (err) {
-            console.log(err);
+            console.log('err... featured..', err);
         }
         if(featured){featured = Object.values(featured?.content)}
 
-        let newProjects;
+        let newProjects
         try {
             newProjects = await fetchData('new-projects-slider?limit=5&page=1', 'GET');
         } catch (err) {
             console.log(err);
         }
         if(newProjects){newProjects = Object.values(newProjects.content)}
-
+  
         setAllProperties(pre=>({...pre,featured:featured,newProjects:newProjects}));
     }
 

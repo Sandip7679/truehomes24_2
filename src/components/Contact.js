@@ -1,7 +1,7 @@
 import React from 'react';
 import { CrossIcon, MenuIcon, UserIcon } from './svgIcons';
 import { styles } from '../Styles/Styles';
-import userIcon from '../assets/images/user.svg'
+// import userIcon from '../assets/images/user.svg'
 
 
 const Contact = ({Data,func}) => {
@@ -14,17 +14,17 @@ const Contact = ({Data,func}) => {
                     <CrossIcon />
                 </button>
                 <div className='flex gap-5'>
-                    <img alt='' src={userIcon} className='h-[50px] w-[50px] md:h-[70px] md:w-[70px]' />
+                    <img alt='' src={Data.icon} className='h-[50px] w-[50px] md:h-[70px] md:w-[70px]' />
                     <div className='text-gray-900 mt-2'>
                         <div className='flex gap-3'>
                             <UserIcon classname={'h-5 w-5 mt-[2px]'} />
                             {Data.owner}
                         </div>
                         <div className='flex gap-3'>
-                            <div className='h-5 w-5 mt-1'>
+                            <div className='h-5 w-5 mt-[1px]'>
                                 <MenuIcon />
                             </div>
-                            Individual
+                            {Data.type}
                         </div>
                     </div>
                 </div>

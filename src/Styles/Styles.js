@@ -31,6 +31,8 @@ export const styles = {
     formCard:' border-[1px] border-gray-100 rounded-md shadow-xl bg-white p-2 px-2 sm:px-5 my-5 pb-5 ',
     btnBlackHover:' hover:bg-white hover:text-black border-[1px] border-black duration-500 ',
     formBtn:'hover:bg-gray-600 bg-gray-700 text-white text-sm sm:text-base px-4 py-1 rounded ',
-    paginationBtn:'bg-gray-100 rounded-md font-semibold px-4 py-3 hover:bg-gray-700 hover:text-white duration-500 text-sm tracking-wider '
+    paginationBtn:'bg-gray-100 rounded-md font-semibold px-4 py-3 hover:bg-gray-700 hover:text-white duration-500 text-sm tracking-wider ',
+    noDataFound:'bg-red-600 font-semibold text-white text-sm rounded-md mt-5 py-3 pl-4 w-full ',
+    loading:' animate-spin duration-1000 text-gray-500 text-2xl sm:text-3xl '
 
 }
