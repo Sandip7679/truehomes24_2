@@ -32,6 +32,7 @@ import Download from "yet-another-react-lightbox/plugins/download";
 import Fullscreen from "yet-another-react-lightbox/plugins/fullscreen";
 import Zoom from "yet-another-react-lightbox/plugins/zoom";
 import useApi from '../../ApiConf';
+import PropertySlider from '../../components/PropertySlider';
 
 // const images = [
 //   {
@@ -48,138 +49,13 @@ import useApi from '../../ApiConf';
 //   },
 // ];
 
-const Data = [
-    {
-        "title": "1 BHK Apartment  for Sale  in Rainbow Chetna, Perambur, Chennai",
-        "link": "https://www.truehomes24.com/api/sale/1-bhk-apartment-for-sale-in-rainbow-chetna-perambur-chennai/1000-57159",
-        "property_url": "/sale/1-bhk-apartment-for-sale-in-rainbow-chetna-perambur-chennai/1000-57159",
-        "image": "https://www.truehomes24.com/assets/properties/banner-02/93a4b41ca5c17860d1b44af1f032afa9.webp",
-        "location": "Perambur, Chennai",
-        "propertyType": "Apartment",
-        "area": "650 sq.ft.",
-        "bedroom": "1 Bedroom(s)",
-        "possission": "Possession By: Jun 2025",
-        "price": "45 L",
-        "owner": 'Owner-36787'
-    },
-    {
-        "title": "2 BHK Apartment  for Sale  in Rainbow Ekanta, Perambur, Chennai",
-        "link": "https://www.truehomes24.com/api/sale/2-bhk-apartment-for-sale-in-rainbow-ekanta-perambur-chennai/1000-57163",
-        "property_url": "/sale/2-bhk-apartment-for-sale-in-rainbow-ekanta-perambur-chennai/1000-57163",
-        "image": "https://www.truehomes24.com/assets/properties/banner-02/6195f1a4b44efe4bd85420205df57e4a.webp",
-        "location": "Perambur, Chennai",
-        "propertyType": "Apartment",
-        "area": "650 sq.ft.",
-        "bedroom": "2 Bedroom(s)",
-        "possission": "Possession By: Nov 2024",
-        "price": "45 L",
-        "owner": 'Owner-67587'
-    },
-    {
-        "title": "1 BHK Apartment  for Sale  in Rainbow Ekanta, Perambur, Chennai",
-        "link": "https://www.truehomes24.com/api/sale/1-bhk-apartment-for-sale-in-rainbow-ekanta-perambur-chennai/1000-57162",
-        "property_url": "/sale/1-bhk-apartment-for-sale-in-rainbow-ekanta-perambur-chennai/1000-57162",
-        "image": "https://www.truehomes24.com/assets/properties/banner-02/3fa85544ffca6abb5843dd1aeedf1c73.webp",
-        "location": "Perambur, Chennai",
-        "propertyType": "Apartment",
-        "area": "650 sq.ft.",
-        "bedroom": "1 Bedroom(s)",
-        "possission": "Possession By: Nov 2024",
-        "price": null,
-        "owner": 'Owner-57587'
-    },
-    {
-        "title": "1 BHK Apartment  for Sale  in Rainbow Chetna, Perambur, Chennai",
-        "link": "https://www.truehomes24.com/api/sale/1-bhk-apartment-for-sale-in-rainbow-chetna-perambur-chennai/1000-57159",
-        "property_url": "/sale/1-bhk-apartment-for-sale-in-rainbow-chetna-perambur-chennai/1000-57159",
-        "image": "https://www.truehomes24.com/assets/properties/banner-02/93a4b41ca5c17860d1b44af1f032afa9.webp",
-        "location": "Perambur, Chennai",
-        "propertyType": "Apartment",
-        "area": "650 sq.ft.",
-        "bedroom": "1 Bedroom(s)",
-        "possission": "Possession By: Jun 2025",
-        "price": "45 L",
-        "owner": 'Owner-36787'
-    },
-    {
-        "title": "Residential Land  for Sale  in Bhogapuram International Airport Road, Visakhapatnam",
-        "link": "https://www.truehomes24.com/api/sale/residential-land-for-sale-in-bhogapuram-international-airport-road-visakhapatnam/1000-64481",
-        "property_url": "/sale/residential-land-for-sale-in-bhogapuram-international-airport-road-visakhapatnam/1000-64481",
-        "image": "https://www.truehomes24.com/assets/properties/banner-02/bfa1673f343a2fe32d1b31e3f202a402.jpg",
-        "location": "Bhogapuram International Airport Road, Visakhapatnam",
-        "propertyType": "Residential Land",
-        "area": "57600 sq.ft.",
-        "bedroom": "",
-        "possission": "",
-        "price": "25.60 Cr",
-        "owner": 'Owner-67587'
-    },
-]
-const rightSectionData = [
-    {
-        "title": "Apartment form Sale in Lagacy",
-        "link": "https://www.truehomes24.com/assets/properties/banner-02/bfa1673f343a2fe32d1b31e3f202a402.jpg",
-        "property_url": "/sale/2-bhk-apartment-for-sale-in-rainbow-ekanta-perambur-chennai/1000-57163",
-        "image": "https://www.truehomes24.com/assets/properties/banner-02/6195f1a4b44efe4bd85420205df57e4a.webp",
-        "location": "Perambur, Chennai",
-        "area": "650 sq.ft.",
-        "price": "90 L - 1.5Cr",
-    },
-    {
-        "title": "Apartment form Sale in Lagacy",
-        "link": "https://www.truehomes24.com/api/sale/2-bhk-apartment-for-sale-in-rainbow-ekanta-perambur-chennai/1000-57163",
-        "property_url": "/sale/2-bhk-apartment-for-sale-in-rainbow-ekanta-perambur-chennai/1000-57163",
-        "image": "https://www.truehomes24.com/assets/properties/banner-02/93a4b41ca5c17860d1b44af1f032afa9.webp",
-        "location": "Perambur, Chennai",
-        "area": "650 sq.ft.",
-        "price": "90 L - 1.5Cr",
-    },
-    {
-        "title": "Apartment form Sale in Lagacy",
-        "link": "https://www.truehomes24.com/api/sale/1-bhk-apartment-for-sale-in-rainbow-chetna-perambur-chennai/1000-57159",
-        "property_url": "/sale/2-bhk-apartment-for-sale-in-rainbow-ekanta-perambur-chennai/1000-57163",
-        "image": "https://www.truehomes24.com/assets/properties/banner-02/3fa85544ffca6abb5843dd1aeedf1c73.webp",
-        "location": "Perambur, Chennai",
-        "area": "650 sq.ft.",
-        "price": "90 L - 1.5Cr",
-    },
-    {
-        "title": "Apartment form Sale in Lagacy",
-        "link": "https://www.truehomes24.com/api/sale/2-bhk-apartment-for-sale-in-rainbow-ekanta-perambur-chennai/1000-57163",
-        "property_url": "/sale/2-bhk-apartment-for-sale-in-rainbow-ekanta-perambur-chennai/1000-57163",
-        "image": "https://www.truehomes24.com/assets/properties/banner-02/6195f1a4b44efe4bd85420205df57e4a.webp",
-        "location": "Perambur, Chennai",
-        "area": "650 sq.ft.",
-        "price": "90 L - 1.5Cr",
-    },
-]
-const recentBlogsData = [
-    {
-        title: 'Important RERA Rajasthan Facts for Home Buyers', image: 'https://www.truehomes24.com/assets/properties/banner-02/3fa85544ffca6abb5843dd1aeedf1c73.webp',
-        description: 'Important RERA Rajasthan Facts for Home Buyers ....'
-    },
-    {
-        title: 'What documnetation i...', image: 'https://www.truehomes24.com/assets/properties/banner-02/3fa85544ffca6abb5843dd1aeedf1c73.webp',
-        description: 'what documentation is required before a ...'
-    },
-    {
-        title: 'What documnetation i...', image: 'https://www.truehomes24.com/assets/properties/banner-02/3fa85544ffca6abb5843dd1aeedf1c73.webp',
-        description: 'what documentation is required before a ...'
-    },
-    {
-        title: 'What documnetation i...', image: 'https://www.truehomes24.com/assets/properties/banner-02/3fa85544ffca6abb5843dd1aeedf1c73.webp',
-        description: 'what documentation is required before a ...'
-    },
-    {
-        title: 'What documnetation i...', image: 'https://www.truehomes24.com/assets/properties/banner-02/3fa85544ffca6abb5843dd1aeedf1c73.webp',
-        description: 'what documentation is required before a ...'
-    },
-];
-
 const whatsNearbyData = [
-    { item: 'Hospital: 2', icon: 'fa-solid fa-house-chimney-medical' },
-    { item: 'ATM: 1', icon: 'fa-solid fa-credit-card' },
-    { item: 'School: 2', icon: 'fa-solid fa-school' },
+    // { item: 'Hospital: 2', icon: 'fa-solid fa-house-chimney-medical' },
+    { item: 'Hospital: 2', icon: 'fas fa-hospital' },
+    // { item: 'ATM: 1', icon: 'fa-solid fa-credit-card' },
+    { item: 'ATM: 1', icon: 'fas fa-credit-card' },
+    // { item: 'School: 2', icon: 'fa-solid fa-school' },
+    { item: 'School: 2', icon: 'fas fa-school' },
     { item: 'Bank: 2', icon: 'fa-sharp fa-solid fa-building-columns' },
     { item: 'Restaurant: 1', icon: 'fa-solid fa-utensils' },
     { item: 'Spa Beauty Salon: 2', icon: 'fa-solid fa-spa' },
@@ -188,12 +64,10 @@ const whatsNearbyData = [
 const PropertyBarNames = [
     'Details', 'Description', 'About Builder', 'Gallery', 'Nearby', 'FAQ'
 ];
-
-const propertyBrief = 'Creek Vistas Grande at Sobha Hartland is a newly launched high-rise development that features luxury 1, 2 and 3 bedroom apartments by Sobha Group and size ranging from 745-1647sq.ft. Price ranging from AED 1.32 M -2.96M. This exclusive modern class venture is the last tower facing the views of Downtown Burj Khalifa, the Dubai Canal, which will attract a lot. The ideal address within the MBR City, Dubai, will provide you with easy access to the famous key destinations. Set in a metropolitan centre point and encompassed by rich green arranged environmental elements, you live next to the Ras Al Khor Wildlife Sanctuary, Dubai Creek and many such. This modern high-rise pinnacle is designed with cutting-edge technology and engineering alongside luxury crafted residences that will make you live in the midst of outright solace. The residence within the high-rise tower presents a premium class, where you are offered a serene lifestyle with outstanding neighbourhood views Amenities & NeighbourhoodView Swimming pool, Kids Play Area, Barbeque Area, Health Club, Changing rooms, Pilates Studio, Spin Class, Studio ,Yoga Studio, Multipurpose Hall, Pentanque, Boules Lawn, Tai che Terrace Outdoor Gym . Sobha Realty is an international luxury developer committed to redefining the art of living through sustainable communities. Established in 1976 as an interior decoration firm in Oman by PNC Menon – a visionary entrepreneur, the company has grown its presence with developments and investments in the UAE, Oman, Bahrain, Brunei and India. Over the last four decades, Sobha Realty has also redefined the real estate value chain by leveraging its inherent in-house capabilities of conceptualisation, design and development. Sobha Realty is currently developing Sobha Hartland, a luxurious freehold community spread across eight million square feet in the heart of Dubai, as part of the Mohammed Bin Rashid Al Maktoum City master development. Connectivity- 08 Minutes from Meydan Racecourse, 11 Minutes fro Ras al khor Wildlife Sanctuary, 13 Minutesto Burj khalifa / Downtown, 14 Mins to Dubai International Financial Centre (DIFC), 17 Mins to Palm Jumeirah, 20 Mins to Dubai Marina, 20 Mins to Dubai International Airport,'
-const aboutBuilder = 'With a 26-year legacy based on unwavering reliability and unflinching values, Goodwill Developers, a Top Real Estate Company in Navi Mumbai, have successfully created a community of 2200+ happy customers who are cherishing the joy of abundance every day.';
-
+// const htmlString = "<i class=\"fas fa-life-ring\"></i> Lift";
 const Amenities = [
-    { name: 'Lift', icon: 'fa-solid fa-elevator' },
+    // { name: 'Lift', icon: 'fa-solid fa-elevator' },
+    { name: 'Lift', icon: 'fas fa-life-ring' },
     { name: 'Security', icon: 'fa-solid fa-shield-halved' },
     { name: 'CCTV Camera', icon: 'fa-solid fa-video' },
     // { name: 'Maintenance Staff',icon:'fa-solid fa-staff' },
@@ -213,24 +87,6 @@ const Amenities = [
     { name: 'Laundry Services', icon: '' },
 ]
 
-const PropertyDetailsData = [
-    { key: 'Property Type', val: 'Residential Land' },
-    { key: 'Security Deposite', val: '0' },
-    { key: 'Month Of Notice', val: '0 Month(s)' },
-    { key: 'Property Status', val: 'For Rent' },
-    { key: 'Duration Of Rent Agreement', val: '0 Month(s)' },
-    { key: 'Ownership', val: 'Freehold' },
-    { key: 'Rent Expected', val: '0/month' },
-    { key: 'Total Area', val: '1acres' },
-    { key: 'AvailableFor', val: 'New' },
-];
-
-const mapLocations = [
-    { key: 'Address', val: 'MBR City' },
-    { key: 'City', val: 'Dubai' },
-    { key: 'State', val: 'Dubai' },
-    { key: 'Country', val: 'UAE' },
-]
 
 const ProjectDetails = () => {
     const [propDetailsTypeInd, setPropDetailsTypeInd] = useState(0);
@@ -241,7 +97,7 @@ const ProjectDetails = () => {
     const observerElement = useRef();
     const routePath = useLocation();
     const { fetchData } = useApi();
-    const [AllData, setAllData] = useState({ breadcrumb: [],gallery:[], data: null, featuredProperty: [], recentlyAddedProperty: [], recentBlogs: null, similarListing: [] });
+    const [AllData, setAllData] = useState({ breadcrumb: [], gallery: [], data: null, featuredProperty: [], recentlyAddedProperty: [], recentBlogs: null, similarListing: [] });
 
     useEffect(() => {
         ovserveIntersection();
@@ -258,7 +114,7 @@ const ProjectDetails = () => {
         if (data) {
             setAllData({
                 breadcrumb: data.breadcrumb,
-                gallery:data.data?.galleryTab?.images? data.data?.galleryTab?.images : [],
+                gallery: data.data?.galleryTab?.images ? data.data?.galleryTab?.images : [],
                 data: data.data,
                 featuredProperty: data.featuredProperty,
                 recentlyAddedProperty: data.recentlyAddedProperty,
@@ -285,11 +141,13 @@ const ProjectDetails = () => {
     }
 
     const onClickContactBtn = () => {
-        setcontactModalStatus({ show: true, data: {
-             owner: AllData.data?.userDetails?.name,
-             type:AllData.data?.btnParams[2],
-             icon:AllData.data?.userDetails?.image
-            } });
+        setcontactModalStatus({
+            show: true, data: {
+                owner: AllData.data?.userDetails?.name,
+                type: AllData.data?.btnParams[2],
+                icon: AllData.data?.userDetails?.image
+            }
+        });
     }
     const onCloseContact = () => {
         setcontactModalStatus({ show: false, data: null });
@@ -329,7 +187,7 @@ const ProjectDetails = () => {
                             <div className='xs:flex my-5'>
                                 {AllData.data?.bannerFooter && AllData.data?.bannerFooter.map((item, index) => {
                                     return (
-                                        <div className={'mt-1 text-center px-2 xs:w-[32%] '+ (index == 1? 'border-y-[1px] xs:border-y-0 xs:border-x-2 xs:border-gray-300':'')}>
+                                        <div className={'mt-1 text-center px-2 xs:w-[32%] ' + (index == 1 ? 'border-y-[1px] xs:border-y-0 xs:border-x-2 xs:border-gray-300' : '')}>
                                             <p className='font-semibold'>{item.value}</p>
                                             <p className='text-sm'>{item.label}</p>
                                         </div>
@@ -363,7 +221,6 @@ const ProjectDetails = () => {
                                         <span>RERA ID: </span><span className='text-cyan-600'>PR/GJ/AHMEDABAD/AHMEDABAD CITY/AUDA/MAA12019/280623</span>
                                     </div>
                                 </div>
-
                             </div>
                         </div>
                     </div>
@@ -392,39 +249,41 @@ const ProjectDetails = () => {
 
                                 <div id='0' className='scroll-mt-20'>
                                     <p className={styles.title4 + 'mt-8'}>Property Details</p>
-
                                     <div className='flex justify-between flex-wrap'>
                                         <div className='w-[50%] sm:w-[30%] mt-2'>
-                                            {PropertyDetailsData.map((item, index) => {
+                                            {AllData.data?.detailsTab?.length && AllData.data?.detailsTab?.map((item, index) => {
                                                 return (
                                                     <>
-                                                        {index < 3 && <div key={index} className='mt-1' >
-                                                            <span className=''>{item.key}: </span>
-                                                            <span className='text-gray-500 '>{item.val}</span>
+                                                        {index % 3 == 0 && <div key={index} className='mt-1' >
+                                                            <span className=''>{item.label}: </span>
+                                                            {/* <span className='text-gray-500 '>{item.value}</span> */}
+                                                            <span className='text-gray-500 prose ' dangerouslySetInnerHTML={{ __html: item.value }} />
                                                         </div>}
                                                     </>
                                                 )
                                             })}
                                         </div>
                                         <div className='w-[50%] sm:w-[30%] mt-2'>
-                                            {PropertyDetailsData.map((item, index) => {
+                                            {AllData.data?.detailsTab?.length && AllData.data?.detailsTab?.map((item, index) => {
                                                 return (
                                                     <>
-                                                        {index > 2 && index < 6 && <div key={index} className='mt-1'>
-                                                            <span className=''>{item.key}: </span>
-                                                            <span className='text-gray-500 '>{item.val}</span>
+                                                        {(index + 1) % 3 == 0 && index < 6 && <div key={index} className='mt-1'>
+                                                            <span className=''>{item.label}: </span>
+                                                            {/* <span className='text-gray-500 '>{item.value}</span> */}
+                                                            <span className='text-gray-500 prose ' dangerouslySetInnerHTML={{ __html: item.value }} />
                                                         </div>}
                                                     </>
                                                 )
                                             })}
                                         </div>
                                         <div className='w-[50%] sm:w-[30%] mt-2'>
-                                            {PropertyDetailsData.map((item, index) => {
+                                            {AllData.data?.detailsTab?.length && AllData.data?.detailsTab?.map((item, index) => {
                                                 return (
                                                     <>
-                                                        {index > 5 && <div key={index} className='mt-1'>
-                                                            <span className=''>{item.key}: </span>
-                                                            <span className='text-gray-500 '>{item.val}</span>
+                                                        {(index + 2) % 3 == 0 && <div key={index} className='mt-1'>
+                                                            <span className=''>{item.label}: </span>
+                                                            {/* <span className='text-gray-500 '>{item.value}</span> */}
+                                                            <span className='text-gray-500 prose ' dangerouslySetInnerHTML={{ __html: item.value }} />
                                                         </div>}
                                                     </>
                                                 )
@@ -432,11 +291,13 @@ const ProjectDetails = () => {
                                         </div>
                                     </div>
                                 </div>
-                                <div className='mt-8 pb-5'>
+                                <div className='mt-5 pb-5'>
                                     <p className={styles.title4 + 'ml-1'}>Amenities</p>
                                     <div className='flex flex-wrap justify-between mt-4'>
+                                        {/* AllData.data?.detailsTab?.amenitiesItems? */}
                                         {Amenities.map((item, index) => {
                                             return (
+                                                // <div className='prose flex w-[50%] min-w-[180px] sm:w-[30%]' dangerouslySetInnerHTML={{__html:item}}/>
                                                 <div key={index} className='flex w-[50%] min-w-[180px] sm:w-[30%]'>
                                                     <button className='w-8 h-8 p-1 flex justify-center -mt-1'> {item.icon === '' ? <MenuIcon classname={'h-4 w-4 mt-1'} />
                                                         : <i class={item.icon + ' text-gray-600 text-sm'}></i>
@@ -447,13 +308,14 @@ const ProjectDetails = () => {
                                             )
                                         })}
                                     </div>
+                                    {/* <div dangerouslySetInnerHTML={{ __html: htmlString }} /> */}
                                 </div>
                             </div>
                             <div id='1' className='bg-white shadow-md px-[2%] py-5 mt-10 scroll-mt-20'>
                                 <p className={styles.title4}>Property Brief</p>
-                                <div className='mt-2 prose' dangerouslySetInnerHTML={{__html:AllData.data?.descriptionTab?.description}}/>
+                                <div className='mt-1 prose min-w-full' dangerouslySetInnerHTML={{ __html: AllData.data?.descriptionTab?.description }} />
                                 {/* <p className='mt-2 text-[0.9rem] text-gray-700 whitespace-pre-line'>{AllData.data?.descriptionTab?.description}</p> */}
-                                <div className='mt-2'>
+                                <div className='mt-5'>
                                     <p className={styles.title4}>Map Location</p>
                                     <div className='flex flex-wrap gap-2 mt-2 items-start w-[80%]'>
                                         {AllData.data?.descriptionTab?.address?.map((item, index) => {
@@ -468,7 +330,7 @@ const ProjectDetails = () => {
                             <div id='2' className='bg-white shadow-md px-[2%] py-5 mt-10 scroll-mt-20'>
                                 <p className={styles.title4}>About Builder</p>
                                 {/* <p className='mt-2 text-[0.9rem] text-gray-700'>{aboutBuilder}</p> */}
-                                <div className='mt-2 prose prose-sm sm:prose-base' dangerouslySetInnerHTML={{__html:AllData.data?.aboutBuilderTab?.description}}/>
+                                <div className='mt-2 prose prose-sm sm:prose-base' dangerouslySetInnerHTML={{ __html: AllData.data?.aboutBuilderTab?.description }} />
                             </div>
 
                             <div id='3' className='mt-10 bg-white shadow-md px-[2%] py-5 w-full scroll-mt-20'>
@@ -547,20 +409,19 @@ const ProjectDetails = () => {
                             <div id='4' className='mt-10 bg-white shadow-md px-5 py-5 mb-10 scroll-mt-20'>
                                 <p className={styles.title3}>What's Nearby?</p>
                                 <div className='mt-5'>
-                                    {whatsNearbyData.map((item, index) => {
+                                    {AllData.data?.nearByTab?.nearby?.map((item, index) => {
                                         return (
                                             <div key={index} className={styles.title5 + 'mt-3'}>
                                                 <button className='mr-4 h-7 w-7 opacity-85 bg-orange-500 rounded-md' ><i class={item.icon + ' text-white text-sm'}></i></button>
-                                                <span>{item.item}</span>
+                                                <span>{item.name} - {item.quantity}</span>
                                             </div>
                                         )
                                     })}
                                 </div>
                             </div>
-                            <div id='5' className='mt-10 bg-white shadow-md px-5 py-5 mb-10 scroll-mt-20'>
-                                <FAQs />
-                            </div>
-
+                            {AllData.data?.faqtab?.faqs?.length > 0 && <div id='5' className='mt-10 bg-white shadow-md px-5 py-5 mb-10 scroll-mt-20'>
+                                <FAQs Data = {AllData.data?.faqtab?.faqs} />
+                            </div>}
                         </div>
 
                         <div className='w-full lg:w-[33%] xl:max-w-[400px]'>
@@ -569,9 +430,11 @@ const ProjectDetails = () => {
                             <RightListCard title={'Recent Blog'} data={AllData.recentBlogs} />
                         </div>
                     </div>
+                    <div className='mt-[50px]'>
+                        <PropertySlider type={'Similar Listings'} Data={AllData.similarListing} />
+                    </div>
 
                 </div>
-
             </div>
             <TopCItiesFilter />
             <Footer />

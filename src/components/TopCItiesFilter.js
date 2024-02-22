@@ -60,12 +60,10 @@ const TopCItiesFilter = () => {
     }
 
     return (
-        <div className='pt-5 px-[5%] pb-10 bg-gray-50 mt-14'>
+        <div className='px-[5%] pb-10 bg-gray-50 pt-14'>
              <h1 className={styles.title1}>Browse Residential Projects In Top Cities</h1>
-
             <div className='w-[95%] sm:flex justify-between pt-2 border-b-[1px] mt-10 border-b-gray-200'>
                 {/* <button className='p-1 focus:border-b-2 focus:border-gray-600 active:border-b-2 active:border-gray-600'>Ahmedabad</button> */}
-
                 {cities.map((item, index) => {
                     return (
                         <button key={index}

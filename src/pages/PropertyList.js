@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Header from '../components/Header/Header';
 import TopSearchNavBar from '../components/TopSearchNavBar';
 import { styles } from '../Styles/Styles';
@@ -14,6 +14,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import useApi from '../ApiConf';
 import Pagenation from '../components/Pagenation';
 import { setCurrPage } from '../Redux/reducer/User';
+import loader from '../assets/Icons/loader.gif';
+import ScrollUp from '../components/ScrollUp';
 
 const Localities = [
     { location: 'Shela (40)' },
@@ -143,16 +145,17 @@ const propertyTypes = ['Localities', 'Property Status', 'Budget'];
 const PropertyList = () => {
     const [contactModalStatus, setcontactModalStatus] = useState({ show: false, data: {} });
     const [propertyType, setPropertyType] = useState('Localities');
-    const { fetchData, error } = useApi();
     const { login_status, currLocation, propertyListState, currPage } = useSelector(state => state.User);
-    const dispatch = useDispatch();
     const [propertyListData, setPropertyListData] = useState({ currPage: 1, totalProperty: null, lastPage: null, propertyList: [] });
-    const [rightListData, setRightListData] = useState({ recentView: [], newProject: [] });
+    const [rightListData, setRightListData] = useState({ recentView: [], newProject: [],loading:true });
     const [loadingList, setLoadingList] = useState(true);
+    const { fetchData, error } = useApi();
+    const dispatch = useDispatch();
+    const scrollUpTarget = useRef();
 
     useEffect(() => {
         setLoadingList(true);
-        if(currPage > 1){
+        if (currPage > 1) {
             dispatch(setCurrPage(1));
         }
         getPropertyList(1);
@@ -162,7 +165,7 @@ const PropertyList = () => {
         if (currPage > 1) {
             setLoadingList(true);
             getPropertyList(currPage);
-            
+
         }
     }, [currPage]);
 
@@ -179,7 +182,7 @@ const PropertyList = () => {
         }
         if (data) {
             // console.log('rightlistdata....', data);
-            setRightListData({ recentView: data.recentView, newProject: data.newProjcts });
+            setRightListData({ recentView: data.recentView, newProject: data.newProjcts,loading:false});
         }
     }
 
@@ -238,14 +241,15 @@ const PropertyList = () => {
     return (
         <div className='mx-auto' >
             <Header />
-            <div className={'mt-[50px]'}>
+            <div className={'mt-[50px] '+(loadingList && 'opacity-70')}>
                 <TopSearchNavBar />
-                <div className='px-[2%] pt-24 container mx-auto py-5'>
-                    <div className={styles.textMedium}>
+                <div ref={scrollUpTarget} className='px-[2%] pt-24 container mx-auto py-5'>
+                    <div  className={styles.textMedium}>
                         <NavLink className={'hover:opacity-70'} to="/">Home</NavLink> {'> '}
                         Property for Sale in {currLocation.city}</div>
                     <div className='lg:flex gap-5'>
-                        {<div className='mt-5 tracking-wide'>
+
+                        {<div className='mt-5 tracking-wide lg:w-[64%]'>
                             <div>
                                 <p className={styles.textMedium}>Showing {(currPage - 1) * 25 + 1}-{(currPage - 1) * 25 + propertyListData?.propertyList?.length} of {propertyListData.totalProperty} property for {propertyListState?.propertyStatus?.text}</p>
                                 <p className={styles.title3 + 'mt-1'}>Property for Sale in {currLocation.city}</p>
@@ -270,18 +274,18 @@ const PropertyList = () => {
                                         )
                                     })}
                                 </div>
+                                {loadingList && <div className="fixed top-[100px] right-1/2 flex justify-center items-center mt-16">
+                                    {/* <i class={"fa-solid fa-spinner" + styles.loading}></i> */}
+                                    {/* <img alt="Please wait.." title="Please wait.." src="https://www.truehomes24.com/assets/front_end/images/loader.gif" /> */}
+                                    <img alt="Please wait.." title="Please wait.." src={loader} />
+                                </div>}
                                 <div>
-                                    {!loadingList ? propertyListData?.propertyList?.map((item, index) => {
+                                    {propertyListData?.propertyList?.map((item, index) => {
                                         return (
                                             <PropertyListCard key={index} func={onClickContactBtn} Data={item} />
                                         )
-                                    })
-                                        :
-                                        <div className="flex justify-center items-center mt-16">
-                                            {/* <div className="animate-spin ease-linear rounded-full border-8 border-t-8 border-gray-200 h-20 w-20"></div> */}
-                                            <i class={"fa-solid fa-spinner" + styles.loading}></i>
-                                        </div>
-                                    }
+                                    })}
+
                                     {(!loadingList && propertyListData?.propertyList?.length == 0) && <div className={styles.noDataFound}>
                                         No Data Available, Please try again.
                                     </div>}
@@ -296,7 +300,7 @@ const PropertyList = () => {
                         </div>}
 
 
-                        <div className='w-full lg:w-[35%] bg-slate-50 py-4 px-1'>
+                        <div className={'w-full lg:w-[35%] bg-slate-50 py-4 px-1 '+(rightListData.loading && 'opacity-50 animate-pulse bg-white')}>
                             <div>
                                 <RecentViewCard title={'Recent View Property'} Data={rightListData.recentView} />
                             </div>
@@ -312,6 +316,7 @@ const PropertyList = () => {
                     <PropertyForSlides />
                 </div>
             </div>
+            <ScrollUp targetElement={scrollUpTarget} />
             {contactModalStatus.show && <Contact Data={contactModalStatus.data} func={onCloseContact} />}
             <TopCItiesFilter />
             <Footer />

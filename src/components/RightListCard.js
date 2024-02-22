@@ -18,17 +18,19 @@ const RightListCard = ({ title, data }) => {
 
                             </div>
                             {title === 'Recent Blog' ? <div className='w-[75%]'>
-                                <p className={'font-semibold'}>{item.title}</p>
-                                <p className='text-gray-500'>{item.description}</p>
+                                <p className={'font-semibold line-clamp-2'}>{item.title}</p>
+                                {/* <p className='text-gray-500'>{item.description}</p> */}
+                                <div className='line-clamp-2 text-gray-500' dangerouslySetInnerHTML={{__html:item.description}}/>
                             </div>
                                 :
                                 <div className='w-[75%]'>
-                                    <p className={'font-semibold'}>{item.title}</p>
+                                    <p className={'font-semibold line-clamp-2'}>{item.title}</p>
                                     <div className='flex mt-1'>
                                         <LocationIcon classname={'h-4 w-4 mt-1'} />
                                         <p className='ml-1 text-gray-500'>{item.location}</p>
                                     </div>
-                                    <p className={'text-sm font-semibold ml-1'}>{'\u20B9'} {item.price}</p>
+                                    {/* <p className={'text-sm font-semibold ml-1'}>{'\u20B9'} {item.price}</p> */}
+                                    <div className='text-sm font-semibold ml-1' dangerouslySetInnerHTML={{__html:item.price}}/>
                                 </div>}
                         </div>
                     )

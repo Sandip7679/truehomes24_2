@@ -4,6 +4,7 @@ export const UserSlice = createSlice({
   name: 'user',
   initialState: {
     userData: null,
+    // footerData:null,
     currLocation: { country: '90', city: 'Ahmedabad', loaction: null, area: 'Ahmedabad',code:'9062' },
     propertyListState: {
       propertyStatus: { text: 'Buy', value: 'sale', index: 0 },

@@ -48,7 +48,7 @@ const PropertyListCard = ({ Data, func }) => {
             <div className='p-3 pb-0 text-left h-full w-full md:min-w-[62%] ml-[2%]'>
                 <div className='min-h-[205px]'>
                     <div className='flex justify-between'>
-                        <NavLink to={'/project_details'}><p className={styles.title4 + 'cursor-pointer hover:text-gray-500'}>{Data.projectName != '' ? Data.projectName : Data.title}</p></NavLink>
+                        <NavLink to={getPath()}><p className={styles.title4 + 'cursor-pointer hover:text-gray-500'}>{Data.projectName != '' ? Data.projectName : Data.title}</p></NavLink>
                         {Data.projectName != '' ? <p className={styles.title4}>{'\u20B9'} 2 Cr - 2.5 Cr</p> : Data.isVerified == 'Y' && <img alt='' src='https://www.truehomes24.com/assets/front_end/images/property/checkmark.svg' className='h-8 w-8 ml-2' />}
                     </div>
                     {Data.projectName != '' && <div className='text-sm mt-1'>
