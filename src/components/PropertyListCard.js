@@ -13,7 +13,8 @@ const PropertyListCard = ({ Data, func }) => {
     // const dispatch = useDispatch();
 
     const getPath = () => {
-        let arr = Data.details.split('/');
+        let arr = Data?.details?.split('/');
+        if(!arr?.length) return;
         let lastIndex = arr.length - 1;
         return `/${arr[lastIndex - 2]}/${arr[lastIndex - 1]}/${arr[lastIndex]}`;
     }

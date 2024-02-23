@@ -48,7 +48,7 @@ const Agents = () => {
                                 All Agents
                                 <DropdownIcon />
                             </button>
-                            <div className={styles.dropdownMenu+'pb-[0px]' }>
+                            <div className={styles.dropdownMenu + 'pb-[0px]'}>
                                 <div className={styles.dropdownItem}>All Agents</div>
                                 <div className={styles.dropdownItem}>Agents for Rent</div>
                                 <div className={styles.dropdownItem}>Agents for Buy</div>
@@ -69,7 +69,9 @@ const Agents = () => {
                                 <div className='mt-2 text-gray-600'>{item.saleNum} Properties for <span className='text-orange-500 font-semibold'>Sale</span></div>
                                 <div className='mt-2 text-gray-600'>{item.rentNun} Properties for <span className='text-orange-500 font-semibold'>Rent</span></div>
                                 <NavLink to={'/agent-profile'}
-                                className={'mt-5 sm:mt-8 bg-gray-700 px-4 py-1 border-[1px] text-white rounded-md cursor-pointer hover:bg-white hover:text-black hover:border-[1px] hover:border-black duration-500'}>View Profile</NavLink>
+                                    className={'mt-5 sm:mt-8 bg-gray-700 px-4 py-1 border-[1px] text-white rounded-md cursor-pointer hover:bg-white hover:text-black hover:border-[1px] hover:border-black duration-500'}>
+                                    View Profile
+                                </NavLink>
                             </div>
                         )
                     })}

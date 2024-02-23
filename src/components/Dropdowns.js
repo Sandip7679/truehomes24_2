@@ -42,21 +42,28 @@ export const DropdownHover = ({ Items, ItemClass, MenuClass }) => {
 const BHKmenu = ({ classname }) => {
     const { filterMenus, propertyListState } = useSelector(state => state.User);
     const dispatch = useDispatch();
+    const [bhkType, setBhkType] = useState('');
 
     return (
         <div className={styles.dropdownMenu + 'w-[120px] group-hover:block ' + classname}>
             {filterMenus?.bhk && filterMenus?.bhk.map((item, index) => {
                 return (
                     <label key={index}
-                        onClick={() => dispatch(setPropertyListState({ ...propertyListState, clearAll: false, BHKtype: item.value }))}
+                        onClick={() => {
+                            dispatch(setPropertyListState({ ...propertyListState, clearAll: false, BHKtype: item.value }));
+                            setBhkType(item.value);
+                        }}
                         className={styles.dropdownItem + 'cursor-pointer'}>
-                        <input checked={propertyListState.BHKtype === item.value} className='mt-[0.5px]' type='radio' />
+                        <input checked={bhkType === item.value} className='mt-[0.5px]' type='radio' />
                         <p className='ml-1'>{item.label}</p>
                     </label>
                 )
             })}
             <div
-                onClick={() => dispatch(setPropertyListState({ ...propertyListState, BHKtype: '' }))}
+                onClick={() => {
+                    dispatch(setPropertyListState({ ...propertyListState, BHKtype: '' }));
+                    setBhkType('');
+                }}
                 className={styles.textMedium + 'text-center my-2 cursor-pointer'}>Clear All</div>
         </div>
     );

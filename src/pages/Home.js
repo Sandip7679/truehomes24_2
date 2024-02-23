@@ -12,9 +12,11 @@ import Footer from '../components/Footer';
 import RecentAdded from '../components/RecentAdded';
 import Contact from '../components/Contact';
 import ScrollUp from '../components/ScrollUp';
-import { BudgetMenu, PropertyMenu } from '../components/Dropdowns';
+import BHKmenu, { BudgetMenu, PropertyMenu, PropertyTypeMenu } from '../components/Dropdowns';
 import NewsAndArticles from '../components/NewsAndArticles';
 import useApi from '../ApiConf';
+import { useDispatch, useSelector } from 'react-redux';
+import { setPropertyListState } from '../Redux/reducer/User';
 // import { NavLink } from 'react-router-dom';
 // import ApiConf from '../ApiConf';
 
@@ -167,9 +169,20 @@ const Home = () => {
     // const [propertyData, setPropertyData] = useState(null);
     const [contactModalStatus, setcontactModalStatus] = useState({ show: false, data: {} });
     const propertyElement = useRef();
+    const searchMenu = useRef();
+    const searchInput = useRef();
+    const homePage = useRef();
     const { fetchData, error } = useApi();
-    const [featuredProperties, setFeaturedProperties] = useState([]);
-    const [allProperties, setAllProperties] = useState({featured:[],newProjects:[]});
+    // const [featuredProperties, setFeaturedProperties] = useState([]);
+    const [allProperties, setAllProperties] = useState({ featured: [], newProjects: [] });
+    const [searchStatus, setSearchStatus] = useState({ quary: null, type: 'city', city: '', locality: '', cityName: null, localityName: null, projectName: null });
+    // const [selectedSearchItems,setSelectedSearchItems] = useState({city:null,});
+    const [searchResult, setSearchResult] = useState([]);
+    const { currLocation, propertyListState } = useSelector(state => state.User);
+    const dispatch = useDispatch();
+    const [isAgentProperty, setIsAgentProperty] = useState(false);
+    const [propertyStatus,setPropertyStatus] = useState(null);
+    const [propertycount,setPropertyCount] = useState(null);
 
     useEffect(() => {
 
@@ -185,32 +198,96 @@ const Home = () => {
         // });
 
         // getFeaturedProperties();
+
+
+        homePage.current.addEventListener('click', (e) => {
+            if (!searchMenu.current.contains(e.target) && !searchInput.current.contains(e.target)) {
+                setSearchResult([]);
+            }
+        });
         getAllProperties();
 
-    }, [])
+    }, []);
 
+    useEffect(() => {
+        if (searchStatus.quary != null && searchStatus.quary != '') {
+            let clearTime = setTimeout(() => {
+                getHomeSearchData();
+            }, 300)
+            return () => clearTimeout(clearTime);
+        }
+        else if (searchStatus.quary == '') {
+            setSearchResult([]);
+        }
+    }, [searchStatus.quary]);
 
-    // const getFeaturedProperties = async () => {
-    //     let data;
-    //     try {
-    //         data = await fetchData('featured-property-slider?limit=5&page=1', 'GET');
-    //     } catch (err) {
-    //         console.log(err);
-    //     }
-    //     if (data) {
-    //         setFeaturedProperties(Object.values(data.content));
-    //     }
-    // }
+    useEffect(()=>{
+            getPropertyCount();
+    },[propertyStatus,propertyListState,searchStatus])
+
+    const getHomeSearchData = async () => {
+        let data;
+        let quary = `${searchStatus.quary}` +
+            `&type=${searchStatus.type}` +
+            `&city=${searchStatus.city}` +
+            `&locality=${searchStatus.locality}`;
+        try {
+            data = await fetchData('home-search?query=' + quary, 'GET');
+            console.log('data.... data...', data)
+        } catch (err) {
+            console.log('err... data..', err);
+        }
+        if (data?.content) {
+            console.log('searchdata...', data);
+            setSearchResult(data.content);
+        }
+    }
+    const onClickSearchItem = (item) => {
+        let type = 'city';
+        let name = '';
+        if (searchStatus.type == 'city') {
+            type = 'locality';
+            name = 'cityName';
+        }
+        else if (searchStatus.type == 'locality') {
+            type = 'project';
+            name = 'localityName';
+        }
+        else if (searchStatus.type == 'project') {
+            type = '';
+            name = 'projectName';
+        }
+        setSearchStatus(pre => ({ ...pre, quary: '', [searchStatus.type]: item.id, type: type, [name]: item.name }));
+        // getPropertyCount();
+    }
+
+    const getPropertyCount = async () => {
+        let countData;
+        let query = `property_status=${propertyStatus}`+
+         `&property_type=${propertyListState.propertyTypes}`+
+         `&bedroom=${propertyListState?.BHKtype}`+
+         `&min_price=${propertyListState.priceRange[0]}&max_price=${propertyListState.priceRange[1]}`+
+         `&city=${searchStatus.city}`+`&locality=${searchStatus.locality}`
+        try {
+            countData = await fetchData('get-property-count?'+query, 'GET');
+            console.log('countData.... data...', countData);
+        } catch (err) {
+            console.log('err... countData..', err);
+        }
+        if(countData?.count){
+            setPropertyCount(countData.count);
+        }
+    }
 
     const getAllProperties = async () => {
         let featured
         try {
             featured = await fetchData('featured-property-slider?limit=5&page=1', 'GET');
-            console.log('featured.... data...',featured)
+            console.log('featured.... data...', featured)
         } catch (err) {
             console.log('err... featured..', err);
         }
-        if(featured){featured = Object.values(featured?.content)}
+        if (featured?.content) { featured = Object.values(featured?.content) }
 
         let newProjects
         try {
@@ -218,9 +295,9 @@ const Home = () => {
         } catch (err) {
             console.log(err);
         }
-        if(newProjects){newProjects = Object.values(newProjects.content)}
-  
-        setAllProperties(pre=>({...pre,featured:featured,newProjects:newProjects}));
+        if (newProjects) { newProjects = Object.values(newProjects.content) }
+
+        setAllProperties(pre => ({ ...pre, featured: featured, newProjects: newProjects }));
     }
 
     const onClickContactBtn = (item) => {
@@ -231,9 +308,8 @@ const Home = () => {
     }
 
     return (
-        <div className='overflow-x-hidden'>
+        <div ref={homePage} className='overflow-x-hidden'>
             <Header />
-
             <main
                 className="h-screen flex items-center justify-center bg-cover bg-center"
                 style={{
@@ -244,27 +320,73 @@ const Home = () => {
             >
                 <div className='container px-2 mx-auto sm:px-[10%]'>
                     <div className='sm:flex border-black '>
-                        <button className='px-2 lg:px-5 py-2 border-black bg-white hover:bg-gray-800 hover:text-white border-r-0 border-[1px]'>
+                        <button
+                            onClick={() => {
+                                localStorage.setItem('propertyStatus', 'sale');
+                                dispatch(setPropertyListState({ ...propertyListState, propertyStatus: { text: 'Buy', value: 'sale', index: 0 } }));
+                                setPropertyStatus('sale');
+                            }} 
+                            className={(propertyStatus == 'sale' ? 'bg-gray-800 text-white ':'bg-white ') +'px-2 lg:px-5 py-2 border-black hover:bg-gray-800 hover:text-white border-r-0 border-[1px]'}>
                             Buy
                         </button>
-                        <button className='px-2 lg:px-5 py-2 border-black bg-white hover:bg-gray-800 hover:text-white border-r-0 border-[1px]' >
+                        <button
+                            onClick={() => {
+                                localStorage.setItem('propertyStatus', 'rent');
+                                dispatch(setPropertyListState({ ...propertyListState, propertyStatus: { text: 'Rent', value: 'rent', index: 1 } }));
+                                setPropertyStatus('rent');
+                            }}
+                            className={(propertyStatus == 'rent' ? 'bg-gray-800 text-white ':'bg-white ') +'px-2 lg:px-5 py-2 border-black hover:bg-gray-800 hover:text-white border-r-0 border-[1px]'} >
                             Rent
                         </button>
-                        <button className='px-2 lg:px-5 py-2 border-black bg-white hover:bg-gray-800 hover:text-white border-[1px] border-r-0'>
+                        <button
+                            onClick={() => setPropertyStatus('agent')}
+                            className={(propertyStatus == 'agent' ? 'bg-gray-800 text-white ':'bg-white ') +'px-2 lg:px-5 py-2 border-black hover:bg-gray-800 hover:text-white border-[1px] border-r-0'}>
                             Agent Property
                         </button>
-                        <button className='px-2 lg:px-5 py-2 border-black bg-white hover:bg-gray-800 hover:text-white border-[1px]'>
+                        <button
+                            onClick={() => {
+                                localStorage.setItem('propertyStatus', 'new projects');
+                                dispatch(setPropertyListState({ ...propertyListState, propertyStatus: { text: 'New Project', value: 'new projects', index: 2 } }));
+                                setPropertyStatus('new project');
+                            }}
+                            className={(propertyStatus == 'new project' && 'bg-gray-800 text-white ') +'px-2 lg:px-5 py-2 border-black bg-white hover:bg-gray-800 hover:text-white border-[1px]'}>
                             New Project
                         </button>
                     </div>
                     <div className='relative bg-white px-5 py-5 '>
                         <div className='sm:flex mt-5 lg:mt-0 bg-white justify-between  border-[1px] border-gray-300'>
                             <div className='lg:flex justify-between px-2 py-2 w-[90%]'>
-                                <div className='flex min-w-[48%]'>
+                                <div ref={searchInput} className='flex min-w-[48%]'>
                                     <SearchIcon
                                         imageClass='w-5 h-5 mt-[6px]'
                                     />
-                                    <input placeholder='Pick City, Location, Project/Society...' className='pl-2 overflow-ellipsis text-sm sm:text-base w-full focus:outline-none' />
+                                    <div className='flex flex-wrap sm:flex-nowrap'>
+                                        {searchStatus.cityName && <button className={styles.btn + 'bg-white ml-1 flex-shrink-0 gap-1 rounded-xl'}>
+                                            {searchStatus.cityName}
+                                            <span onClick={() => setSearchStatus(pre => ({ ...pre, cityName: null, city: '', type: 'city' }))}>
+                                                <i class="fa-solid fa-xmark"></i>
+                                            </span>
+                                        </button>}
+                                        {searchStatus.localityName && <button className={styles.btn + 'bg-white ml-1 flex-shrink-0 gap-1 rounded-xl'}>
+                                            {searchStatus.localityName}
+                                            <span onClick={() => setSearchStatus(pre => ({ ...pre, localityName: null, locality: '', type: 'locality' }))}>
+                                                <i class="fa-solid fa-xmark"></i>
+                                            </span>
+                                        </button>}
+                                        {searchStatus.projectName && <button className={styles.btn + 'bg-white ml-1 flex-shrink-0 gap-1 rounded-xl'}>
+                                            {searchStatus.projectName}
+                                            <span onClick={() => setSearchStatus(pre => ({ ...pre, projectName: null, project: '', type: 'project' }))}>
+                                                <i class="fa-solid fa-xmark"></i>
+                                            </span>
+                                        </button>}
+                                    </div>
+                                    <input
+                                        placeholder={searchStatus.cityName ? '' : 'Pick City, Location, Project/Society...'}
+                                        className={'pl-2 overflow-ellipsis text-sm sm:text-base focus:outline-none ' + (!searchStatus.cityName && 'w-full')}
+                                        value={searchStatus.quary}
+                                        onChange={(e) => setSearchStatus(pre => ({ ...pre, quary: e.target.value }))}
+                                    />
+
                                 </div>
                                 <div className='absolute top-1 left-4 lg:relative flex min-w-[320px]'>
                                     <div className='relative group z-10'>
@@ -285,8 +407,8 @@ const Home = () => {
                                             BHK
                                             <Dropdown />
                                         </button>
-                                        {/* <BHKmenu/> */}
-                                        <div
+                                        <BHKmenu />
+                                        {/* <div
                                             id='bhk-menu'
                                             // className='absolute hidden top-[50px] w-[200px] md:w-[300px] border-[1px] p-3 border-gray-700 bg-white'
                                             className={`${styles.dropdownMenu} w-[260px] p-2 py-4`}
@@ -308,7 +430,7 @@ const Home = () => {
                                                     <p>4 BHK+</p>
                                                 </button>
                                             </div>
-                                        </div>
+                                        </div> */}
                                     </div>
                                     <div
                                         id='property-type'
@@ -320,7 +442,7 @@ const Home = () => {
                                             PROPERTY TYPE
                                             <Dropdown />
                                         </button>
-                                        <PropertyMenu />
+                                        <PropertyTypeMenu />
                                         {/* <div
                                             // onClick={() => document.getElementById('property-type-menu').classList.toggle('hidden')}
                                             id='property-type-menu'
@@ -342,15 +464,27 @@ const Home = () => {
                                 </div>
 
                             </div>
-                            <div className='items-center h-full justify-center'>
-                                <button className='hover:bg-white hover:text-black border-[1px] border-gray-400 duration-500 px-4 py-2 w-full sm:w-[100px] sm:h-[48px] bg-black text-white items-center justify-center'>
-                                    Search
+                            <div className='items-center flex-none justify-center'>
+                                <button className='hover:bg-white hover:text-black border-[1px] border-gray-400 duration-500 px-4 py-2 w-full sm:min-w-[100px] sm:h-[48px] bg-black text-white items-center justify-center'>
+                                    {propertycount?`View ${propertycount} Property`:'Search'}
                                 </button>
                             </div>
 
                         </div>
                     </div>
-
+                    <div ref={searchMenu} className='absolute bg-white rounded border-[1px] border-gray-500 max-h-[320px] w-[300px] sm:w-[450px] overflow-auto'>
+                        {searchResult?.map((item, index) => {
+                            return (
+                                <div
+                                    onClick={() => onClickSearchItem(item)}
+                                    // onKeyDown={()=>onClickSearchItem(item)}
+                                    className='flex gap-2 p-2 pl-4 hover:bg-gray-100 cursor-pointer'>
+                                    <img src={item.picture} className='h-6 w-6' />
+                                    <span>{item.name}</span>
+                                </div>
+                            )
+                        })}
+                    </div>
                 </div>
             </main>
 

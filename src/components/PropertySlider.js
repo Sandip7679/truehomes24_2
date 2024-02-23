@@ -48,7 +48,7 @@ const PropertySlider = ({ Data, type }) => {
 
                         }
                     >
-                        {Data.map((item, index) => {
+                        {Data?.length > 0 && Data?.map((item, index) => {
                             return (
                                 <div key={index} className=' rounded-md shadow-lg border-[1px] h-full mx-4  group'>
                                     <NavLink to={'/project_details'}>
