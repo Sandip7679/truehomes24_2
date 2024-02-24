@@ -9,7 +9,7 @@ export const UserSlice = createSlice({
     propertyListState: {
       propertyStatus: { text: 'Buy', value: 'sale', index: 0 },
       BHKtype: '',
-      propertyTypes: [],
+      propertyTypes: '',
       priceRange: ['', ''],
       moreStatus:{furnishingTypes:'',bathrooms:'',minArea:'',maxArea:'',newResale:'',constructionStatus:'',facing:'',amenities:'',listedBy:''},
       clearAll:false

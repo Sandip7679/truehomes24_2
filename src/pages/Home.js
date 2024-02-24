@@ -16,7 +16,8 @@ import BHKmenu, { BudgetMenu, PropertyMenu, PropertyTypeMenu } from '../componen
 import NewsAndArticles from '../components/NewsAndArticles';
 import useApi from '../ApiConf';
 import { useDispatch, useSelector } from 'react-redux';
-import { setPropertyListState } from '../Redux/reducer/User';
+import { setPropertyListState, setlocation } from '../Redux/reducer/User';
+import { NavLink } from 'react-router-dom';
 // import { NavLink } from 'react-router-dom';
 // import ApiConf from '../ApiConf';
 
@@ -180,9 +181,9 @@ const Home = () => {
     const [searchResult, setSearchResult] = useState([]);
     const { currLocation, propertyListState } = useSelector(state => state.User);
     const dispatch = useDispatch();
-    const [isAgentProperty, setIsAgentProperty] = useState(false);
-    const [propertyStatus,setPropertyStatus] = useState(null);
-    const [propertycount,setPropertyCount] = useState(null);
+    const [propertyStatus, setPropertyStatus] = useState(null);
+    const [propertycount, setPropertyCount] = useState(null);
+    const [curIndex, setCurrIndex] = useState(0);
 
     useEffect(() => {
 
@@ -206,7 +207,13 @@ const Home = () => {
             }
         });
         getAllProperties();
-
+        // dispatch(setPropertyListState({
+        //     propertyStatus: { text: 'Buy', value: 'sale', index: 0 },
+        //     BHKtype: '', propertyTypes: [],
+        //     priceRange: ['', ''],
+        //     moreStatus: { furnishingTypes: [], bathrooms: [], minArea: '', maxArea: '', newResale: '', constructionStatus: '', facing: [], amenities: [], listedBy: [] },
+        //     clearAll: true
+        // }))
     }, []);
 
     useEffect(() => {
@@ -221,9 +228,21 @@ const Home = () => {
         }
     }, [searchStatus.quary]);
 
-    useEffect(()=>{
+    useEffect(() => {
+        if (searchStatus.quary === ''
+            || propertyListState.BHKtype !== ''
+            || propertyListState.propertyTypes !== ''
+            || propertyStatus
+            || propertyListState.priceRange[0] !== ''
+            || propertyListState.priceRange[1] !== '') {
             getPropertyCount();
-    },[propertyStatus,propertyListState,searchStatus])
+        }
+    }, [propertyListState, searchStatus])
+    useEffect(() => {
+        if (searchStatus.quary === '' && propertyStatus == 'agent') {
+            getPropertyCount();
+        }
+    }, [propertyStatus])
 
     const getHomeSearchData = async () => {
         let data;
@@ -233,7 +252,7 @@ const Home = () => {
             `&locality=${searchStatus.locality}`;
         try {
             data = await fetchData('home-search?query=' + quary, 'GET');
-            console.log('data.... data...', data)
+            // console.log('data.... data...', data)
         } catch (err) {
             console.log('err... data..', err);
         }
@@ -257,25 +276,59 @@ const Home = () => {
             type = '';
             name = 'projectName';
         }
-        setSearchStatus(pre => ({ ...pre, quary: '', [searchStatus.type]: item.id, type: type, [name]: item.name }));
+        console.log('item...', item, 'type', type, 'name..', name);
+        setSearchStatus(pre => ({ ...pre, quary: '', [searchStatus.type]: item?.id, type: type, [name]: item?.name }));
+        if (curIndex > 0) {
+            setCurrIndex(0);
+        }
         // getPropertyCount();
     }
 
     const getPropertyCount = async () => {
         let countData;
-        let query = `property_status=${propertyStatus}`+
-         `&property_type=${propertyListState.propertyTypes}`+
-         `&bedroom=${propertyListState?.BHKtype}`+
-         `&min_price=${propertyListState.priceRange[0]}&max_price=${propertyListState.priceRange[1]}`+
-         `&city=${searchStatus.city}`+`&locality=${searchStatus.locality}`
+        let query = `property_status=${propertyStatus}` +
+            `&property_type=${propertyListState.propertyTypes}` +
+            `&bedroom=${propertyListState?.BHKtype}` +
+            `&min_price=${propertyListState.priceRange[0]}&max_price=${propertyListState.priceRange[1]}` +
+            `&city=${searchStatus.city}` + `&locality=${searchStatus.locality}`
         try {
-            countData = await fetchData('get-property-count?'+query, 'GET');
+            countData = await fetchData('get-property-count?' + query, 'GET');
             console.log('countData.... data...', countData);
         } catch (err) {
             console.log('err... countData..', err);
         }
-        if(countData?.count){
+        if (countData?.count !== null) {
+            // console.log('countData.count..', countData.count);
             setPropertyCount(countData.count);
+        }
+    }
+    const onSearchInputKeyPress = (event) => {
+        if (event.key === 'ArrowDown') {
+            event.preventDefault();
+            if (curIndex < searchResult.length - 1) {
+                setCurrIndex(curIndex + 1);
+            }
+        } else if (event.key === 'ArrowUp') {
+            event.preventDefault();
+            if (curIndex > 0) {
+                setCurrIndex(curIndex - 1);
+            }
+        } else if (event.key === 'Enter') {
+            if (searchResult.length > 0) {
+                onClickSearchItem(searchResult[curIndex]);
+            }
+        }
+    }
+
+    const getRoutePath = () => {
+
+        let propertystatus = localStorage.getItem('propertyStatus');
+        setlocation(dispatch({ ...currLocation, city: searchStatus.cityName, code: searchStatus.city }));
+        if (propertystatus == 'rent' || propertystatus == 'sale') {
+            return `/${propertystatus}/property-for-${propertystatus}-in-${searchStatus.cityName.toLowerCase()}`;
+        }
+        else if (propertystatus == 'new projects') {
+            return '/new-projects/new-projects-for-sale-in-' + searchStatus.cityName.toLowerCase();
         }
     }
 
@@ -325,8 +378,8 @@ const Home = () => {
                                 localStorage.setItem('propertyStatus', 'sale');
                                 dispatch(setPropertyListState({ ...propertyListState, propertyStatus: { text: 'Buy', value: 'sale', index: 0 } }));
                                 setPropertyStatus('sale');
-                            }} 
-                            className={(propertyStatus == 'sale' ? 'bg-gray-800 text-white ':'bg-white ') +'px-2 lg:px-5 py-2 border-black hover:bg-gray-800 hover:text-white border-r-0 border-[1px]'}>
+                            }}
+                            className={(propertyStatus == 'sale' ? 'bg-gray-800 text-white ' : 'bg-white ') + 'px-2 lg:px-5 py-2 border-black hover:bg-gray-800 hover:text-white border-r-0 border-[1px]'}>
                             Buy
                         </button>
                         <button
@@ -335,12 +388,12 @@ const Home = () => {
                                 dispatch(setPropertyListState({ ...propertyListState, propertyStatus: { text: 'Rent', value: 'rent', index: 1 } }));
                                 setPropertyStatus('rent');
                             }}
-                            className={(propertyStatus == 'rent' ? 'bg-gray-800 text-white ':'bg-white ') +'px-2 lg:px-5 py-2 border-black hover:bg-gray-800 hover:text-white border-r-0 border-[1px]'} >
+                            className={(propertyStatus == 'rent' ? 'bg-gray-800 text-white ' : 'bg-white ') + 'px-2 lg:px-5 py-2 border-black hover:bg-gray-800 hover:text-white border-r-0 border-[1px]'} >
                             Rent
                         </button>
                         <button
                             onClick={() => setPropertyStatus('agent')}
-                            className={(propertyStatus == 'agent' ? 'bg-gray-800 text-white ':'bg-white ') +'px-2 lg:px-5 py-2 border-black hover:bg-gray-800 hover:text-white border-[1px] border-r-0'}>
+                            className={(propertyStatus == 'agent' ? 'bg-gray-800 text-white ' : 'bg-white ') + 'px-2 lg:px-5 py-2 border-black hover:bg-gray-800 hover:text-white border-[1px] border-r-0'}>
                             Agent Property
                         </button>
                         <button
@@ -349,7 +402,7 @@ const Home = () => {
                                 dispatch(setPropertyListState({ ...propertyListState, propertyStatus: { text: 'New Project', value: 'new projects', index: 2 } }));
                                 setPropertyStatus('new project');
                             }}
-                            className={(propertyStatus == 'new project' && 'bg-gray-800 text-white ') +'px-2 lg:px-5 py-2 border-black bg-white hover:bg-gray-800 hover:text-white border-[1px]'}>
+                            className={(propertyStatus == 'new project' && 'bg-gray-800 text-white ') + 'px-2 lg:px-5 py-2 border-black bg-white hover:bg-gray-800 hover:text-white border-[1px]'}>
                             New Project
                         </button>
                     </div>
@@ -360,7 +413,7 @@ const Home = () => {
                                     <SearchIcon
                                         imageClass='w-5 h-5 mt-[6px]'
                                     />
-                                    <div className='flex flex-wrap sm:flex-nowrap'>
+                                    <div className='flex flex-wrap lg:flex-nowrap z-[500]'>
                                         {searchStatus.cityName && <button className={styles.btn + 'bg-white ml-1 flex-shrink-0 gap-1 rounded-xl'}>
                                             {searchStatus.cityName}
                                             <span onClick={() => setSearchStatus(pre => ({ ...pre, cityName: null, city: '', type: 'city' }))}>
@@ -381,6 +434,7 @@ const Home = () => {
                                         </button>}
                                     </div>
                                     <input
+                                        onKeyDown={onSearchInputKeyPress}
                                         placeholder={searchStatus.cityName ? '' : 'Pick City, Location, Project/Society...'}
                                         className={'pl-2 overflow-ellipsis text-sm sm:text-base focus:outline-none ' + (!searchStatus.cityName && 'w-full')}
                                         value={searchStatus.quary}
@@ -456,29 +510,30 @@ const Home = () => {
                                                         </label>
                                                     )
                                                 })}
-
                                             </div>
                                         </div> */}
                                     </div>
-
                                 </div>
-
                             </div>
-                            <div className='items-center flex-none justify-center'>
-                                <button className='hover:bg-white hover:text-black border-[1px] border-gray-400 duration-500 px-4 py-2 w-full sm:min-w-[100px] sm:h-[48px] bg-black text-white items-center justify-center'>
-                                    {propertycount?`View ${propertycount} Property`:'Search'}
-                                </button>
+                            <div
+                                className='items-center flex-none justify-center'>
+                                {/* <NavLink to={getRoutePath()}> */}
+                                    <button className='hover:bg-white hover:text-black border-[1px] border-gray-400 duration-500 px-4 py-2 w-full sm:min-w-[100px] sm:h-[48px] bg-black text-white items-center justify-center'>
+                                        {propertycount !== null ? `View ${propertycount} Properties` : 'Search'}
+                                    </button>
+                                {/* </NavLink> */}
+
                             </div>
 
                         </div>
                     </div>
-                    <div ref={searchMenu} className='absolute bg-white rounded border-[1px] border-gray-500 max-h-[320px] w-[300px] sm:w-[450px] overflow-auto'>
+                    <div
+                        ref={searchMenu} className='absolute bg-white rounded border-[1px] border-gray-500 max-h-[320px] w-[300px] sm:w-[450px] overflow-auto'>
                         {searchResult?.map((item, index) => {
                             return (
                                 <div
                                     onClick={() => onClickSearchItem(item)}
-                                    // onKeyDown={()=>onClickSearchItem(item)}
-                                    className='flex gap-2 p-2 pl-4 hover:bg-gray-100 cursor-pointer'>
+                                    className={(index == curIndex && 'bg-gray-100') + ' flex gap-2 p-2 pl-4 hover:bg-gray-100 cursor-pointer'}>
                                     <img src={item.picture} className='h-6 w-6' />
                                     <span>{item.name}</span>
                                 </div>

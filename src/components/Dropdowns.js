@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { styles } from '../Styles/Styles';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useLocation } from 'react-router-dom';
 import Slider from 'rc-slider';
 import 'rc-slider/assets/index.css';
 import { useDispatch, useSelector } from 'react-redux';
@@ -106,14 +106,24 @@ export const FurnishingTypeMenu = ({ classname }) => {
 export const PropertyTypeMenu = ({ classname }) => {
     const { filterMenus, propertyListState } = useSelector(state => state.User);
     const dispatch = useDispatch();
+    const routePath = useLocation();
     const [checkedItems, setCheckedItems] = useState([]);
 
     const handleOnCheckedItem = (e, index, value) => {
         let arr = [...checkedItems];
-        if (e.target.checked) {
-            arr[index] = value;
-        } else {
-            arr[index] = false;
+        if (routePath.pathname == '/') {
+            if (e.target.checked) {
+                arr[index] = false;
+            } else {
+                arr[index] = value;
+            }
+        }
+        else {
+            if (e.target.checked) {
+                arr[index] = value;
+            } else {
+                arr[index] = false;
+            }
         }
         setCheckedItems(arr);
         dispatch(setPropertyListState({ ...propertyListState, clearAll: false, propertyTypes: arr.filter(it => it).join('-') }));
@@ -130,12 +140,15 @@ export const PropertyTypeMenu = ({ classname }) => {
             className={`${styles.dropdownMenu} w-[260px] group-hover:block`}>
             <div class="space-y-2 max-h-[300px] py-3 overflow-y-auto">
                 {filterMenus?.propertyType && filterMenus?.propertyType.map((item, index) => {
-
                     return (
-                        <label key={index} class="flex hover:cursor-pointer hover:bg-gray-100 pl-2 items-center">
+                        <label
+                            key={index} class="flex hover:cursor-pointer hover:bg-gray-100 pl-2 items-center">
                             <input
+                                // onChange={(e) => handleOnCheckedItem(e, index, item.value)}
+                                onClick={(e) => handleOnCheckedItem(e, index, item.value)}
                                 checked={item.value == checkedItems[index]}
-                                onChange={(e) => handleOnCheckedItem(e, index, item.value)} type="checkbox" class="form-checkbox mt-1 h-4 w-4 text-blue-500" />
+                                type="checkbox" class="form-checkbox mt-1 h-4 w-4 text-blue-500"
+                            />
                             <span class={styles.textMedium + "ml-2"}>{item.label}</span>
                         </label>
                     )
@@ -158,7 +171,7 @@ let max = 10000;
 export const BudgetMenu = ({ classname }) => {
     const { filterMenus, propertyListState } = useSelector(state => state.User);
     const [priceRange, setPriceRange] = useState([0, 100000000]);
-    const [maxPrice, setMaxPrice] = useState(100); // Initial price range
+    // const [maxPrice, setMaxPrice] = useState(100); // Initial price range
     const [menus, setMenus] = useState([]);
     const dispatch = useDispatch();
     useEffect(() => {
@@ -178,7 +191,7 @@ export const BudgetMenu = ({ classname }) => {
     }, [propertyListState.propertyStatus, filterMenus]);
 
     useEffect(() => {
-        if (priceRange[0] != 0 && priceRange[1] != 100000000) {
+        if (priceRange[0] != 0 || priceRange[1] != 100000000) {
             let clearTime = setTimeout(() => {
                 dispatch(setPropertyListState({ ...propertyListState, priceRange: [priceRange[0], priceRange[1]] }));
             }, 600)
