@@ -176,14 +176,15 @@ const Home = () => {
     const { fetchData, error } = useApi();
     // const [featuredProperties, setFeaturedProperties] = useState([]);
     const [allProperties, setAllProperties] = useState({ featured: [], newProjects: [] });
-    const [searchStatus, setSearchStatus] = useState({ quary: null, type: 'city', city: '', locality: '', cityName: null, localityName: null, projectName: null });
-    // const [selectedSearchItems,setSelectedSearchItems] = useState({city:null,});
+    const [searchStatus, setSearchStatus] = useState({ quary: null, type: 'city', city: '', locality: '', cityName: null, localityName: null, project: '', projectName: null });
     const [searchResult, setSearchResult] = useState([]);
     const { currLocation, propertyListState } = useSelector(state => state.User);
     const dispatch = useDispatch();
     const [propertyStatus, setPropertyStatus] = useState(null);
     const [propertycount, setPropertyCount] = useState(null);
     const [curIndex, setCurrIndex] = useState(0);
+    const [noSuggestion, setNoSuggestion] = useState(true);
+    const [isInValidLocation, setIsInvalidLocation] = useState(false);
 
     useEffect(() => {
 
@@ -204,6 +205,7 @@ const Home = () => {
         homePage.current.addEventListener('click', (e) => {
             if (!searchMenu.current.contains(e.target) && !searchInput.current.contains(e.target)) {
                 setSearchResult([]);
+                setNoSuggestion(false);
             }
         });
         getAllProperties();
@@ -214,6 +216,14 @@ const Home = () => {
         //     moreStatus: { furnishingTypes: [], bathrooms: [], minArea: '', maxArea: '', newResale: '', constructionStatus: '', facing: [], amenities: [], listedBy: [] },
         //     clearAll: true
         // }))
+        dispatch(setPropertyListState({
+            propertyStatus: { text: 'Buy', value: 'sale', for: 'Sale', index: 0 },
+            BHKtype: '',
+            propertyTypes: '',
+            priceRange: ['', ''],
+            moreStatus: { furnishingTypes: '', bathrooms: '', minArea: '', maxArea: '', newResale: '', constructionStatus: '', facing: '', amenities: '', listedBy: '' },
+            clearAll: true
+        }))
     }, []);
 
     useEffect(() => {
@@ -242,7 +252,7 @@ const Home = () => {
         if (searchStatus.quary === '' && propertyStatus == 'agent') {
             getPropertyCount();
         }
-    }, [propertyStatus])
+    }, [propertyStatus]);
 
     const getHomeSearchData = async () => {
         let data;
@@ -255,10 +265,12 @@ const Home = () => {
             // console.log('data.... data...', data)
         } catch (err) {
             console.log('err... data..', err);
+            setNoSuggestion(true);
         }
         if (data?.content) {
             console.log('searchdata...', data);
             setSearchResult(data.content);
+            setNoSuggestion(true);
         }
     }
     const onClickSearchItem = (item) => {
@@ -286,7 +298,7 @@ const Home = () => {
 
     const getPropertyCount = async () => {
         let countData;
-        let query = `property_status=${propertyStatus}` +
+        let query = `property_status=${propertyStatus ? propertyStatus : 'sale'}` +
             `&property_type=${propertyListState.propertyTypes}` +
             `&bedroom=${propertyListState?.BHKtype}` +
             `&min_price=${propertyListState.priceRange[0]}&max_price=${propertyListState.priceRange[1]}` +
@@ -321,15 +333,43 @@ const Home = () => {
     }
 
     const getRoutePath = () => {
+        console.log('propertyStatus...', propertyStatus);
+        if (!propertycount || propertycount == 0 || !searchStatus.city) return;
+        // let propertystatus = localStorage.getItem('propertyStatus');
+        let str = `${searchStatus.localityName ? ('-in-' + searchStatus.localityName.split(' ').join('-').toLowerCase()) : ''}` +
+            `-in-${searchStatus.cityName ? searchStatus.cityName.split(' ').join('-').toLowerCase() : currLocation.area?.split(' ').join('-').toLowerCase()}`;
 
-        let propertystatus = localStorage.getItem('propertyStatus');
-        setlocation(dispatch({ ...currLocation, city: searchStatus.cityName, code: searchStatus.city }));
-        if (propertystatus == 'rent' || propertystatus == 'sale') {
-            return `/${propertystatus}/property-for-${propertystatus}-in-${searchStatus.cityName.toLowerCase()}`;
+        if (propertyStatus == 'rent' || propertyStatus == 'sale') {
+            return `/${propertyStatus}/property-for-${propertyStatus}` + str;
         }
-        else if (propertystatus == 'new projects') {
-            return '/new-projects/new-projects-for-sale-in-' + searchStatus.cityName.toLowerCase();
+        else if (propertyStatus == 'new project') {
+            return '/new-projects/new-projects-for-sale' + str;
         }
+        else if (propertyStatus == 'agent') {
+            return `/agent/real-estate-agents` + str;
+        }
+        else if (!propertyStatus) {
+            return `/sale/property-for-sale` + str;
+        }
+    }
+
+    const setLocation = () => {
+        if (!propertycount || propertycount == 0) return;
+        if (!searchStatus.city) {
+            setIsInvalidLocation(true);
+            return;
+        }
+        // let propertystatus = localStorage.getItem('propertyStatus');
+        let location = {
+            country: '90',
+            city: searchStatus.cityName ? searchStatus.cityName : currLocation.city,
+            code: searchStatus.city !== '' ? searchStatus.city : currLocation.code,
+            area: searchStatus.cityName ? searchStatus.cityName : currLocation.area,
+            location: searchStatus.locality,
+            locationName: searchStatus.localityName
+        }
+        localStorage.setItem('location', JSON.stringify({ ...currLocation, ...location }));
+        dispatch(setlocation({ ...currLocation, ...location }));
     }
 
     const getAllProperties = async () => {
@@ -376,7 +416,7 @@ const Home = () => {
                         <button
                             onClick={() => {
                                 localStorage.setItem('propertyStatus', 'sale');
-                                dispatch(setPropertyListState({ ...propertyListState, propertyStatus: { text: 'Buy', value: 'sale', index: 0 } }));
+                                dispatch(setPropertyListState({ ...propertyListState, propertyStatus: { text: 'Buy', value: 'sale', for: 'Sale', index: 0 } }));
                                 setPropertyStatus('sale');
                             }}
                             className={(propertyStatus == 'sale' ? 'bg-gray-800 text-white ' : 'bg-white ') + 'px-2 lg:px-5 py-2 border-black hover:bg-gray-800 hover:text-white border-r-0 border-[1px]'}>
@@ -385,7 +425,7 @@ const Home = () => {
                         <button
                             onClick={() => {
                                 localStorage.setItem('propertyStatus', 'rent');
-                                dispatch(setPropertyListState({ ...propertyListState, propertyStatus: { text: 'Rent', value: 'rent', index: 1 } }));
+                                dispatch(setPropertyListState({ ...propertyListState, propertyStatus: { text: 'Rent', value: 'rent', for: 'Rent', index: 1 } }));
                                 setPropertyStatus('rent');
                             }}
                             className={(propertyStatus == 'rent' ? 'bg-gray-800 text-white ' : 'bg-white ') + 'px-2 lg:px-5 py-2 border-black hover:bg-gray-800 hover:text-white border-r-0 border-[1px]'} >
@@ -399,7 +439,7 @@ const Home = () => {
                         <button
                             onClick={() => {
                                 localStorage.setItem('propertyStatus', 'new projects');
-                                dispatch(setPropertyListState({ ...propertyListState, propertyStatus: { text: 'New Project', value: 'new projects', index: 2 } }));
+                                dispatch(setPropertyListState({ ...propertyListState, propertyStatus: { text: 'New Project', value: 'new projects', for: 'Sale', index: 2 } }));
                                 setPropertyStatus('new project');
                             }}
                             className={(propertyStatus == 'new project' && 'bg-gray-800 text-white ') + 'px-2 lg:px-5 py-2 border-black bg-white hover:bg-gray-800 hover:text-white border-[1px]'}>
@@ -407,47 +447,58 @@ const Home = () => {
                         </button>
                     </div>
                     <div className='relative bg-white px-5 py-5 '>
-                        <div className='sm:flex mt-5 lg:mt-0 bg-white justify-between  border-[1px] border-gray-300'>
-                            <div className='lg:flex justify-between px-2 py-2 w-[90%]'>
+                        <div className='xl:flex mt-5 lg:mt-0 bg-white justify-between  border-[1px] border-gray-300'>
+                            <div className='lg:flex justify-between px-2 py-2 w-full xl:w-[90%]'>
                                 <div ref={searchInput} className='flex min-w-[48%]'>
                                     <SearchIcon
                                         imageClass='w-5 h-5 mt-[6px]'
                                     />
-                                    <div className='flex flex-wrap lg:flex-nowrap z-[500]'>
-                                        {searchStatus.cityName && <button className={styles.btn + 'bg-white ml-1 flex-shrink-0 gap-1 rounded-xl'}>
+                                    <div className='flex flex-wrap lg:flex-nowrap z-[500] gap-1'>
+                                        {searchStatus.cityName && <button className={styles.btn + 'bg-white flex-shrink-0 gap-1 rounded-xl'}>
                                             {searchStatus.cityName}
                                             <span onClick={() => setSearchStatus(pre => ({ ...pre, cityName: null, city: '', type: 'city' }))}>
                                                 <i class="fa-solid fa-xmark"></i>
                                             </span>
                                         </button>}
-                                        {searchStatus.localityName && <button className={styles.btn + 'bg-white ml-1 flex-shrink-0 gap-1 rounded-xl'}>
+                                        {searchStatus.localityName && <button className={styles.btn + 'bg-white flex-shrink-0 gap-1 rounded-xl'}>
                                             {searchStatus.localityName}
-                                            <span onClick={() => setSearchStatus(pre => ({ ...pre, localityName: null, locality: '', type: 'locality' }))}>
+                                            <span onClick={() => setSearchStatus(pre => ({
+                                                ...pre, localityName: null, locality: '',
+                                                type: searchStatus.cityName ? 'locality' : 'city'
+                                            }))}>
                                                 <i class="fa-solid fa-xmark"></i>
                                             </span>
                                         </button>}
-                                        {searchStatus.projectName && <button className={styles.btn + 'bg-white ml-1 flex-shrink-0 gap-1 rounded-xl'}>
+                                        {searchStatus.projectName && <button className={styles.btn + 'bg-white flex-shrink-0 gap-1 rounded-xl overflow-ellipsis'}>
+                                            {/* <p className='text-ellipsis w-[100px]'>{searchStatus.projectName}</p> */}
                                             {searchStatus.projectName}
-                                            <span onClick={() => setSearchStatus(pre => ({ ...pre, projectName: null, project: '', type: 'project' }))}>
+                                            <span onClick={() => setSearchStatus(pre => ({
+                                                ...pre, projectName: null, project: '',
+                                                type: searchStatus.cityName ? searchStatus.localityName ? 'project' : 'locality' : 'city'
+                                            }))}>
                                                 <i class="fa-solid fa-xmark"></i>
                                             </span>
                                         </button>}
                                     </div>
                                     <input
                                         onKeyDown={onSearchInputKeyPress}
-                                        placeholder={searchStatus.cityName ? '' : 'Pick City, Location, Project/Society...'}
+                                        onClick={() => {
+                                            if (searchStatus.quary?.length > 0) { getHomeSearchData() }
+                                            if (isInValidLocation) { setIsInvalidLocation(false) }
+                                        }}
+                                        placeholder={searchStatus.cityName || searchStatus.localityName || searchStatus.projectName ? '' : 'Pick City, Location, Project/Society...'}
                                         className={'pl-2 overflow-ellipsis text-sm sm:text-base focus:outline-none ' + (!searchStatus.cityName && 'w-full')}
                                         value={searchStatus.quary}
                                         onChange={(e) => setSearchStatus(pre => ({ ...pre, quary: e.target.value }))}
                                     />
 
                                 </div>
-                                <div className='absolute top-1 left-4 lg:relative flex min-w-[320px]'>
-                                    <div className='relative group z-10'>
+                                <div className='absolute top-1 left-4 lg:relative flex min-w-[300px]'>
+                                    <div className='relative group z-50'>
                                         <button
                                             id='bugdet-btn'
                                             // onClick={() => document.getElementById('bugdet-menu').classList.toggle('hidden')}
-                                            className={styles.btnBorderLess + 'px-[5px]'}>
+                                            className={styles.btnBorderLess + 'px-[1px] hover:bg-white'}>
                                             BUGDET
                                             <Dropdown />
                                         </button>
@@ -457,7 +508,7 @@ const Home = () => {
                                         <button
                                             // onClick={() => document.getElementById('bhk-menu').classList.toggle('hidden')}
                                             id='bhk-btn'
-                                            className={styles.btnBorderLess + 'px-[5px]'}>
+                                            className={styles.btnBorderLess + 'px-[5px] hover:bg-white'}>
                                             BHK
                                             <Dropdown />
                                         </button>
@@ -492,7 +543,7 @@ const Home = () => {
                                         <button
                                             // onClick={() => document.getElementById('property-type-menu').classList.toggle('hidden')}
                                             id='property-type-btn'
-                                            className={styles.btnBorderLess + 'px-[5px]'}>
+                                            className={styles.btnBorderLess + 'px-[5px] hover:bg-transparent'}>
                                             PROPERTY TYPE
                                             <Dropdown />
                                         </button>
@@ -517,15 +568,20 @@ const Home = () => {
                             </div>
                             <div
                                 className='items-center flex-none justify-center'>
-                                {/* <NavLink to={getRoutePath()}> */}
-                                    <button className='hover:bg-white hover:text-black border-[1px] border-gray-400 duration-500 px-4 py-2 w-full sm:min-w-[100px] sm:h-[48px] bg-black text-white items-center justify-center'>
+                                <NavLink to={getRoutePath()}>
+                                    <button
+                                        onClick={setLocation}
+                                        className='hover:bg-white hover:text-black border-[1px] border-gray-400 duration-500 px-4 py-2 w-full sm:min-w-[100px] sm:h-[48px] bg-black text-white items-center justify-center'>
                                         {propertycount !== null ? `View ${propertycount} Properties` : 'Search'}
                                     </button>
-                                {/* </NavLink> */}
+                                </NavLink>
 
                             </div>
 
                         </div>
+                        {searchStatus.quary?.length > 0 && searchResult.length == 0 && noSuggestion && <p className='text-xs text-red-600'>No suggestions</p>}
+                        {searchStatus.projectName && <p className='text-xs text-red-600'>You can not choose more than 3 items</p>}
+                        {!searchStatus.city && isInValidLocation && <p className='text-xs text-red-600'>Please choose a city!</p>}
                     </div>
                     <div
                         ref={searchMenu} className='absolute bg-white rounded border-[1px] border-gray-500 max-h-[320px] w-[300px] sm:w-[450px] overflow-auto'>
@@ -534,8 +590,14 @@ const Home = () => {
                                 <div
                                     onClick={() => onClickSearchItem(item)}
                                     className={(index == curIndex && 'bg-gray-100') + ' flex gap-2 p-2 pl-4 hover:bg-gray-100 cursor-pointer'}>
-                                    <img src={item.picture} className='h-6 w-6' />
-                                    <span>{item.name}</span>
+                                    <div>
+                                        <img src={item.picture} className='h-6 w-6 mt-2' />
+                                    </div>
+                                    <div>
+                                        <p>{item.name}</p>
+                                        <p className='text-xs text-gray-400'>{searchStatus.type.toUpperCase()}</p>
+                                    </div>
+                                    {/* <span>{item.name}</span> */}
                                 </div>
                             )
                         })}

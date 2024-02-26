@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Dropdown, { SearchIcon } from './svgIcons';
 import homeKey from '../assets/Icons/home-key.png';
 import buyIcon from '../assets/Icons/buy-buy.png';
@@ -7,7 +7,7 @@ import { styles } from '../Styles/Styles';
 import BHKmenu, { BudgetMenu, MoreMenu, PropertyTypeMenu } from './Dropdowns';
 // import { useParams, useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { setFileterMenus, setPropertyListState } from '../Redux/reducer/User';
+import { setFileterMenus, setPropertyListState, setlocation } from '../Redux/reducer/User';
 import { NavLink } from 'react-router-dom';
 import useApi from '../ApiConf';
 // import { document } from 'postcss';
@@ -57,6 +57,13 @@ const searchTypes = [
 
 const TopSearchNavBar = () => {
     const { currLocation, propertyListState, filterMenus } = useSelector(state => state.User);
+
+    const [searchStatus, setSearchStatus] = useState({ quary: null, type: 'city', city: '', locality: '', cityName: null, localityName: null, project: '', projectName: null });
+    const [searchResult, setSearchResult] = useState([]);
+    const [curIndex, setCurrIndex] = useState(0);
+    const [noSuggestion, setNoSuggestion] = useState(true);
+    const [isInValidLocation, setIsInvalidLocation] = useState(false);
+    const searchMenu = useRef();
     const dispatch = useDispatch();
     const { fetchData, error } = useApi();
     useEffect(() => {
@@ -69,6 +76,18 @@ const TopSearchNavBar = () => {
         closeOnClickOutside('shortBy-dropdown', 'shortBy-menu');
 
     }, []);
+
+    useEffect(() => {
+        if (searchStatus.quary != null && searchStatus.quary != '') {
+            let clearTime = setTimeout(() => {
+                getHomeSearchData();
+            }, 300)
+            return () => clearTimeout(clearTime);
+        }
+        else if (searchStatus.quary == '') {
+            setSearchResult([]);
+        }
+    }, [searchStatus.quary]);
 
     const closeOnClickOutside = (parentId, childId) => {
         document.addEventListener('click', (e) => {
@@ -92,6 +111,84 @@ const TopSearchNavBar = () => {
         }
     }
 
+    const getHomeSearchData = async () => {
+        let data;
+        let quary = `${searchStatus.quary}` +
+            `&type=${searchStatus.type}` +
+            `&city=${searchStatus.city}` +
+            `&locality=${searchStatus.locality}`;
+        try {
+            data = await fetchData('home-search?query=' + quary, 'GET');
+            // console.log('data.... data...', data)
+        } catch (err) {
+            console.log('err... data..', err);
+            setNoSuggestion(true);
+        }
+        if (data?.content) {
+            console.log('searchdata...', data);
+            setSearchResult(data.content);
+            setNoSuggestion(true);
+        }
+    }
+    const onSearchInputKeyPress = (event) => {
+        if (event.key === 'ArrowDown') {
+            event.preventDefault();
+            if (curIndex < searchResult.length - 1) {
+                setCurrIndex(curIndex + 1);
+            }
+        } else if (event.key === 'ArrowUp') {
+            event.preventDefault();
+            if (curIndex > 0) {
+                setCurrIndex(curIndex - 1);
+            }
+        } else if (event.key === 'Enter') {
+            if (searchResult.length > 0) {
+                onClickSearchItem(searchResult[curIndex]);
+            }
+        }
+    }
+
+    const onClickSearchItem = (item) => {
+        let type = 'city';
+        let name = '';
+        if (searchStatus.type == 'city') {
+            type = 'locality';
+            name = 'cityName';
+        }
+        else if (searchStatus.type == 'locality') {
+            type = 'project';
+            name = 'localityName';
+        }
+        else if (searchStatus.type == 'project') {
+            type = '';
+            name = 'projectName';
+        }
+        console.log('item...', item, 'type', type, 'name..', name);
+        setSearchStatus(pre => ({ ...pre, quary: '', [searchStatus.type]: item?.id, type: type, [name]: item?.name }));
+        if (curIndex > 0) {
+            setCurrIndex(0);
+        }
+        // getPropertyCount();
+    }
+    const setLocation = () => {
+        // if (!propertycount || propertycount == 0) return;
+        if (!searchStatus.city) {
+            setIsInvalidLocation(true);
+            return;
+        }
+        // let propertystatus = localStorage.getItem('propertyStatus');
+        let location = {
+            country: '90',
+            city: searchStatus.cityName ? searchStatus.cityName : currLocation.city,
+            code: searchStatus.city !== '' ? searchStatus.city : currLocation.code,
+            area: searchStatus.cityName ? searchStatus.cityName : currLocation.area,
+            location: searchStatus.locality,
+            locationName: searchStatus.localityName
+        }
+        localStorage.setItem('location', JSON.stringify({ ...currLocation, ...location }));
+        dispatch(setlocation({ ...currLocation, ...location }));
+    }
+
     return (
         <div className={styles.textMedium + 'w-screen mx-auto shadow fixed bg-white z-[1500]'}>
             <div className='relative p-2 xl:container pt-5 xl:flex gap-2 pl-[1%]'>
@@ -102,6 +199,7 @@ const TopSearchNavBar = () => {
                             <p className={styles.textMedium + 'font-semibold text-gray-800'}>{propertyListState?.propertyStatus?.text}</p>
                             <Dropdown />
                         </button>
+
                         <div className={styles.dropdownMenu + 'p-0 pt-[0px] group-hover:block w-[170px]'}>
                             {searchTypes.map((item, index) => {
                                 return (
@@ -121,14 +219,77 @@ const TopSearchNavBar = () => {
                         </div>
                     </div>
 
-                    <div className='xs:flex w-full'>
-                        <div>
-                            <SearchIcon imageClass={'w-5 h-5 absolute left-2 top-3'} />
+                    <div className='w-full xs:flex'>
+                        <div className='relative w-full xs:flex gap-1 border-gray-300 rounded xs:border-r-0 rounded-r-none border-[1px]'>
+                            <div>
+                                {/* <SearchIcon imageClass={'w-5 h-5 absolute left-2 top-3'} /> */}
+                                <SearchIcon imageClass={'w-5 h-5 mt-3 ml-1'} />
+                            </div>
+                            <div className='flex lg:flex-nowrap z-[500] gap-1 items-center'>
+                                {searchStatus.cityName && <button className={' flex-nowrap h-7 px-1 text-sm border-[1px] border-gray-500 flex-shrink-0 gap-1 rounded-xl'}>
+                                    {searchStatus.cityName}
+                                    <span onClick={() => setSearchStatus(pre => ({ ...pre, cityName: null, city: '', type: 'city' }))}>
+                                        <i class="fa-solid fa-xmark"></i>
+                                    </span>
+                                </button>}
+                                {searchStatus.localityName && <button className={'flex-nowrap h-7 px-1 text-sm border-[1px] border-gray-500 flex-shrink-0 gap-1 rounded-xl'}>
+                                    {searchStatus.localityName}
+                                    <span onClick={() => setSearchStatus(pre => ({
+                                        ...pre, localityName: null, locality: '',
+                                        type: searchStatus.cityName ? 'locality' : 'city'
+                                    }))}>
+                                        <i class="fa-solid fa-xmark"></i>
+                                    </span>
+                                </button>}
+                                {searchStatus.projectName && <button className={'flex-nowrap h-7 px-1 text-sm border-[1px] border-gray-500 flex-shrink-0 gap-1 rounded-xl'}>
+                                    {/* <p className='text-ellipsis w-[100px]'>{searchStatus.projectName}</p> */}
+                                    {searchStatus.projectName}
+                                    <span onClick={() => setSearchStatus(pre => ({
+                                        ...pre, projectName: null, project: '',
+                                        type: searchStatus.cityName ? searchStatus.localityName ? 'project' : 'locality' : 'city'
+                                    }))}>
+                                        <i class="fa-solid fa-xmark"></i>
+                                    </span>
+                                </button>}
+                            </div>
+                            <input
+                                // className={styles.textMedium + ' overflow-ellipsis focus:outline-none border-gray-300 rounded xs:border-r-0 rounded-r-none border-[1px] w-[100%] py-2 pl-8'}
+                                className={styles.textMedium + ' overflow-ellipsis focus:outline-none py-2'}
+                                placeholder='Pick City, Location, Project/Society...'
+                                value={searchStatus.quary}
+                                onChange={(e) => setSearchStatus(pre => ({ ...pre, quary: e.target.value }))}
+                                onKeyDown={onSearchInputKeyPress}
+                                onClick={() => {
+                                    if (searchStatus.quary?.length > 0) { getHomeSearchData() }
+                                    if (isInValidLocation) { setIsInvalidLocation(false) }
+                                }}
+                            />
                         </div>
-                        <input className={styles.textMedium + ' overflow-ellipsis focus:outline-none border-gray-300 rounded xs:border-r-0 rounded-r-none border-[1px] w-[100%] py-2 pl-8'} placeholder='Pick City, Location, Project/Society...' />
-                        <button className='bg-orange-500 hover:bg-orange-600 rounded xs:rounded-none xs:rounded-r-full p-2 w-full xs:w-16 mt-2 xs:mt-0'>
+
+                        <button 
+                         onClick={setLocation}
+                         className='bg-orange-500 hover:bg-orange-600 rounded xs:rounded-none xs:rounded-r-full p-2 w-full xs:w-16 mt-2 xs:mt-0'>
                             <p className={styles.textMedium + 'text-white'}>Search</p>
                         </button>
+                        <div
+                            ref={searchMenu} className={(searchResult.length > 0 ? 'border-[1px] border-gray-500' : '') + ' shadow-lg absolute top-12 bg-white rounded max-h-[320px] w-[300px] sm:w-[450px] overflow-auto'}>
+                            {searchResult?.map((item, index) => {
+                                return (
+                                    <div
+                                        onClick={() => onClickSearchItem(item)}
+                                        className={(index == curIndex && 'bg-gray-100') + ' flex gap-2 p-2 pl-4 hover:bg-gray-100 cursor-pointer'}>
+                                        <div>
+                                            <img src={item.picture} className='h-6 w-6 mt-2' />
+                                        </div>
+                                        <div>
+                                            <p>{item.name}</p>
+                                            <p className='text-xs text-gray-400'>{searchStatus.type.toUpperCase()}</p>
+                                        </div>
+                                        {/* <span>{item.name}</span> */}
+                                    </div>
+                                )
+                            })}
+                        </div>
                     </div>
                 </div>
 

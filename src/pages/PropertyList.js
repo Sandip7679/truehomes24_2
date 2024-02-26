@@ -33,112 +33,6 @@ const Localities = [
     { location: 'Shela (40)' },
     { location: 'Shela (40)' },
 ]
-// const Data = [
-//     {
-//         "title": "1 BHK Apartment  for Sale  in Rainbow Chetna, Perambur, Chennai",
-//         "link": "https://www.truehomes24.com/api/sale/1-bhk-apartment-for-sale-in-rainbow-chetna-perambur-chennai/1000-57159",
-//         "property_url": "/sale/1-bhk-apartment-for-sale-in-rainbow-chetna-perambur-chennai/1000-57159",
-//         "image": "https://www.truehomes24.com/assets/properties/banner-02/93a4b41ca5c17860d1b44af1f032afa9.webp",
-//         "location": "Perambur, Chennai",
-//         "propertyType": "Apartment",
-//         "area": "650 sq.ft.",
-//         "bedroom": "1 Bedroom(s)",
-//         "possission": "Possession By: Jun 2025",
-//         "price": "45 L",
-//         "owner": 'Owner-36787'
-//     },
-//     {
-//         "title": "2 BHK Apartment  for Sale  in Rainbow Ekanta, Perambur, Chennai",
-//         "link": "https://www.truehomes24.com/api/sale/2-bhk-apartment-for-sale-in-rainbow-ekanta-perambur-chennai/1000-57163",
-//         "property_url": "/sale/2-bhk-apartment-for-sale-in-rainbow-ekanta-perambur-chennai/1000-57163",
-//         "image": "https://www.truehomes24.com/assets/properties/banner-02/6195f1a4b44efe4bd85420205df57e4a.webp",
-//         "location": "Perambur, Chennai",
-//         "propertyType": "Apartment",
-//         "area": "650 sq.ft.",
-//         "bedroom": "2 Bedroom(s)",
-//         "possission": "Possession By: Nov 2024",
-//         "price": "45 L",
-//         "owner": 'Owner-67587'
-//     },
-//     {
-//         "title": "1 BHK Apartment  for Sale  in Rainbow Ekanta, Perambur, Chennai",
-//         "link": "https://www.truehomes24.com/api/sale/1-bhk-apartment-for-sale-in-rainbow-ekanta-perambur-chennai/1000-57162",
-//         "property_url": "/sale/1-bhk-apartment-for-sale-in-rainbow-ekanta-perambur-chennai/1000-57162",
-//         "image": "https://www.truehomes24.com/assets/properties/banner-02/3fa85544ffca6abb5843dd1aeedf1c73.webp",
-//         "location": "Perambur, Chennai",
-//         "propertyType": "Apartment",
-//         "area": "650 sq.ft.",
-//         "bedroom": "1 Bedroom(s)",
-//         "possission": "Possession By: Nov 2024",
-//         "price": null,
-//         "owner": 'Owner-57587'
-//     },
-//     {
-//         "title": "1 BHK Apartment  for Sale  in Rainbow Chetna, Perambur, Chennai",
-//         "link": "https://www.truehomes24.com/api/sale/1-bhk-apartment-for-sale-in-rainbow-chetna-perambur-chennai/1000-57159",
-//         "property_url": "/sale/1-bhk-apartment-for-sale-in-rainbow-chetna-perambur-chennai/1000-57159",
-//         "image": "https://www.truehomes24.com/assets/properties/banner-02/93a4b41ca5c17860d1b44af1f032afa9.webp",
-//         "location": "Perambur, Chennai",
-//         "propertyType": "Apartment",
-//         "area": "650 sq.ft.",
-//         "bedroom": "1 Bedroom(s)",
-//         "possission": "Possession By: Jun 2025",
-//         "price": "45 L",
-//         "owner": 'Owner-36787'
-//     },
-//     {
-//         "title": "Residential Land  for Sale  in Bhogapuram International Airport Road, Visakhapatnam",
-//         "link": "https://www.truehomes24.com/api/sale/residential-land-for-sale-in-bhogapuram-international-airport-road-visakhapatnam/1000-64481",
-//         "property_url": "/sale/residential-land-for-sale-in-bhogapuram-international-airport-road-visakhapatnam/1000-64481",
-//         "image": "https://www.truehomes24.com/assets/properties/banner-02/bfa1673f343a2fe32d1b31e3f202a402.jpg",
-//         "location": "Bhogapuram International Airport Road, Visakhapatnam",
-//         "propertyType": "Residential Land",
-//         "area": "57600 sq.ft.",
-//         "bedroom": "",
-//         "possission": "",
-//         "price": "25.60 Cr",
-//         "owner": 'Owner-67587'
-//     },
-// ]
-
-// const rightSectionData = [
-//     {
-//         "title": "Apartment form Sale in Lagacy",
-//         "link": "https://www.truehomes24.com/assets/properties/banner-02/bfa1673f343a2fe32d1b31e3f202a402.jpg",
-//         "property_url": "/sale/2-bhk-apartment-for-sale-in-rainbow-ekanta-perambur-chennai/1000-57163",
-//         "image": "https://www.truehomes24.com/assets/properties/banner-02/6195f1a4b44efe4bd85420205df57e4a.webp",
-//         "location": "Perambur, Chennai",
-//         "area": "650 sq.ft.",
-//         "price": "90 L - 1.5Cr",
-//     },
-//     {
-//         "title": "Apartment form Sale in Lagacy",
-//         "link": "https://www.truehomes24.com/api/sale/2-bhk-apartment-for-sale-in-rainbow-ekanta-perambur-chennai/1000-57163",
-//         "property_url": "/sale/2-bhk-apartment-for-sale-in-rainbow-ekanta-perambur-chennai/1000-57163",
-//         "image": "https://www.truehomes24.com/assets/properties/banner-02/93a4b41ca5c17860d1b44af1f032afa9.webp",
-//         "location": "Perambur, Chennai",
-//         "area": "650 sq.ft.",
-//         "price": "90 L - 1.5Cr",
-//     },
-//     {
-//         "title": "Apartment form Sale in Lagacy",
-//         "link": "https://www.truehomes24.com/api/sale/1-bhk-apartment-for-sale-in-rainbow-chetna-perambur-chennai/1000-57159",
-//         "property_url": "/sale/2-bhk-apartment-for-sale-in-rainbow-ekanta-perambur-chennai/1000-57163",
-//         "image": "https://www.truehomes24.com/assets/properties/banner-02/3fa85544ffca6abb5843dd1aeedf1c73.webp",
-//         "location": "Perambur, Chennai",
-//         "area": "650 sq.ft.",
-//         "price": "90 L - 1.5Cr",
-//     },
-//     {
-//         "title": "Apartment form Sale in Lagacy",
-//         "link": "https://www.truehomes24.com/api/sale/2-bhk-apartment-for-sale-in-rainbow-ekanta-perambur-chennai/1000-57163",
-//         "property_url": "/sale/2-bhk-apartment-for-sale-in-rainbow-ekanta-perambur-chennai/1000-57163",
-//         "image": "https://www.truehomes24.com/assets/properties/banner-02/6195f1a4b44efe4bd85420205df57e4a.webp",
-//         "location": "Perambur, Chennai",
-//         "area": "650 sq.ft.",
-//         "price": "90 L - 1.5Cr",
-//     },
-// ]
 
 const propertyTypes = ['Localities', 'Property Status', 'Budget'];
 
@@ -147,7 +41,7 @@ const PropertyList = () => {
     const [propertyType, setPropertyType] = useState('Localities');
     const { login_status, currLocation, propertyListState, currPage } = useSelector(state => state.User);
     const [propertyListData, setPropertyListData] = useState({ currPage: 1, totalProperty: null, lastPage: null, propertyList: [] });
-    const [rightListData, setRightListData] = useState({ recentView: [], newProject: [],loading:true });
+    const [rightListData, setRightListData] = useState({ recentView: [], newProject: [], loading: true });
     const [loadingList, setLoadingList] = useState(true);
     const { fetchData, error } = useApi();
     const dispatch = useDispatch();
@@ -182,9 +76,31 @@ const PropertyList = () => {
         }
         if (data) {
             // console.log('rightlistdata....', data);
-            setRightListData({ recentView: data.recentView, newProject: data.newProjcts,loading:false});
+            setRightListData({ recentView: data.recentView, newProject: data.newProjcts, loading: false });
         }
     }
+
+
+
+    // const getLocations = async () => {
+    //     let data;
+    //     let quary = `${searchStatus.quary}` +
+    //         `&type=${searchStatus.type}` +
+    //         `&city=${searchStatus.city}` +
+    //         `&locality=${searchStatus.locality}`;
+    //     try {
+    //         data = await fetchData('home-search?query=' + quary, 'GET');
+    //         // console.log('data.... data...', data)
+    //     } catch (err) {
+    //         console.log('err... data..', err);
+    //         setNoSuggestion(true);
+    //     }
+    //     if (data?.content) {
+    //         console.log('searchdata...', data);
+    //         setSearchResult(data.content);
+    //         setNoSuggestion(true);
+    //     }
+    // }
 
 
     const onClickContactBtn = (item) => {
@@ -204,8 +120,10 @@ const PropertyList = () => {
 
     const getPropertyList = async (currpage) => {
         let data;
+        console.log('propertyListState...', propertyListState);
+        console.log('currLocation...', currLocation);
         let quary = `property_status=${propertyListState?.propertyStatus?.value == 'new projects' ? 'new project' : propertyListState?.propertyStatus?.value}` +
-            `&country=${currLocation.country}&city=${currLocation.code}&locality=` +
+            `&country=${currLocation.country}&city=${currLocation.code}&locality=${currLocation.location}` +
             `&bedroom=${propertyListState?.BHKtype}` +
             `&property_type=${propertyListState.propertyTypes}` +
             `&min_price=${propertyListState.priceRange[0]}&max_price=${propertyListState.priceRange[1]}` +
@@ -222,10 +140,6 @@ const PropertyList = () => {
 
         try {
             data = await fetchData(endpoint, 'GET');
-            // console.log('propertyListState...', propertyListState);
-            // console.log('currLocation...', currLocation);
-            // console.log('currPage...', currPage);
-            // console.log('data...', data);
         } catch (err) {
             console.log('err fetching propertylist...', err);
             setLoadingList(false);
@@ -241,18 +155,19 @@ const PropertyList = () => {
     return (
         <div className='mx-auto' >
             <Header />
-            <div className={'mt-[50px] '+(loadingList && 'opacity-70')}>
+            <div className={'mt-[50px] ' + (loadingList && 'opacity-70')}>
                 <TopSearchNavBar />
                 <div ref={scrollUpTarget} className='px-[2%] pt-24 container mx-auto py-5'>
-                    <div  className={styles.textMedium}>
+                    <div className={styles.textMedium}>
                         <NavLink className={'hover:opacity-70'} to="/">Home</NavLink> {'> '}
-                        Property for Sale in {currLocation.city}</div>
+                        {currLocation.locationName ? (`Property for ${propertyListState.propertyStatus.for} in ${currLocation.locationName} >`) : ''}
+                        Property for {propertyListState.propertyStatus.for} in {currLocation.city} </div>
                     <div className='lg:flex gap-5'>
 
                         {<div className='mt-5 tracking-wide lg:w-[64%]'>
                             <div>
-                                <p className={styles.textMedium}>Showing {(currPage - 1) * 25 + 1}-{(currPage - 1) * 25 + propertyListData?.propertyList?.length} of {propertyListData.totalProperty} property for {propertyListState?.propertyStatus?.text}</p>
-                                <p className={styles.title3 + 'mt-1'}>Property for Sale in {currLocation.city}</p>
+                                <p className={styles.textMedium}>Showing {(currPage - 1) * 25 + 1}-{(currPage - 1) * 25 + propertyListData?.propertyList?.length} of {propertyListData.totalProperty} property for {propertyListState?.propertyStatus?.for}</p>
+                                <p className={styles.title3 + 'mt-1'}>Property for {propertyListState.propertyStatus.for} in {currLocation.locationName ? (currLocation.locationName + ', ') : ''} {currLocation.city}</p>
                                 <div className='flex gap-2 border-b-[1px] mt-2 border-b-gray-200'>
                                     {propertyTypes.map((item, index) => {
                                         return (
@@ -300,7 +215,7 @@ const PropertyList = () => {
                         </div>}
 
 
-                        <div className={'w-full lg:w-[35%] bg-slate-50 py-4 px-1 '+(rightListData.loading && 'opacity-50 animate-pulse bg-white')}>
+                        <div className={'w-full lg:w-[35%] bg-slate-50 py-4 px-1 ' + (rightListData.loading && 'opacity-50 animate-pulse bg-white')}>
                             <div>
                                 <RecentViewCard title={'Recent View Property'} Data={rightListData.recentView} />
                             </div>

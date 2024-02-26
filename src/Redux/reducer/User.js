@@ -5,9 +5,9 @@ export const UserSlice = createSlice({
   initialState: {
     userData: null,
     // footerData:null,
-    currLocation: { country: '90', city: 'Ahmedabad', loaction: null, area: 'Ahmedabad',code:'9062' },
+    currLocation: { country: '90', city: 'Ahmedabad',code:'9062', location: null,locationName:null,project:null,projectName:null, area: 'Ahmedabad' },
     propertyListState: {
-      propertyStatus: { text: 'Buy', value: 'sale', index: 0 },
+      propertyStatus: { text: 'Buy', value: 'sale',for:'Sale', index: 0 },
       BHKtype: '',
       propertyTypes: '',
       priceRange: ['', ''],

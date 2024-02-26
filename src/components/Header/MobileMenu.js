@@ -27,7 +27,7 @@ const MobileMenu = () => {
             <NavLink
                 onClick={() => {
                     localStorage.setItem('propertyStatus', 'sale');
-                    dispatch(setPropertyListState({ ...propertyListState, propertyStatus: { text: 'Buy', value: 'sale', index: 0 } }));
+                    dispatch(setPropertyListState({ ...propertyListState, propertyStatus: { text: 'Buy', value: 'sale',for:'Sale', index: 0 } }));
                 }}
                 to={'/sale/property-for-sale-in-' + currLocation?.city.toLowerCase()}              >
                 <span class={styles.dropdownItem}>
@@ -37,7 +37,7 @@ const MobileMenu = () => {
             <NavLink
                 onClick={() => {
                     localStorage.setItem('propertyStatus', 'rent');
-                    dispatch(setPropertyListState({ ...propertyListState, propertyStatus: { text: 'Rent', value: 'rent', index: 1 } }));
+                    dispatch(setPropertyListState({ ...propertyListState, propertyStatus: { text: 'Rent', value: 'rent',for:'Rent', index: 1 } }));
                 }}
                 to={'/rent/property-for-rent-in-' + currLocation?.city.toLowerCase()}            >
                 <span class={styles.dropdownItem}>
@@ -50,7 +50,7 @@ const MobileMenu = () => {
             <NavLink
                 onClick={() => {
                     localStorage.setItem('propertyStatus', 'new projects');
-                    dispatch(setPropertyListState({ ...propertyListState, propertyStatus: { text: 'New Project', value: 'new projects', index: 2 } }));
+                    dispatch(setPropertyListState({ ...propertyListState, propertyStatus: { text: 'New Project', value: 'new projects',for:'Sale', index: 2 } }));
                 }}
                 to={'/new-projects/new-projects-for-sale-in-' + currLocation?.city.toLowerCase()}            >
                 <span class={styles.dropdownItem}>

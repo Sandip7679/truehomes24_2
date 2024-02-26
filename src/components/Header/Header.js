@@ -183,10 +183,10 @@ const Header = () => {
         else {
             let propertyStatus = localStorage.getItem('propertyStatus');
             if (propertyStatus == 'rent' || propertyStatus == 'sale') {
-                return `/${propertyStatus}/property-for-${propertyStatus}-in-${city.toLowerCase()}`;
+                return `/${propertyStatus}/property-for-${propertyStatus}-in-${city?.split(' ')?.join('-').toLowerCase()}`;
             }
             else if (propertyStatus == 'new projects') {
-                return '/new-projects/new-projects-for-sale-in-' + city.toLowerCase();
+                return '/new-projects/new-projects-for-sale-in-' + city.split(' ').join('-').toLowerCase();
             }
         }
     }
@@ -323,27 +323,27 @@ const Header = () => {
                             <NavLink
                                 onClick={() => {
                                     localStorage.setItem('propertyStatus', 'sale');
-                                    dispatch(setPropertyListState({ ...propertyListState, propertyStatus: { text: 'Buy', value: 'sale', index: 0 } }));
+                                    dispatch(setPropertyListState({ ...propertyListState, propertyStatus: { text: 'Buy', value: 'sale',for:'Sale', index: 0 } }));
                                 }}
-                                to={'/sale/property-for-sale-in-' + currLocation?.city.toLowerCase()}
+                                to={'/sale/property-for-sale-in-' + currLocation?.city.split(' ').join('-').toLowerCase()}
                                 className="text-gray-100 hover:cursor-pointer hover:text-gray-400">
                                 Buy
                             </NavLink>
                             <NavLink
                                 onClick={() => {
                                     localStorage.setItem('propertyStatus', 'rent');
-                                    dispatch(setPropertyListState({ ...propertyListState, propertyStatus: { text: 'Rent', value: 'rent', index: 1 } }));
+                                    dispatch(setPropertyListState({ ...propertyListState, propertyStatus: { text: 'Rent', value: 'rent',for:'Rent', index: 1 } }));
                                 }}
-                                to={'/rent/property-for-rent-in-' + currLocation?.city.toLowerCase()}
+                                to={'/rent/property-for-rent-in-' + currLocation?.city.split(' ').join('-').toLowerCase()}
                                 className="text-gray-100 hover:cursor-pointer hover:text-gray-400">
                                 Rent
                             </NavLink>
                             <NavLink
                                 onClick={() => {
                                     localStorage.setItem('propertyStatus', 'new projects');
-                                    dispatch(setPropertyListState({ ...propertyListState, propertyStatus: { text: 'New Project', value: 'new projects', index: 2 } }));
+                                    dispatch(setPropertyListState({ ...propertyListState, propertyStatus: { text: 'New Project', value: 'new projects',for:'Sale', index: 2 } }));
                                 }}
-                                to={'/new-projects/new-projects-for-sale-in-' + currLocation?.city.toLowerCase()}
+                                to={'/new-projects/new-projects-for-sale-in-' + currLocation?.city.split(' ').join('-').toLowerCase()}
                                 className="text-gray-100 hover:cursor-pointer hover:text-gray-400">
                                 New Project
                             </NavLink>
