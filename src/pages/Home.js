@@ -373,7 +373,7 @@ const Home = () => {
             location: searchStatus.locality,
             locationName: searchStatus.localityName
         }
-        localStorage.setItem('location', JSON.stringify({ ...currLocation, ...location,location:'',locationName:null }));
+        localStorage.setItem('location', JSON.stringify({ ...currLocation, ...location, location: '', locationName: null }));
         dispatch(setlocation({ ...currLocation, ...location }));
     }
 
@@ -460,7 +460,7 @@ const Home = () => {
                                     />
                                     <div className='flex flex-wrap lg:flex-nowrap z-[500] gap-1 items-center'>
                                         {searchStatus.cityName && <button className={styles.btn + 'bg-white flex-shrink-0 gap-1 rounded-xl h-7 items-center'}>
-                                           <p className='text-sm'>{searchStatus.cityName}</p> 
+                                            <p className='text-sm'>{searchStatus.cityName}</p>
                                             <span onClick={() => setSearchStatus(pre => ({ ...pre, cityName: null, city: '', type: 'city' }))}>
                                                 <i class="fa-solid fa-xmark"></i>
                                             </span>

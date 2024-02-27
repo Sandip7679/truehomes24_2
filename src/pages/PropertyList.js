@@ -7,7 +7,7 @@ import RecentViewCard from '../components/RecentViewCard';
 import FAQs from '../components/FAQs';
 import Footer from '../components/Footer';
 import TopCItiesFilter from '../components/TopCItiesFilter';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useLocation } from 'react-router-dom';
 import PropertyForSlides from '../components/PropertyForSlides';
 import Contact from '../components/Contact';
 import { useDispatch, useSelector } from 'react-redux';
@@ -47,13 +47,14 @@ const PropertyList = () => {
     const dispatch = useDispatch();
     const scrollUpTarget = useRef();
     const listPage = useRef();
+    const routePath = useLocation();
 
 
     useEffect(()=>{
         if(pageRefresh){
-            console.log('page refresh....');
+            console.log('page refresh....',routePath.pathname);
         }
-    },[pageRefresh]);
+    },[]);
 
     useEffect(() => {
         setLoadingList(true);

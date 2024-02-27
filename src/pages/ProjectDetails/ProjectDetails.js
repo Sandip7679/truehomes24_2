@@ -246,9 +246,8 @@ const ProjectDetails = () => {
                                     </div>
                                 </div>
 
-
                                 <div id='0' className='scroll-mt-20'>
-                                    <p className={styles.title4 + 'mt-8'}>Property Details</p>
+                                    <p className={styles.title4 + 'mt-8'}>{AllData.data?.scoietyName?`${AllData.data?.scoietyName} Info` : 'Property Details'}</p>
                                     <div className='flex justify-between flex-wrap'>
                                         <div className='w-[50%] sm:w-[30%] mt-2'>
                                             {AllData.data?.detailsTab?.length && AllData.data?.detailsTab?.map((item, index) => {
@@ -308,11 +307,10 @@ const ProjectDetails = () => {
                                             )
                                         })}
                                     </div>
-                                    {/* <div dangerouslySetInnerHTML={{ __html: htmlString }} /> */}
                                 </div>
                             </div>
                             <div id='1' className='bg-white shadow-md px-[2%] py-5 mt-10 scroll-mt-20'>
-                                <p className={styles.title4}>Property Brief</p>
+                                <p className={styles.title4}>{AllData.data?.scoietyName?`About ${AllData.data?.scoietyName}`: 'Property Brief'}</p>
                                 <div className='mt-1 prose min-w-full' dangerouslySetInnerHTML={{ __html: AllData.data?.descriptionTab?.description }} />
                                 {/* <p className='mt-2 text-[0.9rem] text-gray-700 whitespace-pre-line'>{AllData.data?.descriptionTab?.description}</p> */}
                                 <div className='mt-5'>
@@ -327,11 +325,11 @@ const ProjectDetails = () => {
                                 </div>
                             </div>
 
-                            <div id='2' className='bg-white shadow-md px-[2%] py-5 mt-10 scroll-mt-20'>
-                                <p className={styles.title4}>About Builder</p>
+                            {AllData.data?.descriptionTab?.aboutBuilder && <div id='2' className='bg-white shadow-md px-[2%] py-5 mt-10 scroll-mt-20'>
+                                <p className={styles.title4}>About {AllData.data?.userDetails?.name}</p>
                                 {/* <p className='mt-2 text-[0.9rem] text-gray-700'>{aboutBuilder}</p> */}
-                                <div className='mt-2 prose prose-sm sm:prose-base' dangerouslySetInnerHTML={{ __html: AllData.data?.aboutBuilderTab?.description }} />
-                            </div>
+                                <div className='mt-2 prose prose-sm sm:prose-base min-w-[100%]' dangerouslySetInnerHTML={{ __html: AllData.data?.descriptionTab?.aboutBuilder }} />
+                            </div>}
 
                             <div id='3' className='mt-10 bg-white shadow-md px-[2%] py-5 w-full scroll-mt-20'>
                                 <p className={styles.title3}>Gallery</p>
@@ -419,8 +417,8 @@ const ProjectDetails = () => {
                                     })}
                                 </div>
                             </div>
-                            {AllData.data?.faqtab?.faqs?.length > 0 && <div id='5' className='mt-10 bg-white shadow-md px-5 py-5 mb-10 scroll-mt-20'>
-                                <FAQs Data = {AllData.data?.faqtab?.faqs} />
+                            {(AllData.data?.faqtab?.length ||  AllData.data?.faqtab?.faqs.length ) && <div id='5' className='mt-10 bg-white shadow-md px-5 py-5 mb-10 scroll-mt-20'>
+                                <FAQs Data = {AllData.data?.faqtab?.length? AllData.data?.faqtab : AllData.data?.faqtab?.faqs} />
                             </div>}
                         </div>
 
