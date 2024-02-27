@@ -39,7 +39,7 @@ const useApi = () => {
         //     'Content-Type': 'application/json',
         //     // Add any additional headers if needed
         //   },
-        // headers: myHeaders,
+        headers: myHeaders,
         body: data ? JSON.stringify(data) : null,
       });
 

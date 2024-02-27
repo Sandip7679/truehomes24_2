@@ -183,7 +183,7 @@ const Home = () => {
     const [propertyStatus, setPropertyStatus] = useState(null);
     const [propertycount, setPropertyCount] = useState(null);
     const [curIndex, setCurrIndex] = useState(0);
-    const [noSuggestion, setNoSuggestion] = useState(true);
+    const [noSuggestion, setNoSuggestion] = useState(false);
     const [isInValidLocation, setIsInvalidLocation] = useState(false);
 
     useEffect(() => {
@@ -270,7 +270,12 @@ const Home = () => {
         if (data?.content) {
             console.log('searchdata...', data);
             setSearchResult(data.content);
-            setNoSuggestion(true);
+            if (data.content?.length > 0 && noSuggestion) {
+                setNoSuggestion(false);
+            } else if (!data.content?.length && !noSuggestion) {
+                setNoSuggestion(true);
+            }
+            setCurrIndex(0);
         }
     }
     const onClickSearchItem = (item) => {
@@ -337,7 +342,7 @@ const Home = () => {
         if (!propertycount || propertycount == 0 || !searchStatus.city) return;
         // let propertystatus = localStorage.getItem('propertyStatus');
         let str = `${searchStatus.localityName ? ('-in-' + searchStatus.localityName.split(' ').join('-').toLowerCase()) : ''}` +
-            `-in-${searchStatus.cityName ? searchStatus.cityName.split(' ').join('-').toLowerCase() : currLocation.area?.split(' ').join('-').toLowerCase()}`;
+            `-in-${searchStatus.cityName ? searchStatus.cityName.split(' ').join('-').toLowerCase() : currLocation.city?.split(' ').join('-').toLowerCase()}`;
 
         if (propertyStatus == 'rent' || propertyStatus == 'sale') {
             return `/${propertyStatus}/property-for-${propertyStatus}` + str;
@@ -368,7 +373,7 @@ const Home = () => {
             location: searchStatus.locality,
             locationName: searchStatus.localityName
         }
-        localStorage.setItem('location', JSON.stringify({ ...currLocation, ...location }));
+        localStorage.setItem('location', JSON.stringify({ ...currLocation, ...location,location:'',locationName:null }));
         dispatch(setlocation({ ...currLocation, ...location }));
     }
 
@@ -453,15 +458,15 @@ const Home = () => {
                                     <SearchIcon
                                         imageClass='w-5 h-5 mt-[6px]'
                                     />
-                                    <div className='flex flex-wrap lg:flex-nowrap z-[500] gap-1'>
-                                        {searchStatus.cityName && <button className={styles.btn + 'bg-white flex-shrink-0 gap-1 rounded-xl'}>
-                                            {searchStatus.cityName}
+                                    <div className='flex flex-wrap lg:flex-nowrap z-[500] gap-1 items-center'>
+                                        {searchStatus.cityName && <button className={styles.btn + 'bg-white flex-shrink-0 gap-1 rounded-xl h-7 items-center'}>
+                                           <p className='text-sm'>{searchStatus.cityName}</p> 
                                             <span onClick={() => setSearchStatus(pre => ({ ...pre, cityName: null, city: '', type: 'city' }))}>
                                                 <i class="fa-solid fa-xmark"></i>
                                             </span>
                                         </button>}
-                                        {searchStatus.localityName && <button className={styles.btn + 'bg-white flex-shrink-0 gap-1 rounded-xl'}>
-                                            {searchStatus.localityName}
+                                        {searchStatus.localityName && <button className={styles.btn + 'bg-white flex-shrink-0 gap-1 rounded-xl h-7 items-center'}>
+                                            <p className='text-sm'>{searchStatus.localityName}</p>
                                             <span onClick={() => setSearchStatus(pre => ({
                                                 ...pre, localityName: null, locality: '',
                                                 type: searchStatus.cityName ? 'locality' : 'city'
@@ -469,9 +474,9 @@ const Home = () => {
                                                 <i class="fa-solid fa-xmark"></i>
                                             </span>
                                         </button>}
-                                        {searchStatus.projectName && <button className={styles.btn + 'bg-white flex-shrink-0 gap-1 rounded-xl overflow-ellipsis'}>
-                                            {/* <p className='text-ellipsis w-[100px]'>{searchStatus.projectName}</p> */}
-                                            {searchStatus.projectName}
+                                        {searchStatus.projectName && <button className={styles.btn + 'bg-white flex-shrink-0 gap-1 h-7 items-center rounded-xl overflow-ellipsis'}>
+                                            <p className='text-sm'>{searchStatus.projectName}</p>
+                                            {/* {searchStatus.projectName} */}
                                             <span onClick={() => setSearchStatus(pre => ({
                                                 ...pre, projectName: null, project: '',
                                                 type: searchStatus.cityName ? searchStatus.localityName ? 'project' : 'locality' : 'city'
@@ -493,7 +498,7 @@ const Home = () => {
                                     />
 
                                 </div>
-                                <div className='absolute top-1 left-4 lg:relative flex min-w-[300px]'>
+                                <div className='absolute top-1 left-4 lg:relative lg:top-0 flex min-w-[300px]'>
                                     <div className='relative group z-50'>
                                         <button
                                             id='bugdet-btn'
@@ -579,9 +584,12 @@ const Home = () => {
                             </div>
 
                         </div>
-                        {searchStatus.quary?.length > 0 && searchResult.length == 0 && noSuggestion && <p className='text-xs text-red-600'>No suggestions</p>}
-                        {searchStatus.projectName && <p className='text-xs text-red-600'>You can not choose more than 3 items</p>}
-                        {!searchStatus.city && isInValidLocation && <p className='text-xs text-red-600'>Please choose a city!</p>}
+                        <div className=''>
+                            {searchStatus.quary?.length > 0 && searchResult.length == 0 && noSuggestion && <p className='text-xs text-red-600'>No suggestions</p>}
+                            {searchStatus.projectName && <p className='text-xs text-red-600'>You can not choose more than 3 items</p>}
+                            {!searchStatus.city && isInValidLocation && <p className='text-xs text-red-600'>Please choose a city!</p>}
+                        </div>
+
                     </div>
                     <div
                         ref={searchMenu} className='absolute bg-white rounded border-[1px] border-gray-500 max-h-[320px] w-[300px] sm:w-[450px] overflow-auto'>

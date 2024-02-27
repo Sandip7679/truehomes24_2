@@ -29,7 +29,7 @@ const MobileMenu = () => {
                     localStorage.setItem('propertyStatus', 'sale');
                     dispatch(setPropertyListState({ ...propertyListState, propertyStatus: { text: 'Buy', value: 'sale',for:'Sale', index: 0 } }));
                 }}
-                to={'/sale/property-for-sale-in-' + currLocation?.city.toLowerCase()}              >
+                to={'/sale/property-for-sale-in-' + currLocation?.city.split(' ').join('-').toLowerCase()}              >
                 <span class={styles.dropdownItem}>
                     <img alt='' src={buyIcon} className='h-5 w-6 mr-5' />Buy
                 </span>
@@ -39,7 +39,7 @@ const MobileMenu = () => {
                     localStorage.setItem('propertyStatus', 'rent');
                     dispatch(setPropertyListState({ ...propertyListState, propertyStatus: { text: 'Rent', value: 'rent',for:'Rent', index: 1 } }));
                 }}
-                to={'/rent/property-for-rent-in-' + currLocation?.city.toLowerCase()}            >
+                to={'/rent/property-for-rent-in-' + currLocation?.city.split(' ').join('-').toLowerCase()}            >
                 <span class={styles.dropdownItem}>
                     <span>
                         <img alt='' src={rentIcon} className='h-5 w-6 mr-5' />
@@ -52,7 +52,7 @@ const MobileMenu = () => {
                     localStorage.setItem('propertyStatus', 'new projects');
                     dispatch(setPropertyListState({ ...propertyListState, propertyStatus: { text: 'New Project', value: 'new projects',for:'Sale', index: 2 } }));
                 }}
-                to={'/new-projects/new-projects-for-sale-in-' + currLocation?.city.toLowerCase()}            >
+                to={'/new-projects/new-projects-for-sale-in-' + currLocation?.city.split(' ').join('-').toLowerCase()}            >
                 <span class={styles.dropdownItem}>
                     <span>
                         <img alt='' src={projectIcon} className='h-5 w-6 mr-5' />

@@ -1,5 +1,7 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Carousel from 'react-multi-carousel';
+import useApi from '../ApiConf';
+import { useSelector } from 'react-redux';
 // import { styles } from '../Styles/Styles';
 
 const bestBudgetSearch = [
@@ -21,6 +23,30 @@ const commertialOptions = [
 ]
 
 const PropertyForSlides = () => {
+    const { fetchData } = useApi();
+    const { currLocation, propertyListState } = useSelector(state => state.User);
+    const [propertyInForData, setPropertyInForData] = useState([]);
+    const [viewMoreStatus, setViewMoreStatus] = useState(null);
+
+    useEffect(() => {
+        getPropertyInFor();
+    }, [currLocation.code, propertyListState.propertyStatus]);
+    const getPropertyInFor = async () => {
+        let data;
+
+        try {
+            data = await fetchData(`listing-bottom-content?city=${currLocation.code}&property_status=${propertyListState.propertyStatus.value}`, 'GET');
+            console.log('data.... data...', data);
+        } catch (err) {
+            console.log('err... data..', err);
+        }
+        if (data?.length) {
+            setPropertyInForData(data);
+            // console.log('data.count..', data.count);
+            // setPropertyCount(data.count);
+        }
+    }
+
     return (
         <div className='item-center w-full'>
             <Carousel
@@ -35,7 +61,32 @@ const PropertyForSlides = () => {
                 keyBoardControl={true}
 
             >
-                <div className='w-full self-center pl-[15%]'>
+
+                {propertyInForData?.map((item, index) => {
+                    return (
+                        <div className='w-full self-center pl-[15%]'>
+                            <p className='mb-2 to-gray-200 font-semibold'>{item.title}</p>
+                            {item?.details?.map((itm, ind) => {
+                                return (
+                                    <>
+                                        {(ind < 5 || viewMoreStatus?.[index]) &&
+                                            <p key={ind} className='text-sm my-2 hover:opacity-80 hover:cursor-pointer text-gray-600'>{itm.text}</p>
+                                        }
+                                    </>
+                                )
+                            })}
+                            {
+                                <button
+                                    onClick={() => setViewMoreStatus(pre => ({ ...pre, [index]: !viewMoreStatus?.[index] }))}
+                                    className='underline font-semibold text-gray-500 hover:text-gray-600'>
+                                    {viewMoreStatus?.[index] ? 'View Less' : 'View More'}
+                                </button>
+                            }
+                        </div>
+                    )
+                })}
+
+                {/* <div className='w-full self-center pl-[15%]'>
                     <p className='mb-2 to-gray-200 font-semibold'>BHK-WISE PROPERTY IN BANGALORE</p>
                     {['1', '2', '3', '4', '4+'].map((item, index) => {
                         return (
@@ -66,7 +117,7 @@ const PropertyForSlides = () => {
                             <p key={index} className='text-sm my-2 hover:opacity-80 hover:cursor-pointer text-gray-600'>Apartment in Bangalore {item}</p>
                         )
                     })}
-                </div>
+                </div> */}
             </Carousel>
         </div>
     );

@@ -5,7 +5,7 @@ export const UserSlice = createSlice({
   initialState: {
     userData: null,
     // footerData:null,
-    currLocation: { country: '90', city: 'Ahmedabad',code:'9062', location: null,locationName:null,project:null,projectName:null, area: 'Ahmedabad' },
+    currLocation: { country: '90', city: 'India',code:'', location: '',locationName:null,project:'',projectName:null, area: 'City' },
     propertyListState: {
       propertyStatus: { text: 'Buy', value: 'sale',for:'Sale', index: 0 },
       BHKtype: '',
@@ -15,6 +15,7 @@ export const UserSlice = createSlice({
       clearAll:false
     },
     currPage:1,
+    pageRefresh:true,
     filterMenus: null,
     propertyStatus: 'sale',
     login_status: false,
@@ -43,8 +44,11 @@ export const UserSlice = createSlice({
     setCurrPage(state, action) {
       state.currPage = action.payload
     },
+    setPageRefress(state, action) {
+      state.pageRefresh = action.payload
+    },
   }
 })
-export const { setuser, logout, setlocation, setPropertyListState, setFileterMenus,setCurrPage } = UserSlice.actions;
+export const { setuser, logout, setlocation, setPropertyListState, setFileterMenus,setCurrPage,setPageRefress } = UserSlice.actions;
 
 export default UserSlice.reducer;

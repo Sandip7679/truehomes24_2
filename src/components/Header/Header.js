@@ -249,7 +249,7 @@ const Header = () => {
                                 {AllCities.international?.map((item, index) => {
                                     return (
                                         <NavLink
-                                            onClick={() => setLocation({ country: item.city, city: item.text, area: item.text, code: item.city })}
+                                            onClick={() => setLocation({ country: item.city, city: item.text, area: item.text, code: '' })}
                                             key={index}
                                             // to={locationPath.pathname != '/' ? "/" : '/'}
                                             to={`${getRoutePath(item.text)}`}

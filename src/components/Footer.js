@@ -24,6 +24,10 @@ const Footer = () => {
             setFooterData(data);
         }
     }
+    const getQuickLinkPath = (url)=>{
+           let arr = url.split('/');
+           return `/${arr[arr.length-1]}`
+    }
 
     return (
         <div className='bg-black w-full p-10 text-white flex flex-wrap justify-between gap-5 px-[2%] lg:px-[5%]'>
@@ -77,10 +81,10 @@ const Footer = () => {
             <div className='mt-5 text-left'>
                 <h1 className={styles.title2Bold}>Quick Links</h1>
                 <div className='text-sm tracking-wide opacity-90'>
-                    {footerData?.quickLinks.map((item, index) => {
+                    {footerData?.quickLinks?.map((item, index) => {
                         return (
                             <div key={index} className='mt-2 hover:underline cursor-pointer'>
-                                <NavLink to={item.endpoint}>
+                                <NavLink to={getQuickLinkPath(item.url)}>
                                     <p className='ml-1'>{item.text}</p>
                                 </NavLink>
                             </div>

@@ -55,15 +55,16 @@ const searchTypes = [
 ]
 
 
-const TopSearchNavBar = () => {
+const TopSearchNavBar = ({ pageRef }) => {
     const { currLocation, propertyListState, filterMenus } = useSelector(state => state.User);
 
     const [searchStatus, setSearchStatus] = useState({ quary: null, type: 'city', city: '', locality: '', cityName: null, localityName: null, project: '', projectName: null });
     const [searchResult, setSearchResult] = useState([]);
     const [curIndex, setCurrIndex] = useState(0);
-    const [noSuggestion, setNoSuggestion] = useState(true);
+    const [noSuggestion, setNoSuggestion] = useState(false);
     const [isInValidLocation, setIsInvalidLocation] = useState(false);
     const searchMenu = useRef();
+    const searchInput = useRef();
     const dispatch = useDispatch();
     const { fetchData, error } = useApi();
     useEffect(() => {
@@ -75,6 +76,14 @@ const TopSearchNavBar = () => {
         // closeOnClickOutside('property-type-dropdown', 'property-type-menu');
         closeOnClickOutside('shortBy-dropdown', 'shortBy-menu');
 
+        pageRef.current.addEventListener('click', (e) => {
+            if (!searchMenu.current.contains(e.target) && !searchInput.current.contains(e.target)) {
+                setSearchResult([]);
+                if (noSuggestion) {
+                    setNoSuggestion(false);
+                }
+            }
+        });
     }, []);
 
     useEffect(() => {
@@ -127,7 +136,12 @@ const TopSearchNavBar = () => {
         if (data?.content) {
             console.log('searchdata...', data);
             setSearchResult(data.content);
-            setNoSuggestion(true);
+            setCurrIndex(0);
+            if (data.content?.length > 0 && noSuggestion) {
+                setNoSuggestion(false);
+            } else if (!data.content?.length && !noSuggestion) {
+                setNoSuggestion(true);
+            }
         }
     }
     const onSearchInputKeyPress = (event) => {
@@ -185,7 +199,7 @@ const TopSearchNavBar = () => {
             location: searchStatus.locality,
             locationName: searchStatus.localityName
         }
-        localStorage.setItem('location', JSON.stringify({ ...currLocation, ...location }));
+        localStorage.setItem('location', JSON.stringify({ ...currLocation, ...location, location: '', localityName: null }));
         dispatch(setlocation({ ...currLocation, ...location }));
     }
 
@@ -218,15 +232,19 @@ const TopSearchNavBar = () => {
                             })}
                         </div>
                     </div>
-
                     <div className='w-full xs:flex'>
+                        <div className='absolute top-0'>
+                            {searchStatus.quary?.length > 0 && searchResult.length == 0 && noSuggestion && <p className='text-xs text-red-600'>No suggestions</p>}
+                            {searchStatus.projectName && <p className='text-xs text-red-600'>You can not choose more than 3 items</p>}
+                            {!searchStatus.city && isInValidLocation && <p className='text-xs text-red-600'>Please choose a city!</p>}
+                        </div>
                         <div className='relative w-full xs:flex gap-1 border-gray-300 rounded xs:border-r-0 rounded-r-none border-[1px]'>
                             <div>
                                 {/* <SearchIcon imageClass={'w-5 h-5 absolute left-2 top-3'} /> */}
                                 <SearchIcon imageClass={'w-5 h-5 mt-3 ml-1'} />
                             </div>
-                            <div className='flex lg:flex-nowrap z-[500] gap-1 items-center'>
-                                {searchStatus.cityName && <button className={' flex-nowrap h-7 px-1 text-sm border-[1px] border-gray-500 flex-shrink-0 gap-1 rounded-xl'}>
+                            <div className='flex lg:flex-nowrap  z-[500] gap-1 items-center'>
+                                {searchStatus.cityName && <button className={' flex-nowrap bg-white h-7 px-1 text-sm border-[1px] border-gray-500 flex-shrink-0 gap-1 rounded-xl'}>
                                     {searchStatus.cityName}
                                     <span onClick={() => setSearchStatus(pre => ({ ...pre, cityName: null, city: '', type: 'city' }))}>
                                         <i class="fa-solid fa-xmark"></i>
@@ -241,8 +259,8 @@ const TopSearchNavBar = () => {
                                         <i class="fa-solid fa-xmark"></i>
                                     </span>
                                 </button>}
-                                {searchStatus.projectName && <button className={'flex-nowrap h-7 px-1 text-sm border-[1px] border-gray-500 flex-shrink-0 gap-1 rounded-xl'}>
-                                    {/* <p className='text-ellipsis w-[100px]'>{searchStatus.projectName}</p> */}
+                                {searchStatus.projectName && <button className={'flex-nowrap h-7 px-1 text-sm border-[1px] bg-white border-gray-500 flex-shrink-0 gap-1 rounded-xl'}>
+                                    {/* <p className='text-ellipsis '>{searchStatus.projectName}</p> */}
                                     {searchStatus.projectName}
                                     <span onClick={() => setSearchStatus(pre => ({
                                         ...pre, projectName: null, project: '',
@@ -253,9 +271,10 @@ const TopSearchNavBar = () => {
                                 </button>}
                             </div>
                             <input
+                                ref={searchInput}
                                 // className={styles.textMedium + ' overflow-ellipsis focus:outline-none border-gray-300 rounded xs:border-r-0 rounded-r-none border-[1px] w-[100%] py-2 pl-8'}
-                                className={styles.textMedium + ' overflow-ellipsis focus:outline-none py-2'}
-                                placeholder='Pick City, Location, Project/Society...'
+                                className={styles.textMedium + (!searchStatus.cityName ? ' w-full ' : '') + ' text-ellipsis focus:outline-none py-2'}
+                                placeholder={(!searchStatus.cityName && !searchStatus.localityName && !searchStatus.projectName) && 'Pick City, Location, Project/Society...'}
                                 value={searchStatus.quary}
                                 onChange={(e) => setSearchStatus(pre => ({ ...pre, quary: e.target.value }))}
                                 onKeyDown={onSearchInputKeyPress}
@@ -266,13 +285,13 @@ const TopSearchNavBar = () => {
                             />
                         </div>
 
-                        <button 
-                         onClick={setLocation}
-                         className='bg-orange-500 hover:bg-orange-600 rounded xs:rounded-none xs:rounded-r-full p-2 w-full xs:w-16 mt-2 xs:mt-0'>
+                        <button
+                            onClick={setLocation}
+                            className='bg-orange-500 hover:bg-orange-600 rounded xs:rounded-none xs:rounded-r-full p-2 w-full xs:w-16 mt-2 xs:mt-0'>
                             <p className={styles.textMedium + 'text-white'}>Search</p>
                         </button>
                         <div
-                            ref={searchMenu} className={(searchResult.length > 0 ? 'border-[1px] border-gray-500' : '') + ' shadow-lg absolute top-12 bg-white rounded max-h-[320px] w-[300px] sm:w-[450px] overflow-auto'}>
+                            ref={searchMenu} className={(searchResult.length > 0 ? 'border-[1px] border-gray-500' : '') + ' shadow-lg absolute top-16 bg-white rounded max-h-[320px] w-[300px] sm:w-[450px] overflow-auto'}>
                             {searchResult?.map((item, index) => {
                                 return (
                                     <div

@@ -39,13 +39,21 @@ const propertyTypes = ['Localities', 'Property Status', 'Budget'];
 const PropertyList = () => {
     const [contactModalStatus, setcontactModalStatus] = useState({ show: false, data: {} });
     const [propertyType, setPropertyType] = useState('Localities');
-    const { login_status, currLocation, propertyListState, currPage } = useSelector(state => state.User);
+    const { login_status, currLocation, propertyListState, currPage,pageRefresh } = useSelector(state => state.User);
     const [propertyListData, setPropertyListData] = useState({ currPage: 1, totalProperty: null, lastPage: null, propertyList: [] });
     const [rightListData, setRightListData] = useState({ recentView: [], newProject: [], loading: true });
     const [loadingList, setLoadingList] = useState(true);
     const { fetchData, error } = useApi();
     const dispatch = useDispatch();
     const scrollUpTarget = useRef();
+    const listPage = useRef();
+
+
+    useEffect(()=>{
+        if(pageRefresh){
+            console.log('page refresh....');
+        }
+    },[pageRefresh]);
 
     useEffect(() => {
         setLoadingList(true);
@@ -153,10 +161,10 @@ const PropertyList = () => {
     }
 
     return (
-        <div className='mx-auto' >
+        <div ref={listPage} className='mx-auto' >
             <Header />
             <div className={'mt-[50px] ' + (loadingList && 'opacity-70')}>
-                <TopSearchNavBar />
+                <TopSearchNavBar pageRef = {listPage} />
                 <div ref={scrollUpTarget} className='px-[2%] pt-24 container mx-auto py-5'>
                     <div className={styles.textMedium}>
                         <NavLink className={'hover:opacity-70'} to="/">Home</NavLink> {'> '}
@@ -227,7 +235,7 @@ const PropertyList = () => {
 
                 </div>
                 <div className='px-[2%] py-5'>
-                    <p className={styles.title1 + 'mb-8 text-left'}>Property In Ahmedabad For Sale</p>
+                    <p className={styles.title1 + 'mb-8 text-left'}>Property In {currLocation.city} For {propertyListState.propertyStatus.for}</p>
                     <PropertyForSlides />
                 </div>
             </div>
