@@ -66,7 +66,7 @@ const PropertyForSlides = () => {
                     return (
                         <div className='w-full self-center pl-[15%]'>
                             <p className='mb-2 to-gray-200 font-semibold'>{item.title}</p>
-                            {item?.details?.map((itm, ind) => {
+                            {item?.details?.length && item?.details?.map((itm, ind) => {
                                 return (
                                     <>
                                         {(ind < 5 || viewMoreStatus?.[index]) &&

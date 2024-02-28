@@ -4,7 +4,7 @@ import homeKey from '../assets/Icons/home-key.png';
 import buyIcon from '../assets/Icons/buy-buy.png';
 import newProjectIcon from '../assets/Icons/bulding-project.png';
 import { styles } from '../Styles/Styles';
-import BHKmenu, { BudgetMenu, MoreMenu, PropertyTypeMenu } from './Dropdowns';
+import BHKmenu, { BudgetMenu, MoreMenu, PropertyTypeMenu, ShortByMenu } from './Dropdowns';
 // import { useParams, useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { setFileterMenus, setPropertyListState, setlocation } from '../Redux/reducer/User';
@@ -51,7 +51,7 @@ const moreDatas = {
 const searchTypes = [
     { type: 'Buy', icon: buyIcon, value: 'sale', path: '/sale/property-for-sale-in-' },
     { type: 'Rent', icon: homeKey, value: 'rent', path: '/rent/property-for-rent-in-' },
-    { type: 'New Projects', icon: newProjectIcon, value: 'new-projects', path: '/new-projects/new-projects-for-sale-in-' }
+    { type: 'New Projects', icon: newProjectIcon, value: 'new project', path: '/new-projects/new-projects-for-sale-in-' }
 ]
 
 
@@ -97,6 +97,21 @@ const TopSearchNavBar = ({ pageRef }) => {
             setSearchResult([]);
         }
     }, [searchStatus.quary]);
+
+    useEffect(() => {
+        if (currLocation.code != searchStatus.city && currLocation.code !== '') {
+            setSearchStatus(pre => ({
+                ...pre,
+                type: 'locality', quary: '',
+                city: currLocation.code, cityName: currLocation.city,
+                locality: '', localityName: null,
+                project: '', projectName: null
+            }));
+            if (curIndex > 0) {
+                setCurrIndex(0);
+            }
+        }
+    }, [currLocation.code]);
 
     const closeOnClickOutside = (parentId, childId) => {
         document.addEventListener('click', (e) => {
@@ -203,6 +218,33 @@ const TopSearchNavBar = ({ pageRef }) => {
         dispatch(setlocation({ ...currLocation, ...location }));
     }
 
+    const getRoutePath = () => {
+
+        // let propertystatus = localStorage.getItem('propertyStatus');
+        if (!searchStatus.city) return;
+        let str = `${searchStatus.localityName ? ('-in-' + searchStatus.localityName.split(' ').join('-').toLowerCase()) : ''}` +
+            `-in-${searchStatus.cityName ? searchStatus.cityName.split(' ').join('-').toLowerCase() : currLocation.city?.split(' ').join('-').toLowerCase()}`;
+        if (propertyListState.propertyStatus.value == 'rent' || propertyListState.propertyStatus.value == 'sale') {
+            return `/${propertyListState.propertyStatus.value}/property-for-${propertyListState.propertyStatus.value}` + str;
+        }
+        else if (propertyListState.propertyStatus.value == 'new project') {
+            return '/new-projects/new-projects-for-sale' + str;
+        }
+    }
+    const getPathForPropStatus = (currPropStatus) => {
+
+        // let propertystatus = localStorage.getItem('propertyStatus');
+        let str = `${currLocation.locationName ? ('-in-' + currLocation.locationName.split(' ').join('-').toLowerCase()) : ''}` +
+            `-in-${currLocation.city?.split(' ').join('-').toLowerCase()}`;
+
+        if (currPropStatus == 'rent' || currPropStatus == 'sale') {
+            return `/${currPropStatus}/property-for-${currPropStatus}` + str;
+        }
+        else if (currPropStatus == 'new project') {
+            return '/new-projects/new-projects-for-sale' + str;
+        }
+    }
+
     return (
         <div className={styles.textMedium + 'w-screen mx-auto shadow fixed bg-white z-[1500]'}>
             <div className='relative p-2 xl:container pt-5 xl:flex gap-2 pl-[1%]'>
@@ -218,7 +260,7 @@ const TopSearchNavBar = ({ pageRef }) => {
                             {searchTypes.map((item, index) => {
                                 return (
                                     <NavLink
-                                        to={item.path + currLocation?.city.toLowerCase()}
+                                        to={getPathForPropStatus(item.value)}
                                         key={index}
                                         onClick={() => {
                                             // setCurrSearchIndex(index);
@@ -284,12 +326,14 @@ const TopSearchNavBar = ({ pageRef }) => {
                                 }}
                             />
                         </div>
+                        <NavLink to={getRoutePath()}>
+                            <button
+                                onClick={setLocation}
+                                className='bg-orange-500 hover:bg-orange-600 rounded xs:rounded-none xs:rounded-r-full p-2 w-full xs:w-16 mt-2 xs:mt-0'>
+                                <p className={styles.textMedium + 'text-white'}>Search</p>
+                            </button>
+                        </NavLink>
 
-                        <button
-                            onClick={setLocation}
-                            className='bg-orange-500 hover:bg-orange-600 rounded xs:rounded-none xs:rounded-r-full p-2 w-full xs:w-16 mt-2 xs:mt-0'>
-                            <p className={styles.textMedium + 'text-white'}>Search</p>
-                        </button>
                         <div
                             ref={searchMenu} className={(searchResult.length > 0 ? 'border-[1px] border-gray-500' : '') + ' shadow-lg absolute top-16 bg-white rounded max-h-[320px] w-[300px] sm:w-[450px] overflow-auto'}>
                             {searchResult?.map((item, index) => {
@@ -367,7 +411,8 @@ const TopSearchNavBar = ({ pageRef }) => {
                             <p className='text-sm lg:text-base'>Short By</p>
                             <Dropdown />
                         </button>
-                        <div id='shortBy-menu' className={styles.dropdownMenu + 'w-[220px] group-hover:block sm:-ml-[95px]'}>
+                        <ShortByMenu/>
+                        {/* <div id='shortBy-menu' className={styles.dropdownMenu + 'w-[220px] group-hover:block sm:-ml-[95px]'}>
                             {shortByItems.map((item, index) => {
                                 return (
                                     <label key={index}
@@ -379,7 +424,7 @@ const TopSearchNavBar = ({ pageRef }) => {
                                 )
                             })}
                             <p className={styles.textMedium + 'text-center mt-2'}>Clear All</p>
-                        </div>
+                        </div> */}
                     </div>
 
                     <button
@@ -387,7 +432,7 @@ const TopSearchNavBar = ({ pageRef }) => {
                             propertyStatus: { text: 'Buy', value: 'sale', index: 0 },
                             BHKtype: '', propertyTypes: [],
                             priceRange: ['', ''],
-                            moreStatus: { furnishingTypes: [], bathrooms: [], minArea: '', maxArea: '', newResale: '', constructionStatus: '', facing: [], amenities: [], listedBy: [] },
+                            moreStatus: { furnishingTypes: '', bathrooms: '', minArea: '', maxArea: '', newResale: '', constructionStatus: '', facing: '', amenities: '', listedBy: '',floor:'' },
                             clearAll: true
                         }))}
                         className='ml-2 opacity-80 py-[2px] sm:py-1 '>

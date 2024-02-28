@@ -43,6 +43,12 @@ const BHKmenu = ({ classname }) => {
     const { filterMenus, propertyListState } = useSelector(state => state.User);
     const dispatch = useDispatch();
     const [bhkType, setBhkType] = useState('');
+    useEffect(() => {
+        if (propertyListState.clearAll) {
+            // dispatch(setPropertyListState({ ...propertyListState, BHKtype: '' }));
+            setBhkType('');
+        }
+    }, [propertyListState.clearAll]);
 
     return (
         <div className={styles.dropdownMenu + 'w-[120px] group-hover:block ' + classname}>
@@ -110,21 +116,22 @@ export const PropertyTypeMenu = ({ classname }) => {
     const [checkedItems, setCheckedItems] = useState([]);
 
     const handleOnCheckedItem = (e, index, value) => {
+        console.log('e.target.checked..', e.target.checked);
         let arr = [...checkedItems];
-        if (routePath.pathname == '/') {
-            if (e.target.checked) {
-                arr[index] = false;
-            } else {
-                arr[index] = value;
-            }
+        // if (routePath.pathname == '/') {
+        if (e.target.checked) {
+            arr[index] = false;
+        } else {
+            arr[index] = value;
         }
-        else {
-            if (e.target.checked) {
-                arr[index] = value;
-            } else {
-                arr[index] = false;
-            }
-        }
+        // }
+        // else {
+        //     if (e.target.checked) {
+        //         arr[index] = value;
+        //     } else {
+        //         arr[index] = false;
+        //     }
+        // }
         setCheckedItems(arr);
         dispatch(setPropertyListState({ ...propertyListState, clearAll: false, propertyTypes: arr.filter(it => it).join('-') }));
     }
@@ -178,13 +185,13 @@ export const BudgetMenu = ({ classname }) => {
         if (filterMenus?.rentBudget && propertyListState?.propertyStatus?.value == 'rent') {
             let rents = filterMenus?.rentBudget;
             setMenus(rents);
-            // setPriceRange([0, Number(rents[rents.length - 2].value)]);
+            setPriceRange([0, Number(rents[rents.length - 2].value)]);
             // setMaxPrice(Number(rents[rents.length - 1].value));
             // max = Number(rents[rents.length - 1].value);
         } else if (filterMenus?.saleBudget) {
             let sales = filterMenus?.saleBudget;
             setMenus(sales);
-            // setPriceRange([0, Number(sales[sales.length - 2].value)]);
+            setPriceRange([0, Number(sales[sales.length - 2].value)]);
             // setMaxPrice(Number(sales[sales.length - 1].value));
             // max = Number(sales[sales.length - 1].value);
         }
@@ -199,6 +206,12 @@ export const BudgetMenu = ({ classname }) => {
         }
 
     }, [priceRange]);
+
+    useEffect(() => {
+        if (propertyListState.clearAll) {
+            setPriceRange([0, getMaxPrice()]);
+        }
+    }, [propertyListState.clearAll]);
 
     const getMaxPrice = () => {
         if (filterMenus?.rentBudget && propertyListState?.propertyStatus?.value == 'rent') {
@@ -265,7 +278,10 @@ export const BudgetMenu = ({ classname }) => {
                 })}
             </div>
             <div
-                onClick={() => dispatch(setPropertyListState({ ...propertyListState, priceRange: ['', ''] }))}
+                onClick={() => {
+                    dispatch(setPropertyListState({ ...propertyListState, priceRange: ['', ''] }));
+                    setPriceRange([0, getMaxPrice()]);
+                }}
                 className={styles.textMedium + 'text-center my-2 cursor-pointer'}>
                 Clear All
             </div>
@@ -276,16 +292,17 @@ export const BudgetMenu = ({ classname }) => {
 export const MoreMenu = ({ classname }) => {
     const { filterMenus, propertyListState } = useSelector(state => state.User);
     const [checkedItems, setCheckedItems] = useState(
-        { furnishingTypes: [], bathrooms: [], minArea: '', maxArea: '', newResale: '', constructionStatus: '', facing: [], amenities: [], listedBy: [] }
+        { furnishingTypes: [], bathrooms: [], minArea: '', maxArea: '', newResale: '', constructionStatus: '', facing: [], amenities: [], listedBy: [], floor: [] }
     );
     const dispatch = useDispatch();
     const handleOnCheckedItem = (e, index, value, type) => {
         let arr = [...checkedItems[type]];
+        console.log('e.target.checked...', e.target.checked)
         if (e.target.checked) {
-            arr[index] = value;
+            arr[index] = false;
         }
         else {
-            arr[index] = false;
+            arr[index] = value;
         }
         setCheckedItems({ ...checkedItems, [type]: arr });
         dispatch(setPropertyListState({ ...propertyListState, clearAll: false, moreStatus: { ...propertyListState.moreStatus, [type]: arr.filter(it => it).join('-') } }));
@@ -294,7 +311,7 @@ export const MoreMenu = ({ classname }) => {
         if (propertyListState.clearAll) {
             console.log('allClear....');
             setCheckedItems(
-                { furnishingTypes: [], bathrooms: [], minArea: '', maxArea: '', newResale: '', constructionStatus: '', facing: [], amenities: [], listedBy: [] }
+                { furnishingTypes: [], bathrooms: [], minArea: '', maxArea: '', newResale: '', constructionStatus: '', facing: [], amenities: [], listedBy: [], floor: [] }
             );
         }
     }, [propertyListState.clearAll]);
@@ -309,7 +326,8 @@ export const MoreMenu = ({ classname }) => {
                             <label key={index} className='flex gap-2 hover:bg-gray-100'>
                                 <input
                                     checked={item.value == checkedItems.furnishingTypes[index]}
-                                    onChange={(e) => handleOnCheckedItem(e, index, item.value, 'furnishingTypes')}
+                                    // onChange={(e) => handleOnCheckedItem(e, index, item.value, 'furnishingTypes')}
+                                    onClick={(e) => handleOnCheckedItem(e, index, item.value, 'furnishingTypes')}
                                     type='checkbox' className='h-4 w-4 mt-1' />
                                 <p className='text-gray-600'>{item.label}</p>
                             </label>
@@ -326,7 +344,8 @@ export const MoreMenu = ({ classname }) => {
                             <label key={index} className='flex gap-2 hover:bg-gray-100'>
                                 <input
                                     checked={item.value == checkedItems.bathrooms[index]}
-                                    onChange={(e) => handleOnCheckedItem(e, index, item.value, 'bathrooms')} type='checkbox' className='h-4 w-4 mt-1' />
+                                    // onChange={(e) => handleOnCheckedItem(e, index, item.value, 'bathrooms')} type='checkbox' className='h-4 w-4 mt-1' />
+                                    onClick={(e) => handleOnCheckedItem(e, index, item.value, 'bathrooms')} type='checkbox' className='h-4 w-4 mt-1' />
                                 <p className=''>{item.label}</p>
                             </label>
                         )
@@ -340,7 +359,8 @@ export const MoreMenu = ({ classname }) => {
                 <div className='grid grid-cols-1 md:grid-cols-2 gap-4 mt-2'>
                     <div>
                         <select
-                            onClick={(e) => dispatch(setPropertyListState({
+                            value={propertyListState.moreStatus.minArea}
+                            onChange={(e) => dispatch(setPropertyListState({
                                 ...propertyListState, clearAll: false,
                                 moreStatus: { ...propertyListState.moreStatus, minArea: e.target.value }
                             }))}
@@ -359,6 +379,7 @@ export const MoreMenu = ({ classname }) => {
                     </div>
                     <div>
                         <select
+                            value={propertyListState.moreStatus.maxArea}
                             onChange={(e) => dispatch(setPropertyListState({
                                 ...propertyListState, clearAll: false,
                                 moreStatus: { ...propertyListState.moreStatus, maxArea: e.target.value }
@@ -410,7 +431,7 @@ export const MoreMenu = ({ classname }) => {
                                     moreStatus: { ...propertyListState.moreStatus, constructionStatus: item.value }
                                 }))}
                                 key={index} className='flex gap-2 hover:bg-gray-100'>
-                                <input type='radio' className='h-4 w-4 mt-1' />
+                                <input type='radio' className='h-4 w-4 mt-1' checked={propertyListState.moreStatus.constructionStatus == item.value} />
                                 <p className=''>{item.label}</p>
                             </label>
                         )
@@ -427,7 +448,8 @@ export const MoreMenu = ({ classname }) => {
                                 key={index} className='flex gap-2 mt-0 hover:bg-gray-100'>
                                 <input
                                     checked={item.value == checkedItems.facing[index]}
-                                    onChange={(e) => handleOnCheckedItem(e, index, item.value, 'facing')}
+                                    // onChange={(e) => handleOnCheckedItem(e, index, item.value, 'facing')}
+                                    onClick={(e) => handleOnCheckedItem(e, index, item.value, 'facing')}
                                     type='checkbox' className='h-4 w-4 mt-1' />
                                 <p className=''>{item.label}</p>
                             </label>
@@ -442,7 +464,12 @@ export const MoreMenu = ({ classname }) => {
                     {filterMenus?.more?.floor && filterMenus?.more?.floor.map((item, index) => {
                         return (
                             <label key={index} className='flex gap-2 mt-0 hover:bg-gray-100'>
-                                <input type='checkbox' className='h-4 w-4 mt-1' />
+                                <input
+                                    type='checkbox'
+                                    className='h-4 w-4 mt-1'
+                                    checked={item.value == checkedItems.floor[index]}
+                                    onClick={(e) => handleOnCheckedItem(e, index, item.value, 'floor')}
+                                />
                                 <p className=''>{item.label}</p>
                             </label>
                         )
@@ -458,7 +485,8 @@ export const MoreMenu = ({ classname }) => {
                             <label
                                 key={index} className='flex gap-2 mt-0 hover:bg-gray-100'>
                                 <input
-                                    onChange={(e) => handleOnCheckedItem(e, index, item.value, 'amenities')}
+                                    // onChange={(e) => handleOnCheckedItem(e, index, item.value, 'amenities')}
+                                    onClick={(e) => handleOnCheckedItem(e, index, item.value, 'amenities')}
                                     checked={item.value == checkedItems.amenities[index]}
                                     type='checkbox' className='h-4 w-4 mt-1' />
                                 <p className=''>{item.label}</p>
@@ -476,7 +504,8 @@ export const MoreMenu = ({ classname }) => {
                             <label
                                 key={index} className='flex gap-2 mt-1 hover:bg-gray-100'>
                                 <input
-                                    onChange={(e) => handleOnCheckedItem(e, index, item.value, 'listedBy')}
+                                    // onChange={(e) => handleOnCheckedItem(e, index, item.value, 'listedBy')}
+                                    onClick={(e) => handleOnCheckedItem(e, index, item.value, 'listedBy')}
                                     checked={item.value == checkedItems.listedBy[index]}
                                     type='checkbox' className='h-4 w-4 mt-1' />
                                 <p className=''>{item.label}</p>
@@ -487,7 +516,7 @@ export const MoreMenu = ({ classname }) => {
             </div>
             <div
                 onClick={() => {
-                    let initialState = { furnishingTypes: [], bathrooms: [], minArea: '', maxArea: '', newResale: '', constructionStatus: '', facing: [], amenities: [], listedBy: [] };
+                    let initialState = { furnishingTypes: [], bathrooms: [], minArea: '', maxArea: '', newResale: '', constructionStatus: '', facing: [], amenities: [], listedBy: [], floor: [] };
                     dispatch(setPropertyListState({
                         ...propertyListState,
                         moreStatus: { ...initialState }
@@ -502,19 +531,27 @@ export const MoreMenu = ({ classname }) => {
 }
 
 export const ShortByMenu = ({ classname }) => {
+    // const [selectedItem,setSelectedItem] = useState(null);
+    const [currIndex, setCurrIndex] = useState(null);
     return (
         <div className={styles.dropdownMenu + 'w-[220px] group-hover:block sm:-ml-[95px] ' + classname}>
             {shortByItems.map((item, index) => {
                 return (
                     <label key={index}
-                        // onClick={() => setSelectedBHK(index)}
+                        onClick={() => setCurrIndex(index)}
+                        // onClick={() => setSelectedItem(item.type)}
                         className={styles.dropdownItem}>
-                        <input id={`radioBtn-${index}`} className='mt-[0.5px]' type='radio' />
+                        {/* <input id={`radioBtn-${index}`} className='mt-[0.5px]' type='radio' checked={currIndex == index}/> */}
+                        <input className='mt-[0.5px]' type='radio' checked={currIndex == index} />
                         <p className='ml-1'>{item.type}</p>
                     </label>
                 )
             })}
-            <p className={'text-center mt-2'}>Clear All</p>
+            <div
+                className='text-center cursor-pointer py-2'
+                onClick={() => setCurrIndex(null)}>
+                <p className={'text-center mt-2'}>Clear All</p>
+            </div>
         </div>
     )
 }

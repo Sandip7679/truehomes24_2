@@ -113,7 +113,7 @@ const ProjectDetails = () => {
         }
         if (data) {
             setAllData({
-                breadcrumb: data.breadcrumb,
+                breadcrumb: data?.breadcrumb,
                 gallery: data.data?.galleryTab?.images ? data.data?.galleryTab?.images : [],
                 data: data.data,
                 featuredProperty: data.featuredProperty,
@@ -170,8 +170,8 @@ const ProjectDetails = () => {
                 {/* <div className='bg-white h-[100px]'>
                 </div> */}
                 <div className='mt-14 container mx-auto'>
-                    <div className='text-sm px-2 text-gray-500'> <NavLink to={'/'}>Home</NavLink>{' > '}<span>{AllData.breadcrumb[1]?.title}</span>{' > '}<span>{AllData.breadcrumb[2]?.title}</span>
-                        {AllData.breadcrumb[3]?.title && ' > '}<span className='text-base'>{AllData.breadcrumb[3]?.title}</span>
+                    <div className='text-sm px-2 text-gray-500'> <NavLink to={'/'}>Home</NavLink>{' > '}<span>{AllData?.breadcrumb[1]?.title}</span>{' > '}<span>{AllData.breadcrumb[2]?.title}</span>
+                        {AllData?.breadcrumb[3]?.title && ' > '}<span className='text-base'>{AllData?.breadcrumb[3]?.title}</span>
                     </div>
                     <div className='bg-white py-5 px-[2%] mt-1 shadow w-full md:flex md:gap-5'>
                         <div className=' w-full md:w-[65%]'>

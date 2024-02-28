@@ -141,7 +141,8 @@ const PropertyList = () => {
             `&min_area=${propertyListState.moreStatus.minArea}&max_area=${propertyListState.moreStatus.maxArea}` +
             `&availableFor=${propertyListState.moreStatus.newResale}` +
             `&availability=${propertyListState.moreStatus.constructionStatus}` +
-            '&facing=&floor=' +
+            `&facing=${propertyListState.moreStatus.facing}`+
+            `&floor=${propertyListState.moreStatus.floor}` +
             `&amenities=${propertyListState.moreStatus.amenities}` +
             `&listed_by=${propertyListState.moreStatus.listedBy}` +
             `&verified=&page=${currpage}`
@@ -203,7 +204,7 @@ const PropertyList = () => {
                                     {/* <img alt="Please wait.." title="Please wait.." src="https://www.truehomes24.com/assets/front_end/images/loader.gif" /> */}
                                     <img alt="Please wait.." title="Please wait.." src={loader} />
                                 </div>}
-                                <div>
+                                <div className='min-h-screen'>
                                     {propertyListData?.propertyList?.map((item, index) => {
                                         return (
                                             <PropertyListCard key={index} func={onClickContactBtn} Data={item} />

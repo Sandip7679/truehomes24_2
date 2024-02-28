@@ -164,6 +164,7 @@ const Header = () => {
     }
 
     const getCurrLocation = async () => {
+        if(currLocation.area != 'City') return;
         let location = localStorage.getItem('location');
         if (location && location != '') {
             dispatch(setlocation(JSON.parse(location)));
@@ -181,11 +182,11 @@ const Header = () => {
             return '/'
         }
         else {
-            let propertyStatus = localStorage.getItem('propertyStatus');
-            if (propertyStatus == 'rent' || propertyStatus == 'sale') {
-                return `/${propertyStatus}/property-for-${propertyStatus}-in-${city?.split(' ')?.join('-').toLowerCase()}`;
+            // let propertyStatus = localStorage.getItem('propertyStatus');
+            if (propertyListState.propertyStatus.value == 'rent' || propertyListState.propertyStatus.value == 'sale') {
+                return `/${propertyListState.propertyStatus.value}/property-for-${propertyListState.propertyStatus.value}-in-${city?.split(' ')?.join('-').toLowerCase()}`;
             }
-            else if (propertyStatus == 'new projects') {
+            else if (propertyListState.propertyStatus.value == 'new projects') {
                 return '/new-projects/new-projects-for-sale-in-' + city.split(' ').join('-').toLowerCase();
             }
         }
@@ -249,7 +250,7 @@ const Header = () => {
                                 {AllCities.international?.map((item, index) => {
                                     return (
                                         <NavLink
-                                            onClick={() => setLocation({ country: item.city, city: item.text, area: item.text, code: '' })}
+                                            onClick={() => setLocation({ country: item.city, city: item.text, area: item.text, code: '',location: '',locationName:null,project:'',projectName:null })}
                                             key={index}
                                             // to={locationPath.pathname != '/' ? "/" : '/'}
                                             to={`${getRoutePath(item.text)}`}
@@ -284,7 +285,7 @@ const Header = () => {
                                             <NavLink
                                                 // to={locationPath.pathname != '/' ? "/sale" : '/'}
                                                 to={`${getRoutePath(item.text)}`}
-                                                onClick={() => setLocation({ city: item.text, area: item.text, code: item.city, country: '90' })}
+                                                onClick={() => setLocation({ city: item.text, area: item.text, code: item.city, country: '90',location: '',locationName:null,project:'',projectName:null })}
                                                 key={index}
                                                 className="px-2 py-4 rounded-md hover:bg-gray-100 max-w-[100px] flex flex-col border-[1px] shadow-lg items-center justify-center">
                                                 <img alt='' src={cityIcon} className='h-5 w-6' />
@@ -302,7 +303,7 @@ const Header = () => {
                                         return (
                                             <NavLink
                                                 to={`${getRoutePath(item.text)}`}
-                                                onClick={() => setLocation({ city: item.text, area: item.text, code: item.city, country: '90' })}
+                                                onClick={() => setLocation({ city: item.text, area: item.text, code: item.city, country: '90',location: '',locationName:null,project:'',projectName:null })}
                                                 key={index} className="px-2 -mt-5 -pt-5  text-left cursor-pointer">
                                                 <div className='text-sm -mt-3 hover:bg-gray-100 w-[100%] pt-0 border-b-[0.5px]'>{item.text}</div>
                                             </NavLink>

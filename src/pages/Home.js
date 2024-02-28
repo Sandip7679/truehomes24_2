@@ -208,20 +208,15 @@ const Home = () => {
                 setNoSuggestion(false);
             }
         });
+
         getAllProperties();
-        // dispatch(setPropertyListState({
-        //     propertyStatus: { text: 'Buy', value: 'sale', index: 0 },
-        //     BHKtype: '', propertyTypes: [],
-        //     priceRange: ['', ''],
-        //     moreStatus: { furnishingTypes: [], bathrooms: [], minArea: '', maxArea: '', newResale: '', constructionStatus: '', facing: [], amenities: [], listedBy: [] },
-        //     clearAll: true
-        // }))
+
         dispatch(setPropertyListState({
             propertyStatus: { text: 'Buy', value: 'sale', for: 'Sale', index: 0 },
             BHKtype: '',
             propertyTypes: '',
             priceRange: ['', ''],
-            moreStatus: { furnishingTypes: '', bathrooms: '', minArea: '', maxArea: '', newResale: '', constructionStatus: '', facing: '', amenities: '', listedBy: '' },
+            moreStatus: { furnishingTypes: '', bathrooms: '', minArea: '', maxArea: '', newResale: '', constructionStatus: '', facing: '', amenities: '', listedBy: '',floor:'' },
             clearAll: true
         }))
     }, []);
@@ -243,8 +238,9 @@ const Home = () => {
             || propertyListState.BHKtype !== ''
             || propertyListState.propertyTypes !== ''
             || propertyStatus
-            || propertyListState.priceRange[0] !== ''
-            || propertyListState.priceRange[1] !== '') {
+            // || propertyListState.priceRange[0] !== ''
+            // || propertyListState.priceRange[1] !== ''
+        ) {
             getPropertyCount();
         }
     }, [propertyListState, searchStatus])
@@ -253,6 +249,21 @@ const Home = () => {
             getPropertyCount();
         }
     }, [propertyStatus]);
+
+    useEffect(() => {
+        if (currLocation.code != searchStatus.city && currLocation.code !== '') {
+            setSearchStatus(pre => ({
+                ...pre,
+                type: 'locality', quary: '',
+                city: currLocation.code, cityName: currLocation.city,
+                locality: '', localityName: null,
+                project: '', projectName: null
+            }));
+            if (curIndex > 0) {
+                setCurrIndex(0);
+            }
+        }
+    }, [currLocation.code]);
 
     const getHomeSearchData = async () => {
         let data;
@@ -495,6 +506,7 @@ const Home = () => {
                                         className={'pl-2 overflow-ellipsis text-sm sm:text-base focus:outline-none ' + (!searchStatus.cityName && 'w-full')}
                                         value={searchStatus.quary}
                                         onChange={(e) => setSearchStatus(pre => ({ ...pre, quary: e.target.value }))}
+                                    // required
                                     />
 
                                 </div>
@@ -575,6 +587,7 @@ const Home = () => {
                                 className='items-center flex-none justify-center'>
                                 <NavLink to={getRoutePath()}>
                                     <button
+                                        // type='submit'
                                         onClick={setLocation}
                                         className='hover:bg-white hover:text-black border-[1px] border-gray-400 duration-500 px-4 py-2 w-full sm:min-w-[100px] sm:h-[48px] bg-black text-white items-center justify-center'>
                                         {propertycount !== null ? `View ${propertycount} Properties` : 'Search'}
