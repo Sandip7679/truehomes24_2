@@ -186,7 +186,7 @@ const Header = () => {
             if (propertyListState.propertyStatus.value == 'rent' || propertyListState.propertyStatus.value == 'sale') {
                 return `/${propertyListState.propertyStatus.value}/property-for-${propertyListState.propertyStatus.value}-in-${city?.split(' ')?.join('-').toLowerCase()}`;
             }
-            else if (propertyListState.propertyStatus.value == 'new projects') {
+            else if (propertyListState.propertyStatus.value == 'new project') {
                 return '/new-projects/new-projects-for-sale-in-' + city.split(' ').join('-').toLowerCase();
             }
         }
@@ -341,8 +341,8 @@ const Header = () => {
                             </NavLink>
                             <NavLink
                                 onClick={() => {
-                                    localStorage.setItem('propertyStatus', 'new projects');
-                                    dispatch(setPropertyListState({ ...propertyListState, propertyStatus: { text: 'New Project', value: 'new projects',for:'Sale', index: 2 } }));
+                                    localStorage.setItem('propertyStatus', 'new project');
+                                    dispatch(setPropertyListState({ ...propertyListState, propertyStatus: { text: 'New Project', value: 'new project',for:'Sale', index: 2 } }));
                                 }}
                                 to={'/new-projects/new-projects-for-sale-in-' + currLocation?.city.split(' ').join('-').toLowerCase()}
                                 className="text-gray-100 hover:cursor-pointer hover:text-gray-400">

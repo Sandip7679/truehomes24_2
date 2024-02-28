@@ -329,7 +329,7 @@ const TopSearchNavBar = ({ pageRef }) => {
                         <NavLink to={getRoutePath()}>
                             <button
                                 onClick={setLocation}
-                                className='bg-orange-500 hover:bg-orange-600 rounded xs:rounded-none xs:rounded-r-full p-2 w-full xs:w-16 mt-2 xs:mt-0'>
+                                className='bg-orange-500 hover:bg-orange-600 rounded xs:rounded-none xs:rounded-r-full border-orange-500 border-[1px] p-2 w-full xs:w-16 mt-2 xs:mt-0'>
                                 <p className={styles.textMedium + 'text-white'}>Search</p>
                             </button>
                         </NavLink>
