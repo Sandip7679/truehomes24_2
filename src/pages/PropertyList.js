@@ -224,7 +224,6 @@ const PropertyList = () => {
                             </div>
                         </div>}
 
-
                         <div className={'w-full lg:w-[35%] bg-slate-50 py-4 px-1 ' + (rightListData.loading && 'opacity-50 animate-pulse bg-white')}>
                             <div>
                                 <RecentViewCard title={'Recent View Property'} Data={rightListData.recentView} />

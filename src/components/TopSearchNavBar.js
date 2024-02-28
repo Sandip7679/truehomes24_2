@@ -49,9 +49,9 @@ const moreDatas = {
 }
 
 const searchTypes = [
-    { type: 'Buy', icon: buyIcon, value: 'sale', path: '/sale/property-for-sale-in-' },
-    { type: 'Rent', icon: homeKey, value: 'rent', path: '/rent/property-for-rent-in-' },
-    { type: 'New Projects', icon: newProjectIcon, value: 'new project', path: '/new-projects/new-projects-for-sale-in-' }
+    { type: 'Buy', icon: buyIcon,for:'Sale', value: 'sale', path: '/sale/property-for-sale-in-' },
+    { type: 'Rent', icon: homeKey,for:'Rent', value: 'rent', path: '/rent/property-for-rent-in-' },
+    { type: 'New Projects', icon: newProjectIcon,for:'Sale', value: 'new project', path: '/new-projects/new-projects-for-sale-in-' }
 ]
 
 
@@ -264,7 +264,7 @@ const TopSearchNavBar = ({ pageRef }) => {
                                         key={index}
                                         onClick={() => {
                                             // setCurrSearchIndex(index);
-                                            dispatch(setPropertyListState({ ...propertyListState, propertyStatus: { text: item.type, value: item.value, index: index } }));
+                                            dispatch(setPropertyListState({ ...propertyListState, propertyStatus: { text: item.type, value: item.value,for:item.for, index: index } }));
                                         }}
                                         className='flex p-2 w-full hover:bg-gray-100'>
                                         <img alt='' className='h-4 w-4 mt-1 mr-2' src={item.icon} />
