@@ -51,7 +51,7 @@ const NewsAndArticles = ({ Data, type }) => {
                             <div key={index} className=' rounded-md shadow-lg border-[1px] h-full mx-4 group'>
                                 <NavLink to={''}>
                                     <div className='relative items-center rounded-t-md overflow-hidden hover:cursor-pointer'>
-                                        <img alt='' src={item.image}
+                                        <img alt='' src={item.cover_url}
                                             className='h-[170px] w-full transform transition-transform hover:scale-110 duration-1000'
                                         />
                                     </div>
@@ -59,16 +59,21 @@ const NewsAndArticles = ({ Data, type }) => {
 
                                 <div className='relative p-3 text-left border-b-[1px] border-gray-300'>
                                     <p className={styles.title4}>{item.title}</p>
-                                    <p className='text-sm text-gray-600 '>{item.description}</p>
+                                    <p className='text-sm text-gray-600 '>{item.about}</p>
                                 </div>
                                 <div className='px-3 pb-3 pt-1 flex justify-between text-sm text-gray-600'>
                                     <p>{item.writer}</p>
-                                    <p>{item.date}</p>
+                                    <p>{item.posted_on}</p>
                                 </div>
                             </div>
                         )
                     })}
                 </Carousel>
+                {!Data.length &&
+                    <div className='text-center text-red-500'>
+                        Not Found !
+                    </div>
+                }
             </div>
         </div>
     );

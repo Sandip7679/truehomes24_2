@@ -234,6 +234,19 @@ const TopSearchNavBar = ({ pageRef }) => {
     const getPathForPropStatus = (currPropStatus) => {
 
         // let propertystatus = localStorage.getItem('propertyStatus');
+        let location;
+        if(searchStatus.localityName){
+           location = {locationName:searchStatus.localityName,location:searchStatus.locality,city:searchStatus.cityName,code:searchStatus.city,area:searchStatus.cityName};
+           if(location.locationName != currLocation.locationName){
+               dispatch(setlocation({...currLocation,...location}));
+           }
+        }else if(searchStatus.cityName && currLocation.city != searchStatus.cityName ){
+            location = {...currLocation ,city:searchStatus.cityName,code:searchStatus.city,area:searchStatus.cityName,country:'90',location: '',locationName:null,project:'',projectName:null,};
+            dispatch(setlocation(location));
+        } else {
+            location = currLocation;
+
+        }
         let str = `${currLocation.locationName ? ('-in-' + currLocation.locationName.split(' ').join('-').toLowerCase()) : ''}` +
             `-in-${currLocation.city?.split(' ').join('-').toLowerCase()}`;
 

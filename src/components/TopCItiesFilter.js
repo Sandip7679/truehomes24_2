@@ -5,50 +5,6 @@ import { useSelector } from 'react-redux';
 import useApi from '../ApiConf';
 
 
-const cities = [
-    { city: 'Ahmedabad', id: 1 },
-    { city: 'Bangalore', id: 2 },
-    { city: 'Chennai', id: 3 },
-    { city: 'Delhi', id: 4 },
-    { city: 'Hydrabad', id: 5 },
-    { city: 'Kolkata', id: 6 },
-    { city: 'Mumbai', id: 7 },
-    { city: 'Pune', id: 8 },
-]
-
-const locations = [
-    { location: 'Property in Anna Nagar' },
-    { location: 'Property in Adyar' },
-    { location: 'Property in Guduvancheri' },
-    { location: 'Property in Guduvancheri' },
-    { location: 'Property in Valasaravakkam' },
-    { location: 'Property in Valasaravakkam' },
-    { location: 'Property in Valasaravakkam' },
-    { location: 'Property in Mylapore' },
-    { location: 'Property in Tambaram' },
-    { location: 'Property in Perungudi' },
-    { location: 'Property in Perungudi' },
-    { location: 'Property in Perungudi' },
-    { location: 'Property in Thiruvanmiyur' },
-    { location: 'Property in Ambattur' },
-    { location: 'Property in Ambattur' },
-    { location: 'Property in Ambattur' },
-    { location: 'Property in Ambattur' },
-    { location: 'Property in Ambattur' },
-    { location: 'Property in Ambattur' },
-    { location: 'Property in Ambattur' },
-    { location: 'Property in Ambattur' },
-    { location: 'Property in Ambattur' },
-    { location: 'Property in Ambattur' },
-    { location: 'Property in Ambattur' },
-    { location: 'Property in Ambattur' },
-    { location: 'Property in Ambattur' },
-    { location: 'Property in Ambattur' },
-    { location: 'Property in Ambattur' },
-    { location: 'Property in Ambattur' },
-    { location: 'Property in Ambattur' },
-
-]
 const TopCItiesFilter = () => {
     const [currCityId, setCurrCityId] = useState(0);
     const [citiesData,setCitiesData] = useState([]);
@@ -56,14 +12,8 @@ const TopCItiesFilter = () => {
     const { fetchData} = useApi();
 
     useEffect(() => {
-        // const borderBottomElement = document.querySelector('.animated-border');
-        // borderBottomElement.classList.add('animated-border');
         getAllCitiesData();
     }, [propertyListState.propertyStatus?.value]);
-
-    const getLocations = (cityId) => {
-        setCurrCityId(cityId);
-    }
 
     const getAllCitiesData = async () => {
         let data;

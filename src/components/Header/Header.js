@@ -15,7 +15,7 @@ import MobileMenu from './MobileMenu';
 import { DropdownHover } from '../Dropdowns';
 import { useDispatch, useSelector } from 'react-redux';
 import { logout, setFileterMenus, setPropertyListState, setlocation } from '../../Redux/reducer/User';
-import useApi from '../../ApiConf';
+import useApi, { UseApi } from '../../ApiConf';
 
 // const cities = [
 //     { city: 'Dubai' },
@@ -60,6 +60,7 @@ const Header = () => {
     const citymenu = useRef(null);
     const [showLoginPopup, setShowLoginPopup] = useState(false);
     const { fetchData, error } = useApi();
+    const { FetchData } = UseApi();
     const { login_status, currLocation, propertyListState, filterMenus } = useSelector(state => state.User);
     const dispatch = useDispatch();
     const [searchText, setSearchText] = useState(null);
@@ -103,8 +104,10 @@ const Header = () => {
         getCurrLocation();
     }, []);
 
+
     useEffect(() => {
-        getMenuDetails();
+        GetMenuDetails();
+        // GetMenuDetails();
     }, [propertyListState.propertyStatus])
 
     useEffect(() => {
@@ -119,7 +122,7 @@ const Header = () => {
             return () => clearTimeout(clearTime);
         }
         else if (searchText == '') {
-            getMenuDetails();
+            GetMenuDetails();
         }
 
     }, [searchText])
@@ -150,10 +153,11 @@ const Header = () => {
     //     return () => clearTimeout(clearTime);
     // }
 
-    const getMenuDetails = async () => {
+    const GetMenuDetails = async () => {
         let data;
         try {
-            data = await fetchData(`header-menu?property_status=${propertyListState.propertyStatus.value}`, 'GET');
+            data = await FetchData(`header-menu?property_status=${propertyListState.propertyStatus.value}`, 'GET');
+            // data = await FetchData(`header-menu?property_status=sale`, 'GET');
         } catch (err) {
             console.log(err);
         }
@@ -164,8 +168,9 @@ const Header = () => {
     }
 
     const getCurrLocation = async () => {
-        if(currLocation.area != 'City') return;
+        if (currLocation.area != 'City') return;
         let location = localStorage.getItem('location');
+        console.log('locationnn...',location);
         if (location && location != '') {
             dispatch(setlocation(JSON.parse(location)));
         }
@@ -182,6 +187,9 @@ const Header = () => {
             return '/'
         }
         else {
+            // let str = `${searchStatus.localityName ? ('-in-' + searchStatus.localityName.split(' ').join('-').toLowerCase()) : ''}` +
+            //     `-in-${searchStatus.cityName ? searchStatus.cityName.split(' ').join('-').toLowerCase() : currLocation.city?.split(' ').join('-').toLowerCase()}`;
+
             // let propertyStatus = localStorage.getItem('propertyStatus');
             if (propertyListState.propertyStatus.value == 'rent' || propertyListState.propertyStatus.value == 'sale') {
                 return `/${propertyListState.propertyStatus.value}/property-for-${propertyListState.propertyStatus.value}-in-${city?.split(' ')?.join('-').toLowerCase()}`;
@@ -191,6 +199,10 @@ const Header = () => {
             }
         }
     }
+    // const getPathForStatus = (basepath) => {
+    //     let str = `${searchStatus.localityName ? ('-in-' + searchStatus.localityName.split(' ').join('-').toLowerCase()) : ''}` +
+    //         `-in-${searchStatus.cityName ? searchStatus.cityName.split(' ').join('-').toLowerCase() : currLocation.city?.split(' ').join('-').toLowerCase()}`;
+    // }
 
     const handleLogout = () => {
         localStorage.setItem('isLoggedIn', false);
@@ -250,7 +262,7 @@ const Header = () => {
                                 {AllCities.international?.map((item, index) => {
                                     return (
                                         <NavLink
-                                            onClick={() => setLocation({ country: item.city, city: item.text, area: item.text, code: '',location: '',locationName:null,project:'',projectName:null })}
+                                            onClick={() => setLocation({ country: item.city, city: item.text, area: item.text, code: '', location: '', locationName: null, project: '', projectName: null })}
                                             key={index}
                                             // to={locationPath.pathname != '/' ? "/" : '/'}
                                             to={`${getRoutePath(item.text)}`}
@@ -285,7 +297,7 @@ const Header = () => {
                                             <NavLink
                                                 // to={locationPath.pathname != '/' ? "/sale" : '/'}
                                                 to={`${getRoutePath(item.text)}`}
-                                                onClick={() => setLocation({ city: item.text, area: item.text, code: item.city, country: '90',location: '',locationName:null,project:'',projectName:null })}
+                                                onClick={() => setLocation({ city: item.text, area: item.text, code: item.city, country: '90', location: '', locationName: null, project: '', projectName: null })}
                                                 key={index}
                                                 className="px-2 py-4 rounded-md hover:bg-gray-100 max-w-[100px] flex flex-col border-[1px] shadow-lg items-center justify-center">
                                                 <img alt='' src={cityIcon} className='h-5 w-6' />
@@ -303,7 +315,7 @@ const Header = () => {
                                         return (
                                             <NavLink
                                                 to={`${getRoutePath(item.text)}`}
-                                                onClick={() => setLocation({ city: item.text, area: item.text, code: item.city, country: '90',location: '',locationName:null,project:'',projectName:null })}
+                                                onClick={() => setLocation({ city: item.text, area: item.text, code: item.city, country: '90', location: '', locationName: null, project: '', projectName: null })}
                                                 key={index} className="px-2 -mt-5 -pt-5  text-left cursor-pointer">
                                                 <div className='text-sm -mt-3 hover:bg-gray-100 w-[100%] pt-0 border-b-[0.5px]'>{item.text}</div>
                                             </NavLink>
@@ -324,7 +336,7 @@ const Header = () => {
                             <NavLink
                                 onClick={() => {
                                     localStorage.setItem('propertyStatus', 'sale');
-                                    dispatch(setPropertyListState({ ...propertyListState, propertyStatus: { text: 'Buy', value: 'sale',for:'Sale', index: 0 } }));
+                                    dispatch(setPropertyListState({ ...propertyListState, propertyStatus: { text: 'Buy', value: 'sale', for: 'Sale', index: 0 } }));
                                 }}
                                 to={'/sale/property-for-sale-in-' + currLocation?.city.split(' ').join('-').toLowerCase()}
                                 className="text-gray-100 hover:cursor-pointer hover:text-gray-400">
@@ -333,7 +345,7 @@ const Header = () => {
                             <NavLink
                                 onClick={() => {
                                     localStorage.setItem('propertyStatus', 'rent');
-                                    dispatch(setPropertyListState({ ...propertyListState, propertyStatus: { text: 'Rent', value: 'rent',for:'Rent', index: 1 } }));
+                                    dispatch(setPropertyListState({ ...propertyListState, propertyStatus: { text: 'Rent', value: 'rent', for: 'Rent', index: 1 } }));
                                 }}
                                 to={'/rent/property-for-rent-in-' + currLocation?.city.split(' ').join('-').toLowerCase()}
                                 className="text-gray-100 hover:cursor-pointer hover:text-gray-400">
@@ -342,7 +354,7 @@ const Header = () => {
                             <NavLink
                                 onClick={() => {
                                     localStorage.setItem('propertyStatus', 'new project');
-                                    dispatch(setPropertyListState({ ...propertyListState, propertyStatus: { text: 'New Project', value: 'new project',for:'Sale', index: 2 } }));
+                                    dispatch(setPropertyListState({ ...propertyListState, propertyStatus: { text: 'New Project', value: 'new project', for: 'Sale', index: 2 } }));
                                 }}
                                 to={'/new-projects/new-projects-for-sale-in-' + currLocation?.city.split(' ').join('-').toLowerCase()}
                                 className="text-gray-100 hover:cursor-pointer hover:text-gray-400">

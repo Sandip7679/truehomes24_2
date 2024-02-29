@@ -14,7 +14,7 @@ import Contact from '../components/Contact';
 import ScrollUp from '../components/ScrollUp';
 import BHKmenu, { BudgetMenu, PropertyMenu, PropertyTypeMenu } from '../components/Dropdowns';
 import NewsAndArticles from '../components/NewsAndArticles';
-import useApi from '../ApiConf';
+import useApi, { UseApi } from '../ApiConf';
 import { useDispatch, useSelector } from 'react-redux';
 import { setPropertyListState, setlocation } from '../Redux/reducer/User';
 import { NavLink } from 'react-router-dom';
@@ -174,8 +174,9 @@ const Home = () => {
     const searchInput = useRef();
     const homePage = useRef();
     const { fetchData, error } = useApi();
+    const { FetchData } = UseApi();
     // const [featuredProperties, setFeaturedProperties] = useState([]);
-    const [allProperties, setAllProperties] = useState({ featured: [], newProjects: [] });
+    const [allProperties, setAllProperties] = useState({ featured: [], newProjects: [], recentlyAdded: [], newsAndArticle: [], topDeveloper: [] });
     const [searchStatus, setSearchStatus] = useState({ quary: null, type: 'city', city: '', locality: '', cityName: null, localityName: null, project: '', projectName: null });
     const [searchResult, setSearchResult] = useState([]);
     const { currLocation, propertyListState } = useSelector(state => state.User);
@@ -209,14 +210,13 @@ const Home = () => {
             }
         });
 
-        getAllProperties();
 
         dispatch(setPropertyListState({
             propertyStatus: { text: 'Buy', value: 'sale', for: 'Sale', index: 0 },
             BHKtype: '',
             propertyTypes: '',
             priceRange: ['', ''],
-            moreStatus: { furnishingTypes: '', bathrooms: '', minArea: '', maxArea: '', newResale: '', constructionStatus: '', facing: '', amenities: '', listedBy: '',floor:'' },
+            moreStatus: { furnishingTypes: '', bathrooms: '', minArea: '', maxArea: '', newResale: '', constructionStatus: '', facing: '', amenities: '', listedBy: '', floor: '' },
             clearAll: true
         }))
     }, []);
@@ -250,7 +250,9 @@ const Home = () => {
         }
     }, [propertyStatus]);
 
+
     useEffect(() => {
+        console.log('currLOcation.code...', currLocation);
         if (currLocation.code != searchStatus.city && currLocation.code !== '') {
             setSearchStatus(pre => ({
                 ...pre,
@@ -262,8 +264,11 @@ const Home = () => {
             if (curIndex > 0) {
                 setCurrIndex(0);
             }
+            GetAllProperties();
         }
+
     }, [currLocation.code]);
+
 
     const getHomeSearchData = async () => {
         let data;
@@ -272,7 +277,7 @@ const Home = () => {
             `&city=${searchStatus.city}` +
             `&locality=${searchStatus.locality}`;
         try {
-            data = await fetchData('home-search?query=' + quary, 'GET');
+            data = await FetchData('home-search?query=' + quary, 'GET');
             // console.log('data.... data...', data)
         } catch (err) {
             console.log('err... data..', err);
@@ -317,17 +322,18 @@ const Home = () => {
         let query = `property_status=${propertyStatus ? propertyStatus : 'sale'}` +
             `&property_type=${propertyListState.propertyTypes}` +
             `&bedroom=${propertyListState?.BHKtype}` +
-            `&min_price=${propertyListState.priceRange[0]}&max_price=${propertyListState.priceRange[1]}` +
+            // `&min_price=${propertyListState.priceRange[0]}&max_price=${propertyListState.priceRange[1]}` +
+            `&min_price=${propertyListState.priceRange[0]}&max_price=100000` +
             `&city=${searchStatus.city}` + `&locality=${searchStatus.locality}`
         try {
-            countData = await fetchData('get-property-count?' + query, 'GET');
+            countData = await FetchData('get-property-count?' + query, 'GET');
             console.log('countData.... data...', countData);
         } catch (err) {
             console.log('err... countData..', err);
         }
-        if (countData?.count !== null) {
+        if (countData?.count) {
             // console.log('countData.count..', countData.count);
-            setPropertyCount(countData.count);
+            setPropertyCount(countData?.count);
         }
     }
     const onSearchInputKeyPress = (event) => {
@@ -388,25 +394,72 @@ const Home = () => {
         dispatch(setlocation({ ...currLocation, ...location }));
     }
 
-    const getAllProperties = async () => {
+    // const getAllProperties = async () => {
+    //     let featured
+    //     try {
+    //         featured = await fetchData('featured-property-slider?limit=5&page=1', 'GET');
+    //         console.log('featured.... data...', featured)
+    //     } catch (err) {
+    //         console.log('err... featured..', err);
+    //     }
+    //     if (featured?.content) { featured = Object.values(featured?.content) }
+
+    //     let newProjects
+    //     try {
+    //         newProjects = await fetchData('new-projects-slider?limit=5&page=1', 'GET');
+    //     } catch (err) {
+    //         console.log(err);
+    //     }
+    //     if (newProjects) { newProjects = Object.values(newProjects.content) }
+
+    //     setAllProperties(pre => ({ ...pre, featured: featured, newProjects: newProjects }));
+    // }
+
+    const GetAllProperties = async () => {
         let featured
         try {
-            featured = await fetchData('featured-property-slider?limit=5&page=1', 'GET');
+            featured = await FetchData(`featured-property-slider?type=1&limit=5&page=1&city=${currLocation.code}`, 'GET');
             console.log('featured.... data...', featured)
+            console.log('currLOcation2.code...', currLocation);
+
         } catch (err) {
             console.log('err... featured..', err);
         }
-        if (featured?.content) { featured = Object.values(featured?.content) }
+        if (featured?.content) { featured = featured?.content }
 
         let newProjects
         try {
-            newProjects = await fetchData('new-projects-slider?limit=5&page=1', 'GET');
+            newProjects = await FetchData(`featured-property-slider?type=2&limit=5&page=1&city=${currLocation.code}`, 'GET');
         } catch (err) {
             console.log(err);
         }
-        if (newProjects) { newProjects = Object.values(newProjects.content) }
+        if (newProjects) { newProjects = newProjects.content }
 
-        setAllProperties(pre => ({ ...pre, featured: featured, newProjects: newProjects }));
+        let recentlyAdded
+        try {
+            recentlyAdded = await FetchData(`property-list?recently_added=1&city=${currLocation.code}&page=1&limit=8`, 'GET');
+        } catch (err) {
+            console.log(err);
+        }
+        if (recentlyAdded?.property) { recentlyAdded = recentlyAdded.property }
+
+        let newsAndArticle
+        try {
+            newsAndArticle = await FetchData(`blogs?page=1&limit=8&city=${currLocation.code}`, 'GET');
+        } catch (err) {
+            console.log(err);
+        }
+        if (newsAndArticle?.content) { newsAndArticle = newsAndArticle.content }
+
+        let topDeveloper
+        try {
+            topDeveloper = await FetchData(`real-estate-builders-in-${currLocation.city.toLowerCase()}?for_home=1&limit=8`, 'GET');
+        } catch (err) {
+            console.log(err);
+        }
+        if (topDeveloper?.content) { topDeveloper = topDeveloper.content }
+
+        setAllProperties(pre => ({ ...pre, featured: featured, newProjects: newProjects, recentlyAdded: recentlyAdded, newsAndArticle: newsAndArticle,topDeveloper:topDeveloper }));
     }
 
     const onClickContactBtn = (item) => {
@@ -648,10 +701,10 @@ const Home = () => {
                     <PropertySlider type={'New Project'} Data={allProperties.newProjects} />
                 </div>
                 <div className='mt-[50px]'>
-                    <RecentAdded Data={Data} func={onClickContactBtn} />
+                    <RecentAdded Data={allProperties.recentlyAdded} func={onClickContactBtn} />
                 </div>
                 <div className='mt-5'>
-                    <NewsAndArticles Data={NewsArticlesData} type={'News & Articles'} />
+                    <NewsAndArticles Data={allProperties.newsAndArticle} type={'News & Articles'} />
                 </div>
                 <div className='mt-10'>
                     <p className={styles.title2}>Our Property Stats</p>
@@ -670,26 +723,32 @@ const Home = () => {
                 </div>
 
                 <div className='mb-16 mt-10 px-2 sm:px-5'>
-                    <p className={styles.title2}>Top Developers in Ahmedabad</p>
+                    <p className={styles.title2}>Top Developers in {currLocation.city}</p>
                     <div className='grid grid-cols-1 xs:grid-cols-2 lg:grid-cols-3 gap-2 sm:gap-5 justify-center mt-5'>
-                        {TopDevelopersData.map((item, index) => {
+                        {allProperties.topDeveloper?.map((item, index) => {
                             return (
                                 <div key={index} className='group border-[1px] cursor-pointer hover:bg-gray-50 border-gray-300 p-2 rounded-md shadow-md'>
                                     <div className='flex flex-col sm:flex-row items-center sm:p-2 sm:py-4 gap-5'>
                                         <div className='border-[1px] w-[120px] border-gray-300 p-2 rounded-md'>
-                                            <img alt='' className='h-[100px]' src={item.icon} />
+                                            <img alt='' className='h-[100px]' src={item.image} />
                                         </div>
                                         <b className='group-hover:text-green-600 text-gray-600 mb-2'>
-                                            {item.name}
+                                            {item.title}
                                         </b>
                                     </div>
                                     <div className='border-gray-300 sm:border-t-[1px] sm:p-2 text-sm text-center text-sky-700 font-semibold hover:underline'>
-                                        <p>{item.project} project by {item.name} in Ahmedabad</p>
+                                        <p>{item.totalProject} project by {item.title} in {currLocation.city}</p>
                                     </div>
                                 </div>
                             )
                         })}
+
                     </div>
+                    {!allProperties.topDeveloper.length &&
+                        <div className='text-center text-red-500'>
+                            Not Found !
+                        </div>
+                    }
                 </div>
 
                 <div className='mb-16 mt-5 px-2 sm:px-5'>
