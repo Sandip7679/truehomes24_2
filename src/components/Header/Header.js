@@ -100,7 +100,7 @@ const Header = () => {
         //     setIsLoggedIn(true);
         //  }
         //   console.log('location.pathname..',location.pathname);
-        getCurrLocation();
+        // getCurrLocation();
         getFileterMenus();
     }, []);
 

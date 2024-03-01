@@ -137,7 +137,10 @@ const Home = () => {
         }
     }, [propertyStatus]);
 
-
+    useEffect(()=>{
+        GetAllProperties();
+    },[]);
+    
     useEffect(() => {
         console.log('currLOcation.code...', currLocation);
         if (currLocation.code != searchStatus.city && currLocation.code !== '') {
@@ -155,9 +158,7 @@ const Home = () => {
         }
     }, [currLocation.code]);
 
-    // useEffect(()=>{
-    //     GetAllProperties();
-    // },[]);
+   
 
 
     const getHomeSearchData = async () => {
@@ -349,7 +350,7 @@ const Home = () => {
         }
         if (topDeveloper?.content) { topDeveloper = topDeveloper.content }
 
-        setAllProperties(pre => ({ ...pre, featured: featured, newProjects: newProjects, recentlyAdded: recentlyAdded, newsAndArticle: newsAndArticle,topDeveloper:topDeveloper }));
+        setAllProperties(pre => ({ ...pre, featured: featured, newProjects: newProjects, recentlyAdded: recentlyAdded, newsAndArticle: newsAndArticle, topDeveloper: topDeveloper }));
     }
 
     const onClickContactBtn = (item) => {

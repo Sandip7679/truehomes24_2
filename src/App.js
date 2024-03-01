@@ -16,7 +16,7 @@ import EditProfile from './pages/MyDashboard/EditProfile';
 import AdPackageDetail from './pages/PostProperty/AdPackageDetail';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { setPageRefress, setuser } from './Redux/reducer/User';
+import { setPageRefress, setlocation, setuser } from './Redux/reducer/User';
 import ContactUs from './pages/QuickLinks/ContactUs';
 import FAQs from './pages/QuickLinks/FAQs';
 import Blogs from './pages/QuickLinks/Blogs';
@@ -28,9 +28,9 @@ import RefundPolicy from './pages/QuickLinks/RefundPolicy';
 import Sitemap from './pages/QuickLinks/Sitemap';
 
 function App() {
-  const {pageRefresh} = useSelector(state=>state.User);
+  const {pageRefresh,currLocation} = useSelector(state=>state.User);
   const dispatch = useDispatch();
-  const location = useLocation();
+  // const location = useLocation();
 
   useEffect(()=>{
      if(localStorage.getItem('isLoggedIn') == 'true'){
@@ -39,7 +39,17 @@ function App() {
      if(pageRefresh){
       dispatch(setPageRefress(false));
      }
-  },[])
+     getCurrLocation();
+  },[]);
+
+  const getCurrLocation = async () => {
+    if (currLocation.area != 'City') return;
+    let location = localStorage.getItem('location');
+    console.log('locationnn...',location);
+    if (location && location != '') {
+        dispatch(setlocation(JSON.parse(location)));
+    }
+}
 
   return (
     <>
