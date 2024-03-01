@@ -591,9 +591,9 @@ const Home = () => {
                 <div className='mt-[50px]'>
                     <PropertySlider type={'New Project'} Data={allProperties.newProjects} />
                 </div>
-                <div className='mt-[50px]'>
+                {allProperties.recentlyAdded?.length && <div className='mt-[50px]'>
                     <RecentAdded Data={allProperties.recentlyAdded} func={onClickContactBtn} />
-                </div>
+                </div>}
                 <div className='mt-5'>
                     <NewsAndArticles Data={allProperties.newsAndArticle} type={'News & Articles'} />
                 </div>
