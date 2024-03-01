@@ -52,7 +52,7 @@ export const UseApi = () => {
        let url = 'http://api.truehomes24.com/api/'+ endpoint;
     try {
       var myHeaders = new Headers();
-      // myHeaders.append("Authorization", "Bearer null");
+      // myHeaders.append("Authorization", "Bearer ");
       const response = await fetch(url,{
         method: method,
         // headers: {
