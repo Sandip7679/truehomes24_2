@@ -11,7 +11,7 @@ const PropertySlider = ({ Data, type }) => {
         <div>
             <div className='my-10'>
                 {type && <h1 className={styles.title1 + 'text-start mb-5 px-0'}>{type}</h1>}
-                {Data?.length && <Carousel
+                {Data?.length > 0 && <Carousel
                     swipeable={true}
                     draggable={false}
                     responsive={responsive}

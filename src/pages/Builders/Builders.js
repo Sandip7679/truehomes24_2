@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Header from '../../components/Header/Header';
 import buildersBgImage from '../../assets/images/buildersBg.jpg'
 import { styles } from '../../Styles/Styles';
@@ -7,6 +7,9 @@ import TopCItiesFilter from '../../components/TopCItiesFilter';
 import Footer from '../../components/Footer';
 import { NavLink } from 'react-router-dom';
 import { DropdownInput } from '../../components/PostProperty/PostPropertyComp';
+import { setCurrPage } from '../../Redux/reducer/User';
+import { useDispatch, useSelector } from 'react-redux';
+import { UseApi } from '../../ApiConf';
 
 const buildersData = [
   { name: 'Lodha Group', totalProjects: '162', onGoingProj: '118', Bhks: [{ type: '2,3 BHK Mumbai', }, { type: '1,2 BHK Thane' }] },
@@ -41,6 +44,34 @@ const topBuildersData = [
 const builderGallery = ['Builder Gallery', 'Builder Gallery in Kolkata',]
 
 const Builders = () => {
+
+  const { FetchData } = UseApi();
+  const [builders, setBuilders] = useState([]);
+  const { currPage } = useSelector(state => state.User);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    if (currPage > 1) {
+      dispatch(setCurrPage(1));
+    }
+  }, []);
+
+  useEffect(() => {
+    getBuildersData();
+  }, [currPage]);
+
+  const getBuildersData = async () => {
+    let data;
+    try {
+      data = await FetchData(`real-estate-builders-in-india`, 'GET');
+    } catch (err) {
+      console.log(err);
+    }
+    if (data) {
+      console.log('builders data..', data);
+      setBuilders(data?.Builders);
+    }
+  }
+
   return (
     <div className=''>
       <Header />
@@ -65,41 +96,44 @@ const Builders = () => {
               </div>
               {/* (index == 0 ? 'md:order-first lg:order-none' : index == 1 ? 'lg:-order-first' : '') + */}
               <div className='mt-16 pb-5 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4'>
-                 {/* <GetCallBack /> */}
-                {buildersData.map((item, index) => {
+                {/* <GetCallBack /> */}
+                {builders?.length > 0 && builders?.map((item, index) => {
                   return (
-                    <> 
+                    <>
                       {index == 2 && <GetCallBack />}
-                      <div className={ (index == 1? 'md:order-last lg:order-none':'')+' shadow-xl rounded-sm border-[1px] pb-10 px-4'}>
+                      <div className={(index == 1 ? 'md:order-last lg:order-none' : '') + ' shadow-xl rounded-sm border-[1px] pb-10 px-4'}>
                         <div className='py-8'>
-                          <p className={styles.title3 + 'text-orange-600'}>{item.name}</p>
+                          <p className={styles.title3 + 'text-orange-600'}>{item.builderName}</p>
                         </div>
                         <div className=' flex flex-wrap gap-5 border-y-[1px] -mx-4 px-4 pb-16 pt-3'>
                           <div className='flex gap-1 tracking-wide justify-center items-center'>
                             <span className='text-gray-600 opacity-85 text-sm sm:text-base font-semibold rounded-full border-orange-500 border-[1px] p-1'>
-                              {item.totalProjects}
+                              {item.totalProject}
                             </span>
                             <p className={styles.textMedium}>Total Projects</p>
                           </div>
                           <div className='flex gap-1 tracking-wide justify-center items-center'>
                             <span className='text-gray-600 opacity-85 text-sm sm:text-base font-semibold rounded-full border-orange-500 border-[1px] p-1'>
-                              {item.totalProjects}
+                              {item.ongoingProject}
                             </span>
-                            <p className={styles.textMedium}>Total Projects</p>
+                            <p className={styles.textMedium}>Ongoing Projects</p>
                           </div>
                         </div>
 
                         <div className='my-7'>
-                          <p className='text-gray-700'>Projects by {item.name}</p>
+                          <p className='text-gray-700'>Projects by {item.builderName}</p>
                           <div className='flex gap-4 mt-5'>
-                            <div className='w-[95px]'>
-                              <img alt='' src='https://www.truehomes24.com/assets/new-projects/banner-01/Goyal-Orchid-Whitefield1.webp' className='h-[100px] w-full' />
-                              <p className='text-xs'>{item.Bhks[0].type}</p>
-                            </div>
-                            <div className='w-[95px]'>
+                            {item.builderProps.map((itm, ind) => {
+                              return (
+                                <div className='w-[95px]'>
+                                  <img alt='' src={itm.banner} className='h-[100px] w-full' />
+                                </div>
+                              )
+                            })}
+
+                            {/* <div className='w-[95px]'>
                               <img alt='' src='https://www.truehomes24.com/assets/new-projects/banner-01/lodhacrown1.webp' className='h-[100px] w-full' />
-                              <p className='text-xs'>{item.Bhks[1].type}</p>
-                            </div>
+                            </div> */}
                             <NavLink to={''} className='flex flex-col h-[100px] group justify-center items-center p-2 px-6 shadow-md border-[1px] rounded hover:text-white hover:bg-orange-600 hover:bg-opacity-85'>
                               <p className='text-sm'>View</p>
                               <p className='font-semibold text-lg group-hover:text-white text-orange-600 my-2'>115</p>

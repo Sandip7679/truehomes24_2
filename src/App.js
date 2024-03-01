@@ -42,7 +42,7 @@ function App() {
      getCurrLocation();
   },[]);
 
-  const getCurrLocation = async () => {
+  const getCurrLocation =  () => {
     if (currLocation.area != 'City') return;
     let location = localStorage.getItem('location');
     console.log('locationnn...',location);

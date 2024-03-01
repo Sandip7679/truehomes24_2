@@ -137,14 +137,25 @@ const Home = () => {
         }
     }, [propertyStatus]);
 
-    useEffect(()=>{
-        GetAllProperties();
-    },[]);
+    useEffect(() => {
+        if (currLocation.area == 'City') {
+            let location = localStorage.getItem('location');
+            console.log('locationnn...', location);
+            if (location && location != '') {
+                GetAllProperties(JSON.parse(location));
+            } else {
+                GetAllProperties(currLocation);
+            }
+        }
+    }, []);
+    // useEffect(()=>{
+    //     GetAllProperties();
+    // },[]);
 
     useEffect(() => {
         console.log('currLOcation.code...', currLocation);
         if (currLocation.code != searchStatus.city && currLocation.code !== '') {
-            GetAllProperties();
+            GetAllProperties(currLocation);
             setSearchStatus(pre => ({
                 ...pre,
                 type: 'locality', quary: '',
@@ -158,7 +169,7 @@ const Home = () => {
         }
     }, [currLocation.code]);
 
-   
+
 
 
     const getHomeSearchData = async () => {
@@ -218,7 +229,7 @@ const Home = () => {
             `&city=${searchStatus.city}` + `&locality=${searchStatus.locality}`
         try {
             countData = await FetchData('get-property-count?' + query, 'GET');
-            console.log('countData.... data...', countData);
+            // console.log('countData.... data...', countData);
         } catch (err) {
             console.log('err... countData..', err);
         }
@@ -246,7 +257,7 @@ const Home = () => {
     }
 
     const getRoutePath = () => {
-        console.log('propertyStatus...', propertyStatus);
+        // console.log('propertyStatus...', propertyStatus);
         if (!propertycount || propertycount == 0 || !searchStatus.city) return;
         // let propertystatus = localStorage.getItem('propertyStatus');
         let str = `${searchStatus.localityName ? ('-in-' + searchStatus.localityName.split(' ').join('-').toLowerCase()) : ''}` +
@@ -306,12 +317,12 @@ const Home = () => {
     //     setAllProperties(pre => ({ ...pre, featured: featured, newProjects: newProjects }));
     // }
 
-    const GetAllProperties = async () => {
+    const GetAllProperties = async (currlocation) => {
         let featured
         try {
-            featured = await FetchData(`featured-property-slider?type=1&limit=5&page=1&city=${currLocation.code}`, 'GET');
-            console.log('featured.... data...', featured)
-            console.log('currLOcation2.code...', currLocation);
+            featured = await FetchData(`featured-property-slider?type=1&limit=5&page=1&city=${currlocation.code}`, 'GET');
+            // console.log('featured.... data...', featured)
+            console.log('currlocation2.code...', currlocation);
 
         } catch (err) {
             console.log('err... featured..', err);
@@ -320,7 +331,7 @@ const Home = () => {
 
         let newProjects
         try {
-            newProjects = await FetchData(`featured-property-slider?type=2&limit=5&page=1&city=${currLocation.code}`, 'GET');
+            newProjects = await FetchData(`featured-property-slider?type=2&limit=5&page=1&city=${currlocation.code}`, 'GET');
         } catch (err) {
             console.log(err);
         }
@@ -328,7 +339,7 @@ const Home = () => {
 
         let recentlyAdded
         try {
-            recentlyAdded = await FetchData(`property-list?recently_added=1&city=${currLocation.code}&page=1&limit=8`, 'GET');
+            recentlyAdded = await FetchData(`property-list?recently_added=1&city=${currlocation.code}&page=1&limit=8`, 'GET');
         } catch (err) {
             console.log(err);
         }
@@ -336,7 +347,7 @@ const Home = () => {
 
         let newsAndArticle
         try {
-            newsAndArticle = await FetchData(`blogs?page=1&limit=8&city=${currLocation.code}`, 'GET');
+            newsAndArticle = await FetchData(`blogs?page=1&limit=8&city=${currlocation.code}`, 'GET');
         } catch (err) {
             console.log(err);
         }
@@ -344,7 +355,7 @@ const Home = () => {
 
         let topDeveloper
         try {
-            topDeveloper = await FetchData(`real-estate-builders-in-${currLocation.city.toLowerCase()}?for_home=1&limit=8`, 'GET');
+            topDeveloper = await FetchData(`real-estate-builders-in-${currlocation.city.toLowerCase()}?for_home=1&limit=8`, 'GET');
         } catch (err) {
             console.log(err);
         }
@@ -591,7 +602,7 @@ const Home = () => {
                 <div className='mt-[50px]'>
                     <PropertySlider type={'New Project'} Data={allProperties.newProjects} />
                 </div>
-                {allProperties.recentlyAdded?.length && <div className='mt-[50px]'>
+                {allProperties.recentlyAdded?.length > 0 && <div className='mt-[50px]'>
                     <RecentAdded Data={allProperties.recentlyAdded} func={onClickContactBtn} />
                 </div>}
                 <div className='mt-5'>
