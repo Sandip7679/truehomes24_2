@@ -153,7 +153,6 @@ const Home = () => {
                 setCurrIndex(0);
             }
         }
-
     }, [currLocation.code]);
 
     // useEffect(()=>{
