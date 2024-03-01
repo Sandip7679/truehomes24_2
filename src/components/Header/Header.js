@@ -100,8 +100,8 @@ const Header = () => {
         //     setIsLoggedIn(true);
         //  }
         //   console.log('location.pathname..',location.pathname);
-        getFileterMenus();
         getCurrLocation();
+        getFileterMenus();
     }, []);
 
 
@@ -169,7 +169,7 @@ const Header = () => {
 
     const getCurrLocation = async () => {
         if (currLocation.area != 'City') return;
-        let location = localStorage.getItem('location');
+        let location = await localStorage.getItem('location');
         console.log('locationnn...',location);
         if (location && location != '') {
             dispatch(setlocation(JSON.parse(location)));

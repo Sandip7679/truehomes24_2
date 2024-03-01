@@ -76,7 +76,7 @@ const PropertySlider = ({ Data, type }) => {
                         )
                     })}
                 </Carousel>
-                {!Data.length &&
+                {!Data?.length &&
                     <div className='text-center text-red-500'>
                         Not Found !
                     </div>

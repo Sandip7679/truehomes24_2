@@ -50,11 +50,11 @@ const PropertyList = () => {
     const routePath = useLocation();
 
 
-    useEffect(()=>{
-        if(pageRefresh){
-            console.log('page refresh....',routePath.pathname);
-        }
-    },[]);
+    // useEffect(()=>{
+    //     if(pageRefresh){
+    //         console.log('page refresh....',routePath.pathname);
+    //     }
+    // },[]);
 
     useEffect(() => {
         setLoadingList(true);

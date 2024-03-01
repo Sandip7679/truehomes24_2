@@ -3,11 +3,16 @@ import { CallIcon, EmailIcon, LocationIcon } from './svgIcons';
 import { styles } from '../Styles/Styles';
 import { NavLink } from 'react-router-dom';
 // import logoImage from '../assets/images/logo.jpg'
-import useApi from '../ApiConf';
+import useApi, { UseApi } from '../ApiConf';
+import { useDispatch, useSelector } from 'react-redux';
+import { setPropertyListState, setlocation } from '../Redux/reducer/User';
 
 
 const Footer = () => {
     const { fetchData } = useApi();
+    const { FetchData } = UseApi();
+    const dispatch = useDispatch();
+    const { currLocation, propertyListState } = useSelector(state => state.User);
     const [footerData, setFooterData] = useState(null);
     useEffect(() => {
         getFooterData();
@@ -16,17 +21,26 @@ const Footer = () => {
     const getFooterData = async () => {
         let data;
         try {
-            data = await fetchData('footer-property-list', 'GET');
+            data = await FetchData('footer-property-list', 'GET');
         } catch (err) {
             console.log(err);
         }
         if (data) {
+            // console.log('footer data..',data);
             setFooterData(data);
         }
     }
-    const getQuickLinkPath = (url)=>{
-           let arr = url.split('/');
-           return `/${arr[arr.length-1]}`
+    const getQuickLinkPath = (url) => {
+        let arr = url.split('/');
+        return `/${arr[arr.length - 1]}`
+    }
+
+    const setStatusForNewProject = (item) => {
+        {
+            localStorage.setItem('propertyStatus', 'new project');
+            dispatch(setPropertyListState({ ...propertyListState, propertyStatus: { text: 'New Project', value: 'new project', for: 'Sale', index: 2 } }));
+            dispatch(setlocation({ country: '90', city: item.cityName, code: item.city, location: '', locationName: null, project: '', projectName: null, area: item.cityName }));
+        }
     }
 
     return (
@@ -60,7 +74,7 @@ const Footer = () => {
                     </li>
                     <li className='flex mt-2'>
                         {/* <CallIcon classname={'h-6 w-6 text-white'} /> */}
-                        <i class="fa-solid fa-phone"></i>                        
+                        <i class="fa-solid fa-phone"></i>
                         <p className='ml-4'>{footerData?.contact}</p>
                     </li>
                 </ul>
@@ -71,6 +85,14 @@ const Footer = () => {
                     {footerData?.popularSearches?.map((item, index) => {
                         return (
                             <div key={index} className='mt-2 hover:underline opacity-90'>
+                                {/* <NavLink to={item.url} 
+                                  onClick={()=>{
+                                    dispatch(setPropertyListState({...propertyListState,propertyStatus:{}}));
+                                    dispatch(setlocation({ country: '90', city: 'India',code:'', location: '',locationName:null,project:'',projectName:null, area: 'India' }));
+                                  }}
+                                 >
+                                    <p>{item.text}</p>
+                                </NavLink> */}
                                 <p>{item.text}</p>
                             </div>
                         )
@@ -84,7 +106,7 @@ const Footer = () => {
                     {footerData?.quickLinks?.map((item, index) => {
                         return (
                             <div key={index} className='mt-2 hover:underline cursor-pointer'>
-                                <NavLink to={getQuickLinkPath(item.url)}>
+                                <NavLink to={`/${item.url}`}>
                                     <p className='ml-1'>{item.text}</p>
                                 </NavLink>
                             </div>
@@ -100,8 +122,10 @@ const Footer = () => {
                             return (
                                 <>
                                     {index % 2 != 0 && <p>
-                                        <span className='hover:underline cursor-pointer'>{footerData.propertyInIndia[index - 1].text}</span>{' '}
-                                        | <span className='hover:underline cursor-pointer'>{item.text}</span>
+                                        <NavLink
+                                            // to={footerData.propertyInIndia[index - 1].url}
+                                            className='hover:underline cursor-pointer'>{footerData.propertyInIndia[index - 1].text}</NavLink>{' '}
+                                        | <NavLink className='hover:underline cursor-pointer'>{item.text}</NavLink>
                                     </p>}
                                 </>
                             )
@@ -115,8 +139,14 @@ const Footer = () => {
                             return (
                                 <>
                                     {index % 2 != 0 && <p>
-                                        <span className='hover:underline cursor-pointer'>{footerData.newProjectsInIndia[index - 1].text}</span>{' '}
-                                        | <span className='hover:underline cursor-pointer'>{item.text}</span>
+                                        <NavLink
+                                            to={`${footerData.newProjectsInIndia[index - 1].url}`}
+                                            onClick={() => setStatusForNewProject(footerData.newProjectsInIndia[index - 1])}
+                                            className='hover:underline cursor-pointer'>{footerData.newProjectsInIndia[index - 1].text}</NavLink>{' '}
+                                        | <NavLink
+                                            to={`${item.url}`}
+                                            onClick={() => setStatusForNewProject(item)}
+                                            className='hover:underline cursor-pointer'>{item.text}</NavLink>
                                     </p>}
                                 </>
                             )

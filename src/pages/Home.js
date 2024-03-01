@@ -26,111 +26,6 @@ import { NavLink } from 'react-router-dom';
 // const rupees = [30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80];
 // const baseURL = "https://www.truehomes24.com/api/"
 
-const NewsArticlesData = [
-    {
-        title: 'Stamp duty and registration charges in Mumbai',
-        description: 'We examine the cost that buyers have to bear as stamp duty and registration charges in Mumbai.',
-        writer: 'Sunita Mishra',
-        date: 'Feb 2024',
-        image: "https://www.truehomes24.com/assets/properties/banner-01/6fbc57095a08783a071945a3507844fa.webp",
-    },
-    {
-        title: 'Stamp duty and registration charges in Mumbai',
-        description: 'We examine the cost that buyers have to bear as stamp duty and registration charges in Mumbai.',
-        writer: 'Sunita Mishra',
-        date: 'Feb 2024',
-        image: "https://www.truehomes24.com/assets/properties/banner-02/6195f1a4b44efe4bd85420205df57e4a.webp",
-    },
-    {
-        title: 'Stamp duty and registration charges in Mumbai',
-        description: 'We examine the cost that buyers have to bear as stamp duty and registration charges in Mumbai.',
-        writer: 'Sunita Mishra',
-        date: 'Feb 2024',
-        image: "https://www.truehomes24.com/assets/properties/banner-02/3fa85544ffca6abb5843dd1aeedf1c73.webp",
-    },
-    {
-        title: 'Stamp duty and registration charges in Mumbai',
-        description: 'We examine the cost that buyers have to bear as stamp duty and registration charges in Mumbai.',
-        writer: 'Sunita Mishra',
-        date: 'Feb 2024',
-        image: "https://www.truehomes24.com/assets/properties/banner-02/93a4b41ca5c17860d1b44af1f032afa9.webp",
-    },
-    {
-        title: 'Stamp duty and registration charges in Mumbai',
-        description: 'We examine the cost that buyers have to bear as stamp duty and registration charges in Mumbai.',
-        writer: 'Sunita Mishra',
-        date: 'Feb 2024',
-        image: "https://www.truehomes24.com/assets/properties/banner-01/6fbc57095a08783a071945a3507844fa.webp",
-    },
-]
-
-const Data = [
-    {
-        "title": "Residential Land  for Sale  in Bhogapuram International Airport Road, Visakhapatnam",
-        "link": "https://www.truehomes24.com/api/sale/residential-land-for-sale-in-bhogapuram-international-airport-road-visakhapatnam/1000-64481",
-        "property_url": "/sale/residential-land-for-sale-in-bhogapuram-international-airport-road-visakhapatnam/1000-64481",
-        "image": "https://www.truehomes24.com/assets/properties/banner-01/6fbc57095a08783a071945a3507844fa.webp",
-        "location": "Bhogapuram International Airport Road, Visakhapatnam",
-        "propertyType": "Residential Land",
-        "area": "57600 sq.ft.",
-        "bedroom": "",
-        "possission": "",
-        "price": "<i class=\"fas fa-rupee-sign\"></i> 25.60 Cr",
-        "listedBy": 'RainBow Foundation Ltd[Builder]'
-    },
-    {
-        "title": "2 BHK Apartment  for Sale  in Rainbow Ekanta, Perambur, Chennai",
-        "link": "https://www.truehomes24.com/api/sale/2-bhk-apartment-for-sale-in-rainbow-ekanta-perambur-chennai/1000-57163",
-        "property_url": "/sale/2-bhk-apartment-for-sale-in-rainbow-ekanta-perambur-chennai/1000-57163",
-        "image": "https://www.truehomes24.com/assets/properties/banner-02/6195f1a4b44efe4bd85420205df57e4a.webp",
-        "location": "Perambur, Chennai",
-        "propertyType": "Apartment",
-        "area": "650 sq.ft.",
-        "bedroom": "2 Bedroom(s)",
-        "possission": "Possession By: Nov 2024",
-        "price": "<i class=\"fas fa-rupee-sign\"></i> 45 L",
-        "listedBy": 'RainBow Foundation Ltd[Builder]'
-    },
-    {
-        "title": "1 BHK Apartment  for Sale  in Rainbow Ekanta, Perambur, Chennai",
-        "link": "https://www.truehomes24.com/api/sale/1-bhk-apartment-for-sale-in-rainbow-ekanta-perambur-chennai/1000-57162",
-        "property_url": "/sale/1-bhk-apartment-for-sale-in-rainbow-ekanta-perambur-chennai/1000-57162",
-        "image": "https://www.truehomes24.com/assets/properties/banner-02/3fa85544ffca6abb5843dd1aeedf1c73.webp",
-        "location": "Perambur, Chennai",
-        "propertyType": "Apartment",
-        "area": "650 sq.ft.",
-        "bedroom": "1 Bedroom(s)",
-        "possission": "Possession By: Nov 2024",
-        "price": "<i class=\"fas fa-rupee-sign\"></i> 45 L",
-        "listedBy": 'RainBow Foundation Ltd[Builder]'
-    },
-    {
-        "title": "1 BHK Apartment  for Sale  in Rainbow Chetna, Perambur, Chennai",
-        "link": "https://www.truehomes24.com/api/sale/1-bhk-apartment-for-sale-in-rainbow-chetna-perambur-chennai/1000-57159",
-        "property_url": "/sale/1-bhk-apartment-for-sale-in-rainbow-chetna-perambur-chennai/1000-57159",
-        "image": "https://www.truehomes24.com/assets/properties/banner-02/93a4b41ca5c17860d1b44af1f032afa9.webp",
-        "location": "Perambur, Chennai",
-        "propertyType": "Apartment",
-        "area": "650 sq.ft.",
-        "bedroom": "1 Bedroom(s)",
-        "possission": "Possession By: Jun 2025",
-        "price": "<i class=\"fas fa-rupee-sign\"></i> 45 L",
-        "listedBy": 'RainBow Foundation Ltd[Builder]'
-    },
-    {
-        "title": "Residential Land  for Sale  in Bhogapuram International Airport Road, Visakhapatnam",
-        "link": "https://www.truehomes24.com/api/sale/residential-land-for-sale-in-bhogapuram-international-airport-road-visakhapatnam/1000-64481",
-        "property_url": "/sale/residential-land-for-sale-in-bhogapuram-international-airport-road-visakhapatnam/1000-64481",
-        "image": "https://www.truehomes24.com/assets/properties/banner-02/bfa1673f343a2fe32d1b31e3f202a402.jpg",
-        "location": "Bhogapuram International Airport Road, Visakhapatnam",
-        "propertyType": "Residential Land",
-        "area": "57600 sq.ft.",
-        "bedroom": "",
-        "possission": "",
-        "price": "<i class=\"fas fa-rupee-sign\"></i> 25.60 Cr",
-        "listedBy": 'RainBow Foundation Ltd[Builder]'
-    },
-]
 
 
 // const propertyTypes = [
@@ -144,14 +39,6 @@ const Data = [
 //     { type: 'Serviced' },
 // ]
 
-const TopDevelopersData = [
-    { name: 'Adani Realty', project: '15', icon: 'https://static.squareyards.com/resources/images/developerlogo/adani-realty-4.jpg' },
-    { name: 'Adani Realty', project: '15', icon: 'https://static.squareyards.com/resources/images/developerlogo/adani-realty-4.jpg' },
-    { name: 'Adani Realty', project: '15', icon: 'https://static.squareyards.com/resources/images/developerlogo/adani-realty-4.jpg' },
-    { name: 'Adani Realty', project: '15', icon: 'https://static.squareyards.com/resources/images/developerlogo/adani-realty-4.jpg' },
-    { name: 'Adani Realty', project: '15', icon: 'https://static.squareyards.com/resources/images/developerlogo/adani-realty-4.jpg' },
-    { name: 'Adani Realty', project: '15', icon: 'https://static.squareyards.com/resources/images/developerlogo/adani-realty-4.jpg' },
-];
 const topLocalities = [
     { name: 'Chandkheda', projectNum: '190', locality: 'in Chandkheda, Ahmedabad', forSale: '90', forRent: '90' },
     { name: 'Chandkheda', projectNum: '190', locality: 'in Chandkheda, Ahmedabad', forSale: '90', forRent: '90' },
@@ -254,6 +141,7 @@ const Home = () => {
     useEffect(() => {
         console.log('currLOcation.code...', currLocation);
         if (currLocation.code != searchStatus.city && currLocation.code !== '') {
+            GetAllProperties();
             setSearchStatus(pre => ({
                 ...pre,
                 type: 'locality', quary: '',
@@ -264,10 +152,13 @@ const Home = () => {
             if (curIndex > 0) {
                 setCurrIndex(0);
             }
-            GetAllProperties();
         }
 
     }, [currLocation.code]);
+
+    // useEffect(()=>{
+    //     GetAllProperties();
+    // },[]);
 
 
     const getHomeSearchData = async () => {

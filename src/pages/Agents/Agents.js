@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Header from '../../components/Header/Header';
 import { styles } from '../../Styles/Styles';
 import { NavLink } from 'react-router-dom';
@@ -6,6 +6,10 @@ import DropdownIcon from '../../components/svgIcons';
 import userIcon from './../../assets/images/user.svg';
 import TopCItiesFilter from '../../components/TopCItiesFilter';
 import Footer from '../../components/Footer';
+import { UseApi } from '../../ApiConf';
+import { setCurrPage } from '../../Redux/reducer/User';
+import { useDispatch, useSelector } from 'react-redux';
+import Pagenation from '../../components/Pagenation';
 
 const agentsData = [
     { name: 'Woodies', type: 'AGENTS', saleNum: '1', rentNun: '0' },
@@ -24,10 +28,36 @@ const agentsData = [
     { name: 'Woodies', type: 'AGENTS', saleNum: '1', rentNun: '0' },
 ]
 const Agents = () => {
+    const { FetchData } = UseApi();
+    const [agents, setAgents] = useState({totalPage:1,content:[]});
+    const { currPage } = useSelector(state => state.User);
+    const dispatch = useDispatch();
+    useEffect(()=>{
+         if(currPage>1){
+            dispatch(setCurrPage(1));
+         }
+    },[]);
+
+    useEffect(()=>{
+        getAgentsData();
+    },[currPage]);
+
+    const getAgentsData = async () => {
+        let data;
+        try {
+            data = await FetchData(`agent-list?limit=8&page=${currPage}`, 'GET');
+        } catch (err) {
+            console.log(err);
+        }
+        if (data) {
+            // console.log('footer data..',data);
+            setAgents(data);
+        }
+    }
     return (
         <div className=''>
             <Header />
-            <div className='mt-16 px-2 container mx-auto'>
+            <div className='mt-16 px-2 mb-10 container mx-auto'>
                 <div className='py-10'>
                     <div className='flex flex-wrap justify-between w-[90%]'>
                         <div className='mb-5'>
@@ -57,18 +87,18 @@ const Agents = () => {
                     </div>
                 </div>
                 <div className='px-[2%] grid grid-cols-1 xs:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2 sm:gap-4'>
-                    {agentsData.map((item, index) => {
+                    {agents.content?.map((item, index) => {
                         return (
                             <div key={index} className='shadow-md border-[1px] rounded flex flex-col justify-center items-center py-5'>
                                 <div className='flex flex-col justify-center items-center'>
-                                    <img alt='' src={userIcon} className='h-[70px] w-[70px]' />
+                                    <img alt='' src={item.profilePicture?item.profilePicture : userIcon} className='h-[70px] w-[70px]' />
                                     <p className={styles.title4 + 'mt-1'}>{item.name}</p>
                                     <p className='text-gray-600'>{item.type}</p>
                                 </div>
-                                <span className={styles.btn + 'bg-green-600 text-white my-5'}>N/A</span>
-                                <div className='mt-2 text-gray-600'>{item.saleNum} Properties for <span className='text-orange-500 font-semibold'>Sale</span></div>
-                                <div className='mt-2 text-gray-600'>{item.rentNun} Properties for <span className='text-orange-500 font-semibold'>Rent</span></div>
-                                <NavLink to={'/agent-profile'}
+                                <span className={styles.btn + 'bg-green-600 text-white my-5'}>{item.businessTitle?item.businessTitle:'N/A'}</span>
+                                <div className='mt-2 text-gray-600'>{item.salePropCount} Properties for <span className='text-orange-500 font-semibold'>Sale</span></div>
+                                <div className='mt-2 text-gray-600'>{item.rentPropCount} Properties for <span className='text-orange-500 font-semibold'>Rent</span></div>
+                                <NavLink to={`/${item.profile}`}
                                     className={'mt-5 sm:mt-8 bg-gray-700 px-4 py-1 border-[1px] text-white rounded-md cursor-pointer hover:bg-white hover:text-black hover:border-[1px] hover:border-black duration-500'}>
                                     View Profile
                                 </NavLink>
@@ -76,6 +106,7 @@ const Agents = () => {
                         )
                     })}
                 </div>
+                {agents.content?.length && <Pagenation lastPage={agents.totalPage}/>}
             </div>
             <TopCItiesFilter />
             <Footer />
