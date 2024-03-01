@@ -11,7 +11,7 @@ const PropertySlider = ({ Data, type }) => {
         <div>
             <div className='my-10'>
                 {type && <h1 className={styles.title1 + 'text-start mb-5 px-0'}>{type}</h1>}
-                <Carousel
+                {Data?.length && <Carousel
                     swipeable={true}
                     draggable={false}
                     responsive={responsive}
@@ -75,7 +75,7 @@ const PropertySlider = ({ Data, type }) => {
                             </div>
                         )
                     })}
-                </Carousel>
+                </Carousel>}
                 {!Data?.length &&
                     <div className='text-center text-red-500'>
                         Not Found !
