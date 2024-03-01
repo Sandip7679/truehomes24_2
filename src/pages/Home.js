@@ -154,7 +154,7 @@ const Home = () => {
 
     useEffect(() => {
         console.log('currLOcation.code...', currLocation);
-        if (currLocation.code !== searchStatus.city && currLocation.code !== '') {
+        if (currLocation.code != searchStatus.city && currLocation.code !== '') {
             GetAllProperties(currLocation);
             setSearchStatus(pre => ({
                 ...pre,
