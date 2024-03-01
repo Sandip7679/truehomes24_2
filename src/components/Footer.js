@@ -30,10 +30,10 @@ const Footer = () => {
             setFooterData(data);
         }
     }
-    const getQuickLinkPath = (url) => {
-        let arr = url.split('/');
-        return `/${arr[arr.length - 1]}`
-    }
+    // const getQuickLinkPath = (url) => {
+    //     let arr = url.split('/');
+    //     return `/${arr[arr.length - 1]}`
+    // }
 
     const setStatusForNewProject = (item) => {
         {
