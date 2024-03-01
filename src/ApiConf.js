@@ -49,7 +49,7 @@ export const UseApi = () => {
   const FetchData = async (endpoint, method, data = null) => {
     // setLoading(true);
     setError(null);
-       let url = 'http://api.truehomes24.com/api/'+ endpoint;
+       let url = 'https://api.truehomes24.com/api/'+ endpoint;
     try {
       var myHeaders = new Headers();
       // myHeaders.append("Authorization", "Bearer null");
