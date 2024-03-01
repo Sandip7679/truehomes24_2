@@ -51,7 +51,7 @@ export const UseApi = () => {
     setError(null);
        let url = 'http://api.truehomes24.com/api/'+ endpoint;
     try {
-      var myHeaders = new Headers();
+      // var myHeaders = new Headers();
       // myHeaders.append("Authorization", "Bearer ");
       const response = await fetch(url,{
         method: method,
@@ -60,7 +60,7 @@ export const UseApi = () => {
         //     // "Authorization": "Bearer "
         //     // Add any additional headers if needed
         //   },
-        headers: myHeaders,
+        // headers: myHeaders,
         // mode: "no-cors",
         // redirect: "follow",
         // body: data ? JSON.stringify(data) : null,
