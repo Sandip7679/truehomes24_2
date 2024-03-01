@@ -47,7 +47,6 @@ export const UseApi = () => {
   const [error, setError] = useState(null);
 
   const FetchData = async (endpoint, method, data = null) => {
-    // setLoading(true);
     setError(null);
        let url = 'https://api.truehomes24.com/api/'+ endpoint;
     try {
