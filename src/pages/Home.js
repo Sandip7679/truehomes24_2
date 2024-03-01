@@ -140,7 +140,7 @@ const Home = () => {
     useEffect(()=>{
         GetAllProperties();
     },[]);
-    
+
     useEffect(() => {
         console.log('currLOcation.code...', currLocation);
         if (currLocation.code != searchStatus.city && currLocation.code !== '') {
@@ -616,7 +616,7 @@ const Home = () => {
                 <div className='mb-16 mt-10 px-2 sm:px-5'>
                     <p className={styles.title2}>Top Developers in {currLocation.city}</p>
                     <div className='grid grid-cols-1 xs:grid-cols-2 lg:grid-cols-3 gap-2 sm:gap-5 justify-center mt-5'>
-                        {allProperties.topDeveloper?.map((item, index) => {
+                        {allProperties?.topDeveloper?.length && allProperties.topDeveloper?.map((item, index) => {
                             return (
                                 <div key={index} className='group border-[1px] cursor-pointer hover:bg-gray-50 border-gray-300 p-2 rounded-md shadow-md'>
                                     <div className='flex flex-col sm:flex-row items-center sm:p-2 sm:py-4 gap-5'>
@@ -635,7 +635,7 @@ const Home = () => {
                         })}
 
                     </div>
-                    {!allProperties.topDeveloper.length &&
+                    {!allProperties?.topDeveloper?.length &&
                         <div className='text-center text-red-500'>
                             Not Found !
                         </div>
