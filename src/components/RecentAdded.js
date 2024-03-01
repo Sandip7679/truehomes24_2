@@ -55,7 +55,7 @@ const RecentAdded = ({ Data, func }) => {
                     </div>
                 }
             >
-                {Data.map((item, index) => {
+                {Data?.length && Data.map((item, index) => {
                     return (
                         <div key={index} className='rounded-xl shadow-lg border-[1px] mx-4 h-full group'>
                             <NavLink to={'/project_details'}>
