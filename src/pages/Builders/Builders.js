@@ -95,7 +95,7 @@ const Builders = () => {
                 </div>
               </div>
               {/* (index == 0 ? 'md:order-first lg:order-none' : index == 1 ? 'lg:-order-first' : '') + */}
-              <div className='mt-16 pb-5 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4'>
+              <div className='mt-16 pb-5 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5'>
                 {/* <GetCallBack /> */}
                 {builders?.length > 0 && builders?.map((item, index) => {
                   return (
@@ -107,13 +107,13 @@ const Builders = () => {
                         </div>
                         <div className=' flex flex-wrap gap-5 border-y-[1px] -mx-4 px-4 pb-16 pt-3'>
                           <div className='flex gap-1 tracking-wide justify-center items-center'>
-                            <span className='text-gray-600 opacity-85 text-sm sm:text-base font-semibold rounded-full border-orange-500 border-[1px] p-1'>
+                            <span className='text-gray-600 opacity-85 text-sm sm:text-base font-semibold rounded-full border-orange-500 border-[1px] p-1 flex min-h-8 min-w-8 items-center justify-center'>
                               {item.totalProject}
                             </span>
                             <p className={styles.textMedium}>Total Projects</p>
                           </div>
                           <div className='flex gap-1 tracking-wide justify-center items-center'>
-                            <span className='text-gray-600 opacity-85 text-sm sm:text-base font-semibold rounded-full border-orange-500 border-[1px] p-1'>
+                            <span className='text-gray-600 opacity-85 text-sm sm:text-base font-semibold rounded-full border-orange-500 border-[1px] p-1 min-h-8 min-w-8 flex items-center justify-center'>
                               {item.ongoingProject}
                             </span>
                             <p className={styles.textMedium}>Ongoing Projects</p>
@@ -125,20 +125,21 @@ const Builders = () => {
                           <div className='flex gap-4 mt-5'>
                             {item.builderProps.map((itm, ind) => {
                               return (
-                                <div className='w-[95px]'>
-                                  <img alt='' src={itm.banner} className='h-[100px] w-full' />
-                                </div>
+                                <>
+                                  {ind < 2 && <div className='w-[110px]'>
+                                    <img alt='' src={itm.banner} className='h-[110px] w-full' />
+                                    <p className='text-xs truncate text-gray-600'>{itm.testBelowBanner}</p>
+                                  </div>}
+                                </>
+
                               )
                             })}
 
-                            {/* <div className='w-[95px]'>
-                              <img alt='' src='https://www.truehomes24.com/assets/new-projects/banner-01/lodhacrown1.webp' className='h-[100px] w-full' />
-                            </div> */}
-                            <NavLink to={''} className='flex flex-col h-[100px] group justify-center items-center p-2 px-6 shadow-md border-[1px] rounded hover:text-white hover:bg-orange-600 hover:bg-opacity-85'>
+                           {item.totalProject > 2 && <NavLink to={`/${item.link}`} className='flex flex-col h-[110px] group justify-center items-center p-2 px-6 shadow-md border-[1px] rounded hover:text-white hover:bg-orange-600 hover:bg-opacity-85'>
                               <p className='text-sm'>View</p>
-                              <p className='font-semibold text-lg group-hover:text-white text-orange-600 my-2'>115</p>
+                              <p className='font-semibold text-lg group-hover:text-white text-orange-600 my-2'>{item.totalProject-2}</p>
                               <p className='text-sm'>more</p>
-                            </NavLink>
+                            </NavLink>}
                           </div>
                         </div>
                       </div>

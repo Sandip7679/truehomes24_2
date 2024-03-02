@@ -10,48 +10,37 @@ import { UseApi } from '../../ApiConf';
 import { setCurrPage } from '../../Redux/reducer/User';
 import { useDispatch, useSelector } from 'react-redux';
 import Pagenation from '../../components/Pagenation';
+import loader from '../../assets/Icons/loader.gif';
 
-const agentsData = [
-    { name: 'Woodies', type: 'AGENTS', saleNum: '1', rentNun: '0' },
-    { name: 'VYBHAV KUMAR', type: 'AGENTS', saleNum: '1', rentNun: '0' },
-    { name: 'Varna Homes', type: 'AGENTS', saleNum: '1', rentNun: '0' },
-    { name: 'VA Shelters', type: 'AGENTS', saleNum: '1', rentNun: '0' },
-    { name: 'TUTTUTMA', type: 'AGENTS', saleNum: '4', rentNun: '6' },
-    { name: 'Truehomes24', type: 'AGENTS', saleNum: '771', rentNun: '970' },
-    { name: 'Tolet Realty', type: 'AGENTS', saleNum: '1', rentNun: '0' },
-    { name: 'Woodies', type: 'AGENTS', saleNum: '1', rentNun: '0' },
-    { name: 'Woodies', type: 'AGENTS', saleNum: '1', rentNun: '0' },
-    { name: 'Woodies', type: 'AGENTS', saleNum: '1', rentNun: '0' },
-    { name: 'Woodies', type: 'AGENTS', saleNum: '1', rentNun: '0' },
-    { name: 'Woodies', type: 'AGENTS', saleNum: '1', rentNun: '0' },
-    { name: 'Woodies', type: 'AGENTS', saleNum: '1', rentNun: '0' },
-    { name: 'Woodies', type: 'AGENTS', saleNum: '1', rentNun: '0' },
-]
 const Agents = () => {
     const { FetchData } = UseApi();
-    const [agents, setAgents] = useState({totalPage:1,content:[]});
+    const [agents, setAgents] = useState({ totalPage: 1, content: [] });
     const { currPage } = useSelector(state => state.User);
     const dispatch = useDispatch();
-    useEffect(()=>{
-         if(currPage>1){
+    const [loading,setLoading] = useState(true);
+    useEffect(() => {
+        if (currPage > 1) {
             dispatch(setCurrPage(1));
-         }
-    },[]);
+        }
+    }, []);
 
-    useEffect(()=>{
+    useEffect(() => {
         getAgentsData();
-    },[currPage]);
+    }, [currPage]);
 
     const getAgentsData = async () => {
+        setLoading(true);
         let data;
         try {
             data = await FetchData(`agent-list?limit=8&page=${currPage}`, 'GET');
         } catch (err) {
             console.log(err);
+            setLoading(false);
         }
         if (data) {
             // console.log('footer data..',data);
             setAgents(data);
+            setLoading(false);
         }
     }
     return (
@@ -86,16 +75,16 @@ const Agents = () => {
                         </div>
                     </div>
                 </div>
-                <div className='px-[2%] grid grid-cols-1 xs:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2 sm:gap-4'>
+                <div className='px-[2%] grid grid-cols-1 xs:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2 sm:gap-4 min-h-screen'>
                     {agents.content?.map((item, index) => {
                         return (
                             <div key={index} className='shadow-md border-[1px] rounded flex flex-col justify-center items-center py-5'>
                                 <div className='flex flex-col justify-center items-center'>
-                                    <img alt='' src={item.profilePicture?item.profilePicture : userIcon} className='h-[70px] w-[70px]' />
+                                    <img alt='' src={item.profilePicture ? item.profilePicture : userIcon} className='h-[70px] w-[70px]' />
                                     <p className={styles.title4 + 'mt-1'}>{item.name}</p>
                                     <p className='text-gray-600'>{item.type}</p>
                                 </div>
-                                <span className={styles.btn + 'bg-green-600 text-white my-5'}>{item.businessTitle?item.businessTitle:'N/A'}</span>
+                                <span className={styles.btn + 'bg-green-600 text-white my-5'}>{item.businessTitle ? item.businessTitle : 'N/A'}</span>
                                 <div className='mt-2 text-gray-600'>{item.salePropCount} Properties for <span className='text-orange-500 font-semibold'>Sale</span></div>
                                 <div className='mt-2 text-gray-600'>{item.rentPropCount} Properties for <span className='text-orange-500 font-semibold'>Rent</span></div>
                                 <NavLink to={`/${item.profile}`}
@@ -105,8 +94,11 @@ const Agents = () => {
                             </div>
                         )
                     })}
+                    {loading && <div className="fixed top-[100px] right-1/2 flex justify-center items-center mt-16">
+                        <img alt="Please wait.." title="Please wait.." src={loader} />
+                    </div>}
                 </div>
-                {agents.content?.length && <Pagenation lastPage={agents.totalPage}/>}
+                {agents.content?.length && <Pagenation lastPage={agents.totalPage} />}
             </div>
             <TopCItiesFilter />
             <Footer />

@@ -58,18 +58,16 @@ function App() {
         <Route path='/sale/:pathCity' element={<PropertyList />}/>
         <Route path='/rent/:pathCity' element={<PropertyList />}/>
         <Route path='/new-projects/:pathCity' element={<PropertyList />}/>
-        {/* <Route path='/sale/property-for-sale-in-:pathCity' element={<PropertyList />}/>
-        <Route path='/rent/property-for-rent-in-:y' element={<PropertyList />}/>
-        <Route path='/new-projects/new-projects-for-sale-in-:z' element={<PropertyList />}/> */}
+        <Route path='/sale/:path/:id' element={<ProjectDetails/>} />
+        <Route path='/rent/:path/:id' element={<ProjectDetails/>} />
+        <Route path='/new-projects/:path/:id' element={<ProjectDetails/>} />
         <Route path='/agents' element={<Agents/>} />
         <Route path='/agent/:path' element={<Agents/>} />
         <Route path='/agent-profile' element={<Profile/>} />
         <Route path='/user/detail/:id/:name' element={<Profile/>} />
+        <Route path='/user/detail/:id' element={<Profile/>} />
         <Route path='/builders' element={<Builders/>} />
         <Route path='/project_details' element={<ProjectDetails/>} />
-        <Route path='/sale/:path/:id' element={<ProjectDetails/>} />
-        <Route path='/rent/:path/:id' element={<ProjectDetails/>} />
-        <Route path='/new-projects/:path/:id' element={<ProjectDetails/>} />
         <Route path='/post-property' element={<PostProperty/>} />
         <Route path='/post-property/new-project' element={<NewProject/>} />
         <Route path='/buyer-registration' element={<BuyerRegistration/>} />

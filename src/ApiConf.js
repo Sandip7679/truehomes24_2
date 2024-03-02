@@ -48,10 +48,10 @@ export const UseApi = () => {
 
   const FetchData = async (endpoint, method, data = null) => {
     setError(null);
-       let url = 'http://api.truehomes24.com/api/'+ endpoint;
+       let url = 'https://api.truehomes24.com/api/'+ endpoint;
     try {
       var myHeaders = new Headers();
-      // myHeaders.append("Authorization", "Bearer ");
+      // myHeaders.append("Authorization", "Bearer null");
       const response = await fetch(url,{
         method: method,
         // headers: {
@@ -60,6 +60,7 @@ export const UseApi = () => {
         //     // Add any additional headers if needed
         //   },
         headers: myHeaders,
+        // credentials: 'include',
         // mode: "no-cors",
         // redirect: "follow",
         // body: data ? JSON.stringify(data) : null,
