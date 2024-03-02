@@ -62,7 +62,7 @@ const Builders = () => {
   const getBuildersData = async () => {
     let data;
     try {
-      data = await FetchData(`real-estate-builders-in-india`, 'GET');
+      data = await FetchData(`real-estate-builders-in-india?limit=23`, 'GET');
     } catch (err) {
       console.log(err);
     }

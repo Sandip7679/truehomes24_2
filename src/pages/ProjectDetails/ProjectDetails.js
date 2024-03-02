@@ -98,6 +98,7 @@ const ProjectDetails = () => {
     const routePath = useLocation();
     const { fetchData } = useApi();
     const [AllData, setAllData] = useState({ breadcrumb: [], gallery: [], data: null, featuredProperty: [], recentlyAddedProperty: [], recentBlogs: null, similarListing: [] });
+    const [galleryImages, setGalleryImges] = useState({ images: [], tabName: null });
 
     useEffect(() => {
         ovserveIntersection();
@@ -114,13 +115,14 @@ const ProjectDetails = () => {
         if (data) {
             setAllData({
                 breadcrumb: data?.breadcrumb,
-                gallery: data.data?.galleryTab?.images ? data.data?.galleryTab?.images : [],
+                gallery: data.data?.galleryTab,
                 data: data.data,
                 featuredProperty: data.featuredProperty,
                 recentlyAddedProperty: data.recentlyAddedProperty,
                 recentBlogs: data.recentBlogs,
                 similarListing: data.similarListing
             });
+            data.data.galleryTab.images ? setGalleryImges({ images: data.data.galleryTab.images, tabName: null }) : setGalleryImges({ images: data.data.galleryTab.PropertyImages, tabName: 'PropertyImages' });
         }
     }
 
@@ -247,13 +249,13 @@ const ProjectDetails = () => {
                                 </div>
 
                                 <div id='0' className='scroll-mt-20'>
-                                    <p className={styles.title4 + 'mt-8'}>{AllData.data?.scoietyName?`${AllData.data?.scoietyName} Info` : 'Property Details'}</p>
+                                    <p className={styles.title4 + 'mt-8'}>{AllData.data?.scoietyName ? `${AllData.data?.scoietyName} Info` : 'Property Details'}</p>
                                     <div className='flex justify-between flex-wrap'>
                                         <div className='w-[50%] sm:w-[30%] mt-2'>
                                             {AllData.data?.detailsTab?.length && AllData.data?.detailsTab?.map((item, index) => {
                                                 return (
                                                     <>
-                                                        {index % 3 == 0 && <div key={index} className='mt-1' >
+                                                        {index % 3 == 0 && item.label != 'Project Link' && <div key={index} className='mt-1' >
                                                             <span className=''>{item.label}: </span>
                                                             {/* <span className='text-gray-500 '>{item.value}</span> */}
                                                             <span className='text-gray-500 prose ' dangerouslySetInnerHTML={{ __html: item.value }} />
@@ -262,6 +264,7 @@ const ProjectDetails = () => {
                                                 )
                                             })}
                                         </div>
+
                                         <div className='w-[50%] sm:w-[30%] mt-2'>
                                             {AllData.data?.detailsTab?.length && AllData.data?.detailsTab?.map((item, index) => {
                                                 return (
@@ -310,7 +313,7 @@ const ProjectDetails = () => {
                                 </div>
                             </div>
                             <div id='1' className='bg-white shadow-md px-[2%] py-5 mt-10 scroll-mt-20'>
-                                <p className={styles.title4}>{AllData.data?.scoietyName?`About ${AllData.data?.scoietyName}`: 'Property Brief'}</p>
+                                <p className={styles.title4}>{AllData.data?.scoietyName ? `About ${AllData.data?.scoietyName}` : 'Property Brief'}</p>
                                 <div className='mt-1 prose min-w-full' dangerouslySetInnerHTML={{ __html: AllData.data?.descriptionTab?.description }} />
                                 {/* <p className='mt-2 text-[0.9rem] text-gray-700 whitespace-pre-line'>{AllData.data?.descriptionTab?.description}</p> */}
                                 <div className='mt-5'>
@@ -330,9 +333,66 @@ const ProjectDetails = () => {
                                 {/* <p className='mt-2 text-[0.9rem] text-gray-700'>{aboutBuilder}</p> */}
                                 <div className='mt-2 prose prose-sm sm:prose-base min-w-[100%]' dangerouslySetInnerHTML={{ __html: AllData.data?.descriptionTab?.aboutBuilder }} />
                             </div>}
+                            {AllData.data?.unitConfigurationTab?.length > 0 && <div className='bg-white shadow-md px-[2%] py-5 mt-10'>
+                                <p className={styles.title4}>{AllData.data?.scoietyName} Configuration</p>
+                                <div className='mt-5 flex justify-between gap-2 bg-gray-800 text-white text-sm font-semibold p-2'>
+                                    <div className='w-full text-center'>Unit Types</div>
+                                    <div className='w-full text-center'>Built-Up Area</div>
+                                    <div className='w-full text-center'>Price</div>
+                                    <div className='w-full text-center'>Floor Plans</div>
+                                    <div className='w-full text-center'>Live-in Tour</div>
+                                </div>
+                                {AllData.data?.unitConfigurationTab.map((item, index) => {
+                                    return (
+                                        <div className='flex justify-between gap-2 text-sm text-gray-600 p-2'>
+                                            <div className='w-full'>
+                                                <p>{item.unit}</p>
+                                                <p className='text-gray-500'>Availabity: {item.unitAvailability}</p>
+                                            </div>
+                                            <div className='w-full'>
+                                                <p className='text-center'>{item.unitBuiltUpArea}</p>
+                                            </div>
+                                            <div className='w-full'>
+                                                <div className='min-w-[100%] text-center' dangerouslySetInnerHTML={{ __html: item.unitPrice }} />
+                                                {/* <p className='text-center'>{item.unitBuiltUpArea}</p> */}
+                                            </div>
+                                            <div className='w-full'>
+                                                <p className='text-center'>{item.catpetArea}</p>
+                                            </div>
+                                            <div className='w-full'>
+                                                <p className='text-center'>{'NA'}</p>
+                                            </div>
+                                        </div>
+                                    )
+                                })}
+                            </div>}
 
-                            <div id='3' className='mt-10 bg-white shadow-md px-[2%] py-5 w-full scroll-mt-20'>
-                                <p className={styles.title3}>Gallery</p>
+                            <div id='3' className={(AllData.data?.galleryTab?.images ? 'bg-white' : 'bg-gray-800 text-white') + ' mt-10  shadow-md px-[2%] py-5 w-full scroll-mt-20'}>
+                                {AllData.data?.galleryTab?.images ? <p className={styles.title3 + 'mb-5'}>Gallery</p>
+                                    :
+                                    <div className='flex flex-wrap gap-2 font-semibold border-b-[1px] border-b-white mb-5'>
+                                        {AllData.data?.galleryTab?.PropertyImages && <button
+                                            onClick={() => setGalleryImges({ images: AllData.data?.galleryTab?.PropertyImages, tabName: 'PropertyImages' })}
+                                            className={(galleryImages.tabName == 'PropertyImages' ? 'border-b-orange-600 border-b-2 -mb-[1px]' : '') + ' p-2'}>
+                                            Gallery
+                                        </button>}
+                                        {AllData.data?.galleryTab?.MasterPlanImages && <button
+                                            onClick={() => setGalleryImges({ images: AllData.data?.galleryTab?.MasterPlanImages, tabName: 'MasterPlanImages' })}
+                                            className={(galleryImages.tabName == 'MasterPlanImages' ? 'border-b-orange-600 border-b-2 -mb-[1px]' : '') + ' p-2'}>
+                                            Master Plan
+                                        </button>}
+                                        {AllData.data?.galleryTab?.FloorPlanImages && <button
+                                            onClick={() => setGalleryImges({ images: AllData.data?.galleryTab?.FloorPlanImages, tabName: 'FloorPlanImages' })}
+                                            className={(galleryImages.tabName == 'FloorPlanImages' ? 'border-b-orange-600 border-b-2 -mb-[1px]' : '') + ' p-2'}>
+                                            Floor Plan
+                                        </button>}
+                                        {AllData.data?.galleryTab?.RouteMapImages && <button
+                                            onClick={() => setGalleryImges({ images: AllData.data?.galleryTab?.RouteMapImages, tabName: 'RouteMapImages' })}
+                                            className={(galleryImages.tabName == 'RouteMapImages' ? 'border-b-orange-600 border-b-2 -mb-[1px]' : '') + ' p-2'}>
+                                            Route Map
+                                        </button>}
+                                    </div>
+                                }
                                 <Carousel
                                     swipeable={true}
                                     draggable={false}
@@ -347,16 +407,16 @@ const ProjectDetails = () => {
                                         setCurrSlide(Ind - 1)
                                     }}
                                 >
-                                    {AllData.gallery?.map((item, index) => {
+                                    {galleryImages.images?.map((item, index) => {
                                         return (
                                             <div onClick={() => setOpen(true)} key={index} className='p-2 hover:cursor-pointer'>
-                                                <img alt='' src={item.image} className='h-[450px] w-full rounded-xl' />
+                                                <img alt='' src={item} className='h-[450px] w-full rounded-xl' />
                                             </div>
                                         )
                                     })}
                                 </Carousel>
                                 <div className='flex justify-end mr-2'>
-                                    <p className='text-gray-800 font-semibold'>{currSlide}/{AllData.gallery?.length}</p>
+                                    <p className='text-gray-800 font-semibold'>{currSlide}/{galleryImages.images?.length}</p>
                                 </div>
                                 {/* <ImageGallery
                                     items={AllData.gallery?.map((item, index) => {
@@ -374,8 +434,8 @@ const ProjectDetails = () => {
                                     open={open}
                                     plugins={[Thumbnails, Download, Fullscreen, Zoom]}
                                     close={() => setOpen(false)}
-                                    slides={AllData.gallery?.map((item, index) => {
-                                        return { src: item.image }
+                                    slides={galleryImages.images?.map((item, index) => {
+                                        return { src: item }
                                     })}
                                 // slides={[
                                 //     {
@@ -417,8 +477,8 @@ const ProjectDetails = () => {
                                     })}
                                 </div>
                             </div>
-                            {(AllData.data?.faqtab?.length ||  AllData.data?.faqtab?.faqs.length ) && <div id='5' className='mt-10 bg-white shadow-md px-5 py-5 mb-10 scroll-mt-20'>
-                                <FAQs Data = {AllData.data?.faqtab?.length? AllData.data?.faqtab : AllData.data?.faqtab?.faqs} />
+                            {(AllData.data?.faqtab?.length || AllData.data?.faqtab?.faqs.length) && <div id='5' className='mt-10 bg-white shadow-md px-5 py-5 mb-10 scroll-mt-20'>
+                                <FAQs Data={AllData.data?.faqtab?.length ? AllData.data?.faqtab : AllData.data?.faqtab?.faqs} />
                             </div>}
                         </div>
 
