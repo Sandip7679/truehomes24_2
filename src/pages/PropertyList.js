@@ -113,7 +113,11 @@ const PropertyList = () => {
 
 
     const onClickContactBtn = (item) => {
-        setcontactModalStatus({ show: true, data: item });
+        setcontactModalStatus({ show: true, data: {
+            owner: item.userDetails?.name,
+            type: item.userAs,
+            icon: item.userDetails?.image
+        } });
     }
     const onCloseContact = () => {
         setcontactModalStatus({ show: false, data: null });

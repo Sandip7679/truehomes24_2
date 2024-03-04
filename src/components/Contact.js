@@ -1,10 +1,13 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { CrossIcon, MenuIcon, UserIcon } from './svgIcons';
 import { styles } from '../Styles/Styles';
 // import userIcon from '../assets/images/user.svg'
 
 
 const Contact = ({Data,func}) => {
+    useEffect(()=>{
+        console.log('data contact....',Data);
+    },[]);
     return (
         <div className='fixed top-0 z-[2000] flex left-0 w-screen h-screen items-center justify-center bg-black bg-opacity-60'>
             <div className='relative bg-white shadow-lg border-[1px] p-4 w-[90%] sm:w-[85%] max-w-[360px]'>
@@ -14,7 +17,9 @@ const Contact = ({Data,func}) => {
                     <CrossIcon />
                 </button>
                 <div className='flex gap-5'>
-                    <img alt='' src={Data.icon} className='h-[50px] w-[50px] md:h-[70px] md:w-[70px]' />
+                    <img alt='' 
+                     src={Data.icon} 
+                      className='h-[50px] w-[50px] md:h-[70px] md:w-[70px]' />
                     <div className='text-gray-900 mt-2'>
                         <div className='flex gap-3'>
                             <UserIcon classname={'h-5 w-5 mt-[2px]'} />

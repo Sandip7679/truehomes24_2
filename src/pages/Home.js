@@ -320,7 +320,7 @@ const Home = () => {
     const GetAllProperties = async (currlocation) => {
         let featured
         try {
-            featured = await FetchData(`featured-property-slider?type=1&limit=5&page=1&city=${currlocation.code?currlocation.code:'10383'}`, 'GET');
+            featured = await FetchData(`featured-property-slider?type=1&limit=5&page=1&city=${currlocation.code ? currlocation.code : '10383'}`, 'GET');
             // console.log('featured.... data...', featured)
             console.log('currlocation2.code...', currlocation);
 
@@ -331,7 +331,7 @@ const Home = () => {
 
         let newProjects
         try {
-            newProjects = await FetchData(`featured-property-slider?type=2&limit=5&page=1&city=${currlocation.code?currlocation.code:'10383'}`, 'GET');
+            newProjects = await FetchData(`featured-property-slider?type=2&limit=5&page=1&city=${currlocation.code ? currlocation.code : '10383'}`, 'GET');
         } catch (err) {
             console.log(err);
         }
@@ -339,7 +339,7 @@ const Home = () => {
 
         let recentlyAdded
         try {
-            recentlyAdded = await FetchData(`property-list?recently_added=1&city=${currlocation.code?currlocation.code:'10383'}&page=1&limit=8`, 'GET');
+            recentlyAdded = await FetchData(`property-list?recently_added=1&city=${currlocation.code ? currlocation.code : '10383'}&page=1&limit=8`, 'GET');
         } catch (err) {
             console.log(err);
         }
@@ -347,7 +347,7 @@ const Home = () => {
 
         let newsAndArticle
         try {
-            newsAndArticle = await FetchData(`blogs?page=1&limit=8&city=${currlocation.code?currlocation.code:'10383'}`, 'GET');
+            newsAndArticle = await FetchData(`blogs?page=1&limit=8&city=${currlocation.code ? currlocation.code : '10383'}`, 'GET');
         } catch (err) {
             console.log(err);
         }
@@ -355,7 +355,7 @@ const Home = () => {
 
         let topDeveloper
         try {
-            topDeveloper = await FetchData(`real-estate-builders-in-${currlocation.city? currlocation.city.toLowerCase() : 'chennai'}?for_home=1&limit=8`, 'GET');
+            topDeveloper = await FetchData(`real-estate-builders-in-${currlocation.city ? currlocation.city.toLowerCase() : 'chennai'}?for_home=1&limit=8`, 'GET');
         } catch (err) {
             console.log(err);
         }
@@ -365,7 +365,14 @@ const Home = () => {
     }
 
     const onClickContactBtn = (item) => {
-        setcontactModalStatus({ show: true, data: item });
+        console.log('item. recent added.', item)
+        setcontactModalStatus({
+            show: true, data: {
+                owner: item.userDetails?.name,
+                type: item.userAs,
+                icon: item.userDetails?.image
+            }
+        });
     }
     const onCloseContact = () => {
         setcontactModalStatus({ show: false, data: null });
@@ -424,10 +431,16 @@ const Home = () => {
                                     <SearchIcon
                                         imageClass='w-5 h-5 mt-[6px]'
                                     />
-                                    <div className='flex flex-wrap lg:flex-nowrap z-[500] gap-1 items-center'>
+                                    <div className='flex flex-wrap xl:flex-nowrap z-[500] gap-1 items-center'>
                                         {searchStatus.cityName && <button className={styles.btn + 'bg-white flex-shrink-0 gap-1 rounded-xl h-7 items-center'}>
                                             <p className='text-sm'>{searchStatus.cityName}</p>
-                                            <span onClick={() => setSearchStatus(pre => ({ ...pre, cityName: null, city: '', type: 'city' }))}>
+                                            <span onClick={() => setSearchStatus(pre => ({
+                                                ...pre,
+                                                cityName: null, city: '',
+                                                localityName: null, locality: '',
+                                                projectName: null, project: '',
+                                                type: 'city'
+                                            }))}>
                                                 <i class="fa-solid fa-xmark"></i>
                                             </span>
                                         </button>}
@@ -435,23 +448,26 @@ const Home = () => {
                                             <p className='text-sm'>{searchStatus.localityName}</p>
                                             <span onClick={() => setSearchStatus(pre => ({
                                                 ...pre, localityName: null, locality: '',
-                                                type: searchStatus.cityName ? 'locality' : 'city'
+                                                projectName: null, project: '',
+                                                // type: searchStatus.cityName ? 'locality' : 'city'
+                                                type: 'locality'
                                             }))}>
                                                 <i class="fa-solid fa-xmark"></i>
                                             </span>
                                         </button>}
-                                        {searchStatus.projectName && <button className={styles.btn + 'bg-white flex-shrink-0 gap-1 h-7 items-center rounded-xl overflow-ellipsis'}>
-                                            <p className='text-sm'>{searchStatus.projectName}</p>
+                                        {searchStatus.projectName && <button className={styles.btn + ' max-w-[200px] sm:max-w-[300px] bg-white flex-shrink-0 gap-1 h-7 items-center rounded-xl overflow-ellipsis'}>
+                                            <p className='text-sm truncate'>{searchStatus.projectName}</p>
                                             {/* {searchStatus.projectName} */}
                                             <span onClick={() => setSearchStatus(pre => ({
                                                 ...pre, projectName: null, project: '',
-                                                type: searchStatus.cityName ? searchStatus.localityName ? 'project' : 'locality' : 'city'
+                                                // type: searchStatus.cityName ? searchStatus.localityName ? 'project' : 'locality' : 'city'
+                                                type: 'project'
                                             }))}>
                                                 <i class="fa-solid fa-xmark"></i>
                                             </span>
                                         </button>}
                                     </div>
-                                    <input
+                                    {(!searchStatus.cityName || !searchStatus.localityName || !searchStatus.projectName) && <input
                                         onKeyDown={onSearchInputKeyPress}
                                         onClick={() => {
                                             if (searchStatus.quary?.length > 0) { getHomeSearchData() }
@@ -462,7 +478,7 @@ const Home = () => {
                                         value={searchStatus.quary}
                                         onChange={(e) => setSearchStatus(pre => ({ ...pre, quary: e.target.value }))}
                                     // required
-                                    />
+                                    />}
 
                                 </div>
                                 <div className='absolute top-1 left-4 lg:relative lg:top-0 flex min-w-[300px]'>
@@ -554,7 +570,7 @@ const Home = () => {
                         </div>
                         <div className=''>
                             {searchStatus.quary?.length > 0 && searchResult.length == 0 && noSuggestion && <p className='text-xs text-red-600'>No suggestions</p>}
-                            {searchStatus.projectName && <p className='text-xs text-red-600'>You can not choose more than 3 items</p>}
+                            {/* {searchStatus.projectName && <p className='text-xs text-red-600'>You can not choose more than 3 items</p>} */}
                             {!searchStatus.city && isInValidLocation && <p className='text-xs text-red-600'>Please choose a city!</p>}
                         </div>
 

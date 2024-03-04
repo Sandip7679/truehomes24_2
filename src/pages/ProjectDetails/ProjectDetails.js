@@ -4,13 +4,15 @@ import Footer from '../../components/Footer';
 import TopCItiesFilter from '../../components/TopCItiesFilter';
 import { styles } from '../../Styles/Styles';
 import { LocationIcon, MenuIcon } from '../../components/svgIcons';
-import userIcon from '../../assets/images/user.svg'
+// import userIcon from '../../assets/images/user.svg'
 import RecentViewCard from '../../components/RecentViewCard';
 import Carousel from 'react-multi-carousel';
 import RightListCard from '../../components/RightListCard';
 import { NavLink, useLocation } from 'react-router-dom';
 import FAQs from '../../components/FAQs';
 import Contact from '../../components/Contact';
+import loader from '../../assets/Icons/loader.gif';
+
 // import ImageGallery from "react-image-gallery";
 // import "react-image-gallery/styles/css/image-gallery.css";
 
@@ -98,6 +100,8 @@ const ProjectDetails = () => {
     const routePath = useLocation();
     const { fetchData } = useApi();
     const [AllData, setAllData] = useState({ breadcrumb: [], gallery: [], data: null, featuredProperty: [], recentlyAddedProperty: [], recentBlogs: null, similarListing: [] });
+    const [loading, setLoading] = useState(true);
+
     const [galleryImages, setGalleryImges] = useState({ images: [], tabName: null });
 
     useEffect(() => {
@@ -106,6 +110,7 @@ const ProjectDetails = () => {
     }, []);
 
     const getProjectDetails = async () => {
+        setLoading(true);
         let data;
         try {
             data = await fetchData(`${routePath.pathname}`, 'GET');
@@ -123,6 +128,7 @@ const ProjectDetails = () => {
                 similarListing: data.similarListing
             });
             data.data.galleryTab.images ? setGalleryImges({ images: data.data.galleryTab.images, tabName: null }) : setGalleryImges({ images: data.data.galleryTab.PropertyImages, tabName: 'PropertyImages' });
+            setLoading(false);
         }
     }
 
@@ -168,13 +174,16 @@ const ProjectDetails = () => {
     return (
         <div>
             {navClassState === '' && <Header />}
-            <div className='bg-gray-50 py-5'>
+            <div className={'bg-gray-50 py-5 '+(loading && 'opacity-50')}>
                 {/* <div className='bg-white h-[100px]'>
                 </div> */}
                 <div className='mt-14 container mx-auto'>
                     <div className='text-sm px-2 text-gray-500'> <NavLink to={'/'}>Home</NavLink>{' > '}<span>{AllData?.breadcrumb[1]?.title}</span>{' > '}<span>{AllData.breadcrumb[2]?.title}</span>
                         {AllData?.breadcrumb[3]?.title && ' > '}<span className='text-base'>{AllData?.breadcrumb[3]?.title}</span>
                     </div>
+                    {loading && <div className="fixed top-[100px] right-1/2 flex justify-center items-center mt-16">
+                        <img alt="Please wait.." title="Please wait.." src={loader} />
+                    </div>}
                     <div className='bg-white py-5 px-[2%] mt-1 shadow w-full md:flex md:gap-5'>
                         <div className=' w-full md:w-[65%]'>
                             <div className='relative'>
@@ -464,7 +473,7 @@ const ProjectDetails = () => {
                                 </LightGallery> */}
 
                             </div>
-                           {AllData.data?.nearByTab?.nearby && <div id='4' className='mt-10 bg-white shadow-md px-5 py-5 mb-10 scroll-mt-20'>
+                            {AllData.data?.nearByTab?.nearby && <div id='4' className='mt-10 bg-white shadow-md px-5 py-5 mb-10 scroll-mt-20'>
                                 <p className={styles.title3}>What's Nearby?</p>
                                 <div className='mt-5'>
                                     {AllData.data?.nearByTab?.nearby?.map((item, index) => {
