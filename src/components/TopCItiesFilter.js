@@ -44,13 +44,13 @@ const TopCItiesFilter = () => {
 
             </div>
             {/* <div className='flex flex-wrap mt-5'> */}
-                <div className='mt-5 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4'>
+                <div className='mt-5 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-2'>
                     {citiesData[currCityId]?.props?.map((item, index) => {
                         return (
-                            <button key={index} className='text-left text-sm text-gray-600 mx-4 mt-2'>
+                            <button key={index} className='text-left text-sm text-gray-600'>
                                 <div className='flex hover:underline'>
                                     <span><LinkIcon classname={'h-4 w-4 mt-1 mr-1'} /></span>
-                                    <span className=''>{item.text}</span>
+                                    <span className='truncate'>{item.text}</span>
                                 </div>
                             </button>
                         )

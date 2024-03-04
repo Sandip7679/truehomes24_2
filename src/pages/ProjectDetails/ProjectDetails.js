@@ -316,7 +316,7 @@ const ProjectDetails = () => {
                                 <p className={styles.title4}>{AllData.data?.scoietyName ? `About ${AllData.data?.scoietyName}` : 'Property Brief'}</p>
                                 <div className='mt-1 prose min-w-full' dangerouslySetInnerHTML={{ __html: AllData.data?.descriptionTab?.description }} />
                                 {/* <p className='mt-2 text-[0.9rem] text-gray-700 whitespace-pre-line'>{AllData.data?.descriptionTab?.description}</p> */}
-                                <div className='mt-5'>
+                                {AllData.data?.descriptionTab?.address && <div className='mt-5'>
                                     <p className={styles.title4}>Map Location</p>
                                     <div className='flex flex-wrap gap-2 mt-2 items-start w-[80%]'>
                                         {AllData.data?.descriptionTab?.address?.map((item, index) => {
@@ -325,7 +325,7 @@ const ProjectDetails = () => {
                                             )
                                         })}
                                     </div>
-                                </div>
+                                </div>}
                             </div>
 
                             {AllData.data?.descriptionTab?.aboutBuilder && <div id='2' className='bg-white shadow-md px-[2%] py-5 mt-10 scroll-mt-20'>
@@ -335,7 +335,7 @@ const ProjectDetails = () => {
                             </div>}
                             {AllData.data?.unitConfigurationTab?.length > 0 && <div className='bg-white shadow-md px-[2%] py-5 mt-10'>
                                 <p className={styles.title4}>{AllData.data?.scoietyName} Configuration</p>
-                                <div className='mt-5 flex justify-between gap-2 bg-gray-800 text-white text-sm font-semibold p-2'>
+                                <div className='mt-5 flex justify-between bg-gray-800 text-white text-sm font-semibold p-2'>
                                     <div className='w-full text-center'>Unit Types</div>
                                     <div className='w-full text-center'>Built-Up Area</div>
                                     <div className='w-full text-center'>Price</div>
@@ -344,7 +344,7 @@ const ProjectDetails = () => {
                                 </div>
                                 {AllData.data?.unitConfigurationTab.map((item, index) => {
                                     return (
-                                        <div className='flex justify-between gap-2 text-sm text-gray-600 p-2'>
+                                        <div className='flex justify-between text-sm text-gray-600 p-2'>
                                             <div className='w-full'>
                                                 <p>{item.unit}</p>
                                                 <p className='text-gray-500'>Availabity: {item.unitAvailability}</p>
@@ -464,7 +464,7 @@ const ProjectDetails = () => {
                                 </LightGallery> */}
 
                             </div>
-                            <div id='4' className='mt-10 bg-white shadow-md px-5 py-5 mb-10 scroll-mt-20'>
+                           {AllData.data?.nearByTab?.nearby && <div id='4' className='mt-10 bg-white shadow-md px-5 py-5 mb-10 scroll-mt-20'>
                                 <p className={styles.title3}>What's Nearby?</p>
                                 <div className='mt-5'>
                                     {AllData.data?.nearByTab?.nearby?.map((item, index) => {
@@ -476,7 +476,7 @@ const ProjectDetails = () => {
                                         )
                                     })}
                                 </div>
-                            </div>
+                            </div>}
                             {(AllData.data?.faqtab?.length || AllData.data?.faqtab?.faqs.length) && <div id='5' className='mt-10 bg-white shadow-md px-5 py-5 mb-10 scroll-mt-20'>
                                 <FAQs Data={AllData.data?.faqtab?.length ? AllData.data?.faqtab : AllData.data?.faqtab?.faqs} />
                             </div>}
@@ -488,9 +488,9 @@ const ProjectDetails = () => {
                             <RightListCard title={'Recent Blog'} data={AllData.recentBlogs} />
                         </div>
                     </div>
-                    <div className='mt-[50px]'>
+                    {AllData.similarListing && <div className='mt-[50px]'>
                         <PropertySlider type={'Similar Listings'} Data={AllData.similarListing} />
-                    </div>
+                    </div>}
 
                 </div>
             </div>

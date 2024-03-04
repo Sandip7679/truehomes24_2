@@ -167,7 +167,7 @@ const PropertyList = () => {
             <Header />
             <div className={'mt-[50px] ' + (loadingList && 'opacity-70')}>
                 <TopSearchNavBar pageRef = {listPage} />
-                <div ref={scrollUpTarget} className='px-[2%] pt-[250px] sm:pt-[150px] lg:pt-28  container mx-auto py-5'>
+                <div ref={scrollUpTarget} className='px-[2%] pt-[250px] sm:pt-[140px] lg:pt-28  container mx-auto py-5'>
                     <div className={styles.textMedium}>
                         <NavLink className={'hover:opacity-70'} to="/">Home</NavLink> {'> '}
                         {currLocation.locationName ? (`Property for ${propertyListState.propertyStatus.for} in ${currLocation.locationName} >`) : ''}

@@ -156,16 +156,16 @@ const Home = () => {
         console.log('currLOcation.code...', currLocation);
         if (currLocation.code != searchStatus.city && currLocation.code !== '') {
             GetAllProperties(currLocation);
-            setSearchStatus(pre => ({
-                ...pre,
-                type: 'locality', quary: '',
-                city: currLocation.code, cityName: currLocation.city,
-                locality: '', localityName: null,
-                project: '', projectName: null
-            }));
-            if (curIndex > 0) {
-                setCurrIndex(0);
-            }
+            // setSearchStatus(pre => ({
+            //     ...pre,
+            //     type: 'locality', quary: '',
+            //     city: currLocation.code, cityName: currLocation.city,
+            //     locality: '', localityName: null,
+            //     project: '', projectName: null
+            // }));
+            // if (curIndex > 0) {
+            //     setCurrIndex(0);
+            // }
         }
     }, [currLocation.code]);
 
@@ -320,7 +320,7 @@ const Home = () => {
     const GetAllProperties = async (currlocation) => {
         let featured
         try {
-            featured = await FetchData(`featured-property-slider?type=1&limit=5&page=1&city=${currlocation.code}`, 'GET');
+            featured = await FetchData(`featured-property-slider?type=1&limit=5&page=1&city=${currlocation.code?currlocation.code:'10383'}`, 'GET');
             // console.log('featured.... data...', featured)
             console.log('currlocation2.code...', currlocation);
 
@@ -331,7 +331,7 @@ const Home = () => {
 
         let newProjects
         try {
-            newProjects = await FetchData(`featured-property-slider?type=2&limit=5&page=1&city=${currlocation.code}`, 'GET');
+            newProjects = await FetchData(`featured-property-slider?type=2&limit=5&page=1&city=${currlocation.code?currlocation.code:'10383'}`, 'GET');
         } catch (err) {
             console.log(err);
         }
@@ -339,7 +339,7 @@ const Home = () => {
 
         let recentlyAdded
         try {
-            recentlyAdded = await FetchData(`property-list?recently_added=1&city=${currlocation.code}&page=1&limit=8`, 'GET');
+            recentlyAdded = await FetchData(`property-list?recently_added=1&city=${currlocation.code?currlocation.code:'10383'}&page=1&limit=8`, 'GET');
         } catch (err) {
             console.log(err);
         }
@@ -347,7 +347,7 @@ const Home = () => {
 
         let newsAndArticle
         try {
-            newsAndArticle = await FetchData(`blogs?page=1&limit=8&city=${currlocation.code}`, 'GET');
+            newsAndArticle = await FetchData(`blogs?page=1&limit=8&city=${currlocation.code?currlocation.code:'10383'}`, 'GET');
         } catch (err) {
             console.log(err);
         }
@@ -355,7 +355,7 @@ const Home = () => {
 
         let topDeveloper
         try {
-            topDeveloper = await FetchData(`real-estate-builders-in-${currlocation.city.toLowerCase()}?for_home=1&limit=8`, 'GET');
+            topDeveloper = await FetchData(`real-estate-builders-in-${currlocation.city? currlocation.city.toLowerCase() : 'chennai'}?for_home=1&limit=8`, 'GET');
         } catch (err) {
             console.log(err);
         }
