@@ -156,16 +156,16 @@ const Home = () => {
         console.log('currLOcation.code...', currLocation);
         if (currLocation.code != searchStatus.city && currLocation.code !== '') {
             GetAllProperties(currLocation);
-            // setSearchStatus(pre => ({
-            //     ...pre,
-            //     type: 'locality', quary: '',
-            //     city: currLocation.code, cityName: currLocation.city,
-            //     locality: '', localityName: null,
-            //     project: '', projectName: null
-            // }));
-            // if (curIndex > 0) {
-            //     setCurrIndex(0);
-            // }
+            setSearchStatus(pre => ({
+                ...pre,
+                type: 'locality', quary: '',
+                city: currLocation.code, cityName: currLocation.city,
+                locality: '', localityName: null,
+                project: '', projectName: null
+            }));
+            if (curIndex > 0) {
+                setCurrIndex(0);
+            }
         }
     }, [currLocation.code]);
 
