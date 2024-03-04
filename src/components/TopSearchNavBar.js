@@ -60,11 +60,13 @@ const TopSearchNavBar = ({ pageRef }) => {
 
     const [searchStatus, setSearchStatus] = useState({ quary: null, type: 'city', city: '', locality: '', cityName: null, localityName: null, project: '', projectName: null });
     const [searchResult, setSearchResult] = useState([]);
+    const [searchHeight,setSearchHeight] = useState(32);
     const [curIndex, setCurrIndex] = useState(0);
     const [noSuggestion, setNoSuggestion] = useState(false);
     const [isInValidLocation, setIsInvalidLocation] = useState(false);
     const searchMenu = useRef();
     const searchInput = useRef();
+    const searchSection = useRef(null);
     const dispatch = useDispatch();
     const { fetchData, error } = useApi();
     useEffect(() => {
@@ -77,14 +79,25 @@ const TopSearchNavBar = ({ pageRef }) => {
         closeOnClickOutside('shortBy-dropdown', 'shortBy-menu');
 
         pageRef.current.addEventListener('click', (e) => {
-            if (!searchMenu.current.contains(e.target) && !searchInput.current.contains(e.target)) {
+            if (!searchMenu.current.contains(e.target) &&  !searchInput?.current?.contains(e.target)) {
                 setSearchResult([]);
                 if (noSuggestion) {
                     setNoSuggestion(false);
                 }
             }
         });
+        // window.addEventListener('resize',()=>{
+        //     if(searchHeight != searchSection.current?.offsetHeight){
+        //         setSearchHeight(searchSection.current?.offsetHeight);
+        //     }
+        // });
+
     }, []);
+    useEffect(()=>{
+        if(searchHeight != searchSection.current.offsetHeight ){
+            setSearchHeight(searchSection.current.offsetHeight);
+        }
+    },[searchStatus]);
 
     useEffect(() => {
         if (searchStatus.quary != null && searchStatus.quary != '') {
@@ -262,7 +275,7 @@ const TopSearchNavBar = ({ pageRef }) => {
         <div className={styles.textMedium + 'w-screen mx-auto shadow fixed bg-white z-[1500]'}>
             <div className='relative p-2 xl:container pt-5 xl:flex gap-2 pl-[1%]'>
                 <div className='flex gap-1 sm:gap-2 xl:w-full sm:max-w-[780px]'>
-                    <div className='absolute top-[110px] xs:top-[65px] xl:top-0 xl:relative group'>
+                    <div className={(searchHeight < 50 ?'top-[110px]':'top-[137px]')+ ' absolute xs:top-[65px] xl:top-0 xl:relative group'}>
                         <button className='p-0 pr-0 flex w-[147px]'>
                             <img alt='' className='h-4 w-4 mt-1 mr-2' src={searchTypes[propertyListState?.propertyStatus?.index]?.icon} />
                             <p className={styles.textMedium + 'font-semibold text-gray-800'}>{propertyListState?.propertyStatus?.text}</p>
@@ -293,19 +306,18 @@ const TopSearchNavBar = ({ pageRef }) => {
                             {searchStatus.projectName && <p className='text-xs text-red-600'>You can not choose more than 3 items</p>}
                             {!searchStatus.city && isInValidLocation && <p className='text-xs text-red-600'>Please choose a city!</p>}
                         </div>
-                        <div className='relative w-full xs:flex gap-1 border-gray-300 rounded xs:border-r-0 rounded-r-none border-[1px]'>
+                        <div ref={searchSection} className='relative w-full flex gap-1 border-gray-300 rounded xs:border-r-0 rounded-r-none border-[1px]'>
                             <div>
-                                {/* <SearchIcon imageClass={'w-5 h-5 absolute left-2 top-3'} /> */}
                                 <SearchIcon imageClass={'w-5 h-5 mt-3 ml-1'} />
                             </div>
-                            <div className='flex lg:flex-nowrap  z-[500] gap-1 items-center'>
-                                {searchStatus.cityName && <button className={' flex-nowrap bg-white h-7 px-1 text-sm border-[1px] border-gray-500 flex-shrink-0 gap-1 rounded-xl'}>
+                            <div className='flex flex-wrap lg:flex-nowrap  z-[500] gap-1 items-center'>
+                                {searchStatus.cityName && <button className={' truncate flex-nowrap bg-white h-7 px-1 text-sm border-[1px] border-gray-500 flex-shrink-0 gap-1 rounded-xl'}>
                                     {searchStatus.cityName}
                                     <span onClick={() => setSearchStatus(pre => ({ ...pre, cityName: null, city: '', type: 'city' }))}>
                                         <i class="fa-solid fa-xmark"></i>
                                     </span>
                                 </button>}
-                                {searchStatus.localityName && <button className={'flex-nowrap h-7 px-1 text-sm border-[1px] border-gray-500 flex-shrink-0 gap-1 rounded-xl'}>
+                                {searchStatus.localityName && <button className={' truncate flex-nowrap h-7 px-1 text-sm border-[1px] border-gray-500 flex-shrink-0 gap-1 rounded-xl'}>
                                     {searchStatus.localityName}
                                     <span onClick={() => setSearchStatus(pre => ({
                                         ...pre, localityName: null, locality: '',
@@ -314,7 +326,7 @@ const TopSearchNavBar = ({ pageRef }) => {
                                         <i class="fa-solid fa-xmark"></i>
                                     </span>
                                 </button>}
-                                {searchStatus.projectName && <button className={'flex-nowrap h-7 px-1 text-sm border-[1px] bg-white border-gray-500 flex-shrink-0 gap-1 rounded-xl'}>
+                                {searchStatus.projectName && <button className={' truncate flex-nowrap h-7 px-1 text-sm border-[1px] bg-white border-gray-500 flex-shrink-0 gap-1 rounded-xl'}>
                                     {/* <p className='text-ellipsis '>{searchStatus.projectName}</p> */}
                                     {searchStatus.projectName}
                                     <span onClick={() => setSearchStatus(pre => ({
@@ -325,6 +337,8 @@ const TopSearchNavBar = ({ pageRef }) => {
                                     </span>
                                 </button>}
                             </div>
+                           {
+                            (!searchStatus.cityName || !searchStatus.localityName || !searchStatus.projectName) &&
                             <input
                                 ref={searchInput}
                                 // className={styles.textMedium + ' overflow-ellipsis focus:outline-none border-gray-300 rounded xs:border-r-0 rounded-r-none border-[1px] w-[100%] py-2 pl-8'}
@@ -337,7 +351,7 @@ const TopSearchNavBar = ({ pageRef }) => {
                                     if (searchStatus.quary?.length > 0) { getHomeSearchData() }
                                     if (isInValidLocation) { setIsInvalidLocation(false) }
                                 }}
-                            />
+                            />}
                         </div>
                         <NavLink to={getRoutePath()}>
                             <button
@@ -348,7 +362,7 @@ const TopSearchNavBar = ({ pageRef }) => {
                         </NavLink>
 
                         <div
-                            ref={searchMenu} className={(searchResult.length > 0 ? 'border-[1px] border-gray-500' : '') + ' shadow-lg absolute top-16 bg-white rounded max-h-[320px] w-[300px] sm:w-[450px] overflow-auto'}>
+                            ref={searchMenu} className={(searchResult.length > 0 ? 'border-[1px] border-gray-500' : '') + ' shadow-lg absolute top-[130px] bg-white rounded max-h-[320px] z-10 w-[300px] sm:w-[450px] overflow-auto'}>
                             {searchResult?.map((item, index) => {
                                 return (
                                     <div
