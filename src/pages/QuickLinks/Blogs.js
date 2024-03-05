@@ -110,7 +110,7 @@ const Blogs = () => {
                 {loading && <div className="fixed top-[300px] right-1/2 flex justify-center items-center mt-16">
                   <img alt="Please wait.." title="Please wait.." src={loader} />
                 </div>}
-                <div className='grid gap-2 sm:gap-7 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3'>
+                <div className='grid gap-2 sm:gap-7 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 min-h-screen'>
                   {blogs.content.map((item, index) => {
                     return (
                       <div key={index} className=' rounded-md shadow-lg border-[1px] h-full group tracking-wider'>
