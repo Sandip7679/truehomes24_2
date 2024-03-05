@@ -35,6 +35,45 @@ const Footer = () => {
     //     return `/${arr[arr.length - 1]}`
     // }
 
+    const setPopularSearchStatus = (item) => {
+        if (item.property_status == 'sale') {
+            dispatch(setPropertyListState({
+                ...propertyListState,
+                propertyStatus: { text: 'Buy', value: 'sale', for: 'Sale', index: 0 },
+                propertyTypes: item.property_type ? item.property_type : ''
+            }));
+        }
+        else if (item.property_status == 'rent') {
+            dispatch(setPropertyListState({
+                ...propertyListState, propertyStatus: { text: 'Rent', value: 'rent', for: 'Rent', index: 1 },
+                propertyTypes: item.property_type ? item.property_type : ''
+            }));
+        }
+        else if (item.property_status == 'new project') {
+            dispatch(setPropertyListState({
+                ...propertyListState, propertyStatus: { text: 'New Project', value: 'new project', for: 'Sale', index: 2 },
+                propertyTypes: item.property_type ? item.property_type : ''
+            }));
+        }
+        let location = { country: '90', city: 'India', code: '', location: '', locationName: null, project: '', projectName: null, area: 'City' };
+        localStorage.setItem('location', JSON.stringify({ ...currLocation, ...location }));
+        dispatch(setlocation(location));
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+    const setStatusForPropertyInIndia = (item) => {
+        console.log('item....shfkj...')
+        if (item.property_status == 'sale') {
+            dispatch(setPropertyListState({
+                ...propertyListState,
+                propertyStatus: { text: 'Buy', value: 'sale', for: 'Sale', index: 0 },
+            }));
+        }
+        let location = { country: '90', city: item.cityName, code: item.city, location: '', locationName: null, project: '', projectName: null, area: item.cityName }
+        localStorage.setItem('location', JSON.stringify({ ...currLocation, ...location }));
+        dispatch(setlocation(location));
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
     const setStatusForNewProject = (item) => {
         {
             localStorage.setItem('propertyStatus', 'new project');
@@ -85,15 +124,12 @@ const Footer = () => {
                     {footerData?.popularSearches?.map((item, index) => {
                         return (
                             <div key={index} className='mt-2 hover:underline opacity-90'>
-                                {/* <NavLink to={item.url} 
-                                  onClick={()=>{
-                                    dispatch(setPropertyListState({...propertyListState,propertyStatus:{}}));
-                                    dispatch(setlocation({ country: '90', city: 'India',code:'', location: '',locationName:null,project:'',projectName:null, area: 'India' }));
-                                  }}
-                                 >
+                                <NavLink to={`/${item.url}`}
+                                    onClick={() => setPopularSearchStatus(item)}
+                                >
                                     <p>{item.text}</p>
-                                </NavLink> */}
-                                <p>{item.text}</p>
+                                </NavLink>
+                                {/* <p>{item.text}</p> */}
                             </div>
                         )
                     })}
@@ -121,12 +157,20 @@ const Footer = () => {
                         {footerData?.propertyInIndia.map((item, index) => {
                             return (
                                 <>
-                                    {index % 2 != 0 && <p>
+                                    {index % 2 != 0 && <div
+                                        onClick={() => {
+                                            // localStorage.setItem('location', JSON.stringify({ ...currLocation, country:'90',city:footerData.propertyInIndia[index - 1].cityName,
+                                            // code:footerData.propertyInIndia[index - 1].city,
+                                            // area:footerData.propertyInIndia[index - 1].cityName }));
+                                            setStatusForPropertyInIndia(footerData.propertyInIndia[index - 1]);
+                                        }}
+                                    >
                                         <NavLink
-                                            // to={footerData.propertyInIndia[index - 1].url}
-                                            className='hover:underline cursor-pointer'>{footerData.propertyInIndia[index - 1].text}</NavLink>{' '}
+                                            to={`/${footerData.propertyInIndia[index - 1].url}`}
+                                            className='hover:underline cursor-pointer'
+                                        >{footerData.propertyInIndia[index - 1].text}</NavLink>{' '}
                                         | <NavLink className='hover:underline cursor-pointer'>{item.text}</NavLink>
-                                    </p>}
+                                    </div>}
                                 </>
                             )
                         })}

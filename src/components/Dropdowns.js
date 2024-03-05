@@ -154,6 +154,7 @@ export const PropertyTypeMenu = ({ classname }) => {
                                 // onChange={(e) => handleOnCheckedItem(e, index, item.value)}
                                 onClick={(e) => handleOnCheckedItem(e, index, item.value)}
                                 checked={item.value == checkedItems[index]}
+                                //|| propertyListState.propertyTypes?.includes(item.value)
                                 type="checkbox" class="form-checkbox mt-1 h-4 w-4 text-blue-500"
                             />
                             <span class={styles.textMedium + "ml-2"}>{item.label}</span>
