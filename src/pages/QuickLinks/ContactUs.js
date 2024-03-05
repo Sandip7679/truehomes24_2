@@ -9,7 +9,7 @@ import TopCItiesFilter from '../../components/TopCItiesFilter';
 import Footer from '../../components/Footer';
 
 const ContactUs = () => {
-  const [value, setValue] = useState()
+  const [value, setValue] = useState('')
   return (
     <div className='container mx-auto'>
       <Header />
@@ -62,20 +62,25 @@ const ContactUs = () => {
                   <input required className={styles.input + 'mt-5'} placeholder='Email*' />
                   <div className='mt-5'>
                     <PhoneInput
-                      country={'in'}
+                      // country={'in'}
                       // containerStyle={{width:'100%'}}
                       inputStyle={{ width: '100%', height: '42px' }}
                       // buttonStyle={{width:'50%'}}
                       // containerClass='w-full'
                       // inputClass='py-2'
-                      // placeholder='Phone'
+                      placeholder='Phone*'
                       inputProps={{
                         name: 'phone',
                         required: true,
                         autoFocus: true
                       }}
                     // buttonClass='w-[100px]'
-                    // value={value}
+                      value={value}
+                      onClick={()=>{
+                        if(value == ''){
+                          setValue('+91')
+                        }
+                      }}
                     // onChange={val => setValue(val)}
                     />
                   </div>

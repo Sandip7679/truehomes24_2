@@ -1,10 +1,15 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Header from '../../components/Header/Header';
 import BgImage from '../../assets/images/buildersBg.jpg'
 import { NavLink } from 'react-router-dom';
 import { styles } from '../../Styles/Styles';
 import TopCItiesFilter from '../../components/TopCItiesFilter';
 import Footer from '../../components/Footer';
+import { setCurrPage } from '../../Redux/reducer/User';
+import { UseApi } from '../../ApiConf';
+import { useDispatch, useSelector } from 'react-redux';
+import Pagenation from '../../components/Pagenation';
+import loader from '../../assets/Icons/loader.gif';
 
 const blogsData = [
   {
@@ -52,10 +57,43 @@ const blogsData = [
 ];
 
 const Blogs = () => {
+
+  const { FetchData } = UseApi();
+  const [blogs, setBlogs] = useState({ totalPage: 1, content: [] });
+  const { currPage, currLocation } = useSelector(state => state.User);
+  const dispatch = useDispatch();
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    if (currPage > 1) {
+      dispatch(setCurrPage(1));
+    }
+  }, []);
+
+  useEffect(() => {
+    getBlogsData();
+  }, [currPage, currLocation.code]);
+
+  const getBlogsData = async () => {
+    setLoading(true);
+    let data;
+    try {
+      data = await FetchData(`blogs?page=${currPage}&limit=8&city=${currLocation.code}`, 'GET');
+    } catch (err) {
+      console.log(err);
+      setLoading(false);
+    }
+    if (data) {
+      console.log('blogs data..', data);
+      setBlogs({ totalPage: data.totalPage, content: data.content });
+      setLoading(false);
+    }
+  }
+
   return (
-    <div className='container mx-auto'>
+    <div className=''>
       <Header />
-      <div >
+      <div className={loading && 'opacity-70'}>
         <div className=' fixed left-0 top-0 h-screen w-screen'>
           <img alt='' src={BgImage} className='h-full' />
         </div>
@@ -68,31 +106,37 @@ const Blogs = () => {
               </div>
             </div>
             <div className='mt-10 pt-10 min-h-[500px] bg-white'>
-              <div className='px-2 sm:px-[10%] grid gap-5 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3'>
-                {blogsData.map((item, index) => {
-                  return (
-                    <div key={index} className=' rounded-md shadow-lg border-[1px] h-full group tracking-wider'>
-                      <NavLink to={'/blog-detail'}>
-                        <div className='relative items-center rounded-t-md overflow-hidden hover:cursor-pointer'>
-                          <img alt='' src={item.image}
-                            className='h-[170px] w-full transform transition-transform hover:scale-110 duration-1000'
-                          />
-                        </div>
-                      </NavLink>
+              <div className='container mx-auto px-2 pb-10 sm:px-5'>
+                {loading && <div className="fixed top-[300px] right-1/2 flex justify-center items-center mt-16">
+                  <img alt="Please wait.." title="Please wait.." src={loader} />
+                </div>}
+                <div className='grid gap-2 sm:gap-7 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3'>
+                  {blogs.content.map((item, index) => {
+                    return (
+                      <div key={index} className=' rounded-md shadow-lg border-[1px] h-full group tracking-wider'>
+                        <NavLink to={'/blog-detail'}>
+                          <div className='relative items-center rounded-t-md overflow-hidden hover:cursor-pointer'>
+                            <img alt='' src={item.cover_url}
+                              className='h-[170px] w-full transform transition-transform hover:scale-110 duration-1000'
+                            />
+                          </div>
+                        </NavLink>
 
-                      <div className='relative p-3 text-left border-b-[1px] border-gray-300'>
-                        <p className='text-sm'>{item.type}</p>
-                        <p className={styles.title4}>{item.title}</p>
+                        <div className='relative p-3 text-left border-b-[1px] min-h-[120px] border-gray-300'>
+                          <p className='text-sm'>{item.about}</p>
+                          <p className={styles.title4 + 'my-2 line-clamp-2'}>{item.title}</p>
+                        </div>
+                        <div className='px-3 pb-3 py-2 flex justify-between text-sm text-gray-600'>
+                          <p>Posted On: {item.posted_on}</p>
+                        </div>
                       </div>
-                      <div className='px-3 pb-3 py-2 flex justify-between text-sm text-gray-600'>
-                        <p>Posted On: {item.postedOn}</p>
-                      </div>
-                    </div>
-                  )
-                })}
+                    )
+                  })}
+                </div>
+                {blogs.content?.length > 0 && <Pagenation lastPage={blogs.totalPage} />}
               </div>
-              <TopCItiesFilter/>
-              <Footer/>
+              <TopCItiesFilter />
+              <Footer />
             </div>
           </div>
         </div>

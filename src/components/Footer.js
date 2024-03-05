@@ -140,11 +140,11 @@ const Footer = () => {
                                 <>
                                     {index % 2 != 0 && <p>
                                         <NavLink
-                                            to={`${footerData.newProjectsInIndia[index - 1].url}`}
+                                            to={`/${footerData.newProjectsInIndia[index - 1].url}`}
                                             onClick={() => setStatusForNewProject(footerData.newProjectsInIndia[index - 1])}
                                             className='hover:underline cursor-pointer'>{footerData.newProjectsInIndia[index - 1].text}</NavLink>{' '}
                                         | <NavLink
-                                            to={`${item.url}`}
+                                            to={`/${item.url}`}
                                             onClick={() => setStatusForNewProject(item)}
                                             className='hover:underline cursor-pointer'>{item.text}</NavLink>
                                     </p>}

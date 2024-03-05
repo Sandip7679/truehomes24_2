@@ -26,23 +26,32 @@ const Gallery = () => {
 
   const handleFileChange = (e) => {
     if (e.target.files.length > 0) {
-      let file = e.target.files[0];
-      setFiles([...files, file]);
-      const reader = new FileReader();
-      reader.onload = () => {
-        setImgSrcs([...imgSrcs, reader.result]);
+      let newFiles = e.target.files;
+    if((files.length + newFiles.length) > 15){
+      alert('Can not upload more than 15 images !');
+      return;
+    }   
+      setFiles([...files, ...newFiles]);
+      let arr = [...imgSrcs];
+      for (let i = 0; i < newFiles.length; i++) {
+        let reader = new FileReader();
+        reader.onload = () => {
+          arr = [...arr, reader.result];
+          if (i == newFiles.length - 1) {
+            setImgSrcs([...arr]);
+          }
+        }
+        reader.readAsDataURL(newFiles[i]);
       }
-      reader.readAsDataURL(file);
     }
-
   }
 
   return (
-    <form className={'mt-16 '+ (animation?'transition-transform ease-in-out transform -translate-y-10 duration-1000':'')}>
+    <form className={'mt-16 ' + (animation ? 'transition-transform ease-in-out transform -translate-y-10 duration-1000' : '')}>
       <div>
         <CategoryTitle title={'Gallery : Allow max photo upload - 15'} icon={'fa-regular fa-file-image'} />
         <div className='border-dashed border-gray-600 border-[1px]'>
-          <input accept='image/*' ref={inputRef} type='file' onChange={handleFileChange} className='w-[80%] absolute opacity-0 py-14 cursor-pointer' />
+          <input accept='image/*' multiple ref={inputRef} type='file' onChange={handleFileChange} className='w-[80%] absolute opacity-0 py-14 cursor-pointer' />
           <div className='text-gray-400 flex flex-col items-center justify-center py-10 text-cente'>
             <i class="fa-solid fa-cloud-arrow-up text-4xl"></i>
             <p className=''>Click here to upload your images. Max file size of 5 MB is allowed.</p>

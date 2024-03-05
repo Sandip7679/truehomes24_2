@@ -384,8 +384,6 @@ const Home = () => {
             <main
                 className="h-screen flex items-center justify-center bg-cover bg-center"
                 style={{
-                    // backgroundImage: `url(${'https://www.truehomes24.com//assets/dynamic/banner/8ab1ae7e567ccaf7704650ac82f6c16d.jpg'})`
-                    // backgroundImage: `url(${'https://images.unsplash.com/photo-1445264918150-66a2371142a2'})`,
                     backgroundImage: `url(${bgImage})`,
                 }}
             >

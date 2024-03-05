@@ -39,7 +39,7 @@ const propertyTypes = ['Localities', 'Property Status', 'Budget'];
 const PropertyList = () => {
     const [contactModalStatus, setcontactModalStatus] = useState({ show: false, data: {} });
     const [propertyType, setPropertyType] = useState('Localities');
-    const { login_status, currLocation, propertyListState, currPage,pageRefresh } = useSelector(state => state.User);
+    const { login_status, currLocation, propertyListState, currPage, pageRefresh } = useSelector(state => state.User);
     const [propertyListData, setPropertyListData] = useState({ currPage: 1, totalProperty: null, lastPage: null, propertyList: [] });
     const [rightListData, setRightListData] = useState({ recentView: [], newProject: [], loading: true });
     const [loadingList, setLoadingList] = useState(true);
@@ -61,8 +61,10 @@ const PropertyList = () => {
         if (currPage > 1) {
             dispatch(setCurrPage(1));
         }
+        console.log('propertyListState...', propertyListState);
+        console.log('currLocation...', currLocation);
         getPropertyList(1);
-    }, [propertyListState, currLocation]);
+    }, [ propertyListState, currLocation]);
 
     useEffect(() => {
         if (currPage > 1) {
@@ -113,11 +115,13 @@ const PropertyList = () => {
 
 
     const onClickContactBtn = (item) => {
-        setcontactModalStatus({ show: true, data: {
-            owner: item.userDetails?.name,
-            type: item.userAs,
-            icon: item.userDetails?.image
-        } });
+        setcontactModalStatus({
+            show: true, data: {
+                owner: item.userDetails?.name,
+                type: item.userAs,
+                icon: item.userDetails?.image
+            }
+        });
     }
     const onCloseContact = () => {
         setcontactModalStatus({ show: false, data: null });
@@ -133,8 +137,8 @@ const PropertyList = () => {
 
     const getPropertyList = async (currpage) => {
         let data;
-        console.log('propertyListState...', propertyListState);
-        console.log('currLocation...', currLocation);
+        // console.log('propertyListState...', propertyListState);
+        // console.log('currLocation...', currLocation);
         let quary = `property_status=${propertyListState?.propertyStatus?.value == 'new projects' ? 'new project' : propertyListState?.propertyStatus?.value}` +
             `&country=${currLocation.country}&city=${currLocation.code}&locality=${currLocation.location}` +
             `&bedroom=${propertyListState?.BHKtype}` +
@@ -145,7 +149,7 @@ const PropertyList = () => {
             `&min_area=${propertyListState.moreStatus.minArea}&max_area=${propertyListState.moreStatus.maxArea}` +
             `&availableFor=${propertyListState.moreStatus.newResale}` +
             `&availability=${propertyListState.moreStatus.constructionStatus}` +
-            `&facing=${propertyListState.moreStatus.facing}`+
+            `&facing=${propertyListState.moreStatus.facing}` +
             `&floor=${propertyListState.moreStatus.floor}` +
             `&amenities=${propertyListState.moreStatus.amenities}` +
             `&listed_by=${propertyListState.moreStatus.listedBy}` +
@@ -170,7 +174,7 @@ const PropertyList = () => {
         <div ref={listPage} className='mx-auto' >
             <Header />
             <div className={'mt-[50px] ' + (loadingList && 'opacity-70')}>
-                <TopSearchNavBar pageRef = {listPage} />
+                <TopSearchNavBar pageRef={listPage} />
                 <div ref={scrollUpTarget} className='px-[2%] pt-[250px] sm:pt-[140px] lg:pt-28  container mx-auto py-5'>
                     <div className={styles.textMedium}>
                         <NavLink className={'hover:opacity-70'} to="/">Home</NavLink> {'> '}
