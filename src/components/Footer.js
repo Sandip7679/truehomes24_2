@@ -9,13 +9,15 @@ import { setPropertyListState, setlocation } from '../Redux/reducer/User';
 
 
 const Footer = () => {
-    const { fetchData } = useApi();
+    // const { fetchData } = useApi();
     const { FetchData } = UseApi();
     const dispatch = useDispatch();
     const { currLocation, propertyListState } = useSelector(state => state.User);
     const [footerData, setFooterData] = useState(null);
+    const [visitorCount,setVisitorCount] = useState(null);
     useEffect(() => {
         getFooterData();
+        getVisitorCount();
     }, []);
 
     const getFooterData = async () => {
@@ -28,6 +30,19 @@ const Footer = () => {
         if (data) {
             // console.log('footer data..',data);
             setFooterData(data);
+        }
+    }
+
+    const getVisitorCount = async () => {
+        let data;
+        try {
+            data = await FetchData('get-visitor-count', 'GET');
+        } catch (err) {
+            console.log(err);
+        }
+        if (data) {
+            // console.log('footer data..',data);
+            setVisitorCount(data.count);
         }
     }
     // const getQuickLinkPath = (url) => {
@@ -61,7 +76,6 @@ const Footer = () => {
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }
     const setStatusForPropertyInIndia = (item) => {
-        console.log('item....shfkj...')
         if (item.property_status == 'sale') {
             dispatch(setPropertyListState({
                 ...propertyListState,
@@ -74,12 +88,26 @@ const Footer = () => {
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    const setStatusForNewProject = (item) => {
-        {
-            localStorage.setItem('propertyStatus', 'new project');
-            dispatch(setPropertyListState({ ...propertyListState, propertyStatus: { text: 'New Project', value: 'new project', for: 'Sale', index: 2 } }));
-            dispatch(setlocation({ country: '90', city: item.cityName, code: item.city, location: '', locationName: null, project: '', projectName: null, area: item.cityName }));
+    const setStatusForInternationalProp = (item) => {
+        if (item.property_status == 'new project') {
+            dispatch(setPropertyListState({
+                ...propertyListState,
+                propertyStatus: { text: 'New Project', value: 'new project', for: 'Sale', index: 2 },
+            }));
         }
+        let location = { country: '', city: item.cityName, code: item.city, location: '', locationName: null, project: '', projectName: null, area: item.cityName }
+        localStorage.setItem('location', JSON.stringify({ ...currLocation, ...location }));
+        dispatch(setlocation(location));
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+
+    const setStatusForNewProject = (item) => {
+        localStorage.setItem('propertyStatus', 'new project');
+        dispatch(setPropertyListState({ ...propertyListState, propertyStatus: { text: 'New Project', value: 'new project', for: 'Sale', index: 2 } }));
+        let location = { country: '90', city: item.cityName, code: item.city, location: '', locationName: null, project: '', projectName: null, area: item.cityName }
+        localStorage.setItem('location', JSON.stringify({ ...currLocation, ...location }));
+        dispatch(setlocation(location));
     }
 
     return (
@@ -158,18 +186,20 @@ const Footer = () => {
                             return (
                                 <>
                                     {index % 2 != 0 && <div
-                                        onClick={() => {
-                                            // localStorage.setItem('location', JSON.stringify({ ...currLocation, country:'90',city:footerData.propertyInIndia[index - 1].cityName,
-                                            // code:footerData.propertyInIndia[index - 1].city,
-                                            // area:footerData.propertyInIndia[index - 1].cityName }));
-                                            setStatusForPropertyInIndia(footerData.propertyInIndia[index - 1]);
-                                        }}
                                     >
                                         <NavLink
+                                            onClick={() => {
+                                                setStatusForPropertyInIndia(footerData.propertyInIndia[index - 1]);
+                                            }}
                                             to={`/${footerData.propertyInIndia[index - 1].url}`}
                                             className='hover:underline cursor-pointer'
                                         >{footerData.propertyInIndia[index - 1].text}</NavLink>{' '}
-                                        | <NavLink className='hover:underline cursor-pointer'>{item.text}</NavLink>
+                                        | <NavLink
+                                            onClick={() => {
+                                                setStatusForPropertyInIndia(item);
+                                            }}
+                                            to={`/${item.url}`}
+                                            className='hover:underline cursor-pointer'>{item.text}</NavLink>
                                     </div>}
                                 </>
                             )
@@ -204,8 +234,16 @@ const Footer = () => {
                             return (
                                 <>
                                     {index % 2 != 0 && <p>
-                                        <span className='hover:underline cursor-pointer'>{footerData.internationalProps[index - 1].text}</span>{' '}
-                                        | <span className='hover:underline cursor-pointer'>{item.text}</span>
+                                        <NavLink
+                                            onClick={() => setStatusForInternationalProp(footerData.internationalProps[index - 1])}
+                                            to={`/${footerData.internationalProps[index - 1].url}`}>
+                                            <span className='hover:underline cursor-pointer'>{footerData.internationalProps[index - 1].text}</span>
+                                        </NavLink>
+                                        {' '}
+                                        | <NavLink
+                                            to={`/${item.url}`}
+                                            onClick={() => setStatusForInternationalProp(item)}
+                                            className='hover:underline cursor-pointer'>{item.text}</NavLink>
                                     </p>}
                                 </>
                             )
@@ -217,7 +255,7 @@ const Footer = () => {
                         <p className=''>Visitor Counter</p>
                     </div>
                     <div className='py-2'>
-                        1127276
+                        {visitorCount}
                     </div>
                 </div>
             </div>

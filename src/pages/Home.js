@@ -39,13 +39,13 @@ import { NavLink } from 'react-router-dom';
 //     { type: 'Serviced' },
 // ]
 
-const topLocalities = [
-    { name: 'Chandkheda', projectNum: '190', locality: 'in Chandkheda, Ahmedabad', forSale: '90', forRent: '90' },
-    { name: 'Chandkheda', projectNum: '190', locality: 'in Chandkheda, Ahmedabad', forSale: '90', forRent: '90' },
-    { name: 'Chandkheda', projectNum: '190', locality: 'in Chandkheda, Ahmedabad', forSale: '90', forRent: '90' },
-    { name: 'Chandkheda', projectNum: '190', locality: 'in Chandkheda, Ahmedabad', forSale: '90', forRent: '90' },
-    { name: 'Chandkheda', projectNum: '190', locality: 'in Chandkheda, Ahmedabad', forSale: '90', forRent: '90' },
-];
+// const topLocalities = [
+//     { name: 'Chandkheda', projectNum: '190', locality: 'in Chandkheda, Ahmedabad', forSale: '90', forRent: '90' },
+//     { name: 'Chandkheda', projectNum: '190', locality: 'in Chandkheda, Ahmedabad', forSale: '90', forRent: '90' },
+//     { name: 'Chandkheda', projectNum: '190', locality: 'in Chandkheda, Ahmedabad', forSale: '90', forRent: '90' },
+//     { name: 'Chandkheda', projectNum: '190', locality: 'in Chandkheda, Ahmedabad', forSale: '90', forRent: '90' },
+//     { name: 'Chandkheda', projectNum: '190', locality: 'in Chandkheda, Ahmedabad', forSale: '90', forRent: '90' },
+// ];
 
 const propertyCount = [
     { image: propertyCount1, count: '4,34,125', title: 'Properties & Counting...' },
@@ -64,6 +64,7 @@ const Home = () => {
     const { FetchData } = UseApi();
     // const [featuredProperties, setFeaturedProperties] = useState([]);
     const [allProperties, setAllProperties] = useState({ featured: [], newProjects: [], recentlyAdded: [], newsAndArticle: [], topDeveloper: [] });
+    const [topLocalities, setTopLocalities] = useState([]);
     const [searchStatus, setSearchStatus] = useState({ quary: null, type: 'city', city: '', locality: '', cityName: null, localityName: null, project: '', projectName: null });
     const [searchResult, setSearchResult] = useState([]);
     const { currLocation, propertyListState } = useSelector(state => state.User);
@@ -96,7 +97,6 @@ const Home = () => {
                 setNoSuggestion(false);
             }
         });
-
 
         dispatch(setPropertyListState({
             propertyStatus: { text: 'Buy', value: 'sale', for: 'Sale', index: 0 },
@@ -140,7 +140,7 @@ const Home = () => {
     useEffect(() => {
         if (currLocation.area == 'City') {
             let location = localStorage.getItem('location');
-            console.log('locationnn...', location);
+            console.log('locationnn home...', location);
             if (location && location != '') {
                 GetAllProperties(JSON.parse(location));
             } else {
@@ -339,7 +339,7 @@ const Home = () => {
 
         let recentlyAdded
         try {
-            recentlyAdded = await FetchData(`property-list?recently_added=1&city=${currlocation.code ? currlocation.code : '10383'}&page=1&limit=8`, 'GET');
+            recentlyAdded = await FetchData(`property-list?property_status=new project&recently_added=1&city=${currlocation.code ? currlocation.code : '10383'}&page=1&limit=8`, 'GET');
         } catch (err) {
             console.log(err);
         }
@@ -355,13 +355,23 @@ const Home = () => {
 
         let topDeveloper
         try {
-            topDeveloper = await FetchData(`real-estate-builders-in-${currlocation.city ? currlocation.city.toLowerCase() : 'chennai'}?for_home=1&limit=8`, 'GET');
+            topDeveloper = await FetchData(`real-estate-builders?city=${currlocation.code ? currlocation.code : '10383'}&for_home=1&limit=8`, 'GET');
         } catch (err) {
             console.log(err);
         }
         if (topDeveloper?.content) { topDeveloper = topDeveloper.content }
 
         setAllProperties(pre => ({ ...pre, featured: featured, newProjects: newProjects, recentlyAdded: recentlyAdded, newsAndArticle: newsAndArticle, topDeveloper: topDeveloper }));
+
+        let toplocalitiesData
+        try {
+            toplocalitiesData = await FetchData(`city-stats?type=1&is_home_locality=1&city=${currlocation.code ? currlocation.code : '10383'}&limit=6`, 'GET');
+        } catch (err) {
+            console.log(err);
+        }
+        if (toplocalitiesData) {
+            setTopLocalities(toplocalitiesData.topLocalities);
+        }
     }
 
     const onClickContactBtn = (item) => {
@@ -376,6 +386,24 @@ const Home = () => {
     }
     const onCloseContact = () => {
         setcontactModalStatus({ show: false, data: null });
+    }
+
+    const onClickTopLocalities = (item, propertyType) => {
+        if (propertyType == 'rent') {
+            dispatch(setPropertyListState({
+                ...propertyListState,
+                propertyStatus: { text: 'Rent', value: 'rent', for: 'Rent', index: 1 },
+            }));
+        } else {
+            dispatch(setPropertyListState({
+                ...propertyListState,
+                propertyStatus: { text: 'Buy', value: 'sale', for: 'Sale', index: 0 },
+            }));
+        }
+        let location = { country: '90', city: currLocation.code ? currLocation.city : 'Chennai', code: currLocation.code ? currLocation.code : '10383', location: item.locality_id, locationName: item.localityName, project: '', projectName: null, area: currLocation.code ? currLocation.area : 'Chennai' }
+        // localStorage.setItem('location', JSON.stringify(location));
+        dispatch(setlocation(location));
+        window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
     return (
@@ -414,11 +442,11 @@ const Home = () => {
                         </button>
                         <button
                             onClick={() => {
-                                localStorage.setItem('propertyStatus', 'new projects');
+                                localStorage.setItem('propertyStatus', 'new project');
                                 dispatch(setPropertyListState({ ...propertyListState, propertyStatus: { text: 'New Project', value: 'new projects', for: 'Sale', index: 2 } }));
                                 setPropertyStatus('new project');
                             }}
-                            className={(propertyStatus == 'new project' && 'bg-gray-800 text-white ') + 'px-2 lg:px-5 py-2 border-black bg-white hover:bg-gray-800 hover:text-white border-[1px]'}>
+                            className={(propertyStatus == 'new project'? 'bg-gray-800 text-white ':'bg-white ') + 'px-2 lg:px-5 py-2 border-black hover:bg-gray-800 hover:text-white border-[1px]'}>
                             New Project
                         </button>
                     </div>
@@ -639,11 +667,12 @@ const Home = () => {
                 </div>
 
                 <div className='mb-16 mt-10 px-2 sm:px-5'>
-                    <p className={styles.title2}>Top Developers in {currLocation.city}</p>
+                    <p className={styles.title2}>Top Developers in {currLocation.code?currLocation.city:'Chennai'}</p>
                     <div className='grid grid-cols-1 xs:grid-cols-2 lg:grid-cols-3 gap-2 sm:gap-5 justify-center mt-5'>
                         {allProperties?.topDeveloper?.length && allProperties.topDeveloper?.map((item, index) => {
                             return (
-                                <div key={index} className='group border-[1px] cursor-pointer hover:bg-gray-50 border-gray-300 p-2 rounded-md shadow-md'>
+                                <NavLink to={`/${item.link}`}
+                                    key={index} className='group border-[1px] cursor-pointer hover:bg-gray-50 border-gray-300 p-2 rounded-md shadow-md'>
                                     <div className='flex flex-col sm:flex-row items-center sm:p-2 sm:py-4 gap-5'>
                                         <div className='border-[1px] w-[120px] border-gray-300 p-2 rounded-md'>
                                             <img alt='' className='h-[100px]' src={item.image} />
@@ -655,7 +684,7 @@ const Home = () => {
                                     <div className='border-gray-300 sm:border-t-[1px] sm:p-2 text-sm text-center text-sky-700 font-semibold hover:underline'>
                                         <p>{item.totalProject} project by {item.title} in {currLocation.city}</p>
                                     </div>
-                                </div>
+                                </NavLink>
                             )
                         })}
 
@@ -668,7 +697,7 @@ const Home = () => {
                 </div>
 
                 <div className='mb-16 mt-5 px-2 sm:px-5'>
-                    <p className={styles.title2}>Top Localities in Ahmedabad</p>
+                    <p className={styles.title2}>Top Localities in {currLocation.code?currLocation.city:'Chennai'}</p>
                     <div className='mt-5 grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-2 sm:gap-5'>
                         {topLocalities.map((item, index) => {
                             return (
@@ -678,19 +707,23 @@ const Home = () => {
                                             src="https://static.squareyards.com/cdn-cgi/image/width=81,height=49,quality=80,fit=crop,gravity=auto,format=webp/localitymap-thumnail/chandkheda-ahmedabad.png"
                                         />
                                         <div className=''>
-                                            <p className='font-semibold text-sm'>{item.name}</p>
-                                            <p className='text-xs font-semibold text-blue-800 hover:underline cursor-pointer '>{item.projectNum} projects</p>
-                                            <p className='text-xs font-semibold text-blue-800 hover:underline cursor-pointer'>{item.locality}</p>
+                                            <p className='font-semibold text-sm'>{item.localityName}</p>
+                                            <p className='text-xs font-semibold text-blue-800 '>{item.total_count} projects</p>
+                                            <p className='text-xs font-semibold text-blue-800'>in {item.localityName}, {currLocation.code ? currLocation.city : 'Chennai'}</p>
                                         </div>
                                     </div>
-                                    <div className='flex flex-wrap justify-between gap-1 p-2 py-3'>
+                                    <div className='flex flex-wrap justify-between gap-1 p-2 py-2'>
                                         <div className='mb-1'>
-                                            <p className='text-sm font-semibold'>{item.forSale} Properties for Sale </p>
-                                            <p className='text-xs'>{item.locality}</p>
+                                            <NavLink to={`/${item.saleLink}`}
+                                                onClick={() => onClickTopLocalities(item, 'sale')}
+                                                className='text-sm font-semibold hover:underline'>{item.sale_count} Properties for Sale </NavLink>
+                                            <p className='text-xs'>in {item.localityName}, {currLocation.code ? currLocation.city : 'Chennai'}</p>
                                         </div>
                                         <div className='mb-1'>
-                                            <p className='text-sm font-semibold'>{item.forRent} Properties for Rent</p>
-                                            <p className='text-xs'>{item.locality}</p>
+                                            <NavLink to={`/${item.rentLink}`}
+                                                onClick={() => onClickTopLocalities(item, 'rent')}
+                                                className='text-sm font-semibold hover:underline'>{item.rent_count} Properties for Rent</NavLink>
+                                            <p className='text-xs'>in {item.localityName}, {currLocation.code ? currLocation.city : 'Chennai'}</p>
                                         </div>
                                         {/* <div>
                                             <span className='text-sm font-semibold'>{item.forSale} Properties for Sale </span>

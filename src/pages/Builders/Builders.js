@@ -131,7 +131,6 @@ const Builders = () => {
                                     <p className='text-xs truncate text-gray-600'>{itm.testBelowBanner}</p>
                                   </div>}
                                 </>
-
                               )
                             })}
 

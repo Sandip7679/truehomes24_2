@@ -58,7 +58,7 @@ const RecentAdded = ({ Data, func }) => {
                 {Data?.length && Data.map((item, index) => {
                     return (
                         <div key={index} className='rounded-xl shadow-lg border-[1px] mx-4 h-full group'>
-                            <NavLink to={'/project_details'}>
+                            <NavLink to={`/${item.details}`}>
                                 <div className='relative items-center rounded-lg overflow-hidden hover:cursor-pointer'>
                                     <img alt='' src={item.image}
                                         className='h-[170px] w-full transform transition-transform hover:scale-110 duration-1000'
@@ -66,26 +66,25 @@ const RecentAdded = ({ Data, func }) => {
                                 </div>
                             </NavLink>
 
-                            <div className='relative p-3 min-h-[260px] text-left'>
-                                <h1 className={styles.title4}>{item.title}</h1>
+                            <div className='relative p-3 min-h-[200px] text-left'>
+                                <h1 className={styles.title4+' line-clamp-2'}>{item.title}</h1>
                                 <p className='text-sm mt-4'>{item.area} build up area</p>
                                 <div className='flex'>
                                     {/* <span className=''>
                                                 <LocationIcon classname={'h-5 w-4 mt-[0.5px]'} />
                                             </span> */}
-                                    <h1 className='text-sm text-gray-500'>{item.location}</h1>
+                                    <h1 className=' font-medium text-gray-600 opacity-80 '>{item.localityName}, {item.cityName}</h1>
                                 </div>
                                 <div className='absolute bottom-2'>
-                                    <p className={styles.title4 + 'mt-3'}>{'\u20B9'} 25 Cr</p>
+                                    {/* <p className={styles.title4 + 'mt-3'}>{'\u20B9'} 25 Cr</p> */}
+                                   {item.price && <p className={styles.title4 + 'mt-3'}><i class={item.currency+' text-base'}></i> {item.price}</p>}
                                     <button
                                         onClick={() => func(item)}
                                         className={styles.btn + 'bg-green-600 hover:bg-green-700 px-4 py-1 mt-2'}>
                                         <p className='text-white'>Contact</p>
                                     </button>
                                 </div>
-
                             </div>
-
                         </div>
                     )
                 })}

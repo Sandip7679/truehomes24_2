@@ -82,6 +82,7 @@ function App() {
         <Route path='/faqs' element={<FAQs/>} />
         <Route path='/blogs' element={<Blogs/>} />
         <Route path='/blog-detail' element={<BlogDetails/>} />
+        <Route path='/blogs/:detail' element={<BlogDetails/>} />
         <Route path='/terms-conditions' element={<TermsAndCondition/>} />
         <Route path='/about-us' element={<AboutUs/>} />
         <Route path='/privacy-policy' element={<PrivacyPolicy/>} />

@@ -144,6 +144,7 @@ const PropertyList = () => {
             `&bedroom=${propertyListState?.BHKtype}` +
             `&property_type=${propertyListState.propertyTypes}` +
             `&min_price=${propertyListState.priceRange[0]}&max_price=${propertyListState.priceRange[1]}` +
+            // `&min_price=&max_price=` +
             `&furnishing=${propertyListState.moreStatus.furnishingTypes}` +
             `&bathroom=${propertyListState.moreStatus.bathrooms}` +
             `&min_area=${propertyListState.moreStatus.minArea}&max_area=${propertyListState.moreStatus.maxArea}` +
