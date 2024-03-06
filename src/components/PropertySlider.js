@@ -64,7 +64,7 @@ const PropertySlider = ({ Data, type }) => {
                                     {/* <p className='text-sm mt-4'>3.5, 4, 5 BHK Apartment </p> */}
                                     <p className='text-sm mt-4'>{item.bhk} BHK Apartment</p>
                                     <div className='flex'>
-                                        <h1 className='font-medium text-gray-600 opacity-80 mt-1'>{item.location}</h1>
+                                        <h1 className='font-medium text-sm text-gray-700 opacity-80 mt-1'>{item.location}</h1>
                                     </div>
 
                                     <div className='absolute bottom-1'>

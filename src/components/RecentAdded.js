@@ -73,7 +73,7 @@ const RecentAdded = ({ Data, func }) => {
                                     {/* <span className=''>
                                                 <LocationIcon classname={'h-5 w-4 mt-[0.5px]'} />
                                             </span> */}
-                                    <h1 className=' font-medium text-gray-600 opacity-80 '>{item.localityName}, {item.cityName}</h1>
+                                    <h1 className=' font-medium text-sm text-gray-700 opacity-80 '>{item.localityName}, {item.cityName}</h1>
                                 </div>
                                 <div className='absolute bottom-2'>
                                     {/* <p className={styles.title4 + 'mt-3'}>{'\u20B9'} 25 Cr</p> */}
