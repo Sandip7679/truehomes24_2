@@ -108,6 +108,7 @@ const Footer = () => {
         let location = { country: '90', city: item.cityName, code: item.city, location: '', locationName: null, project: '', projectName: null, area: item.cityName }
         localStorage.setItem('location', JSON.stringify({ ...currLocation, ...location }));
         dispatch(setlocation(location));
+        window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
     return (

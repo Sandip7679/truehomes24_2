@@ -11,7 +11,7 @@ import { NavLink, useLocation } from 'react-router-dom';
 import PropertyForSlides from '../components/PropertyForSlides';
 import Contact from '../components/Contact';
 import { useDispatch, useSelector } from 'react-redux';
-import useApi from '../ApiConf';
+import useApi, { UseApi } from '../ApiConf';
 import Pagenation from '../components/Pagenation';
 import { setCurrPage } from '../Redux/reducer/User';
 import loader from '../assets/Icons/loader.gif';
@@ -43,7 +43,8 @@ const PropertyList = () => {
     const [propertyListData, setPropertyListData] = useState({ currPage: 1, totalProperty: null, lastPage: null, propertyList: [] });
     const [rightListData, setRightListData] = useState({ recentView: [], newProject: [], loading: true });
     const [loadingList, setLoadingList] = useState(true);
-    const { fetchData, error } = useApi();
+    const { fetchData } = useApi();
+    const { FetchData } = UseApi();
     const dispatch = useDispatch();
     const scrollUpTarget = useRef();
     const listPage = useRef();
@@ -57,21 +58,19 @@ const PropertyList = () => {
     // },[]);
 
     useEffect(() => {
-        setLoadingList(true);
         if (currPage > 1) {
             dispatch(setCurrPage(1));
         }
-        console.log('propertyListState...', propertyListState);
-        console.log('currLocation...', currLocation);
-        getPropertyList(1);
-    }, [ propertyListState, currLocation]);
+    }, [])
 
     useEffect(() => {
-        if (currPage > 1) {
-            setLoadingList(true);
-            getPropertyList(currPage);
+        // console.log('propertyListState...', propertyListState);
+        // console.log('currLocation...', currLocation);
+        getPropertyList(1);
+    }, [propertyListState, currLocation]);
 
-        }
+    useEffect(() => {
+        getPropertyList(currPage);
     }, [currPage]);
 
     useEffect(() => {
@@ -136,6 +135,7 @@ const PropertyList = () => {
     // }
 
     const getPropertyList = async (currpage) => {
+        setLoadingList(true);
         let data;
         // console.log('propertyListState...', propertyListState);
         // console.log('currLocation...', currLocation);
@@ -158,7 +158,7 @@ const PropertyList = () => {
         let endpoint = 'property-list?' + quary;
 
         try {
-            data = await fetchData(endpoint, 'GET');
+            data = await FetchData(endpoint, 'GET');
         } catch (err) {
             console.log('err fetching propertylist...', err);
             setLoadingList(false);

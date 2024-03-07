@@ -167,14 +167,14 @@ const Header = () => {
         }
     }
 
-    const getCurrLocation = async () => {
-        if (currLocation.area != 'City') return;
-        let location = await localStorage.getItem('location');
-        console.log('locationnn...',location);
-        if (location && location != '') {
-            dispatch(setlocation(JSON.parse(location)));
-        }
-    }
+    // const getCurrLocation = async () => {
+    //     if (currLocation.area != 'City') return;
+    //     let location = await localStorage.getItem('location');
+    //     console.log('locationnn...',location);
+    //     if (location && location != '') {
+    //         dispatch(setlocation(JSON.parse(location)));
+    //     }
+    // }
     const setLocation = (location) => {
         dispatch(setlocation({ ...currLocation, ...location }));
         localStorage.setItem('location', JSON.stringify({ ...currLocation, ...location }));

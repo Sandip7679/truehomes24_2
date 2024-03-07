@@ -21,7 +21,7 @@ const PropertyListCard = ({ Data, func }) => {
 
     return (
         <div className='rounded-xl flex flex-wrap md:flex-nowrap  lg:flex-wrap xl:flex-nowrap shadow-lg border-[1px] h-full mt-6 mx-2 group'>
-            <NavLink to={getPath()} className='items-center relative border-gray-300 w-full  md:min-w-[33%]  h-full border-[1px] rounded-xl overflow-hidden  hover:cursor-pointer'>
+            <NavLink to={`/${Data.details}`} className='items-center relative border-gray-300 w-full  md:min-w-[33%]  h-full border-[1px] rounded-xl overflow-hidden  hover:cursor-pointer'>
                 <img alt='' src={Data.image}
                     className='w-full h-[240px] transform transition-transform hover:scale-110 duration-1000'
                 />
@@ -37,8 +37,8 @@ const PropertyListCard = ({ Data, func }) => {
                     </div>
                 </div>
                 <div className='flex absolute gap-2 top-5 right-5'>
-                    {(Data.projectName != '' || Data.featured != '') && <button className={styles.labelBtn + (Data.featured == '' ? ' bg-orange-600' : ' bg-green-600')}>
-                        {Data.projectName != '' ? 'New Project' : Data.featured}
+                    {(Data.projectName || Data.featured != '') && <button className={styles.labelBtn + (Data.featured == '' ? ' bg-orange-600' : ' bg-green-600')}>
+                        {Data.projectName ? 'New Project' : Data.featured}
                     </button>}
                     <button className={styles.labelBtn + 'bg-orange-600'}>
                         {Data.listedFor}
@@ -49,13 +49,14 @@ const PropertyListCard = ({ Data, func }) => {
             <div className='p-3 pb-0 text-left h-full w-full md:min-w-[62%] ml-[2%]'>
                 <div className='min-h-[205px]'>
                     <div className='flex justify-between'>
-                        <NavLink to={getPath()}><p className={styles.title4 + 'cursor-pointer hover:text-gray-500'}>{Data.projectName != '' ? Data.projectName : Data.title}</p></NavLink>
-                        {Data.projectName != '' ? <p className={styles.title4}>{'\u20B9'} 2 Cr - 2.5 Cr</p> : Data.isVerified == 'Y' && <img alt='' src='https://www.truehomes24.com/assets/front_end/images/property/checkmark.svg' className='h-8 w-8 ml-2' />}
+                        <NavLink to={`/${Data.details}`}><p className={styles.title4 + 'cursor-pointer hover:text-gray-500'}>{Data.projectName ? Data.projectName : Data.title}</p></NavLink>
+                        {Data.projectName ? Data.price ?<p className={styles.title4}><i className={Data.currency+' text-base'}></i> {Data.price}</p>:null : Data.isVerified == 'Y' && <img alt='' src='https://www.truehomes24.com/assets/front_end/images/property/checkmark.svg' className='h-8 w-8 ml-2' />}
                     </div>
-                    {Data.projectName != '' && <div className='text-sm mt-1'>
+                    {Data.projectName && <div className='text-sm mt-1'>
                         <span className='opacity-80'>By</span> <span>{Data.userDetails?.name}</span>
                         {Data.possession && Data.possession != '' && <div className='font-semibold text-base tracking-wider mt-1'>
-                            <span className='text-gray-600'>Possession By</span> <span className='text-gray-700'>{Data.possession}</span>
+                            {/* <span className='text-gray-600'>Possession By</span> */}
+                             <span className='text-gray-700'>{Data.possession}</span>
                         </div>}
                     </div>}
                     <div className='flex mt-3'>
@@ -73,7 +74,8 @@ const PropertyListCard = ({ Data, func }) => {
                                     <div className='grid grid-cols-3 gap-1 mt-1 text-gray-500'>
                                         <div>{item.unit}</div>
                                         <div>{item.unitBuiltUpArea}</div>
-                                        <div>{'\u20B9'} 2.5 Cr</div>
+                                        {/* <div>{'\u20B9'} 2.5 Cr</div> */}
+                                        {item.unitPrice && <div><i className={Data.currency+' text-sm'}></i> {item.unitPrice}</div>}
                                     </div>
                                 )
                             })}
@@ -131,7 +133,7 @@ const PropertyListCard = ({ Data, func }) => {
 
                 </div>
 
-                <div className='border-t-[1px] mt-2 flex justify-between py-1'>
+                <div className={'border-t-[1px] mt-2 flex py-1 '+(Data.projectName?'justify-end':'justify-between')}>
                     <div>
                         {Data.expectedPrice && Data.expectedPrice != '0' ? <p className={styles.title3}>{'\u20B9'} {Data.expectedPrice}</p>
                             :
@@ -142,15 +144,15 @@ const PropertyListCard = ({ Data, func }) => {
                             </button>
                         }
 
-                        {Data.projectName == '' && <p className='text-sm text-gray-600'>{Data.userAs}: {Data.userDetails?.name}</p>}
+                        {!Data.projectName && <p className='text-sm text-gray-600'>{Data.userAs}: {Data.userDetails?.name}</p>}
                     </div>
-                    <div className='mt-2'>
+                   {!Data.projectName && <div className='mt-2'>
                         <button
                             onClick={() => func(Data)}
                             className={styles.btn + 'bg-green-600 hover:bg-green-700 px-4 py-1'}>
                             <p className='text-white'>Contact</p>
                         </button>
-                    </div>
+                    </div>}
                 </div>
 
             </div>
