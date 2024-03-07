@@ -50,7 +50,7 @@ const MobileMenu = () => {
             <NavLink
                 onClick={() => {
                     localStorage.setItem('propertyStatus', 'new projects');
-                    dispatch(setPropertyListState({ ...propertyListState, propertyStatus: { text: 'New Project', value: 'new projects',for:'Sale', index: 2 } }));
+                    dispatch(setPropertyListState({ ...propertyListState, propertyStatus: { text: 'New Project', value: 'new project',for:'Sale', index: 2 } }));
                 }}
                 to={'/new-projects/new-projects-for-sale-in-' + currLocation?.city.split(' ').join('-').toLowerCase()}            >
                 <span class={styles.dropdownItem}>

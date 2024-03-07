@@ -34,13 +34,18 @@ const Localities = [
     { location: 'Shela (40)' },
 ]
 
-const propertyTypes = ['Localities', 'Property Status', 'Budget'];
+const propertyTypes = ['Localities', 'Property Status', 'Budget', 'Builders'];
 
 const PropertyList = () => {
     const [contactModalStatus, setcontactModalStatus] = useState({ show: false, data: {} });
     const [propertyType, setPropertyType] = useState('Localities');
     const { login_status, currLocation, propertyListState, currPage, pageRefresh } = useSelector(state => state.User);
     const [propertyListData, setPropertyListData] = useState({ currPage: 1, totalProperty: null, lastPage: null, propertyList: [] });
+    const [localities, setLocalities] = useState([]);
+    const [propStatusTab, setPropStatusTab] = useState([]);
+    const [budgetTab, setBudgetTab] = useState([]);
+    const [builderTab, setBuilderTab] = useState([]);
+    const [currLocalityTabInd, setCurrLocalityTabInd] = useState(1);
     const [rightListData, setRightListData] = useState({ recentView: [], newProject: [], loading: true });
     const [loadingList, setLoadingList] = useState(true);
     const { fetchData } = useApi();
@@ -70,6 +75,10 @@ const PropertyList = () => {
     }, [propertyListState, currLocation]);
 
     useEffect(() => {
+        getLocalities();
+    }, [currLocalityTabInd, propertyListState.propertyStatus, currLocation]);
+
+    useEffect(() => {
         getPropertyList(currPage);
     }, [currPage]);
 
@@ -88,6 +97,24 @@ const PropertyList = () => {
             // console.log('rightlistdata....', data);
             setRightListData({ recentView: data.recentView, newProject: data.newProjcts, loading: false });
         }
+    }
+    const getLocalities = async () => {
+        let data;
+        try {
+            data = await FetchData(`city-stats?type=${currLocalityTabInd}&property_status=${propertyListState?.propertyStatus?.value}&city=${currLocation.code}&limit=6`, 'GET');
+        } catch (err) {
+            console.log(err);
+        }
+        if (data.localities) {
+            setLocalities(data.localities);
+        }
+        if (data.stats) {
+            setPropStatusTab(data.stats);
+        }
+        if (data.budgets) {
+            setBudgetTab(data.budgets);
+        }
+
     }
 
 
@@ -190,24 +217,52 @@ const PropertyList = () => {
                                 <div className='flex gap-2 border-b-[1px] mt-2 border-b-gray-200'>
                                     {propertyTypes.map((item, index) => {
                                         return (
-                                            <button key={index}
-                                                onClick={() => setPropertyType(item)}
-                                                className={(propertyType === item ? 'border-b-[1px]' : '') + ' hover:border-b-[1px] border-b-gray-700 pb-1 mr-3'}>
-                                                <p className={styles.textMedium + ''}>{item}</p>
-                                            </button>
+                                            <>
+                                                {(index < 3 || propertyListState?.propertyStatus?.value == 'new project') && <button key={index}
+                                                    onClick={() => setCurrLocalityTabInd(index + 1)}
+                                                    className={(currLocalityTabInd == index + 1 ? 'border-b-[1px]' : '') + ' hover:border-b-[1px] border-b-gray-700 pb-1 mr-3'}>
+                                                    <p className={styles.textMedium + ''}>{item}</p>
+                                                </button>}
+                                            </>
+
                                         )
                                     })}
 
                                 </div>
-                                <div className='shadow-sm rounded flex flex-wrap max-h-[140px] border-[1px] border-gray-200 mt-5 mx-2 overflow-y-auto p-2'>
-                                    {Localities.map((item, index) => {
+                                <div className='shadow-sm rounded flex flex-wrap max-h-[140px] min-h-[100px]  border-[1px] border-gray-200 mt-5 mx-2 overflow-y-auto p-2'>
+                                    {currLocalityTabInd == 1 && localities.map((item, index) => {
                                         return (
                                             <button key={index} className={styles.btn + 'm-1 hover:bg-orange-50 border-orange-500'}>
-                                                <p className='text-sm'> {item.location}</p>
+                                                <p className='text-sm'>{`${item.localityName} (${item.count})`}</p>
                                             </button>
                                         )
                                     })}
+                                    {currLocalityTabInd == 2 && propStatusTab.map((item, index) => {
+                                        return (
+                                            <NavLink key={index} className={styles.btn + ' h-7 items-center justify-center m-1 hover:bg-orange-50 border-orange-500'}>
+                                                <p className='text-sm'>{`${item.statName} (${item.count})`}</p>
+                                            </NavLink>
+                                        )
+                                    })}
+                                    {currLocalityTabInd == 3 && budgetTab.map((item, index) => {
+                                        return (
+                                            <button key={index} className={styles.btn + 'm-1 hover:bg-orange-50 border-orange-500'}>
+                                                <p className='text-sm'>{`${item.budgetName} (${item.count})`}</p>
+                                            </button>
+                                        )
+                                    })}
+                                    {currLocalityTabInd == 4 && builderTab.map((item, index) => {
+                                        return (
+                                            <button key={index} className={styles.btn + 'm-1 hover:bg-orange-50 border-orange-500'}>
+                                                <p className='text-sm'>{`${item.builderName} (${item.count})`}</p>
+                                            </button>
+                                        )
+                                    })}
+                                    {/* {builderTab.length == 0 && <div className='text-sm flex items-center justify-center text-center ml-[45%]'>
+                                        Not Found !
+                                    </div>} */}
                                 </div>
+
                                 {loadingList && <div className="fixed top-[100px] right-1/2 flex justify-center items-center mt-16">
                                     {/* <i class={"fa-solid fa-spinner" + styles.loading}></i> */}
                                     {/* <img alt="Please wait.." title="Please wait.." src="https://www.truehomes24.com/assets/front_end/images/loader.gif" /> */}

@@ -443,7 +443,7 @@ const Home = () => {
                         <button
                             onClick={() => {
                                 localStorage.setItem('propertyStatus', 'new project');
-                                dispatch(setPropertyListState({ ...propertyListState, propertyStatus: { text: 'New Project', value: 'new projects', for: 'Sale', index: 2 } }));
+                                dispatch(setPropertyListState({ ...propertyListState, propertyStatus: { text: 'New Project', value: 'new project', for: 'Sale', index: 2 } }));
                                 setPropertyStatus('new project');
                             }}
                             className={(propertyStatus == 'new project'? 'bg-gray-800 text-white ':'bg-white ') + 'px-2 lg:px-5 py-2 border-black hover:bg-gray-800 hover:text-white border-[1px]'}>

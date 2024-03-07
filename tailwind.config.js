@@ -8,7 +8,8 @@ module.exports = {
        screens:{
         xs:'480px'
        }
-
+       
+       
       // keyframes: {
       //   typing: {
       //     "0%": {

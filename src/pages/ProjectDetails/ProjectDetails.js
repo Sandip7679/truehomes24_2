@@ -51,17 +51,17 @@ import PropertySlider from '../../components/PropertySlider';
 //   },
 // ];
 
-const whatsNearbyData = [
-    // { item: 'Hospital: 2', icon: 'fa-solid fa-house-chimney-medical' },
-    { item: 'Hospital: 2', icon: 'fas fa-hospital' },
-    // { item: 'ATM: 1', icon: 'fa-solid fa-credit-card' },
-    { item: 'ATM: 1', icon: 'fas fa-credit-card' },
-    // { item: 'School: 2', icon: 'fa-solid fa-school' },
-    { item: 'School: 2', icon: 'fas fa-school' },
-    { item: 'Bank: 2', icon: 'fa-sharp fa-solid fa-building-columns' },
-    { item: 'Restaurant: 1', icon: 'fa-solid fa-utensils' },
-    { item: 'Spa Beauty Salon: 2', icon: 'fa-solid fa-spa' },
-];
+// const whatsNearbyData = [
+//     // { item: 'Hospital: 2', icon: 'fa-solid fa-house-chimney-medical' },
+//     { item: 'Hospital: 2', icon: 'fas fa-hospital' },
+//     // { item: 'ATM: 1', icon: 'fa-solid fa-credit-card' },
+//     { item: 'ATM: 1', icon: 'fas fa-credit-card' },
+//     // { item: 'School: 2', icon: 'fa-solid fa-school' },
+//     { item: 'School: 2', icon: 'fas fa-school' },
+//     { item: 'Bank: 2', icon: 'fa-sharp fa-solid fa-building-columns' },
+//     { item: 'Restaurant: 1', icon: 'fa-solid fa-utensils' },
+//     { item: 'Spa Beauty Salon: 2', icon: 'fa-solid fa-spa' },
+// ];
 
 const PropertyBarNames = [
     'Details', 'Description', 'About Builder', 'Gallery', 'Nearby', 'FAQ'
@@ -174,10 +174,10 @@ const ProjectDetails = () => {
     return (
         <div>
             {navClassState === '' && <Header />}
-            <div className={'bg-gray-50 py-5 '+(loading && 'opacity-50')}>
+            <div className={'bg-gray-50 py-5 ' + (loading && 'opacity-50')}>
                 {/* <div className='bg-white h-[100px]'>
                 </div> */}
-                <div className='mt-14 container mx-auto'>
+                <div className='mt-14 container mx-auto px-2 sm:px-10'>
                     <div className='text-sm px-2 text-gray-500'> <NavLink to={'/'}>Home</NavLink>{' > '}<span>{AllData?.breadcrumb[1]?.title}</span>{' > '}<span>{AllData.breadcrumb[2]?.title}</span>
                         {AllData?.breadcrumb[3]?.title && ' > '}<span className='text-base'>{AllData?.breadcrumb[3]?.title}</span>
                     </div>
@@ -190,7 +190,7 @@ const ProjectDetails = () => {
                                 <img alt=''
                                     // src='https://www.truehomes24.com/assets/properties/banner-01/6fbc57095a08783a071945a3507844fa.webp'
                                     src={AllData.data?.banner}
-                                    className='h-[300px] sm:h-[350px] lg:h-[400px] w-full rounded-xl' />
+                                    className='h-[300px] sm:h-[360px] lg:h-[450px] w-full rounded-xl' />
                                 <div ref={observerElement} className='absolute bottom-16 pl-5 py-2 w-[80%] bg-black bg-opacity-10'>
                                     <p className='text-white text-xl sm:text-3xl'>{AllData.data?.bannerTitle}</p>
                                 </div>
@@ -225,9 +225,31 @@ const ProjectDetails = () => {
                                     <img alt='' src={AllData.data?.userDetails?.image} className='h-8 w-8' />
                                     <p className='text-sm text-gray-500 mt-2'>{AllData.data?.userDetails?.name} {`(${AllData.data?.btnParams[2]})`} </p>
                                 </div>
+                                <div className='mt-5'>
+                                    <div className='flex flex-wrap gap-[40%]'>
+                                        {AllData.data?.bedroom && <div className=''>
+                                            <p className='text-gray-400 font-semibold text-sm'>BHK</p>
+                                            <p className='text-gray-700'>{AllData.data?.bedroom}</p>
+                                        </div>}
+                                        {AllData.data?.subTypeName && <div className=''>
+                                            <p className='text-gray-400 font-semibold text-sm'>Property Type</p>
+                                            <p className='text-gray-700'>{AllData.data?.subTypeName}</p>
+                                        </div>}
+                                    </div>
+                                    <div className='flex flex-wrap gap-[40%]'>
+                                        {AllData.data?.area && <div className=''>
+                                            <p className='text-gray-400 font-semibold text-sm'>Area</p>
+                                            <p className='text-gray-700'>{AllData.data?.area}</p>
+                                        </div>}
+                                    </div>
+                                    {AllData.data?.status && <div className='mt-4'>
+                                        <p className='text-gray-400 font-semibold text-sm'>Project Status</p>
+                                        <p className='text-gray-700'>{AllData.data?.status}</p>
+                                    </div>}
+                                </div>
                                 <div className=' w-full'>
                                     <button onClick={onClickContactBtn} className={styles.btnFull + 'bg-green-600 hover:bg-green-700 mt-5'}>ASK FOR PRICE</button>
-                                    <button className={styles.btnFull + 'bg-green-600 hover:bg-green-700 mt-3'}>Request Contact</button>
+                                    <button onClick={onClickContactBtn} className={styles.btnFull + 'bg-green-600 hover:bg-green-700 mt-3'}>Request Contact</button>
                                     <div className='mt-2 text-sm'>
                                         <span>RERA ID: </span><span className='text-cyan-600'>PR/GJ/AHMEDABAD/AHMEDABAD CITY/AUDA/MAA12019/280623</span>
                                     </div>
@@ -247,11 +269,17 @@ const ProjectDetails = () => {
                                     <div className={(navClassState !== '' ? 'transition-transform ease-in-out transform translate-x-[8%] py-2 duration-[1500ms] border-b-0 ' : ' border-b-[1px]') + ' flex flex-wrap gap-2 border-b-gray-300  px-[2%] -mx-[2%]'}>
                                         {PropertyBarNames.map((item, index) => {
                                             return (
-                                                <a key={index} href={`#${index}`}
-                                                    onClick={() => setPropDetailsTypeInd(index)}
-                                                    className={(propDetailsTypeInd === index ? 'border-b-[1px] animated-border border-black ' : '') + ' px-1 py-2'}>
-                                                    {item}
-                                                </a>
+                                                <>
+                                                    {((item == 'Nearby' && AllData.data?.nearByTab?.nearby) || (item != 'Nearby' && item != 'FAQ') ||
+                                                     (item == 'FAQ' && (AllData.data?.faqtab?.length > 0 || AllData.data?.faqtab?.faqs.length > 0))
+                                                    ) &&
+                                                        <a key={index} href={`#${index}`}
+                                                        onClick={() => setPropDetailsTypeInd(index)}
+                                                        className={(propDetailsTypeInd === index ? 'border-b-[1px] animated-border border-black ' : '') + ' px-1 py-2'}>
+                                                        {item}
+                                                    </a>}
+                                                </>
+
                                             )
                                         })}
                                     </div>
@@ -288,7 +316,7 @@ const ProjectDetails = () => {
                                             })}
                                         </div>
                                         <div className='w-[50%] sm:w-[30%] mt-2'>
-                                            {AllData.data?.detailsTab?.length && AllData.data?.detailsTab?.map((item, index) => {
+                                            {AllData.data?.detailsTab?.length > 0 && AllData.data?.detailsTab?.map((item, index) => {
                                                 return (
                                                     <>
                                                         {(index + 2) % 3 == 0 && <div key={index} className='mt-1'>
@@ -486,7 +514,7 @@ const ProjectDetails = () => {
                                     })}
                                 </div>
                             </div>}
-                            {(AllData.data?.faqtab?.length || AllData.data?.faqtab?.faqs.length) && <div id='5' className='mt-10 bg-white shadow-md px-5 py-5 mb-10 scroll-mt-20'>
+                            {(AllData.data?.faqtab?.length > 0 || AllData.data?.faqtab?.faqs.length > 0) && <div id='5' className='mt-10 bg-white shadow-md px-5 py-5 mb-10 scroll-mt-20'>
                                 <FAQs Data={AllData.data?.faqtab?.length ? AllData.data?.faqtab : AllData.data?.faqtab?.faqs} />
                             </div>}
                         </div>

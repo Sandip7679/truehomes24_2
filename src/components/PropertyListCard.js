@@ -14,7 +14,7 @@ const PropertyListCard = ({ Data, func }) => {
 
     const getPath = () => {
         let arr = Data?.details?.split('/');
-        if(!arr?.length) return;
+        if (!arr?.length) return;
         let lastIndex = arr.length - 1;
         return `/${arr[lastIndex - 2]}/${arr[lastIndex - 1]}/${arr[lastIndex]}`;
     }
@@ -50,13 +50,13 @@ const PropertyListCard = ({ Data, func }) => {
                 <div className='min-h-[205px]'>
                     <div className='flex justify-between'>
                         <NavLink to={`/${Data.details}`}><p className={styles.title4 + 'cursor-pointer hover:text-gray-500'}>{Data.projectName ? Data.projectName : Data.title}</p></NavLink>
-                        {Data.projectName ? Data.price ?<p className={styles.title4}><i className={Data.currency+' text-base'}></i> {Data.price}</p>:null : Data.isVerified == 'Y' && <img alt='' src='https://www.truehomes24.com/assets/front_end/images/property/checkmark.svg' className='h-8 w-8 ml-2' />}
+                        {Data.projectName ? Data.price ? <p className={styles.title4}><i className={Data.currency + ' text-base'}></i> {Data.price}</p> : null : Data.isVerified == 'Y' && <img alt='' src='https://www.truehomes24.com/assets/front_end/images/property/checkmark.svg' className='h-8 w-8 ml-2' />}
                     </div>
                     {Data.projectName && <div className='text-sm mt-1'>
                         <span className='opacity-80'>By</span> <span>{Data.userDetails?.name}</span>
                         {Data.possession && Data.possession != '' && <div className='font-semibold text-base tracking-wider mt-1'>
                             {/* <span className='text-gray-600'>Possession By</span> */}
-                             <span className='text-gray-700'>{Data.possession}</span>
+                            <span className='text-gray-700'>{Data.possession}</span>
                         </div>}
                     </div>}
                     <div className='flex mt-3'>
@@ -75,7 +75,7 @@ const PropertyListCard = ({ Data, func }) => {
                                         <div>{item.unit}</div>
                                         <div>{item.unitBuiltUpArea}</div>
                                         {/* <div>{'\u20B9'} 2.5 Cr</div> */}
-                                        {item.unitPrice && <div><i className={Data.currency+' text-sm'}></i> {item.unitPrice}</div>}
+                                        {item.unitPrice && <div><i className={Data.currency + ' text-sm'}></i> {item.unitPrice}</div>}
                                     </div>
                                 )
                             })}
@@ -88,18 +88,24 @@ const PropertyListCard = ({ Data, func }) => {
                                 </span>
                                 <h1 className='text-sm ml-2'>{Data.propertyType}</h1>
                             </div> */}
-                            {(Data.builtUpArea && Data.builtUpArea != '') && <div className='flex w-1/2 mt-2'>
+                            {/* {(Data.builtUpArea && Data.builtUpArea != '') && <div className='flex w-1/2 mt-2'>
                                 <span className=''>
                                     <LandArea classname={'h-5 w-4 mt-[1px]'} />
                                 </span>
                                 <h1 className='text-sm ml-2'>{Data.builtUpArea} {Data.buildUnit}</h1>
+                            </div>} */}
+                            {Data.totalArea && <div className='flex w-1/2 mt-2'>
+                                <span className=''>
+                                    <LandArea classname={'h-5 w-4 mt-[1px]'} />
+                                </span>
+                                <h1 className='text-sm ml-2'>{Data.totalArea} {Data.measurement}</h1>
                             </div>}
-                            <div className='flex w-1/2 mt-2'>
+                           {Data.totalFloor && Data.totalFloor !='0' && <div className='flex w-1/2 mt-2'>
                                 <span className=''>
                                     <Apartment classname={'h-5 w-4 mt-[1px] opacity-80'} />
                                 </span>
                                 <h1 className='text-sm ml-2'>{Data.totalFloor} Floor</h1>
-                            </div>
+                            </div>}
                             {Data.bathrooms && Data.bathroom != '' && <div className='flex w-1/2 mt-2'>
                                 <span className=''>
                                     <i class="fa-solid fa-toilet text-sm opacity-70"></i>
@@ -118,6 +124,12 @@ const PropertyListCard = ({ Data, func }) => {
                                 </span>
                                 <h1 className='text-sm ml-2'>{Data.reservedParking}</h1>
                             </div>}
+                            {Data.availableFor && <div className='flex w-1/2 mt-2'>
+                                <span className=''>
+                                    <i class="fa-solid fa-bars opacity-70 text-sm"></i>
+                                </span>
+                                <h1 className='text-sm ml-2 mt-[2px]'>{Data.availableFor}</h1>
+                            </div>}
                             {Data.availability && Data.availability != '' && <div className='flex w-1/2 mt-2'>
                                 <span className=''>
                                     <i class="fa-solid fa-bars opacity-70"></i>
@@ -130,12 +142,11 @@ const PropertyListCard = ({ Data, func }) => {
                             {Data.furnishing}
                         </span>
                     </div>}
-
                 </div>
 
-                <div className={'border-t-[1px] mt-2 flex py-1 '+(Data.projectName?'justify-end':'justify-between')}>
+                <div className={'border-t-[1px] mt-2 flex py-1 ' + (Data.projectName ? 'justify-end' : 'justify-between')}>
                     <div>
-                        {Data.expectedPrice && Data.expectedPrice != '0' ? <p className={styles.title3}>{'\u20B9'} {Data.expectedPrice}</p>
+                        {Data.expectedPrice && Data.expectedPrice != '0' ? <p className={styles.title3}><i className={Data.currency + ' text-base'}></i> {Data.convertedExpectedPrice}</p>
                             :
                             <button
                                 onClick={() => func(Data)}
@@ -146,7 +157,7 @@ const PropertyListCard = ({ Data, func }) => {
 
                         {!Data.projectName && <p className='text-sm text-gray-600'>{Data.userAs}: {Data.userDetails?.name}</p>}
                     </div>
-                   {!Data.projectName && <div className='mt-2'>
+                    {!Data.projectName && <div className='mt-2'>
                         <button
                             onClick={() => func(Data)}
                             className={styles.btn + 'bg-green-600 hover:bg-green-700 px-4 py-1'}>
