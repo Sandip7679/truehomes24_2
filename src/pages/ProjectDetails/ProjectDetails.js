@@ -288,18 +288,23 @@ const ProjectDetails = () => {
                                 <div id='0' className='scroll-mt-20'>
                                     <p className={styles.title4 + 'mt-8'}>{AllData.data?.scoietyName ? `${AllData.data?.scoietyName} Info` : 'Property Details'}</p>
                                     <div className='flex justify-between flex-wrap'>
-                                        <div className='w-[50%] sm:w-[30%] mt-2'>
+                                        <div 
+                                         className='w-[50%] sm:w-[30%] mt-2'
+                                        //  className='grid-cols-2 sm:grid-cols-3 mt-2'
+                                         >
                                             {AllData.data?.detailsTab?.length && AllData.data?.detailsTab?.map((item, index) => {
                                                 return (
                                                     <>
                                                         {index % 3 == 0 && item.label != 'Project Link' && <div key={index} className='mt-1' >
                                                             <span className=''>{item.label}: </span>
-                                                            {/* <span className='text-gray-500 '>{item.value}</span> */}
-                                                            <span className='text-gray-500 prose ' dangerouslySetInnerHTML={{ __html: item.value }} />
+                                                            <a className='text-gray-500'>{item.value}</a>
+                                                            {/* <span className='text-gray-500 prose ' dangerouslySetInnerHTML={{ __html: item.value }} /> */}
                                                         </div>}
                                                     </>
                                                 )
                                             })}
+                                                        {/* <p className='whitespace-nowrap overflow-hidden overflow-ellipsis'>fklsfjklsfjklsfjklsfjsklfjsklfskflmsnfklsdmfklsdmldfcdklsckdddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd</p> */}
+                                                        {/* <p className='inline-block w-[200px] whitespace-normal overflow-hidden overflow-ellipsis'>https://www.godrejproperties.com/bangalore/residential/godrejananda/overview</p> */}
                                         </div>
 
                                         <div className='w-[50%] sm:w-[30%] mt-2'>

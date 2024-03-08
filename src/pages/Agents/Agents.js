@@ -32,7 +32,7 @@ const Agents = () => {
         setLoading(true);
         let data;
         try {
-            data = await FetchData(`agent-list?limit=8&page=${currPage}`, 'GET');
+            data = await FetchData(`agent?limit=8&page=${currPage}`, 'GET');
         } catch (err) {
             console.log(err);
             setLoading(false);

@@ -11,20 +11,6 @@ import { setCurrPage } from '../../Redux/reducer/User';
 import { useDispatch, useSelector } from 'react-redux';
 import { UseApi } from '../../ApiConf';
 
-const buildersData = [
-  { name: 'Lodha Group', totalProjects: '162', onGoingProj: '118', Bhks: [{ type: '2,3 BHK Mumbai', }, { type: '1,2 BHK Thane' }] },
-  { name: 'Lodha Group', totalProjects: '162', onGoingProj: '118', Bhks: [{ type: '2,3 BHK Mumbai', }, { type: '1,2 BHK Thane' }] },
-  { name: 'Lodha Group', totalProjects: '162', onGoingProj: '118', Bhks: [{ type: '2,3 BHK Mumbai', }, { type: '1,2 BHK Thane' }] },
-  { name: 'Lodha Group', totalProjects: '162', onGoingProj: '118', Bhks: [{ type: '2,3 BHK Mumbai', }, { type: '1,2 BHK Thane' }] },
-  { name: 'Lodha Group', totalProjects: '162', onGoingProj: '118', Bhks: [{ type: '2,3 BHK Mumbai', }, { type: '1,2 BHK Thane' }] },
-  { name: 'Lodha Group', totalProjects: '162', onGoingProj: '118', Bhks: [{ type: '2,3 BHK Mumbai', }, { type: '1,2 BHK Thane' }] },
-  { name: 'Lodha Group', totalProjects: '162', onGoingProj: '118', Bhks: [{ type: '2,3 BHK Mumbai', }, { type: '1,2 BHK Thane' }] },
-  { name: 'Lodha Group', totalProjects: '162', onGoingProj: '118', Bhks: [{ type: '2,3 BHK Mumbai', }, { type: '1,2 BHK Thane' }] },
-  { name: 'Lodha Group', totalProjects: '162', onGoingProj: '118', Bhks: [{ type: '2,3 BHK Mumbai', }, { type: '1,2 BHK Thane' }] },
-  { name: 'Lodha Group', totalProjects: '162', onGoingProj: '118', Bhks: [{ type: '2,3 BHK Mumbai', }, { type: '1,2 BHK Thane' }] },
-  { name: 'Lodha Group', totalProjects: '162', onGoingProj: '118', Bhks: [{ type: '2,3 BHK Mumbai', }, { type: '1,2 BHK Thane' }] },
-
-];
 
 const topBuildersData = [
   { name: 'Lodha Codename Never Before', project: '162' },
@@ -62,7 +48,7 @@ const Builders = () => {
   const getBuildersData = async () => {
     let data;
     try {
-      data = await FetchData(`real-estate-builders-in-india?limit=23`, 'GET');
+      data = await FetchData(`real-estate-builders?limit=23`, 'GET');
     } catch (err) {
       console.log(err);
     }
@@ -126,10 +112,10 @@ const Builders = () => {
                             {item.builderProps.map((itm, ind) => {
                               return (
                                 <>
-                                  {ind < 2 && <div className='w-[110px]'>
+                                  {ind < 2 && <NavLink to={`/${itm.link}`} className='w-[110px]'>
                                     <img alt='' src={itm.banner} className='h-[110px] w-full' />
                                     <p className='text-xs truncate text-gray-600'>{itm.testBelowBanner}</p>
-                                  </div>}
+                                  </NavLink>}
                                 </>
                               )
                             })}

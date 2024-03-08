@@ -34,7 +34,6 @@ const PropertySlider = ({ Data, type }) => {
                                 <i class="fa-solid fa-arrow-left  text-gray-500 "></i>
                             </button>
                         </div>
-
                     }
                     customRightArrow={
                         <div className='absolute right-0'>
@@ -61,8 +60,7 @@ const PropertySlider = ({ Data, type }) => {
                                 <div className='relative p-3 min-h-[200px] text-left'>
                                     <h1 className={styles.title4+' line-clamp-2'}>{item.title}</h1>
                                     <p className='text-sm mt-1'>by {item.listed_by}</p>
-                                    {/* <p className='text-sm mt-4'>3.5, 4, 5 BHK Apartment </p> */}
-                                    <p className='text-sm mt-4'>{item.bhk} BHK Apartment</p>
+                                    <p className='text-sm mt-4'>{item.bhk? (item.bhk+' BHK'):''}  {item.propertyType}</p>
                                     <div className='flex'>
                                         <h1 className='font-medium text-sm text-gray-700 opacity-80 mt-1'>{item.location}</h1>
                                     </div>
@@ -70,7 +68,6 @@ const PropertySlider = ({ Data, type }) => {
                                     <div className='absolute bottom-1'>
                                         {/* <p className={styles.title4 + 'mt-3'}>{"\u20B9"} 25 Cr</p> */}
                                         <p className={styles.title4 + 'mt-3'}><i class={item.currency+' text-base'}></i> {item.price}</p>
-                                        {/* <i class="fas fa-rupee-sign"></i> */}
                                     </div>
                                 </div>
                             </div>

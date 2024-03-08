@@ -121,12 +121,10 @@ const Home = () => {
     }, [searchStatus.quary]);
 
     useEffect(() => {
-        if (searchStatus.quary === ''
+        if ( (searchStatus.quary === ''
             || propertyListState.BHKtype !== ''
             || propertyListState.propertyTypes !== ''
-            || propertyStatus
-            // || propertyListState.priceRange[0] !== ''
-            // || propertyListState.priceRange[1] !== ''
+            || propertyStatus) && searchStatus.city
         ) {
             getPropertyCount();
         }
@@ -156,16 +154,16 @@ const Home = () => {
         console.log('currLOcation.code...', currLocation);
         if (currLocation.code != searchStatus.city && currLocation.code !== '') {
             GetAllProperties(currLocation);
-            setSearchStatus(pre => ({
-                ...pre,
-                type: 'locality', quary: '',
-                city: currLocation.code, cityName: currLocation.city,
-                locality: '', localityName: null,
-                project: '', projectName: null
-            }));
-            if (curIndex > 0) {
-                setCurrIndex(0);
-            }
+            // setSearchStatus(pre => ({
+            //     ...pre,
+            //     type: 'locality', quary: '',
+            //     city: currLocation.code, cityName: currLocation.city,
+            //     locality: '', localityName: null,
+            //     project: '', projectName: null
+            // }));
+            // if (curIndex > 0) {
+            //     setCurrIndex(0);
+            // }
         }
     }, [currLocation.code]);
 
@@ -278,7 +276,7 @@ const Home = () => {
     }
 
     const setLocation = () => {
-        if (!propertycount || propertycount == 0) return;
+        // if (!propertycount || propertycount == 0) return;
         if (!searchStatus.city) {
             setIsInvalidLocation(true);
             return;
@@ -669,7 +667,7 @@ const Home = () => {
                 <div className='mb-16 mt-10 px-2 sm:px-5'>
                     <p className={styles.title2}>Top Developers in {currLocation.code?currLocation.city:'Chennai'}</p>
                     <div className='grid grid-cols-1 xs:grid-cols-2 lg:grid-cols-3 gap-2 sm:gap-5 justify-center mt-5'>
-                        {allProperties?.topDeveloper?.length && allProperties.topDeveloper?.map((item, index) => {
+                        {allProperties?.topDeveloper?.length > 0 && allProperties.topDeveloper?.map((item, index) => {
                             return (
                                 <NavLink to={`/${item.link}`}
                                     key={index} className='group border-[1px] cursor-pointer hover:bg-gray-50 border-gray-300 p-2 rounded-md shadow-md'>

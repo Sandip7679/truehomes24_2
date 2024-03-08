@@ -55,6 +55,7 @@ function App() {
     <>
       <Routes>
         <Route path='/' element={<Home />} />
+        <Route path='/:detail' element={<PropertyList />} />
         <Route path='/sale/:pathCity' element={<PropertyList />}/>
         <Route path='/rent/:pathCity' element={<PropertyList />}/>
         <Route path='/new-projects/:pathCity' element={<PropertyList />}/>
@@ -68,7 +69,8 @@ function App() {
         <Route path='/agent-profile' element={<Profile/>} />
         <Route path='/user/detail/:id/:name' element={<Profile/>} />
         <Route path='/user/detail/:id' element={<Profile/>} />
-        <Route path='/builders' element={<Builders/>} />
+        {/* <Route path='/builders' element={<Builders/>} /> */}
+        <Route path='/real-estate-builders-in-india' element={<Builders/>} />
         <Route path='/project_details' element={<ProjectDetails/>} />
         <Route path='/post-property' element={<PostProperty/>} />
         <Route path='/post-property/new-project' element={<NewProject/>} />

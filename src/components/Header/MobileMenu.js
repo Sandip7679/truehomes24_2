@@ -70,7 +70,7 @@ const MobileMenu = () => {
                 </div>
 
             </NavLink>
-            <NavLink to="/builders">
+            <NavLink to="/real-estate-builders-in-india">
                 <div class={styles.dropdownItem}>
                     <span>
                         <img alt='' src={agentIcon} className='h-5 w-6 mr-5' />

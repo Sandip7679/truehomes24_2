@@ -77,20 +77,20 @@ const TopSearchNavBar = ({ pageRef }) => {
         }
     }, [searchStatus.quary]);
 
-    useEffect(() => {
-        if (currLocation.code != searchStatus.city && currLocation.code !== '') {
-            setSearchStatus(pre => ({
-                ...pre,
-                type: 'locality', quary: '',
-                city: currLocation.code, cityName: currLocation.city,
-                locality: '', localityName: null,
-                project: '', projectName: null
-            }));
-            if (curIndex > 0) {
-                setCurrIndex(0);
-            }
-        }
-    }, [currLocation.code]);
+    // useEffect(() => {
+    //     if (currLocation.code != searchStatus.city && currLocation.code !== '') {
+    //         setSearchStatus(pre => ({
+    //             ...pre,
+    //             type: 'locality', quary: '',
+    //             city: currLocation.code, cityName: currLocation.city,
+    //             locality: '', localityName: null,
+    //             project: '', projectName: null
+    //         }));
+    //         if (curIndex > 0) {
+    //             setCurrIndex(0);
+    //         }
+    //     }
+    // }, [currLocation.code]);
 
     const closeOnClickOutside = (parentId, childId) => {
         document.addEventListener('click', (e) => {
@@ -441,7 +441,7 @@ const TopSearchNavBar = ({ pageRef }) => {
 
                     <button
                         onClick={() => dispatch(setPropertyListState({
-                            propertyStatus: { text: 'Buy', value: 'sale', index: 0 },
+                            ...propertyListState,
                             BHKtype: '', propertyTypes: [],
                             priceRange: ['', ''],
                             moreStatus: { furnishingTypes: '', bathrooms: '', minArea: '', maxArea: '', newResale: '', constructionStatus: '', facing: '', amenities: '', listedBy: '', floor: '' },

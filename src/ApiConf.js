@@ -33,6 +33,7 @@ const useApi = () => {
 
       console.log('err apiconfig.....',error);
       setError(error.message);
+      return error;
       // setLoading(false);
     }
   };
@@ -77,6 +78,7 @@ export const UseApi = () => {
     } catch (error) {
 
       console.log('err apiconfig.....',error);
+      return error;
       setError(error.message);
       // setLoading(false);
     }

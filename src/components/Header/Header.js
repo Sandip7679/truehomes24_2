@@ -363,7 +363,7 @@ const Header = () => {
                         </div>
 
                         <NavLink to="/agents" className="text-gray-100 hover:text-gray-400">Agents</NavLink>
-                        <NavLink to="/builders" className="text-gray-100 hover:text-gray-400">Builders</NavLink>
+                        <NavLink to="/real-estate-builders-in-india" className="text-gray-100 hover:text-gray-400">Builders</NavLink>
                         <div className='relative group z-10'>
                             <button
                                 id='more-services-btn'

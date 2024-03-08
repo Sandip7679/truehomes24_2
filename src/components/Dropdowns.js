@@ -179,7 +179,7 @@ let max = 10000;
 export const BudgetMenu = ({ classname }) => {
     const { filterMenus, propertyListState } = useSelector(state => state.User);
     const [priceRange, setPriceRange] = useState([0, 100000000]);
-    // const [maxPrice, setMaxPrice] = useState(100); // Initial price range
+    const [maxPrice, setMaxPrice] = useState(100); // Initial price range
     const [menus, setMenus] = useState([]);
     const dispatch = useDispatch();
     useEffect(() => {
@@ -187,13 +187,13 @@ export const BudgetMenu = ({ classname }) => {
             let rents = filterMenus?.rentBudget;
             setMenus(rents);
             setPriceRange([0, Number(rents[rents.length - 2].value)]);
-            // setMaxPrice(Number(rents[rents.length - 1].value));
+            setMaxPrice(Number(rents[rents.length - 2].value));
             // max = Number(rents[rents.length - 1].value);
         } else if (filterMenus?.saleBudget) {
             let sales = filterMenus?.saleBudget;
             setMenus(sales);
             setPriceRange([0, Number(sales[sales.length - 2].value)]);
-            // setMaxPrice(Number(sales[sales.length - 1].value));
+            setMaxPrice(Number(sales[sales.length - 2].value));
             // max = Number(sales[sales.length - 1].value);
         }
     }, [propertyListState.propertyStatus, filterMenus]);
@@ -201,12 +201,27 @@ export const BudgetMenu = ({ classname }) => {
     useEffect(() => {
         if (priceRange[0] != 0 || priceRange[1] != 100000000) {
             let clearTime = setTimeout(() => {
-                dispatch(setPropertyListState({ ...propertyListState, priceRange: [priceRange[0], priceRange[1]] }));
+                if(priceRange[1] < maxPrice){
+                    dispatch(setPropertyListState({ ...propertyListState, priceRange: [priceRange[0], priceRange[1]] }));
+                }else if(propertyListState.priceRange[0] != '' || propertyListState.priceRange[1] != ''){
+                    dispatch(setPropertyListState({ ...propertyListState, priceRange: ['', ''] }));
+                }
             }, 600)
             return () => clearTimeout(clearTime);
         }
 
     }, [priceRange]);
+
+    useEffect(() => {
+        if (priceRange[0] != propertyListState.priceRange[0] || priceRange[1] != propertyListState.priceRange[1]) {
+            if (propertyListState.priceRange[0] != '' || propertyListState.priceRange[1] != '')
+                setPriceRange([propertyListState.priceRange[0], propertyListState.priceRange[1]]);
+             else{
+                setPriceRange([0, maxPrice]);
+            }
+        }
+        console.log('price range change...');
+    }, [propertyListState.priceRange]);
 
     useEffect(() => {
         if (propertyListState.clearAll) {
