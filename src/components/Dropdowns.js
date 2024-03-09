@@ -97,7 +97,7 @@ export const PropertyMenu = ({ classname }) => {
 }
 export const FurnishingTypeMenu = ({ classname }) => {
     return (
-        <div class={styles.dropdownMenu + " w-[260px] group-hover:block max-h-[400px] overflow-y-scroll " + classname}>
+        <div class={styles.dropdownMenu + " w-[260px] group-hover:block max-h-[400px] overflow-y-auto " + classname}>
             {furnishingType.map((item, index) => {
                 return (
                     <label key={index} class="flex hover:cursor-pointer hover:bg-gray-100 p-2 items-center">

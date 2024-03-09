@@ -247,7 +247,7 @@ const PropertyList = () => {
                                                     }));
                                                     dispatch(setlocation({ ...currLocation, location: item.locality_id, locationName: item.localityName,project:'',projectName:null }));
                                                 }}
-                                                to={`/${item.link}`} key={index} className={styles.btn + 'm-1 hover:bg-orange-50 border-orange-500'}>
+                                                to={`/${item.link}`} key={index} className={styles.btn + 'h-7 m-1 hover:bg-orange-50 border-orange-500'}>
                                                 <p className='text-sm'>{`${item.localityName} (${item.count})`}</p>
                                             </NavLink>
                                         )
@@ -285,7 +285,7 @@ const PropertyList = () => {
                                                         clearAll: false
                                                     }));
                                                 }}
-                                                to={`/${item.link}`} key={index} className={styles.btn + 'm-1 hover:bg-orange-50 border-orange-500'}>
+                                                to={`/${item.link}`} key={index} className={styles.btn + 'h-7 m-1 hover:bg-orange-50 border-orange-500'}>
                                                 <p className='text-sm'>{`${item.budgetName} (${item.count})`}</p>
                                             </NavLink>
                                         )
@@ -293,7 +293,7 @@ const PropertyList = () => {
                                     {currLocalityTabInd == 4 && builderTab.map((item, index) => {
                                         return (
                                             <NavLink
-                                                to={`/${item.link}`} key={index} className={styles.btn + 'm-1 hover:bg-orange-50 border-orange-500'}>
+                                                to={`/${item.link}`} key={index} className={styles.btn + 'h-7 m-1 hover:bg-orange-50 border-orange-500'}>
                                                 <p className='text-sm'>{`${item.name} (${item.count})`}</p>
                                             </NavLink>
                                         )

@@ -63,9 +63,9 @@ import PropertySlider from '../../components/PropertySlider';
 //     { item: 'Spa Beauty Salon: 2', icon: 'fa-solid fa-spa' },
 // ];
 
-const PropertyBarNames = [
-    'Details', 'Description', 'About Builder', 'Gallery', 'Nearby', 'FAQ'
-];
+// const PropertyBarNames = [
+//     'Details', 'Description', 'About Builder', 'Gallery', 'Nearby', 'FAQ'
+// ];
 // const htmlString = "<i class=\"fas fa-life-ring\"></i> Lift";
 const Amenities = [
     // { name: 'Lift', icon: 'fa-solid fa-elevator' },
@@ -97,11 +97,17 @@ const ProjectDetails = () => {
     const [open, setOpen] = useState(false);
     const [currSlide, setCurrSlide] = useState(1);
     const observerElement = useRef();
+    const Details = useRef();
+    const Description = useRef();
+    const AboutBuilder = useRef();
+    const Gallery = useRef();
+    const Nearby = useRef();
+    const FAQ = useRef();
     const routePath = useLocation();
     const { fetchData } = useApi();
     const [AllData, setAllData] = useState({ breadcrumb: [], gallery: [], data: null, featuredProperty: [], recentlyAddedProperty: [], recentBlogs: null, similarListing: [] });
     const [loading, setLoading] = useState(true);
-
+    const [propertyTabNames,setPropertyTabNames] = useState([]);
     const [galleryImages, setGalleryImges] = useState({ images: [], tabName: null });
 
     useEffect(() => {
@@ -129,6 +135,14 @@ const ProjectDetails = () => {
             });
             data.data.galleryTab.images ? setGalleryImges({ images: data.data.galleryTab.images, tabName: null }) : setGalleryImges({ images: data.data.galleryTab.PropertyImages, tabName: 'PropertyImages' });
             setLoading(false);
+            setPropertyTabNames([
+                {name:'Details',sectionName:Details,show:true},
+                {name:'Description',sectionName:Description,show:true},
+                {name:'About Builder',sectionName:AboutBuilder,show:AllData.data?.descriptionTab?.aboutBuilder?true:false},
+                {name:'Gallery',sectionName:Gallery,show:true},
+                {name:'Nearby',sectionName:Nearby,show:data.data?.nearByTab?.nearby?true:false},
+                {name:'FAQ',sectionName:FAQ,show:data.data?.faqtab?.length > 0 || data.data?.faqtab?.faqs.length > 0}
+            ]);
         }
     }
 
@@ -207,10 +221,10 @@ const ProjectDetails = () => {
                             </div>
                         </div>
                         <div className='p-2 relative px-2 w-full md:w-[35%]'>
-                            <span className={styles.title2 + 'mr-2'}>{AllData.data?.propTitle}</span>
-                            <span className=''><button className='cursor-text mt-1 px-2 py-[2px] bg-orange-600 text-xs font-medium opacity-90 text-white mr-2'>{AllData.data?.listedFor?.toUpperCase()}</button></span>
+                            <span className={styles.title2 + 'mr-2'}>{AllData.data?.unitConfigurationTab ? AllData.data?.bannerTitle : AllData.data?.propTitle}</span>
+                            <span className='mt-2'><button className='cursor-text mt-1 px-2 py-[2px] bg-orange-600 text-xs font-medium opacity-90 text-white mr-2'>{AllData.data?.listedFor?.toUpperCase()}</button></span>
                             <span className=''><button className='cursor-text mt-1 px-2 py-[2px] bg-cyan-600 text-xs font-medium text-white mr-2'>{AllData.data?.subTypeName?.toUpperCase()}</button></span>
-                            <span className=''><button className='cursor-text mt-1 px-2 py-[2px] bg-cyan-600 text-xs font-medium text-white'>PROPERTY ID: {AllData.data?.propId}</button></span>
+                            <span className=''><button className='cursor-text mt-1 px-2 py-[2px] bg-cyan-600 text-xs font-medium text-white'>{AllData.data?.unitConfigurationTab ? ('NEW PROJECT ID: ' + AllData.data?.projectId) : ('PROPERTY ID: ' + AllData.data?.propId)}</button></span>
                             <div className='mt-1'>
                                 <div className='flex mt-5'>
                                     <span className=''>
@@ -221,19 +235,19 @@ const ProjectDetails = () => {
                                         {' '}{AllData.data?.location}
                                     </span>
                                 </div>
-                                <div className='flex gap-1 mt-2'>
+                                {!AllData.data?.unitConfigurationTab && <div className='flex gap-1 mt-2'>
                                     <img alt='' src={AllData.data?.userDetails?.image} className='h-8 w-8' />
                                     <p className='text-sm text-gray-500 mt-2'>{AllData.data?.userDetails?.name} {`(${AllData.data?.btnParams[2]})`} </p>
-                                </div>
-                                <div className='mt-5'>
+                                </div>}
+                                {AllData.data?.unitConfigurationTab && <div className='mt-5'>
                                     <div className='flex flex-wrap gap-[40%]'>
                                         {AllData.data?.bedroom && <div className=''>
                                             <p className='text-gray-400 font-semibold text-sm'>BHK</p>
                                             <p className='text-gray-700'>{AllData.data?.bedroom}</p>
                                         </div>}
-                                        {AllData.data?.subTypeName && <div className=''>
-                                            <p className='text-gray-400 font-semibold text-sm'>Property Type</p>
-                                            <p className='text-gray-700'>{AllData.data?.subTypeName}</p>
+                                        {AllData.data?.price > 0 && <div className=''>
+                                            <p className='text-gray-400 font-semibold text-sm'>Price Range</p>
+                                            <p className='text-gray-700'>{AllData.data?.price}</p>
                                         </div>}
                                     </div>
                                     <div className='flex flex-wrap gap-[40%]'>
@@ -241,19 +255,32 @@ const ProjectDetails = () => {
                                             <p className='text-gray-400 font-semibold text-sm'>Area</p>
                                             <p className='text-gray-700'>{AllData.data?.area}</p>
                                         </div>}
+                                        {AllData.data?.subTypeName && <div className=''>
+                                            <p className='text-gray-400 font-semibold text-sm'>Property Type</p>
+                                            <p className='text-gray-700'>{AllData.data?.subTypeName}</p>
+                                        </div>}
                                     </div>
                                     {AllData.data?.status && <div className='mt-4'>
                                         <p className='text-gray-400 font-semibold text-sm'>Project Status</p>
                                         <p className='text-gray-700'>{AllData.data?.status}</p>
                                     </div>}
-                                </div>
-                                <div className=' w-full'>
-                                    <button onClick={onClickContactBtn} className={styles.btnFull + 'bg-green-600 hover:bg-green-700 mt-5'}>ASK FOR PRICE</button>
+                                </div>}
+                                {/* dangerouslySetInnerHTML={{__html:(AllData.data?.unitConfigurationTab?'Builder Price:':'Sale Price:') && AllData.data?.price}} */}
+                                {AllData.data?.rera && <div className='mt-2 text-sm'>
+                                    {/* <span>RERA ID: </span><span className='text-cyan-600'>PR/GJ/AHMEDABAD/AHMEDABAD CITY/AUDA/MAA12019/280623</span> */}
+                                    <span>RERA ID: </span><span className='text-cyan-600'>{AllData.data?.rera}</span>
+                                </div>}
+                                <div className=' w-full mt-2'>
+                                    {AllData.data?.price ? <span className=''><button className='cursor-text mt-1 px-2 py-[2px] bg-cyan-600 text-lg text-white w-full text-left rounded'>{AllData.data?.unitConfigurationTab ? 'Builder Price:' : 'Sale Price:'} {AllData.data?.price}</button></span>
+                                        :
+                                        <button onClick={onClickContactBtn} className={styles.btnFull + 'bg-green-600 hover:bg-green-700 mt-5'}>ASK FOR PRICE</button>
+                                    }
                                     <button onClick={onClickContactBtn} className={styles.btnFull + 'bg-green-600 hover:bg-green-700 mt-3'}>Request Contact</button>
-                                    <div className='mt-2 text-sm'>
-                                        <span>RERA ID: </span><span className='text-cyan-600'>PR/GJ/AHMEDABAD/AHMEDABAD CITY/AUDA/MAA12019/280623</span>
-                                    </div>
                                 </div>
+                                {AllData.data?.unitConfigurationTab && <div className='flex gap-1 mt-2'>
+                                    <img alt='' src={AllData.data?.userDetails?.image} className='h-8 w-8' />
+                                    <p className='text-sm text-gray-500 mt-2'>{AllData.data?.userDetails?.name} {`(${AllData.data?.btnParams[2]})`} </p>
+                                </div>}
                             </div>
                         </div>
                     </div>
@@ -267,17 +294,18 @@ const ProjectDetails = () => {
                             <div className='bg-white shadow-md px-[2%] py-5 w-full'>
                                 <div className={navClassState}>
                                     <div className={(navClassState !== '' ? 'transition-transform ease-in-out transform translate-x-[8%] py-2 duration-[1500ms] border-b-0 ' : ' border-b-[1px]') + ' flex flex-wrap gap-2 border-b-gray-300  px-[2%] -mx-[2%]'}>
-                                        {PropertyBarNames.map((item, index) => {
+                                        {propertyTabNames.length > 0 && propertyTabNames.map((item, index) => {
                                             return (
                                                 <>
-                                                    {((item == 'Nearby' && AllData.data?.nearByTab?.nearby) || (item != 'Nearby' && item != 'FAQ') ||
-                                                     (item == 'FAQ' && (AllData.data?.faqtab?.length > 0 || AllData.data?.faqtab?.faqs.length > 0))
-                                                    ) &&
-                                                        <a key={index} href={`#${index}`}
-                                                        onClick={() => setPropDetailsTypeInd(index)}
-                                                        className={(propDetailsTypeInd === index ? 'border-b-[1px] animated-border border-black ' : '') + ' px-1 py-2'}>
-                                                        {item}
-                                                    </a>}
+                                                    {item.show &&
+                                                        <a key={index}
+                                                            onClick={() =>{ 
+                                                                setPropDetailsTypeInd(index);
+                                                                item.sectionName.current?.scrollIntoView({ behavior: 'smooth' })
+                                                            }}
+                                                            className={(propDetailsTypeInd === index ? 'border-b-[1px] animated-border border-black ' : '') + ' px-1 py-2 cursor-pointer'}>
+                                                            {item.name}
+                                                        </a>}
                                                 </>
 
                                             )
@@ -285,14 +313,16 @@ const ProjectDetails = () => {
                                     </div>
                                 </div>
 
-                                <div id='0' className='scroll-mt-20'>
-                                    <p className={styles.title4 + 'mt-8'}>{AllData.data?.scoietyName ? `${AllData.data?.scoietyName} Info` : 'Property Details'}</p>
+                                <div ref={Details} className='scroll-mt-20'>
+                                    <p 
+                                    //  onClick={()=>section.current.scrollIntoView({ behavior: 'smooth' })}
+                                     className={styles.title4 + 'mt-8'}>{AllData.data?.scoietyName ? `${AllData.data?.scoietyName} Info` : 'Property Details'}</p>
                                     <div className='flex justify-between flex-wrap'>
-                                        <div 
-                                         className='w-[50%] sm:w-[30%] mt-2'
+                                        <div
+                                            className='w-[50%] sm:w-[30%] mt-2'
                                         //  className='grid-cols-2 sm:grid-cols-3 mt-2'
-                                         >
-                                            {AllData.data?.detailsTab?.length && AllData.data?.detailsTab?.map((item, index) => {
+                                        >
+                                            {AllData.data?.detailsTab?.length > 0 && AllData.data?.detailsTab?.map((item, index) => {
                                                 return (
                                                     <>
                                                         {index % 3 == 0 && item.label != 'Project Link' && <div key={index} className='mt-1' >
@@ -303,12 +333,12 @@ const ProjectDetails = () => {
                                                     </>
                                                 )
                                             })}
-                                                        {/* <p className='whitespace-nowrap overflow-hidden overflow-ellipsis'>fklsfjklsfjklsfjklsfjsklfjsklfskflmsnfklsdmfklsdmldfcdklsckdddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd</p> */}
-                                                        {/* <p className='inline-block w-[200px] whitespace-normal overflow-hidden overflow-ellipsis'>https://www.godrejproperties.com/bangalore/residential/godrejananda/overview</p> */}
+                                            {/* <p className='whitespace-nowrap overflow-hidden overflow-ellipsis'>fklsfjklsfjklsfjklsfjsklfjsklfskflmsnfklsdmfklsdmldfcdklsckdddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd</p> */}
+                                            {/* <p className='inline-block w-[200px] whitespace-normal overflow-hidden overflow-ellipsis'>https://www.godrejproperties.com/bangalore/residential/godrejananda/overview</p> */}
                                         </div>
 
                                         <div className='w-[50%] sm:w-[30%] mt-2'>
-                                            {AllData.data?.detailsTab?.length && AllData.data?.detailsTab?.map((item, index) => {
+                                            {AllData.data?.detailsTab?.length > 0 && AllData.data?.detailsTab?.map((item, index) => {
                                                 return (
                                                     <>
                                                         {(index + 1) % 3 == 0 && index < 6 && <div key={index} className='mt-1'>
@@ -354,7 +384,7 @@ const ProjectDetails = () => {
                                     </div>
                                 </div>
                             </div>
-                            <div id='1' className='bg-white shadow-md px-[2%] py-5 mt-10 scroll-mt-20'>
+                            <div ref={Description} className='bg-white shadow-md px-[2%] py-5 mt-10 scroll-mt-20'>
                                 <p className={styles.title4}>{AllData.data?.scoietyName ? `About ${AllData.data?.scoietyName}` : 'Property Brief'}</p>
                                 <div className='mt-1 prose min-w-full' dangerouslySetInnerHTML={{ __html: AllData.data?.descriptionTab?.description }} />
                                 {/* <p className='mt-2 text-[0.9rem] text-gray-700 whitespace-pre-line'>{AllData.data?.descriptionTab?.description}</p> */}
@@ -370,7 +400,7 @@ const ProjectDetails = () => {
                                 </div>}
                             </div>
 
-                            {AllData.data?.descriptionTab?.aboutBuilder && <div id='2' className='bg-white shadow-md px-[2%] py-5 mt-10 scroll-mt-20'>
+                            {AllData.data?.descriptionTab?.aboutBuilder && <div ref={AboutBuilder} className='bg-white shadow-md px-[2%] py-5 mt-10 scroll-mt-20'>
                                 <p className={styles.title4}>About {AllData.data?.userDetails?.name}</p>
                                 {/* <p className='mt-2 text-[0.9rem] text-gray-700'>{aboutBuilder}</p> */}
                                 <div className='mt-2 prose prose-sm sm:prose-base min-w-[100%]' dangerouslySetInnerHTML={{ __html: AllData.data?.descriptionTab?.aboutBuilder }} />
@@ -409,7 +439,7 @@ const ProjectDetails = () => {
                                 })}
                             </div>}
 
-                            <div id='3' className={(AllData.data?.galleryTab?.images ? 'bg-white' : 'bg-gray-800 text-white') + ' mt-10  shadow-md px-[2%] py-5 w-full scroll-mt-20'}>
+                            <div ref={Gallery} className={(AllData.data?.galleryTab?.images ? 'bg-white' : 'bg-gray-800 text-white') + ' mt-10  shadow-md px-[2%] py-5 w-full scroll-mt-20'}>
                                 {AllData.data?.galleryTab?.images ? <p className={styles.title3 + 'mb-5'}>Gallery</p>
                                     :
                                     <div className='flex flex-wrap gap-2 font-semibold border-b-[1px] border-b-white mb-5'>
@@ -506,7 +536,7 @@ const ProjectDetails = () => {
                                 </LightGallery> */}
 
                             </div>
-                            {AllData.data?.nearByTab?.nearby && <div id='4' className='mt-10 bg-white shadow-md px-5 py-5 mb-10 scroll-mt-20'>
+                            {AllData.data?.nearByTab?.nearby && <div ref={Nearby} className='mt-10 bg-white shadow-md px-5 py-5 mb-10 scroll-mt-20'>
                                 <p className={styles.title3}>What's Nearby?</p>
                                 <div className='mt-5'>
                                     {AllData.data?.nearByTab?.nearby?.map((item, index) => {
@@ -519,7 +549,7 @@ const ProjectDetails = () => {
                                     })}
                                 </div>
                             </div>}
-                            {(AllData.data?.faqtab?.length > 0 || AllData.data?.faqtab?.faqs.length > 0) && <div id='5' className='mt-10 bg-white shadow-md px-5 py-5 mb-10 scroll-mt-20'>
+                            {(AllData.data?.faqtab?.length > 0 || AllData.data?.faqtab?.faqs.length > 0) && <div ref={FAQ}  className='mt-10 bg-white shadow-md px-5 py-5 mb-10 scroll-mt-20'>
                                 <FAQs Data={AllData.data?.faqtab?.length ? AllData.data?.faqtab : AllData.data?.faqtab?.faqs} />
                             </div>}
                         </div>

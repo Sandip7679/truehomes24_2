@@ -7,7 +7,7 @@ import PropertyListCard from '../../components/PropertyListCard';
 import Footer from '../../components/Footer';
 import RightListCard from '../../components/RightListCard';
 import Contact from '../../components/Contact';
-import BHKmenu, { BudgetMenu, FurnishingTypeMenu, MoreMenu, PropertyMenu, ShortByMenu } from '../../components/Dropdowns';
+import BHKmenu, { BudgetMenu, FurnishingTypeMenu, MoreMenu, PropertyMenu, PropertyTypeMenu, ShortByMenu } from '../../components/Dropdowns';
 
 const Data = [
     {
@@ -146,13 +146,13 @@ const Profile = () => {
                         <div>
                             <p ref={listElement} className={styles.title2}>VYBHAV KUMAR's Listing(s)</p>
                             <div className={navClassState}>
-                                <div className={(navClassState !== '' ? 'transition-transform ease-in-out transform translate-x-[8%] pb-2 -mt-5 duration-[1500ms] ' : '') + 'flex flex-wrap items-center text-xs text-gray-700 font-semibold mt-5'}>
+                                <div className={(navClassState !== '' ? 'transition-transform ease-in-out transform translate-x-[8%] pb-2 -mt-5 duration-[1500ms] ' : '') + 'flex flex-wrap items-center text-xs text-gray-700 mt-5'}>
                                     <div className='flex border-[1px] mt-3 justify-center items-center border-gray-300'>
-                                        <span className='bg-gray-900 rounded-r-full text-white py-[8.5px] px-4'>
+                                        <span className='bg-gray-900 rounded-r-full text-white py-[8.5px] px-4 font-semibold'>
                                             FILTER
                                         </span>
                                         <div className='relative group'>
-                                            <button className={'px-1 py-2'}>
+                                            <button className={'px-1 py-2 font-semibold'}>
                                                 BUDGET
                                                 <i class={styles.dropdownIcon}></i>
                                             </button>
@@ -160,40 +160,41 @@ const Profile = () => {
                                         </div>
                                     </div>
                                     <div className='mt-3 relative group'>
-                                        <button className={'p-2 border-[1px] border-gray-300'}>
+                                        <button className={'p-2 border-[1px] border-gray-300 font-semibold'}>
                                             BHK
                                             <i class={styles.dropdownIcon}></i>
                                         </button>
                                         <BHKmenu classname={''}/>
                                     </div>
                                     <div className='mt-3 relative group'>
-                                        <button className={'p-2 border-[1px] border-gray-300'}>
+                                        <button className={'p-2 border-[1px] border-gray-300 font-semibold'}>
                                             PROPERTY TYPE
                                             <i class={styles.dropdownIcon}></i>
                                         </button>
-                                        <PropertyMenu classname={''}/>
+                                        {/* <PropertyMenu classname={''}/> */}
+                                        <PropertyTypeMenu/>
                                     </div>
                                     <div className='mt-3 relative group'>
-                                        <button className={'p-2 border-[1px] border-gray-300'}>
+                                        <button className={'p-2 border-[1px] border-gray-300 font-semibold'}>
                                             FURNISHING TYPE
                                             <i class={styles.dropdownIcon}></i>
                                         </button>
                                         <FurnishingTypeMenu/>
                                     </div>
                                     <div className='mt-3 relative group'>
-                                        <button className={'p-2 border-[1px] border-gray-300'}>
+                                        <button className={'p-2 border-[1px] border-gray-300 font-semibold'}>
                                             MORE
                                             <i class={styles.dropdownIcon}></i>
                                         </button>
                                         <MoreMenu classname={''}/>
                                     </div>
                                     <div className='mt-3'>
-                                        <button className={'p-2 py-[8.5px] border-[1px] border-gray-300'}>
+                                        <button className={'p-2 py-[8.5px] border-[1px] border-gray-300 font-semibold'}>
                                             RESET
                                         </button>
                                     </div>
                                     <div className='mt-3 relative group'>
-                                        <button className={'p-2 border-[1px] border-gray-300'}>
+                                        <button className={'p-2 border-[1px] border-gray-300 font-semibold'}>
                                             SHORT BY FEATURED
                                             <i class={styles.dropdownIcon}></i>
                                         </button>
