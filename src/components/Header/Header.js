@@ -336,7 +336,14 @@ const Header = () => {
                             <NavLink
                                 onClick={() => {
                                     localStorage.setItem('propertyStatus', 'sale');
-                                    dispatch(setPropertyListState({ ...propertyListState, propertyStatus: { text: 'Buy', value: 'sale', for: 'Sale', index: 0 } }));
+                                    dispatch(setPropertyListState({
+                                        ...propertyListState,
+                                        propertyStatus: { text: 'Buy', value: 'sale', for: 'Sale', index: 0 },
+                                        BHKtype: '', propertyTypes: '',
+                                        priceRange: ['', ''],
+                                        moreStatus: { furnishingTypes: '', bathrooms: '', minArea: '', maxArea: '', newResale: '', constructionStatus: '', facing: '', amenities: '', listedBy: '', floor: '' },
+                                        clearAll: true
+                                    }));
                                 }}
                                 to={'/sale/property-for-sale-in-' + currLocation?.city.split(' ').join('-').toLowerCase()}
                                 className="text-gray-100 hover:cursor-pointer hover:text-gray-400">
@@ -345,7 +352,13 @@ const Header = () => {
                             <NavLink
                                 onClick={() => {
                                     localStorage.setItem('propertyStatus', 'rent');
-                                    dispatch(setPropertyListState({ ...propertyListState, propertyStatus: { text: 'Rent', value: 'rent', for: 'Rent', index: 1 } }));
+                                    dispatch(setPropertyListState({
+                                        ...propertyListState, propertyStatus: { text: 'Rent', value: 'rent', for: 'Rent', index: 1 },
+                                        BHKtype: '', propertyTypes: '',
+                                        priceRange: ['', ''],
+                                        moreStatus: { furnishingTypes: '', bathrooms: '', minArea: '', maxArea: '', newResale: '', constructionStatus: '', facing: '', amenities: '', listedBy: '', floor: '' },
+                                        clearAll: true
+                                    }));
                                 }}
                                 to={'/rent/property-for-rent-in-' + currLocation?.city.split(' ').join('-').toLowerCase()}
                                 className="text-gray-100 hover:cursor-pointer hover:text-gray-400">
@@ -354,7 +367,13 @@ const Header = () => {
                             <NavLink
                                 onClick={() => {
                                     localStorage.setItem('propertyStatus', 'new project');
-                                    dispatch(setPropertyListState({ ...propertyListState, propertyStatus: { text: 'New Project', value: 'new project', for: 'Sale', index: 2 } }));
+                                    dispatch(setPropertyListState({
+                                        ...propertyListState, propertyStatus: { text: 'New Project', value: 'new project', for: 'Sale', index: 2 },
+                                        BHKtype: '', propertyTypes: '',
+                                        priceRange: ['', ''],
+                                        moreStatus: { furnishingTypes: '', bathrooms: '', minArea: '', maxArea: '', newResale: '', constructionStatus: '', facing: '', amenities: '', listedBy: '', floor: '' },
+                                        clearAll: true
+                                    }));
                                 }}
                                 to={'/new-projects/new-projects-for-sale-in-' + currLocation?.city.split(' ').join('-').toLowerCase()}
                                 className="text-gray-100 hover:cursor-pointer hover:text-gray-400">
@@ -362,8 +381,31 @@ const Header = () => {
                             </NavLink>
                         </div>
 
-                        <NavLink to="/agents" className="text-gray-100 hover:text-gray-400">Agents</NavLink>
-                        <NavLink to="/real-estate-builders-in-india" className="text-gray-100 hover:text-gray-400">Builders</NavLink>
+                        <NavLink to="/agents"
+                            onClick={() => {
+                                localStorage.setItem('propertyStatus', 'new project');
+                                dispatch(setPropertyListState({
+                                    ...propertyListState, propertyStatus: { text: 'New Project', value: 'new project', for: 'Sale', index: 2 },
+                                    BHKtype: '', propertyTypes: '',
+                                    priceRange: ['', ''],
+                                    moreStatus: { furnishingTypes: '', bathrooms: '', minArea: '', maxArea: '', newResale: '', constructionStatus: '', facing: '', amenities: '', listedBy: '', floor: '' },
+                                    clearAll: true
+                                }));
+                            }}
+                            className="text-gray-100 hover:text-gray-400">Agents</NavLink>
+                        <NavLink to="/real-estate-builders-in-india"
+                            onClick={() => {
+                                localStorage.setItem('propertyStatus', 'new project');
+                                dispatch(setPropertyListState({
+                                    ...propertyListState, 
+                                    // propertyStatus: { text: 'New Project', value: 'new project', for: 'Sale', index: 2 },
+                                    BHKtype: '', propertyTypes: '',
+                                    priceRange: ['', ''],
+                                    moreStatus: { furnishingTypes: '', bathrooms: '', minArea: '', maxArea: '', newResale: '', constructionStatus: '', facing: '', amenities: '', listedBy: '', floor: '' },
+                                    clearAll: true
+                                }));
+                            }}
+                            className="text-gray-100 hover:text-gray-400">Builders</NavLink>
                         <div className='relative group z-10'>
                             <button
                                 id='more-services-btn'

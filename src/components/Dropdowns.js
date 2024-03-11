@@ -96,13 +96,31 @@ export const PropertyMenu = ({ classname }) => {
     )
 }
 export const FurnishingTypeMenu = ({ classname }) => {
+    const { propertyListState,filterMenus } = useSelector(state => state.User);
+    const [checkedItems, setCheckedItems] = useState([]);
+    const dispatch = useDispatch();
+
+    const handleOnCheckedItem = (e, index, value) => {
+        console.log('e.target.checked..', e.target.checked);
+        let arr = [...checkedItems];
+        if (arr[index] && arr[index] !== '0') {
+            arr[index] = false;
+        } else {
+            arr[index] = value;
+        }
+        setCheckedItems(arr);
+        dispatch(setPropertyListState({ ...propertyListState, clearAll: false, moreStatus: { ...propertyListState.moreStatus, furnishingTypes: arr.filter(it => it).join('-') } }));
+    }
     return (
         <div class={styles.dropdownMenu + " w-[260px] group-hover:block max-h-[400px] overflow-y-auto " + classname}>
-            {furnishingType.map((item, index) => {
+            {filterMenus?.more?.furnish && filterMenus?.more?.furnish.map((item, index) => {
                 return (
                     <label key={index} class="flex hover:cursor-pointer hover:bg-gray-100 p-2 items-center">
-                        <input type="checkbox" class="form-checkbox mt-1 h-4 w-4 text-blue-500" />
-                        <span class={"ml-2"}>{item.type}</span>
+                        <input type="checkbox" class="form-checkbox mt-1 h-4 w-4 text-blue-500"
+                            onClick={(e) => handleOnCheckedItem(e, index, item.value)}
+                            checked={item.value == checkedItems[index]}
+                        />
+                        <span class={"ml-2 mt-1"}>{item.label}</span>
                     </label>
                 )
             })}
@@ -112,26 +130,32 @@ export const FurnishingTypeMenu = ({ classname }) => {
 export const PropertyTypeMenu = ({ classname }) => {
     const { filterMenus, propertyListState } = useSelector(state => state.User);
     const dispatch = useDispatch();
-    const routePath = useLocation();
+    // const routePath = useLocation();
     const [checkedItems, setCheckedItems] = useState([]);
 
     const handleOnCheckedItem = (e, index, value) => {
         console.log('e.target.checked..', e.target.checked);
         let arr = [...checkedItems];
         // if (routePath.pathname == '/') {
-        if (e.target.checked) {
+        // arr[index] = !arr[index];
+        // if (e.target.checked) {
+        //     arr[index] = false;
+        // } else {
+        //     arr[index] = value;
+        // }
+        // }
+        // else {
+        // if (e.target.checked) {
+        //     arr[index] = value;
+        // } else {
+        //     arr[index] = false;
+        // }
+        // }
+        if (arr[index] && arr[index] !== '0') {
             arr[index] = false;
         } else {
             arr[index] = value;
         }
-        // }
-        // else {
-        //     if (e.target.checked) {
-        //         arr[index] = value;
-        //     } else {
-        //         arr[index] = false;
-        //     }
-        // }
         setCheckedItems(arr);
         dispatch(setPropertyListState({ ...propertyListState, clearAll: false, propertyTypes: arr.filter(it => it).join('-') }));
     }
@@ -144,7 +168,7 @@ export const PropertyTypeMenu = ({ classname }) => {
 
     return (
         <div
-            className={`${styles.dropdownMenu} w-[260px] group-hover:block`}>
+            className={`${styles.dropdownMenu} w-[260px] group-hover:block `+classname}>
             <div class="space-y-2 max-h-[300px] py-3 overflow-y-auto">
                 {filterMenus?.propertyType && filterMenus?.propertyType.map((item, index) => {
                     return (
@@ -201,9 +225,9 @@ export const BudgetMenu = ({ classname }) => {
     useEffect(() => {
         if (priceRange[0] != 0 || priceRange[1] != 100000000) {
             let clearTime = setTimeout(() => {
-                if(priceRange[1] < maxPrice){
+                if (priceRange[1] < maxPrice) {
                     dispatch(setPropertyListState({ ...propertyListState, priceRange: [priceRange[0], priceRange[1]] }));
-                }else if(propertyListState.priceRange[0] != '' || propertyListState.priceRange[1] != ''){
+                } else if (propertyListState.priceRange[0] != '' || propertyListState.priceRange[1] != '') {
                     dispatch(setPropertyListState({ ...propertyListState, priceRange: ['', ''] }));
                 }
             }, 600)
@@ -216,7 +240,7 @@ export const BudgetMenu = ({ classname }) => {
         if (priceRange[0] != propertyListState.priceRange[0] || priceRange[1] != propertyListState.priceRange[1]) {
             if (propertyListState.priceRange[0] != '' || propertyListState.priceRange[1] != '')
                 setPriceRange([propertyListState.priceRange[0], propertyListState.priceRange[1]]);
-             else{
+            else {
                 setPriceRange([0, maxPrice]);
             }
         }
@@ -314,10 +338,15 @@ export const MoreMenu = ({ classname }) => {
     const handleOnCheckedItem = (e, index, value, type) => {
         let arr = [...checkedItems[type]];
         console.log('e.target.checked...', e.target.checked)
-        if (e.target.checked) {
+        // if (e.target.checked) {
+        //     arr[index] = false;
+        // }
+        // else {
+        //     arr[index] = value;
+        // }
+        if (arr[index] && arr[index] !== '0') {
             arr[index] = false;
-        }
-        else {
+        } else {
             arr[index] = value;
         }
         setCheckedItems({ ...checkedItems, [type]: arr });
@@ -345,7 +374,7 @@ export const MoreMenu = ({ classname }) => {
                                     // onChange={(e) => handleOnCheckedItem(e, index, item.value, 'furnishingTypes')}
                                     onClick={(e) => handleOnCheckedItem(e, index, item.value, 'furnishingTypes')}
                                     type='checkbox' className='h-4 w-4 mt-1' />
-                                <p className='text-gray-600'>{item.label}</p>
+                                <p className='text-gray-600 mt-[2px]'>{item.label}</p>
                             </label>
                         )
                     })}

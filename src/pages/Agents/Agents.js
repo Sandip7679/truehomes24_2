@@ -7,22 +7,14 @@ import userIcon from './../../assets/images/user.svg';
 import TopCItiesFilter from '../../components/TopCItiesFilter';
 import Footer from '../../components/Footer';
 import { UseApi } from '../../ApiConf';
-import { setCurrPage } from '../../Redux/reducer/User';
-import { useDispatch, useSelector } from 'react-redux';
 import Pagenation from '../../components/Pagenation';
 import loader from '../../assets/Icons/loader.gif';
 
 const Agents = () => {
     const { FetchData } = UseApi();
     const [agents, setAgents] = useState({ totalPage: 1, content: [] });
-    const { currPage } = useSelector(state => state.User);
-    const dispatch = useDispatch();
-    const [loading,setLoading] = useState(true);
-    useEffect(() => {
-        if (currPage > 1) {
-            dispatch(setCurrPage(1));
-        }
-    }, []);
+    const [currPage, setCurrPage] = useState(1);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         getAgentsData();
@@ -75,30 +67,33 @@ const Agents = () => {
                         </div>
                     </div>
                 </div>
-                <div className='px-[2%] grid grid-cols-1 xs:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2 sm:gap-4 min-h-screen'>
-                    {agents.content?.map((item, index) => {
-                        return (
-                            <div key={index} className='shadow-md border-[1px] rounded flex flex-col justify-center items-center py-5'>
-                                <div className='flex flex-col justify-center items-center'>
-                                    <img alt='' src={item.profilePicture ? item.profilePicture : userIcon} className='h-[70px] w-[70px]' />
-                                    <p className={styles.title4 + 'mt-1'}>{item.name}</p>
-                                    <p className='text-gray-600'>{item.type}</p>
+                <div className='min-h-screen'>
+                    <div className='px-[2%] grid grid-cols-1 xs:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2 sm:gap-4'>
+                        {agents.content?.map((item, index) => {
+                            return (
+                                <div key={index} className='shadow-md border-[1px] rounded flex flex-col justify-center items-center py-5'>
+                                    <div className='flex flex-col justify-center items-center'>
+                                        <img alt='' src={item.profilePicture ? item.profilePicture : userIcon} className='h-[70px] w-[70px]' />
+                                        <p className={styles.title4 + 'mt-1'}>{item.name}</p>
+                                        <p className='text-gray-600'>{item.type}</p>
+                                    </div>
+                                    <span className={styles.btn + 'bg-green-600 text-white my-5'}>{item.businessTitle ? item.businessTitle : 'N/A'}</span>
+                                    <div className='mt-2 text-gray-600'>{item.salePropCount} Properties for <span className='text-orange-500 font-semibold'>Sale</span></div>
+                                    <div className='mt-2 text-gray-600'>{item.rentPropCount} Properties for <span className='text-orange-500 font-semibold'>Rent</span></div>
+                                    <NavLink to={`/${item.profile}`}
+                                        className={'mt-5 sm:mt-8 bg-gray-700 px-4 py-1 border-[1px] text-white rounded-md cursor-pointer hover:bg-white hover:text-black hover:border-[1px] hover:border-black duration-500'}>
+                                        View Profile
+                                    </NavLink>
                                 </div>
-                                <span className={styles.btn + 'bg-green-600 text-white my-5'}>{item.businessTitle ? item.businessTitle : 'N/A'}</span>
-                                <div className='mt-2 text-gray-600'>{item.salePropCount} Properties for <span className='text-orange-500 font-semibold'>Sale</span></div>
-                                <div className='mt-2 text-gray-600'>{item.rentPropCount} Properties for <span className='text-orange-500 font-semibold'>Rent</span></div>
-                                <NavLink to={`/${item.profile}`}
-                                    className={'mt-5 sm:mt-8 bg-gray-700 px-4 py-1 border-[1px] text-white rounded-md cursor-pointer hover:bg-white hover:text-black hover:border-[1px] hover:border-black duration-500'}>
-                                    View Profile
-                                </NavLink>
-                            </div>
-                        )
-                    })}
-                    {loading && <div className="fixed top-[100px] right-1/2 flex justify-center items-center mt-16">
-                        <img alt="Please wait.." title="Please wait.." src={loader} />
-                    </div>}
+                            )
+                        })}
+                        {loading && <div className="fixed top-[100px] right-1/2 flex justify-center items-center mt-16">
+                            <img alt="Please wait.." title="Please wait.." src={loader} />
+                        </div>}
+                    </div>
                 </div>
-                {agents.content?.length && <Pagenation lastPage={agents.totalPage} />}
+
+                {agents.content?.length > 0 && <Pagenation lastPage={agents.totalPage} changeCurrPage={(page) => setCurrPage(page)} />}
             </div>
             <TopCItiesFilter />
             <Footer />

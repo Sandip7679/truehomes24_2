@@ -13,33 +13,18 @@ import Contact from '../components/Contact';
 import { useDispatch, useSelector } from 'react-redux';
 import useApi, { UseApi } from '../ApiConf';
 import Pagenation from '../components/Pagenation';
-import { setCurrPage, setPropertyListState, setlocation } from '../Redux/reducer/User';
+import { setPropertyListState, setlocation } from '../Redux/reducer/User';
 import loader from '../assets/Icons/loader.gif';
 import ScrollUp from '../components/ScrollUp';
 
-const Localities = [
-    { location: 'Shela (40)' },
-    { location: 'Prahlad Nagar (30)' },
-    { location: 'Sanathal (15)' },
-    { location: 'Gota (11)' },
-    { location: 'south Bhopal (9)' },
-    { location: 'south Bhopal (9)' },
-    { location: 'south Bhopal (9)' },
-    { location: 'south Bhopal (9)' },
-    { location: 'south Bhopal (9)' },
-    { location: 'Shela (40)' },
-    { location: 'Shela (40)' },
-    { location: 'Shela (40)' },
-    { location: 'Shela (40)' },
-    { location: 'Shela (40)' },
-]
 
 const propertyTypes = ['Localities', 'Property Status', 'Budget', 'Builders'];
 
 const PropertyList = () => {
     const [contactModalStatus, setcontactModalStatus] = useState({ show: false, data: {} });
     const [propertyType, setPropertyType] = useState('Localities');
-    const { login_status, currLocation, propertyListState, currPage, pageRefresh } = useSelector(state => state.User);
+    const { login_status, currLocation, propertyListState, pageRefresh } = useSelector(state => state.User);
+    const [currPage,setCurrPage] = useState(1);
     const [propertyListData, setPropertyListData] = useState({ currPage: 1, totalProperty: null, lastPage: null, propertyList: [] });
     const [localities, setLocalities] = useState([]);
     const [propStatusTab, setPropStatusTab] = useState([]);
@@ -62,11 +47,6 @@ const PropertyList = () => {
     //     }
     // },[]);
 
-    useEffect(() => {
-        if (currPage > 1) {
-            dispatch(setCurrPage(1));
-        }
-    }, [])
 
     useEffect(() => {
         getLocalities();
@@ -320,7 +300,7 @@ const PropertyList = () => {
                                     </div>}
                                 </div>
                                 {propertyListData?.propertyList?.length != 0 && <div>
-                                    <Pagenation lastPage={propertyListData.lastPage} />
+                                    <Pagenation lastPage={propertyListData.lastPage} changeCurrPage={(pageNum)=>setCurrPage(pageNum)} />
                                 </div>}
                                 <div className='mt-10'>
                                     <FAQs />

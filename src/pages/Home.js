@@ -60,7 +60,6 @@ const Home = () => {
     const searchMenu = useRef();
     const searchInput = useRef();
     const homePage = useRef();
-    const { fetchData, error } = useApi();
     const { FetchData } = UseApi();
     // const [featuredProperties, setFeaturedProperties] = useState([]);
     const [allProperties, setAllProperties] = useState({ featured: [], newProjects: [], recentlyAdded: [], newsAndArticle: [], topDeveloper: [] });
@@ -294,26 +293,6 @@ const Home = () => {
         dispatch(setlocation({ ...currLocation, ...location }));
     }
 
-    // const getAllProperties = async () => {
-    //     let featured
-    //     try {
-    //         featured = await fetchData('featured-property-slider?limit=5&page=1', 'GET');
-    //         console.log('featured.... data...', featured)
-    //     } catch (err) {
-    //         console.log('err... featured..', err);
-    //     }
-    //     if (featured?.content) { featured = Object.values(featured?.content) }
-
-    //     let newProjects
-    //     try {
-    //         newProjects = await fetchData('new-projects-slider?limit=5&page=1', 'GET');
-    //     } catch (err) {
-    //         console.log(err);
-    //     }
-    //     if (newProjects) { newProjects = Object.values(newProjects.content) }
-
-    //     setAllProperties(pre => ({ ...pre, featured: featured, newProjects: newProjects }));
-    // }
 
     const GetAllProperties = async (currlocation) => {
         let featured

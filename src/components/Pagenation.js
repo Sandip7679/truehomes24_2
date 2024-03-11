@@ -1,12 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { styles } from '../Styles/Styles';
-import { useDispatch, useSelector } from 'react-redux';
-import { setCurrPage } from '../Redux/reducer/User';
 
-const Pagenation = ({ lastPage }) => {
+const Pagenation = ({ lastPage,changeCurrPage }) => {
     const [startPage, setStartPage] = useState(1);
-    const { currPage } = useSelector(state => state.User);
-    const dispatch = useDispatch();
+    const [currPage,setCurrPage] = useState(1);
 
     useEffect(() => {
         console.log('lastpage...', lastPage)
@@ -18,14 +15,17 @@ const Pagenation = ({ lastPage }) => {
                 {startPage > 1 && <button
                     onClick={() => {
                         setStartPage(1);
-                        dispatch(setCurrPage(1));
+                        // dispatch(setCurrPage(1));
+                        setCurrPage(1);
+                        changeCurrPage(1);
                     }}
                     className={styles.paginationBtn + ''}>
                     <i class="fa-solid fa-chevron-left text-xs"></i> First
                 </button>}
                 {currPage > 1 && <button onClick={() => {
                     if (currPage > 1) {
-                        dispatch(setCurrPage(currPage - 1));
+                        setCurrPage(currPage - 1)
+                        changeCurrPage(currPage-1);
                     }
                     if (startPage > 1) {
                         setStartPage(startPage - 1);
@@ -40,7 +40,10 @@ const Pagenation = ({ lastPage }) => {
                     return (
                         <>
                             {startPage + index <= lastPage && <button
-                                onClick={() => dispatch(setCurrPage(startPage + index))}
+                                onClick={() => {
+                                    setCurrPage(startPage + index)
+                                    changeCurrPage(startPage+index);
+                                }}
                                 className={styles.paginationBtn + 'px-5 ' + (startPage + index == currPage && 'bg-gray-700 text-white')}>
                                 {startPage + index}
                             </button>}
@@ -54,7 +57,8 @@ const Pagenation = ({ lastPage }) => {
                         if (currPage == startPage + 4) {
                             setStartPage(startPage + 1);
                         }
-                        dispatch(setCurrPage(currPage + 1));
+                        setCurrPage(currPage + 1)
+                        changeCurrPage(currPage+1);
                     }
                 }}
                     className={styles.paginationBtn}>
@@ -64,7 +68,8 @@ const Pagenation = ({ lastPage }) => {
                     if (lastPage > 4) {
                         setStartPage(lastPage - 4);
                     }
-                    dispatch(setCurrPage(lastPage));
+                    setCurrPage(lastPage)
+                    changeCurrPage(lastPage);
                 }}
                     className={styles.paginationBtn}>
                     Last <i class="fa-solid fa-chevron-right text-xs"></i>

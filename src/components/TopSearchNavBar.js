@@ -442,7 +442,7 @@ const TopSearchNavBar = ({ pageRef }) => {
                     <button
                         onClick={() => dispatch(setPropertyListState({
                             ...propertyListState,
-                            BHKtype: '', propertyTypes: [],
+                            BHKtype: '', propertyTypes: '',
                             priceRange: ['', ''],
                             moreStatus: { furnishingTypes: '', bathrooms: '', minArea: '', maxArea: '', newResale: '', constructionStatus: '', facing: '', amenities: '', listedBy: '', floor: '' },
                             clearAll: true

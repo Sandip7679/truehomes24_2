@@ -5,70 +5,19 @@ import { NavLink } from 'react-router-dom';
 import { styles } from '../../Styles/Styles';
 import TopCItiesFilter from '../../components/TopCItiesFilter';
 import Footer from '../../components/Footer';
-import { setCurrPage } from '../../Redux/reducer/User';
 import { UseApi } from '../../ApiConf';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import Pagenation from '../../components/Pagenation';
 import loader from '../../assets/Icons/loader.gif';
 
-const blogsData = [
-  {
-    title: 'Important RERA Rajasthan Facts For Home..',
-    type: 'Projects',
-    postedOn: 'September 24, 2022 10:16 PM',
-    image: "https://www.truehomes24.com/assets/properties/banner-01/6fbc57095a08783a071945a3507844fa.webp",
-  },
-  {
-    title: 'Important RERA Rajasthan Facts For Home..',
-    type: 'Projects',
-    postedOn: 'September 24, 2022 10:16 PM',
-    image: "https://www.truehomes24.com/assets/properties/banner-02/6195f1a4b44efe4bd85420205df57e4a.webp",
-  },
-  {
-    title: 'Important RERA Rajasthan Facts For Home..',
-    type: 'Projects',
-    postedOn: 'September 24, 2022 10:16 PM',
-    image: "https://www.truehomes24.com/assets/properties/banner-02/3fa85544ffca6abb5843dd1aeedf1c73.webp",
-  },
-  {
-    title: 'Important RERA Rajasthan Facts For Home..',
-    type: 'Projects',
-    postedOn: 'September 24, 2022 10:16 PM',
-    image: "https://www.truehomes24.com/assets/properties/banner-02/93a4b41ca5c17860d1b44af1f032afa9.webp",
-  },
-  {
-    title: 'Important RERA Rajasthan Facts For Home..',
-    type: 'Projects',
-    postedOn: 'September 24, 2022 10:16 PM',
-    image: "https://www.truehomes24.com/assets/properties/banner-01/6fbc57095a08783a071945a3507844fa.webp",
-  },
-  {
-    title: 'Important RERA Rajasthan Facts For Home..',
-    type: 'Projects',
-    postedOn: 'September 24, 2022 10:16 PM',
-    image: "https://www.truehomes24.com/assets/properties/banner-01/6fbc57095a08783a071945a3507844fa.webp",
-  },
-  {
-    title: 'Important RERA Rajasthan Facts For Home..',
-    type: 'Projects',
-    postedOn: 'September 24, 2022 10:16 PM',
-    image: "https://www.truehomes24.com/assets/properties/banner-01/6fbc57095a08783a071945a3507844fa.webp",
-  },
-];
 
 const Blogs = () => {
 
   const { FetchData } = UseApi();
   const [blogs, setBlogs] = useState({ totalPage: 1, content: [] });
-  const { currPage, currLocation } = useSelector(state => state.User);
-  const dispatch = useDispatch();
+  const [currPage,setCurrPage] = useState(1);
+  const { currLocation } = useSelector(state => state.User);
   const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    if (currPage > 1) {
-      dispatch(setCurrPage(1));
-    }
-  }, []);
 
   useEffect(() => {
     getBlogsData();
@@ -133,7 +82,7 @@ const Blogs = () => {
                     )
                   })}
                 </div>
-                {blogs.content?.length > 0 && <Pagenation lastPage={blogs.totalPage} />}
+                {blogs.content?.length > 0 && <Pagenation lastPage={blogs.totalPage} changeCurrPage={(page)=>setCurrPage(page)} />}
               </div>
               <TopCItiesFilter />
               <Footer />

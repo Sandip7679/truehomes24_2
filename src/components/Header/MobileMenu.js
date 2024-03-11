@@ -27,7 +27,13 @@ const MobileMenu = () => {
             <NavLink
                 onClick={() => {
                     localStorage.setItem('propertyStatus', 'sale');
-                    dispatch(setPropertyListState({ ...propertyListState, propertyStatus: { text: 'Buy', value: 'sale',for:'Sale', index: 0 } }));
+                    dispatch(setPropertyListState({
+                        ...propertyListState, propertyStatus: { text: 'Buy', value: 'sale', for: 'Sale', index: 0 },
+                        BHKtype: '', propertyTypes: '',
+                        priceRange: ['', ''],
+                        moreStatus: { furnishingTypes: '', bathrooms: '', minArea: '', maxArea: '', newResale: '', constructionStatus: '', facing: '', amenities: '', listedBy: '', floor: '' },
+                        clearAll: true
+                    }));
                 }}
                 to={'/sale/property-for-sale-in-' + currLocation?.city.split(' ').join('-').toLowerCase()}              >
                 <span class={styles.dropdownItem}>
@@ -37,7 +43,13 @@ const MobileMenu = () => {
             <NavLink
                 onClick={() => {
                     localStorage.setItem('propertyStatus', 'rent');
-                    dispatch(setPropertyListState({ ...propertyListState, propertyStatus: { text: 'Rent', value: 'rent',for:'Rent', index: 1 } }));
+                    dispatch(setPropertyListState({
+                        ...propertyListState, propertyStatus: { text: 'Rent', value: 'rent', for: 'Rent', index: 1 },
+                        BHKtype: '', propertyTypes: '',
+                        priceRange: ['', ''],
+                        moreStatus: { furnishingTypes: '', bathrooms: '', minArea: '', maxArea: '', newResale: '', constructionStatus: '', facing: '', amenities: '', listedBy: '', floor: '' },
+                        clearAll: true
+                    }));
                 }}
                 to={'/rent/property-for-rent-in-' + currLocation?.city.split(' ').join('-').toLowerCase()}            >
                 <span class={styles.dropdownItem}>
@@ -50,7 +62,13 @@ const MobileMenu = () => {
             <NavLink
                 onClick={() => {
                     localStorage.setItem('propertyStatus', 'new projects');
-                    dispatch(setPropertyListState({ ...propertyListState, propertyStatus: { text: 'New Project', value: 'new project',for:'Sale', index: 2 } }));
+                    dispatch(setPropertyListState({
+                        ...propertyListState, propertyStatus: { text: 'New Project', value: 'new project', for: 'Sale', index: 2 },
+                        BHKtype: '', propertyTypes: '',
+                        priceRange: ['', ''],
+                        moreStatus: { furnishingTypes: '', bathrooms: '', minArea: '', maxArea: '', newResale: '', constructionStatus: '', facing: '', amenities: '', listedBy: '', floor: '' },
+                        clearAll: true
+                    }));
                 }}
                 to={'/new-projects/new-projects-for-sale-in-' + currLocation?.city.split(' ').join('-').toLowerCase()}            >
                 <span class={styles.dropdownItem}>
