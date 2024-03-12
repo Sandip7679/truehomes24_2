@@ -14,7 +14,7 @@ import DropdownIcon from '../svgIcons';
 import { styles } from '../../Styles/Styles';
 import { NavLink } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { setPropertyListState } from '../../Redux/reducer/User';
+import { setPropertyListState, setlocation } from '../../Redux/reducer/User';
 
 const MobileMenu = () => {
     const { currLocation, propertyListState } = useSelector(state => state.User);
@@ -32,8 +32,10 @@ const MobileMenu = () => {
                         BHKtype: '', propertyTypes: '',
                         priceRange: ['', ''],
                         moreStatus: { furnishingTypes: '', bathrooms: '', minArea: '', maxArea: '', newResale: '', constructionStatus: '', facing: '', amenities: '', listedBy: '', floor: '' },
+                        sortBy: 'featured',
                         clearAll: true
                     }));
+                    dispatch(setlocation({ ...currLocation, location: '',locationName:null,project:'',projectName:null }));
                 }}
                 to={'/sale/property-for-sale-in-' + currLocation?.city.split(' ').join('-').toLowerCase()}              >
                 <span class={styles.dropdownItem}>
@@ -48,8 +50,10 @@ const MobileMenu = () => {
                         BHKtype: '', propertyTypes: '',
                         priceRange: ['', ''],
                         moreStatus: { furnishingTypes: '', bathrooms: '', minArea: '', maxArea: '', newResale: '', constructionStatus: '', facing: '', amenities: '', listedBy: '', floor: '' },
+                        sortBy: 'featured',
                         clearAll: true
                     }));
+                    dispatch(setlocation({ ...currLocation, location: '',locationName:null,project:'',projectName:null }));
                 }}
                 to={'/rent/property-for-rent-in-' + currLocation?.city.split(' ').join('-').toLowerCase()}            >
                 <span class={styles.dropdownItem}>
@@ -67,8 +71,10 @@ const MobileMenu = () => {
                         BHKtype: '', propertyTypes: '',
                         priceRange: ['', ''],
                         moreStatus: { furnishingTypes: '', bathrooms: '', minArea: '', maxArea: '', newResale: '', constructionStatus: '', facing: '', amenities: '', listedBy: '', floor: '' },
+                        sortBy: 'featured',
                         clearAll: true
                     }));
+                    dispatch(setlocation({ ...currLocation, location: '',locationName:null,project:'',projectName:null }));
                 }}
                 to={'/new-projects/new-projects-for-sale-in-' + currLocation?.city.split(' ').join('-').toLowerCase()}            >
                 <span class={styles.dropdownItem}>

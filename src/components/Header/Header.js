@@ -133,12 +133,13 @@ const Header = () => {
 
         let data;
         try {
-            data = await fetchData('property-list-filters', 'GET');
+            data = await FetchData('property-list-filters', 'GET');
         } catch (err) {
             console.log(err);
         }
-        if (data && data.filters) {
-            dispatch(setFileterMenus(data.filters));
+        if (data) {
+            dispatch(setFileterMenus(data));
+            console.log('filter menu data...',data);
         }
 
     }
@@ -342,8 +343,10 @@ const Header = () => {
                                         BHKtype: '', propertyTypes: '',
                                         priceRange: ['', ''],
                                         moreStatus: { furnishingTypes: '', bathrooms: '', minArea: '', maxArea: '', newResale: '', constructionStatus: '', facing: '', amenities: '', listedBy: '', floor: '' },
+                                        sortBy: 'featured',
                                         clearAll: true
                                     }));
+                                    dispatch(setlocation({ ...currLocation, location: '',locationName:null,project:'',projectName:null }));
                                 }}
                                 to={'/sale/property-for-sale-in-' + currLocation?.city.split(' ').join('-').toLowerCase()}
                                 className="text-gray-100 hover:cursor-pointer hover:text-gray-400">
@@ -357,8 +360,10 @@ const Header = () => {
                                         BHKtype: '', propertyTypes: '',
                                         priceRange: ['', ''],
                                         moreStatus: { furnishingTypes: '', bathrooms: '', minArea: '', maxArea: '', newResale: '', constructionStatus: '', facing: '', amenities: '', listedBy: '', floor: '' },
+                                        sortBy: 'featured',
                                         clearAll: true
                                     }));
+                                    dispatch(setlocation({ ...currLocation, location: '',locationName:null,project:'',projectName:null }));
                                 }}
                                 to={'/rent/property-for-rent-in-' + currLocation?.city.split(' ').join('-').toLowerCase()}
                                 className="text-gray-100 hover:cursor-pointer hover:text-gray-400">
@@ -372,8 +377,10 @@ const Header = () => {
                                         BHKtype: '', propertyTypes: '',
                                         priceRange: ['', ''],
                                         moreStatus: { furnishingTypes: '', bathrooms: '', minArea: '', maxArea: '', newResale: '', constructionStatus: '', facing: '', amenities: '', listedBy: '', floor: '' },
+                                        sortBy: 'featured',
                                         clearAll: true
                                     }));
+                                    dispatch(setlocation({ ...currLocation, location: '',locationName:null,project:'',projectName:null }));
                                 }}
                                 to={'/new-projects/new-projects-for-sale-in-' + currLocation?.city.split(' ').join('-').toLowerCase()}
                                 className="text-gray-100 hover:cursor-pointer hover:text-gray-400">
@@ -389,6 +396,7 @@ const Header = () => {
                                     BHKtype: '', propertyTypes: '',
                                     priceRange: ['', ''],
                                     moreStatus: { furnishingTypes: '', bathrooms: '', minArea: '', maxArea: '', newResale: '', constructionStatus: '', facing: '', amenities: '', listedBy: '', floor: '' },
+                                    sortBy: 'featured',
                                     clearAll: true
                                 }));
                             }}
@@ -402,6 +410,7 @@ const Header = () => {
                                     BHKtype: '', propertyTypes: '',
                                     priceRange: ['', ''],
                                     moreStatus: { furnishingTypes: '', bathrooms: '', minArea: '', maxArea: '', newResale: '', constructionStatus: '', facing: '', amenities: '', listedBy: '', floor: '' },
+                                    sortBy: 'featured',
                                     clearAll: true
                                 }));
                             }}

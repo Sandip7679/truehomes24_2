@@ -21,6 +21,7 @@ const Profile = () => {
     const { currLocation, propertyListState } = useSelector(state => state.User);
     const [currPage, setCurrPage] = useState(1);
     const [propertyListData, setPropertyListData] = useState({ currPage: 1, totalProperty: null, lastPage: null, propertyList: [] });
+    const [propertyNumber,setPropertyNumber] = useState(null);
     const [featuredProperties, setFeaturedProperties] = useState([]);
     const [contactModalStatus, setcontactModalStatus] = useState({ show: false, data: {} });
     const [navClassState, setNavClassState] = useState('');
@@ -118,7 +119,9 @@ const Profile = () => {
             `&listed_by=${propertyListState.moreStatus.listedBy}` +
             `&verified=&page=${currPage}` +
             `&builder=${isAgent ? '' : userId}` +
-            `&agent=${isAgent ? userId : ''}`
+            `&agent=${isAgent ? userId : ''}`+
+            `&order_by=${propertyListState.sortBy}`
+
         let endpoint = 'property-list?' + quary;
 
         try {
@@ -131,6 +134,9 @@ const Profile = () => {
             let lastpage = Math.floor(data.totalProperty / 25) + 1;
             console.log('data...', data, 'isAgent...', isAgent);
             setPropertyListData({ currPage: data.page, totalProperty: data.totalProperty, lastPage: lastpage, propertyList: data.property });
+            if(!propertyNumber){
+                setPropertyNumber(data.totalProperty);
+            }
             setLoading(false);
         }
         if (!data.property.length) {
@@ -177,13 +183,13 @@ const Profile = () => {
                 {loading && <div className="fixed top-[200px] right-1/2 flex justify-center items-center mt-16">
                     <img alt="Please wait.." title="Please wait.." src={loader} />
                 </div>}
-                
+
                 <div className='lg:flex bg-gray-50 container mx-auto'>
                     <div className='w-full lg:w-[63%] pb-10 bg-white pl-2 sm:pl-10'>
                         <div className='flex flex-wrap gap-[15%] py-14 pl-[10%]'>
                             <div className='flex flex-col items-center'>
                                 <div className='p-2 border-[1px] w-[190px] border-gray-300'>
-                                    <img alt='' src={profileData?.imageLink} className={(profileData?.userRole == 'Builder'?' h-[100px]':'h-[180px]') +' w-[180px] '} />
+                                    <img alt='' src={profileData?.imageLink} className={(profileData?.userRole == 'Builder' ? ' h-[100px]' : 'h-[180px]') + ' w-[180px] '} />
                                 </div>
                                 {profileData?.userRole == 'Agent' ? <div className='text-sm text-gray-700 mt-4 text-center'>
                                     <p>{profileData?.saleProperty} Sale Properties</p>
@@ -191,7 +197,7 @@ const Profile = () => {
                                 </div>
                                     :
                                     <div>
-                                        <p className='text-sm text-gray-700 mt-4 text-center'> New Projects</p>
+                                        <p className='text-sm text-gray-700 mt-4 text-center'>{propertyNumber} New Projects</p>
                                     </div>
                                 }
                             </div>
@@ -211,6 +217,7 @@ const Profile = () => {
                                 <div className={(navClassState !== '' ? 'transition-transform ease-in-out transform translate-x-[8%] pb-2 -mt-5 duration-[1500ms] ' : '') + 'flex flex-wrap items-center text-xs text-gray-700 mt-5'}>
                                     <div className='flex border-[1px] mt-3 justify-center items-center border-gray-300'>
                                         <span className='bg-gray-900 rounded-r-full text-white px-4 font-semibold py-[12.5px]'>
+                                            <i class="fa-solid fa-filter text-white mr-2"></i>
                                             FILTER
                                         </span>
                                         <div className='relative group'>
@@ -260,6 +267,7 @@ const Profile = () => {
                                                     BHKtype: '', propertyTypes: '',
                                                     priceRange: ['', ''],
                                                     moreStatus: { furnishingTypes: '', bathrooms: '', minArea: '', maxArea: '', newResale: '', constructionStatus: '', facing: '', amenities: '', listedBy: '', floor: '' },
+                                                    sortBy: 'featured',
                                                     clearAll: true
                                                 }));
                                             }}

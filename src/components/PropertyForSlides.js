@@ -1,29 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import Carousel from 'react-multi-carousel';
-import useApi from '../ApiConf';
+import useApi, { UseApi } from '../ApiConf';
 import { useSelector } from 'react-redux';
+import { NavLink } from 'react-router-dom';
 // import { styles } from '../Styles/Styles';
 
-const bestBudgetSearch = [
-    'below 30 lakhs', 'between 30 to 50 lakhs',
-    'between 50 to 75 lakhs', 'between 75 to 1 crore', 'between 1 to 1.75 crore',
-    'above 1.75 crore'
-];
-
-const propertyOption = [
-    'Verified Property in Bangalore', 'Property in Bangalore by owner', 'New Property in Bangalore',
-    'Apartment in Bangalore by owner', 'Apartment in Bangalore', 'Independent House/Billa in Bangalore',
-    // 'Builder Floor in Bangalore', 'Serviced Apartment/PG in Bangalore', 'Commercial Land in Bangalore'
-]
-const commertialOptions = [
-    'Commertial Property for sale in Bangalore',
-    'Office Space in Bangalore',
-    'Shop/Showroom in Bangalore',
-    'New commertial property in Bangalore'
-]
 
 const PropertyForSlides = () => {
-    const { fetchData } = useApi();
+    // const { fetchData } = useApi();
+    const { FetchData } = UseApi();
     const { currLocation, propertyListState } = useSelector(state => state.User);
     const [propertyInForData, setPropertyInForData] = useState([]);
     const [viewMoreStatus, setViewMoreStatus] = useState(null);
@@ -33,10 +18,10 @@ const PropertyForSlides = () => {
     }, [currLocation.code, propertyListState.propertyStatus]);
     const getPropertyInFor = async () => {
         let data;
-
+        let propStatus = propertyListState.propertyStatus.value == 'rent' ? 'rent' : 'sale';
         try {
-            data = await fetchData(`listing-bottom-content?city=${currLocation.code}&property_status=${propertyListState.propertyStatus.value}`, 'GET');
-            console.log('data.... data...', data);
+            data = await FetchData(`listing-bottom-content?city=${currLocation.code}&property_status=${propStatus}`, 'GET');
+            // console.log('data.... data...', data);
         } catch (err) {
             console.log('err... data..', err);
         }
@@ -70,7 +55,9 @@ const PropertyForSlides = () => {
                                 return (
                                     <>
                                         {(ind < 5 || viewMoreStatus?.[index]) &&
-                                            <p key={ind} className='text-sm my-2 hover:opacity-80 hover:cursor-pointer text-gray-600'>{itm.text}</p>
+                                            <p key={ind} className='text-sm my-2 hover:opacity-80 hover:cursor-pointer text-gray-600'>
+                                                <NavLink to={`/${itm.url}`}>{itm.text}</NavLink>
+                                            </p>
                                         }
                                     </>
                                 )
@@ -86,38 +73,6 @@ const PropertyForSlides = () => {
                     )
                 })}
 
-                {/* <div className='w-full self-center pl-[15%]'>
-                    <p className='mb-2 to-gray-200 font-semibold'>BHK-WISE PROPERTY IN BANGALORE</p>
-                    {['1', '2', '3', '4', '4+'].map((item, index) => {
-                        return (
-                            <p key={index} className='text-sm my-2 hover:opacity-80 hover:cursor-pointer text-gray-600'>{item}BHK Apartment in Bangalore</p>
-                        )
-                    })}
-                </div>
-                <div className='w-full self-center pl-[15%]'>
-                    <p className='mb-2 to-gray-200 font-semibold'>BEST BUDGET SEARCHES IN BANGALORE</p>
-                    {bestBudgetSearch.map((item, index) => {
-                        return (
-                            <p key={index} className='text-sm my-2 hover:opacity-80 hover:cursor-pointer text-gray-600'>Apartment in Bangalore {item}</p>
-                        )
-                    })}
-                </div>
-                <div className='w-full self-center pl-[15%]'>
-                    <p className='mb-2 to-gray-200 font-semibold'>PROPERTY OPTIONS IN BANGALORE</p>
-                    {propertyOption.map((item, index) => {
-                        return (
-                            <p key={index} className='text-sm my-2 hover:opacity-80 hover:cursor-pointer text-gray-600'>{item}</p>
-                        )
-                    })}
-                </div>
-                <div className='w-full self-center pl-[15%]'>
-                    <p className='mb-2 to-gray-200 font-semibold'>COMMERCIAL INVESTMENT OPTIONS IN BANGALORE</p>
-                    {commertialOptions.map((item, index) => {
-                        return (
-                            <p key={index} className='text-sm my-2 hover:opacity-80 hover:cursor-pointer text-gray-600'>Apartment in Bangalore {item}</p>
-                        )
-                    })}
-                </div> */}
             </Carousel>
         </div>
     );

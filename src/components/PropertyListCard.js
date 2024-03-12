@@ -136,6 +136,12 @@ const PropertyListCard = ({ Data, func }) => {
                                 </span>
                                 <h1 className='text-sm ml-2'>{Data.availability}</h1>
                             </div>}
+                            {Data.totalFloor && Data.totalFloor != '0' && <div className='flex w-1/2 mt-2'>
+                                <span className=''>
+                                    <i class="fa-solid fa-bars opacity-70"></i>
+                                </span>
+                                <h1 className='text-sm ml-2'>{Data.totalFloor} Floor</h1>
+                            </div>}
                         </div>}
                     {Data.furnishing && Data.furnishing != '' && <div className='mt-2'>
                         <span className='bg-gray-700 px-2 py-[2px] rounded text-white text-sm'>

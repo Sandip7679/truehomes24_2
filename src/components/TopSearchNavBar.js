@@ -418,9 +418,9 @@ const TopSearchNavBar = ({ pageRef }) => {
                         id='shortBy-dropdown'
                         className='relative group'>
                         <button
-                            onClick={() => document.getElementById('shortBy-menu').classList.toggle('hidden')}
+                            // onClick={() => document.getElementById('shortBy-menu').classList.toggle('hidden')}
                             className={styles.btn + 'py-[2px] sm:py-1 '}>
-                            <p className='text-sm lg:text-base'>Short By</p>
+                            <p className='text-sm lg:text-base'>Sort By</p>
                             <Dropdown />
                         </button>
                         <ShortByMenu />
@@ -445,6 +445,7 @@ const TopSearchNavBar = ({ pageRef }) => {
                             BHKtype: '', propertyTypes: '',
                             priceRange: ['', ''],
                             moreStatus: { furnishingTypes: '', bathrooms: '', minArea: '', maxArea: '', newResale: '', constructionStatus: '', facing: '', amenities: '', listedBy: '', floor: '' },
+                            sortBy: 'featured',
                             clearAll: true
                         }))}
                         className='ml-2 opacity-80 py-[2px] sm:py-1 '>

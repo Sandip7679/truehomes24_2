@@ -133,7 +133,7 @@ const ProjectDetails = () => {
                 recentBlogs: data.recentBlogs,
                 similarListing: data.similarListing
             });
-            data.data.galleryTab.images ? setGalleryImges({ images: data.data.galleryTab.images, tabName: null }) : setGalleryImges({ images: data.data.galleryTab.PropertyImages, tabName: 'PropertyImages' });
+            data?.data?.galleryTab.images ? setGalleryImges({ images: data?.data?.galleryTab?.images, tabName: null }) : setGalleryImges({ images: data?.data?.galleryTab?.PropertyImages, tabName: 'PropertyImages' });
             setLoading(false);
             setPropertyTabNames([
                 {name:'Details',sectionName:Details,show:true},
@@ -192,9 +192,9 @@ const ProjectDetails = () => {
                 {/* <div className='bg-white h-[100px]'>
                 </div> */}
                 <div className='mt-14 container mx-auto px-2 sm:px-10'>
-                    <div className='text-sm px-2 text-gray-500'> <NavLink to={'/'}>Home</NavLink>{' > '}<span>{AllData?.breadcrumb[1]?.title}</span>{' > '}<span>{AllData.breadcrumb[2]?.title}</span>
+                    {AllData?.breadcrumb && <div className='text-sm px-2 text-gray-500'> <NavLink to={'/'}>Home</NavLink>{' > '}<span>{AllData?.breadcrumb[1]?.title}</span>{' > '}<span>{AllData.breadcrumb[2]?.title}</span>
                         {AllData?.breadcrumb[3]?.title && ' > '}<span className='text-base'>{AllData?.breadcrumb[3]?.title}</span>
-                    </div>
+                    </div>}
                     {loading && <div className="fixed top-[100px] right-1/2 flex justify-center items-center mt-16">
                         <img alt="Please wait.." title="Please wait.." src={loader} />
                     </div>}
@@ -479,7 +479,7 @@ const ProjectDetails = () => {
                                         setCurrSlide(Ind - 1)
                                     }}
                                 >
-                                    {galleryImages.images?.map((item, index) => {
+                                    {galleryImages?.images?.map((item, index) => {
                                         return (
                                             <div onClick={() => setOpen(true)} key={index} className='p-2 hover:cursor-pointer'>
                                                 <img alt='' src={item} className='h-[450px] w-full rounded-xl' />
@@ -488,7 +488,7 @@ const ProjectDetails = () => {
                                     })}
                                 </Carousel>
                                 <div className='flex justify-end mr-2'>
-                                    <p className='text-gray-800 font-semibold'>{currSlide}/{galleryImages.images?.length}</p>
+                                    <p className='text-gray-800 font-semibold'>{currSlide}/{galleryImages?.images?.length}</p>
                                 </div>
                                 {/* <ImageGallery
                                     items={AllData.gallery?.map((item, index) => {
@@ -506,7 +506,7 @@ const ProjectDetails = () => {
                                     open={open}
                                     plugins={[Thumbnails, Download, Fullscreen, Zoom]}
                                     close={() => setOpen(false)}
-                                    slides={galleryImages.images?.map((item, index) => {
+                                    slides={galleryImages?.images?.map((item, index) => {
                                         return { src: item }
                                     })}
                                 // slides={[
@@ -549,7 +549,7 @@ const ProjectDetails = () => {
                                     })}
                                 </div>
                             </div>}
-                            {(AllData.data?.faqtab?.length > 0 || AllData.data?.faqtab?.faqs.length > 0) && <div ref={FAQ}  className='mt-10 bg-white shadow-md px-5 py-5 mb-10 scroll-mt-20'>
+                            {(AllData.data?.faqtab?.length > 0 || AllData.data?.faqtab?.faqs?.length > 0) && <div ref={FAQ}  className='mt-10 bg-white shadow-md px-5 py-5 mb-10 scroll-mt-20'>
                                 <FAQs Data={AllData.data?.faqtab?.length ? AllData.data?.faqtab : AllData.data?.faqtab?.faqs} />
                             </div>}
                         </div>

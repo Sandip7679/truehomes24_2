@@ -69,7 +69,7 @@ const PropertyList = () => {
     const getRightListData = async () => {
         let data;
         try {
-            data = await fetchData(`listing-right-side-content?city=${currLocation.code}`, 'GET');
+            data = await FetchData(`listing-right-side-content?city=${currLocation.code}`, 'GET');
         } catch (err) {
             console.log(err);
         }
@@ -147,8 +147,8 @@ const PropertyList = () => {
     const getPropertyList = async (currpage) => {
         setLoadingList(true);
         let data;
-        // console.log('propertyListState...', propertyListState);
-        // console.log('currLocation...', currLocation);
+        console.log('propertyListState...', propertyListState);
+        console.log('currLocation...', currLocation);
         let quary = `property_status=${propertyListState?.propertyStatus?.value == 'new projects' ? 'new project' : propertyListState?.propertyStatus?.value}` +
             `&country=${currLocation.country}&city=${currLocation.code}&locality=${currLocation.location}` +
             `&bedroom=${propertyListState?.BHKtype}` +
@@ -164,7 +164,8 @@ const PropertyList = () => {
             `&floor=${propertyListState.moreStatus.floor}` +
             `&amenities=${propertyListState.moreStatus.amenities}` +
             `&listed_by=${propertyListState.moreStatus.listedBy}` +
-            `&verified=&page=${currpage}`
+            `&verified=&page=${currpage}`+
+            `&order_by=${propertyListState.sortBy}`
         let endpoint = 'property-list?' + quary;
 
         try {
@@ -175,8 +176,8 @@ const PropertyList = () => {
         }
         if (data) {
             // console.log('data.totalProperty..', data.totalProperty)
-            let lastpage = Math.floor(data.totalProperty / 25) + 1;
-            setPropertyListData({ currPage: data.page, totalProperty: data.totalProperty, lastPage: lastpage, propertyList: data.property });
+            // let lastpage = Math.floor(data.totalProperty / 25) + 1;
+            setPropertyListData({ currPage: data.page, totalProperty: data.totalProperty, lastPage: data.totalPage, propertyList: data.property });
             setLoadingList(false);
         }
     }
@@ -223,6 +224,7 @@ const PropertyList = () => {
                                                         propertyTypes: '',
                                                         priceRange: ['', ''],
                                                         moreStatus: { furnishingTypes: '', bathrooms: '', minArea: '', maxArea: '', newResale: '', constructionStatus: '', facing: '', amenities: '', listedBy: '', floor: '' },
+                                                        sortBy: 'featured',
                                                         clearAll: true
                                                     }));
                                                     dispatch(setlocation({ ...currLocation, location: item.locality_id, locationName: item.localityName,project:'',projectName:null }));
@@ -243,6 +245,7 @@ const PropertyList = () => {
                                                         propertyTypes: '',
                                                         priceRange: ['', ''],
                                                         moreStatus: { furnishingTypes: '', bathrooms: '', minArea: '', maxArea: '', newResale: '', constructionStatus: item.statName, facing: '', amenities: '', listedBy: '', floor: '' },
+                                                        sortBy: 'featured',
                                                         clearAll: false
                                                     }));
                                                 }}
@@ -262,6 +265,7 @@ const PropertyList = () => {
                                                         propertyTypes: '',
                                                         priceRange: [item.minPrice, item.maxPrice],
                                                         moreStatus: { furnishingTypes: '', bathrooms: '', minArea: '', maxArea: '', newResale: '', constructionStatus: '', facing: '', amenities: '', listedBy: '', floor: '' },
+                                                        sortBy: 'featured',
                                                         clearAll: false
                                                     }));
                                                 }}
@@ -317,7 +321,6 @@ const PropertyList = () => {
                             </div>
                         </div>
                     </div>
-
                 </div>
                 <div className='px-[2%] py-5'>
                     <p className={styles.title1 + 'mb-8 text-left'}>Property In {currLocation.city} For {propertyListState.propertyStatus.for}</p>

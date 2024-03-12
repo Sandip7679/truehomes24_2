@@ -6,18 +6,7 @@ import 'rc-slider/assets/index.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { setPropertyListState } from '../Redux/reducer/User';
 
-const furnishingType = [
-    { type: 'Furnished' },
-    { type: 'Semi Furnished' },
-    { type: 'Unfurnnished' },
-];
-const shortByItems = [
-    { type: 'Short By Newest' },
-    { type: 'Short By Oldest' },
-    { type: 'Short By Featured' },
-    { type: 'Short By Price (Low to Hogh)' },
-    { type: 'Short By Price (HIgh to Low)' },
-]
+
 
 export const DropdownHover = ({ Items, ItemClass, MenuClass }) => {
     return (
@@ -96,7 +85,7 @@ export const PropertyMenu = ({ classname }) => {
     )
 }
 export const FurnishingTypeMenu = ({ classname }) => {
-    const { propertyListState,filterMenus } = useSelector(state => state.User);
+    const { propertyListState, filterMenus } = useSelector(state => state.User);
     const [checkedItems, setCheckedItems] = useState([]);
     const dispatch = useDispatch();
 
@@ -168,7 +157,7 @@ export const PropertyTypeMenu = ({ classname }) => {
 
     return (
         <div
-            className={`${styles.dropdownMenu} w-[260px] group-hover:block `+classname}>
+            className={`${styles.dropdownMenu} w-[260px] group-hover:block ` + classname}>
             <div class="space-y-2 max-h-[300px] py-3 overflow-y-auto">
                 {filterMenus?.propertyType && filterMenus?.propertyType.map((item, index) => {
                     return (
@@ -199,11 +188,10 @@ export const PropertyTypeMenu = ({ classname }) => {
 }
 
 
-let max = 10000;
 export const BudgetMenu = ({ classname }) => {
     const { filterMenus, propertyListState } = useSelector(state => state.User);
     const [priceRange, setPriceRange] = useState([0, 100000000]);
-    const [maxPrice, setMaxPrice] = useState(100); // Initial price range
+    // const [maxPrice, setMaxPrice] = useState(100); // Initial price range
     const [menus, setMenus] = useState([]);
     const dispatch = useDispatch();
     useEffect(() => {
@@ -211,13 +199,13 @@ export const BudgetMenu = ({ classname }) => {
             let rents = filterMenus?.rentBudget;
             setMenus(rents);
             setPriceRange([0, Number(rents[rents.length - 2].value)]);
-            setMaxPrice(Number(rents[rents.length - 2].value));
+            // setMaxPrice(Number(rents[rents.length - 2].value));
             // max = Number(rents[rents.length - 1].value);
         } else if (filterMenus?.saleBudget) {
             let sales = filterMenus?.saleBudget;
             setMenus(sales);
             setPriceRange([0, Number(sales[sales.length - 2].value)]);
-            setMaxPrice(Number(sales[sales.length - 2].value));
+            // setMaxPrice(Number(sales[sales.length - 2].value));
             // max = Number(sales[sales.length - 1].value);
         }
     }, [propertyListState.propertyStatus, filterMenus]);
@@ -225,7 +213,7 @@ export const BudgetMenu = ({ classname }) => {
     useEffect(() => {
         if (priceRange[0] != 0 || priceRange[1] != 100000000) {
             let clearTime = setTimeout(() => {
-                if (priceRange[1] < maxPrice) {
+                if (priceRange[1] < getMaxPrice()) {
                     dispatch(setPropertyListState({ ...propertyListState, priceRange: [priceRange[0], priceRange[1]] }));
                 } else if (propertyListState.priceRange[0] != '' || propertyListState.priceRange[1] != '') {
                     dispatch(setPropertyListState({ ...propertyListState, priceRange: ['', ''] }));
@@ -241,7 +229,7 @@ export const BudgetMenu = ({ classname }) => {
             if (propertyListState.priceRange[0] != '' || propertyListState.priceRange[1] != '')
                 setPriceRange([propertyListState.priceRange[0], propertyListState.priceRange[1]]);
             else {
-                setPriceRange([0, maxPrice]);
+                setPriceRange([0, getMaxPrice()]);
             }
         }
         console.log('price range change...');
@@ -577,26 +565,44 @@ export const MoreMenu = ({ classname }) => {
 
 export const ShortByMenu = ({ classname }) => {
     // const [selectedItem,setSelectedItem] = useState(null);
-    const [currIndex, setCurrIndex] = useState(null);
+    const { propertyListState, filterMenus } = useSelector(state => state.User);
+    const [currIndex, setCurrIndex] = useState(2);
+    const dispatch = useDispatch();
+    useEffect(() => {
+        if (propertyListState.clearAll) {
+             clearShortBy();
+            // setBhkType('');
+        }
+    }, [propertyListState.clearAll]);
+
+    const clearShortBy = () => {
+        dispatch(setPropertyListState({ ...propertyListState, sortBy: 'featured' }));
+        setCurrIndex(2);
+    }
     return (
         <div className={styles.dropdownMenu + 'w-[220px] group-hover:block sm:-ml-[95px] ' + classname}>
-            {shortByItems.map((item, index) => {
+            {/* {console.log('filterMenus...',filterMenus)} */}
+            {filterMenus?.sortBy?.map((item, index) => {
                 return (
                     <label key={index}
-                        onClick={() => setCurrIndex(index)}
+                        onClick={() => {
+                            setCurrIndex(index);
+                            dispatch(setPropertyListState({ ...propertyListState, sortBy: item.value,clearAll:false }));
+                        }}
                         // onClick={() => setSelectedItem(item.type)}
                         className={styles.dropdownItem}>
                         {/* <input id={`radioBtn-${index}`} className='mt-[0.5px]' type='radio' checked={currIndex == index}/> */}
-                        <input className='mt-[0.5px]' type='radio' checked={currIndex == index} />
-                        <p className='ml-1'>{item.type}</p>
+                        <input className='mt-[0.5px]' type='radio'
+                            checked={currIndex == index} />
+                        <p className='ml-1'>{item.label}</p>
                     </label>
                 )
             })}
-            <div
+            {/* <div
                 className='text-center cursor-pointer py-2'
-                onClick={() => setCurrIndex(null)}>
+                onClick={() => clearShortBy()}>
                 <p className={'text-center mt-2'}>Clear All</p>
-            </div>
+            </div> */}
         </div>
     )
 }

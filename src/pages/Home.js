@@ -103,6 +103,7 @@ const Home = () => {
             propertyTypes: '',
             priceRange: ['', ''],
             moreStatus: { furnishingTypes: '', bathrooms: '', minArea: '', maxArea: '', newResale: '', constructionStatus: '', facing: '', amenities: '', listedBy: '', floor: '' },
+            sortBy: 'featured',
             clearAll: true
         }))
     }, []);

@@ -51,8 +51,8 @@ const RecentViewCard = ({ title, Data }) => {
                                     <LocationIcon classname={'h-4 w-4 mt-1'} />
                                     <p className='ml-1 text-gray-500'>{item.location}</p>
                                 </div>
-                                {/* <p className={styles.textMedium + 'font-semibold ml-1 mt-4'}>{'\u20B9'} {item.price}</p> */}
-                                <div className='font-semibold ml-1 mt-4' dangerouslySetInnerHTML={{__html:item.price}}/>
+                                {item.price && item.price != '0 ' && <p className={styles.textMedium + 'font-semibold ml-1 mt-4'}><i className={item.currency}></i> {item.price}</p>}
+                                {/* <div className='font-semibold ml-1 mt-4' dangerouslySetInnerHTML={{__html:item.price}}/> */}
                             </div>
                         </div>
                     )
