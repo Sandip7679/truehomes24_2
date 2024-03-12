@@ -150,7 +150,7 @@ const Builders = () => {
                   {topBuilders.map((item, index) => {
                     return (
                       <div key={index} className='flex justify-between py-2'>
-                        <p className='w-[50%]'>{item.title}</p>
+                        <NavLink to={`/${item.link}`} className='w-[50%]'>{item.title}</NavLink>
                         <p className='w-[50%] text-center text-gray-500'>{item.totalProject}</p>
                       </div>
                     )
