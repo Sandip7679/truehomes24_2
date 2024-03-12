@@ -45,7 +45,7 @@ function App() {
   const getCurrLocation =  () => {
     if (currLocation.area != 'City') return;
     let location = localStorage.getItem('location');
-    console.log('locationnn...',location);
+    // console.log('locationnn...',location);
     if (location && location != '') {
         dispatch(setlocation(JSON.parse(location)));
     }

@@ -59,7 +59,7 @@ const Header = () => {
     const cityRef = useRef(null);
     const citymenu = useRef(null);
     const [showLoginPopup, setShowLoginPopup] = useState(false);
-    const { fetchData, error } = useApi();
+    // const { fetchData, error } = useApi();
     const { FetchData } = UseApi();
     const { login_status, currLocation, propertyListState, filterMenus } = useSelector(state => state.User);
     const dispatch = useDispatch();
@@ -240,7 +240,6 @@ const Header = () => {
                     </div>
                     <NavLink to={'/'}>
                         <img src={logoImage} alt="Logo" className="h-9 w-12 sm:w-14 ml-1 sm:ml-2" />
-                        {/* <img src='https://www.truehomes24.com/assets/dynamic/logo/3231ba59af210a5c3273fb2440e10cd6.jpg' alt="Logo" className="h-9 w-12 sm:w-14 ml-1 sm:ml-2" /> Adjust the size as needed */}
                     </NavLink>
                     <div ref={cityRef}
                         id='dropdown-city'

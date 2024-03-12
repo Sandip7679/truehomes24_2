@@ -138,7 +138,7 @@ const Home = () => {
     useEffect(() => {
         if (currLocation.area == 'City') {
             let location = localStorage.getItem('location');
-            console.log('locationnn home...', location);
+            // console.log('locationnn home...', location);
             if (location && location != '') {
                 GetAllProperties(JSON.parse(location));
             } else {
@@ -151,7 +151,7 @@ const Home = () => {
     // },[]);
 
     useEffect(() => {
-        console.log('currLOcation.code...', currLocation);
+        // console.log('currLOcation.code...', currLocation);
         if (currLocation.code != searchStatus.city && currLocation.code !== '') {
             GetAllProperties(currLocation);
             // setSearchStatus(pre => ({
@@ -580,7 +580,7 @@ const Home = () => {
 
                     </div>
                     <div
-                        ref={searchMenu} className='absolute bg-white rounded border-[1px] border-gray-500 max-h-[320px] w-[300px] sm:w-[450px] overflow-auto'>
+                        ref={searchMenu} className={(searchResult.length > 0 ? 'border-[1px] border-gray-500' : '') +' absolute bg-white rounded max-h-[320px] w-[300px] sm:w-[450px] overflow-auto'}>
                         {searchResult?.map((item, index) => {
                             return (
                                 <div

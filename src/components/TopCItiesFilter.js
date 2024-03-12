@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { LinkIcon } from './svgIcons';
 import { styles } from '../Styles/Styles';
 import { useDispatch, useSelector } from 'react-redux';
-import useApi, { UseApi } from '../ApiConf';
+import  { UseApi } from '../ApiConf';
 import { NavLink } from 'react-router-dom';
 import { setPropertyListState, setlocation } from '../Redux/reducer/User';
 

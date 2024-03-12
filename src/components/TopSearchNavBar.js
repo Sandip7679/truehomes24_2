@@ -7,7 +7,7 @@ import { styles } from '../Styles/Styles';
 import BHKmenu, { BudgetMenu, MoreMenu, PropertyTypeMenu, ShortByMenu } from './Dropdowns';
 // import { useParams, useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { setFileterMenus, setPropertyListState, setlocation } from '../Redux/reducer/User';
+import { setPropertyListState, setlocation } from '../Redux/reducer/User';
 import { NavLink } from 'react-router-dom';
 import useApi from '../ApiConf';
 // import { document } from 'postcss';
@@ -22,7 +22,7 @@ const searchTypes = [
 
 
 const TopSearchNavBar = ({ pageRef }) => {
-    const { currLocation, propertyListState, filterMenus } = useSelector(state => state.User);
+    const { currLocation, propertyListState } = useSelector(state => state.User);
 
     const [searchStatus, setSearchStatus] = useState({ quary: null, type: 'city', city: '', locality: '', cityName: null, localityName: null, project: '', projectName: null });
     const [searchResult, setSearchResult] = useState([]);
@@ -37,15 +37,14 @@ const TopSearchNavBar = ({ pageRef }) => {
     const { fetchData, error } = useApi();
     useEffect(() => {
 
-        getFileterMenus();
 
         // closeOnClickOutside('budget-dropdown', 'budget-menu');
         // closeOnClickOutside('bhk-dropdown', 'bhk-menu');
         // closeOnClickOutside('property-type-dropdown', 'property-type-menu');
         closeOnClickOutside('shortBy-dropdown', 'shortBy-menu');
 
-        pageRef.current.addEventListener('click', (e) => {
-            if (!searchMenu.current.contains(e.target) && !searchInput?.current?.contains(e.target)) {
+        pageRef?.current?.addEventListener('click', (e) => {
+            if (!searchMenu?.current?.contains(e.target) && !searchInput?.current?.contains(e.target)) {
                 setSearchResult([]);
                 if (noSuggestion) {
                     setNoSuggestion(false);
@@ -100,18 +99,6 @@ const TopSearchNavBar = ({ pageRef }) => {
                 childElement.classList.add('hidden');
             }
         });
-    }
-
-    const getFileterMenus = async () => {
-        let data;
-        try {
-            data = await fetchData('property-list-filters', 'GET');
-        } catch (err) {
-            console.log(err);
-        }
-        if (data) {
-            dispatch(setFileterMenus(data.filters));
-        }
     }
 
     const getHomeSearchData = async () => {
@@ -347,7 +334,7 @@ const TopSearchNavBar = ({ pageRef }) => {
                         </NavLink>
 
                         <div
-                            ref={searchMenu} className={(searchResult.length > 0 ? 'border-[1px] border-gray-500' : '') + ' shadow-lg absolute top-[130px] bg-white rounded max-h-[320px] z-10 w-[300px] sm:w-[450px] overflow-auto'}>
+                            ref={searchMenu} className={(searchResult.length > 0 ? 'border-[1px] border-gray-500' : '') + ' shadow-lg absolute top-16 bg-white rounded max-h-[320px] z-10 w-[300px] sm:w-[450px] overflow-auto'}>
                             {searchResult?.map((item, index) => {
                                 return (
                                     <div

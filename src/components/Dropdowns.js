@@ -581,7 +581,7 @@ export const ShortByMenu = ({ classname }) => {
     }
     return (
         <div className={styles.dropdownMenu + 'w-[220px] group-hover:block sm:-ml-[95px] ' + classname}>
-            {/* {console.log('filterMenus...',filterMenus)} */}
+            {console.log('filterMenus in dropdown...',filterMenus)}
             {filterMenus?.sortBy?.map((item, index) => {
                 return (
                     <label key={index}

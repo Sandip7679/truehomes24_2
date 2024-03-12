@@ -24,7 +24,7 @@ const PropertyList = () => {
     const [contactModalStatus, setcontactModalStatus] = useState({ show: false, data: {} });
     const [propertyType, setPropertyType] = useState('Localities');
     const { login_status, currLocation, propertyListState, pageRefresh } = useSelector(state => state.User);
-    const [currPage,setCurrPage] = useState(1);
+    const [currPage, setCurrPage] = useState(1);
     const [propertyListData, setPropertyListData] = useState({ currPage: 1, totalProperty: null, lastPage: null, propertyList: [] });
     const [localities, setLocalities] = useState([]);
     const [propStatusTab, setPropStatusTab] = useState([]);
@@ -33,7 +33,6 @@ const PropertyList = () => {
     const [currLocalityTabInd, setCurrLocalityTabInd] = useState(1);
     const [rightListData, setRightListData] = useState({ recentView: [], newProject: [], loading: true });
     const [loadingList, setLoadingList] = useState(true);
-    const { fetchData } = useApi();
     const { FetchData } = UseApi();
     const dispatch = useDispatch();
     const scrollUpTarget = useRef();
@@ -164,7 +163,7 @@ const PropertyList = () => {
             `&floor=${propertyListState.moreStatus.floor}` +
             `&amenities=${propertyListState.moreStatus.amenities}` +
             `&listed_by=${propertyListState.moreStatus.listedBy}` +
-            `&verified=&page=${currpage}`+
+            `&verified=&page=${currpage}` +
             `&order_by=${propertyListState.sortBy}`
         let endpoint = 'property-list?' + quary;
 
@@ -227,7 +226,7 @@ const PropertyList = () => {
                                                         sortBy: 'featured',
                                                         clearAll: true
                                                     }));
-                                                    dispatch(setlocation({ ...currLocation, location: item.locality_id, locationName: item.localityName,project:'',projectName:null }));
+                                                    dispatch(setlocation({ ...currLocation, location: item.locality_id, locationName: item.localityName, project: '', projectName: null }));
                                                 }}
                                                 to={`/${item.link}`} key={index} className={styles.btn + 'h-7 m-1 hover:bg-orange-50 border-orange-500'}>
                                                 <p className='text-sm'>{`${item.localityName} (${item.count})`}</p>
@@ -238,7 +237,7 @@ const PropertyList = () => {
                                         return (
                                             <NavLink
                                                 onClick={() => {
-                                                    dispatch(setlocation({ ...currLocation, location: '', locationName: null,project:'',projectName:null }));
+                                                    dispatch(setlocation({ ...currLocation, location: '', locationName: null, project: '', projectName: null }));
                                                     dispatch(setPropertyListState({
                                                         ...propertyListState,
                                                         BHKtype: '',
@@ -258,7 +257,7 @@ const PropertyList = () => {
                                         return (
                                             <NavLink
                                                 onClick={() => {
-                                                    dispatch(setlocation({ ...currLocation, location: '', locationName: null,project:'',projectName:null }));
+                                                    dispatch(setlocation({ ...currLocation, location: '', locationName: null, project: '', projectName: null }));
                                                     dispatch(setPropertyListState({
                                                         ...propertyListState,
                                                         BHKtype: '',
@@ -304,7 +303,7 @@ const PropertyList = () => {
                                     </div>}
                                 </div>
                                 {propertyListData?.propertyList?.length != 0 && <div>
-                                    <Pagenation lastPage={propertyListData.lastPage} changeCurrPage={(pageNum)=>setCurrPage(pageNum)} />
+                                    <Pagenation lastPage={propertyListData.lastPage} changeCurrPage={(pageNum) => setCurrPage(pageNum)} />
                                 </div>}
                                 <div className='mt-10'>
                                     <FAQs />
@@ -329,8 +328,11 @@ const PropertyList = () => {
             </div>
             <ScrollUp targetElement={scrollUpTarget} />
             {contactModalStatus.show && <Contact Data={contactModalStatus.data} func={onCloseContact} />}
-            <TopCItiesFilter />
-            <Footer />
+            <div>
+                <TopCItiesFilter />
+                <Footer />
+            </div>
+
         </div>
     );
 }
