@@ -68,8 +68,9 @@ const Pagenation = ({ lastPage,changeCurrPage }) => {
                     if (lastPage > 4) {
                         setStartPage(lastPage - 4);
                     }
-                    setCurrPage(lastPage)
+                    setCurrPage(lastPage);
                     changeCurrPage(lastPage);
+                    // window.scrollTo({ top: 0, behavior: 'smooth' });
                 }}
                     className={styles.paginationBtn}>
                     Last <i class="fa-solid fa-chevron-right text-xs"></i>

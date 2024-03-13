@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Header from '../../components/Header/Header';
 import buildersBgImage from '../../assets/images/buildersBg.jpg'
 import { styles } from '../../Styles/Styles';
@@ -19,24 +19,77 @@ const Builders = () => {
 
   const { FetchData } = UseApi();
   const [builders, setBuilders] = useState([]);
+  const [builderNames, setBuilderNames] = useState([]);
+  const [curIndex, setCurrIndex] = useState(null);
+  const [allCities, setAllCities] = useState([]);
+  const pageRef = useRef();
+  const searchMenu = useRef();
+  const searchInput = useRef();
   const [currPage, setCurrPage] = useState(1);
+  const [totalPage, setTotalPage] = useState(1);
   const [topBuilders, setTopBuilders] = useState([]);
   // const {currLocation} = useSelector(state=>state.User);
+  const [searchStatus, setSearchStatus] = useState({ city: '', name: '', quary: null, showResults: false, showError: false });
   const [currlocation, setLocation] = useState('');
   const [loading, setLoading] = useState(true);
-  
+
   useEffect(() => {
     getBuildersData();
   }, [currPage]);
   useEffect(() => {
     getTopBuilders();
+    pageRef?.current?.addEventListener('click', (e) => {
+      if (!searchMenu?.current?.contains(e.target) && !searchInput?.current?.contains(e.target)) {
+        // setBuilderNames([]);
+        if (searchStatus.showResults) {
+          setSearchStatus(pre => ({ ...pre, showResults: false }));
+        }
+      }
+    });
   }, []);
+
+  useEffect(() => {
+    console.log('searchStatus.quary...', searchStatus.quary);
+    if (searchStatus.showResults && searchStatus.quary) {
+      let clearTime = setTimeout(() => {
+        getBuilderNames();
+      }, 300)
+      return () => clearTimeout(clearTime);
+    }
+    if (searchStatus.quary == '') {
+      setSearchStatus(pre => ({ ...pre, showResults: false }));
+      setBuilderNames([]);
+      setCurrIndex(null);
+    }
+  }, [searchStatus.quary]);
+
+  const getBuilderNames = async () => {
+    let data;
+    try {
+      data = await FetchData(`real-estate-builders?is_autocomplete=1&city=${searchStatus.city}&search=${searchStatus.quary}`, 'GET');
+      // console.log('data.... data...', data)
+    } catch (err) {
+      console.log('err... data..', err);
+      // setNoSuggestion(true);
+    }
+    if (data?.length > 0) {
+      console.log('searchdata...', data);
+      setBuilderNames(data);
+      setCurrIndex(null);
+      // if (data.content?.length > 0 && noSuggestion) {
+      //     setNoSuggestion(false);
+      // } else if (!data.content?.length && !noSuggestion) {
+      //     setNoSuggestion(true);
+      // }
+    }
+  }
 
   const getBuildersData = async () => {
     setLoading(true);
+    console.log('searchstaus..',searchStatus);
     let data;
     try {
-      data = await FetchData(`real-estate-builders?limit=23`, 'GET');
+      data = await FetchData(`real-estate-builders?page=${currPage}&limit=23&city=${searchStatus.city}&builder=${searchStatus.name}`, 'GET');
     } catch (err) {
       console.log(err);
       setLoading(false);
@@ -44,7 +97,33 @@ const Builders = () => {
     if (data) {
       console.log('builders data..', data);
       setBuilders(data?.Builders);
+      setTotalPage(data?.totalPage);
+      setAllCities(data?.dropdownData);
       setLoading(false);
+    }
+  }
+
+  const onSearchInputKeyPress = (event) => {
+    if(!searchStatus.showResults) return;
+    if (event.key === 'ArrowDown') {
+      event.preventDefault();
+      if (curIndex !== null && curIndex < builderNames.length - 1) {
+        setCurrIndex(curIndex + 1);
+      }
+      else if(!curIndex){
+        setCurrIndex(0);
+      }
+      
+    } else if (event.key === 'ArrowUp') {
+      event.preventDefault();
+      if (curIndex > 0) {
+        setCurrIndex(curIndex - 1);
+      }
+    } else if (event.key === 'Enter') {
+      if (builderNames.length > 0) {
+        setSearchStatus({ ...searchStatus, name: builderNames[curIndex].value, quary: builderNames[curIndex].label, showResults: false });
+        setCurrIndex(null);
+      }
     }
   }
 
@@ -59,7 +138,7 @@ const Builders = () => {
   }
 
   return (
-    <div className=''>
+    <div ref={pageRef} className=''>
       <Header />
       <div className=' fixed top-0 h-full w-full'>
         <img alt='' src={buildersBgImage} className='h-full' />
@@ -73,15 +152,70 @@ const Builders = () => {
             <p className={'text-center text-2xl sm:text-3xl text-white font-semibold tracking-wider md:text-4xl'}>Real Estate Builders</p>
           </div>
           <div className={'mt-10 pt-10 min-h-[500px] bg-white'}>
-            <div className={'container mx-auto px-2 '+(loading && ' opacity-70')}>
+            <div className={'container mx-auto px-2 ' + (loading && ' opacity-70')}>
               <div className='flex flex-wrap mx-auto gap-5 justify-between'>
-                <DropdownInput options={builderGallery} placeholder={'Builder Gallery'} inputClass={'w-full sm:w-[30%] min-w-[150px] h-10'} />
-                <div className='flex min-w-[250px] w-full sm:w-[45%]'>
-                  <input placeholder='Type a builder name here' className={styles.input + 'border-r-0 pl-6'} />
-                  <button className={styles.btn + styles.btnBlackHover + ' border-gray-700 rounded-none md:w-[25%] bg-gray-700 text-white items-center'}>
-                    Search
-                  </button>
+                {/* <DropdownInput options={builderGallery} placeholder={'Builder Gallery'} inputClass={'w-full sm:w-[30%] min-w-[150px] h-10'} /> */}
+                <div className='w-full sm:w-[30%] min-w-[150px] h-10'>
+                  <select name="" className={styles.input + 'mt-1 text-gray-500 '}
+                    onChange={(e) => setSearchStatus({ city: e.target.value })}
+                  >
+                    <option value={null}>Builder Gallery</option>
+                    {allCities?.map((item, index) => {
+                      return (
+                        <option key={index} className='text-sm sm:text-base text-gray-500' value={`${item.cityID}`}>Builder Gallery in {item.cityName}</option>
+                      )
+                    })}
+                  </select>
                 </div>
+                <div className='min-w-[250px] w-full sm:w-[45%]'>
+                  <div className='relative flex'>
+                    <input
+                      ref={searchInput}
+                      placeholder='Type a builder name here'
+                      className={styles.input + 'border-r-0 pl-6'}
+                      value={searchStatus.quary}
+                      onChange={(e) => setSearchStatus(pre => ({ ...pre, quary: e.target.value, showResults: true }))}
+                      onKeyDown={onSearchInputKeyPress}
+                      onClick={() => {
+                        if (searchStatus.city == '') {
+                          setSearchStatus(pre => ({ ...pre, showResults: false, showError: true }));
+                        }
+                        else if (searchStatus.quary?.length > 0 && !searchStatus.showResults) {
+                          setSearchStatus(pre => ({ ...pre, showResults: true, showError: false }));
+                          getBuilderNames();
+                        }
+                        // if (!searchStatus.showResults) { setSearchStatus(pre=>({...pre,showResults:true}))}
+                      }}
+                    />
+                    <button 
+                      onClick={()=>{
+                        getBuildersData();
+                        setCurrPage(1);
+                      }}
+                      className={styles.btn + styles.btnBlackHover + ' border-gray-700 rounded-none md:w-[25%] bg-gray-700 text-white items-center'}>
+                      Search
+                    </button>
+                    {searchStatus.showResults && <div
+                      ref={searchMenu} className={(builderNames.length > 0 ? 'border-[1px] border-gray-500' : '') + ' shadow-lg absolute top-12 bg-white rounded max-h-[320px] z-10 w-[300px] sm:w-[450px] overflow-auto'}>
+                      {builderNames?.map((item, index) => {
+                        return (
+                          <div
+                            onClick={() => setSearchStatus({ ...searchStatus, name: item.value, quary: item.label, showResults: false })}
+                            className={(index == curIndex && 'bg-blue-500 text-white') + ' flex gap-2 p-2 pl-4 hover:bg-blue-500 hover:text-white cursor-pointer'}>
+                            {/* <div>
+                          <img src={item.picture} className='h-6 w-6 mt-2' />
+                        </div> */}
+                            <div>
+                              <p>{item.label}</p>
+                            </div>
+                          </div>
+                        )
+                      })}
+                    </div>}
+                  </div>
+                  {searchStatus.showError && <p className='text-red-600 text-sm'>Please select a city</p>}
+                </div>
+
               </div>
               {/* (index == 0 ? 'md:order-first lg:order-none' : index == 1 ? 'lg:-order-first' : '') + */}
               <div className='mt-16 pb-5 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 min-h-[300px]'>
@@ -136,7 +270,7 @@ const Builders = () => {
                 })}
               </div>
 
-              {/* {builders.length > 0 && <Pagenation lastPage={} changeCurrPage={(page) => setCurrPage(page)} />} */}
+              {builders.length > 0 && <Pagenation lastPage={totalPage} changeCurrPage={(page) => setCurrPage(page)} />}
 
               <div className='border-[1px] border-gray-300 w-full lg:w-[90%] p-[2%] mt-14'>
                 <div className='border-b-2 border-gray-200'>

@@ -472,7 +472,7 @@ export const MoreMenu = ({ classname }) => {
                 </div>
             </div>
 
-            <div className='mt-4'>
+            {propertyListState.propertyStatus.value != 'new project' && <div className='mt-4'>
                 <p className='text-sm font-semibold'>FACING</p>
                 <div className='flex flex-wrap gap-2 mt-2'>
                     {filterMenus?.more?.facing && filterMenus?.more?.facing.map((item, index) => {
@@ -489,7 +489,7 @@ export const MoreMenu = ({ classname }) => {
                         )
                     })}
                 </div>
-            </div>
+            </div>}
 
             <div className='mt-4'>
                 <p className='text-sm font-semibold'>FLOOR</p>
@@ -576,12 +576,11 @@ export const ShortByMenu = ({ classname }) => {
     }, [propertyListState.clearAll]);
 
     const clearShortBy = () => {
-        dispatch(setPropertyListState({ ...propertyListState, sortBy: 'featured' }));
-        setCurrIndex(2);
+        dispatch(setPropertyListState({ ...propertyListState, sortBy: '' }));
+        setCurrIndex(null);
     }
     return (
         <div className={styles.dropdownMenu + 'w-[220px] group-hover:block sm:-ml-[95px] ' + classname}>
-            {console.log('filterMenus in dropdown...',filterMenus)}
             {filterMenus?.sortBy?.map((item, index) => {
                 return (
                     <label key={index}

@@ -252,7 +252,6 @@ const TopSearchNavBar = ({ pageRef }) => {
                             <p className={styles.textMedium + 'font-semibold text-gray-800'}>{propertyListState?.propertyStatus?.text}</p>
                             <Dropdown />
                         </button>
-
                         <div className={styles.dropdownMenu + 'p-0 pt-[0px] group-hover:block w-[170px]'}>
                             {searchTypes.map((item, index) => {
                                 return (

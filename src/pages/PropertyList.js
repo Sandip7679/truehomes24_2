@@ -73,7 +73,6 @@ const PropertyList = () => {
             console.log(err);
         }
         if (data) {
-            // console.log('rightlistdata....', data);
             setRightListData({ recentView: data.recentView, newProject: data.newProjcts, loading: false });
         }
     }
@@ -99,29 +98,6 @@ const PropertyList = () => {
 
     }
 
-
-
-    // const getLocations = async () => {
-    //     let data;
-    //     let quary = `${searchStatus.quary}` +
-    //         `&type=${searchStatus.type}` +
-    //         `&city=${searchStatus.city}` +
-    //         `&locality=${searchStatus.locality}`;
-    //     try {
-    //         data = await fetchData('home-search?query=' + quary, 'GET');
-    //         // console.log('data.... data...', data)
-    //     } catch (err) {
-    //         console.log('err... data..', err);
-    //         setNoSuggestion(true);
-    //     }
-    //     if (data?.content) {
-    //         console.log('searchdata...', data);
-    //         setSearchResult(data.content);
-    //         setNoSuggestion(true);
-    //     }
-    // }
-
-
     const onClickContactBtn = (item) => {
         setcontactModalStatus({
             show: true, data: {
@@ -134,14 +110,6 @@ const PropertyList = () => {
     const onCloseContact = () => {
         setcontactModalStatus({ show: false, data: null });
     }
-    // const getStatusString = (statusArr) => {
-    //     console.log('statusAr..', statusArr);
-    //     if (statusArr.length > 0) {
-    //         return statusArr.filter(it => it).join('-');
-    //     } else {
-    //         return '';
-    //     }
-    // }
 
     const getPropertyList = async (currpage) => {
         setLoadingList(true);
@@ -174,8 +142,6 @@ const PropertyList = () => {
             setLoadingList(false);
         }
         if (data) {
-            // console.log('data.totalProperty..', data.totalProperty)
-            // let lastpage = Math.floor(data.totalProperty / 25) + 1;
             setPropertyListData({ currPage: data.page, totalProperty: data.totalProperty, lastPage: data.totalPage, propertyList: data.property });
             setLoadingList(false);
         }
@@ -189,102 +155,113 @@ const PropertyList = () => {
                 <div ref={scrollUpTarget} className='px-[2%] pt-[250px] sm:pt-[140px] lg:pt-28  container mx-auto py-5'>
                     <div className={styles.textMedium}>
                         <NavLink className={'hover:opacity-70'} to="/">Home</NavLink> {'> '}
-                        {currLocation.locationName ? (`Property for ${propertyListState.propertyStatus.for} in ${currLocation.locationName} >`) : ''}
-                        Property for {propertyListState.propertyStatus.for} in {currLocation.city} </div>
+                        {propertyListState.propertyStatus.value == 'new project' ? 'New Projects' : 'Property'} for {propertyListState.propertyStatus.for} in {currLocation.city}
+                        {currLocation.locationName ? (`> ${propertyListState.propertyStatus.value == 'new project' ? 'New Projects' : 'Property'} for ${propertyListState.propertyStatus.for} in ${currLocation.locationName}`) : ''}
+                    </div>
                     <div className='lg:flex gap-5'>
 
                         {<div className='mt-5 tracking-wide lg:w-[64%]'>
                             <div>
                                 <p className={styles.textMedium}>Showing {(currPage - 1) * 25 + 1}-{(currPage - 1) * 25 + propertyListData?.propertyList?.length} of {propertyListData.totalProperty} property for {propertyListState?.propertyStatus?.for}</p>
                                 <p className={styles.title3 + 'mt-1'}>Property for {propertyListState.propertyStatus.for} in {currLocation.locationName ? (currLocation.locationName + ', ') : ''} {currLocation.city}</p>
-                                <div className='flex gap-2 border-b-[1px] mt-2 border-b-gray-200'>
-                                    {propertyTypes.map((item, index) => {
-                                        return (
-                                            <>
-                                                {(index < 3 || propertyListState?.propertyStatus?.value == 'new project') && <button key={index}
-                                                    onClick={() => setCurrLocalityTabInd(index + 1)}
-                                                    className={(currLocalityTabInd == index + 1 ? 'border-b-[1px]' : '') + ' hover:border-b-[1px] border-b-gray-700 pb-1 mr-3'}>
-                                                    <p className={styles.textMedium + ''}>{item}</p>
-                                                </button>}
-                                            </>
 
-                                        )
-                                    })}
+                                {currLocation.area != 'City' && <>
+                                    <div className='flex gap-2 border-b-[1px] mt-2 border-b-gray-200'>
+                                        {propertyTypes.map((item, index) => {
+                                            return (
+                                                <>
+                                                    {(index < 3 || propertyListState?.propertyStatus?.value == 'new project') && <button key={index}
+                                                        onClick={() => setCurrLocalityTabInd(index + 1)}
+                                                        className={(currLocalityTabInd == index + 1 ? 'border-b-[1px]' : '') + ' hover:border-b-[1px] border-b-gray-700 pb-1 mr-3'}>
+                                                        <p className={styles.textMedium + ''}>{item}</p>
+                                                    </button>}
+                                                </>
 
-                                </div>
-                                <div className='shadow-sm rounded flex flex-wrap max-h-[140px] min-h-[100px]  border-[1px] border-gray-200 mt-5 mx-2 overflow-y-auto p-2'>
-                                    {currLocalityTabInd == 1 && localities.map((item, index) => {
-                                        return (
-                                            <NavLink
-                                                onClick={() => {
-                                                    dispatch(setPropertyListState({
-                                                        ...propertyListState,
-                                                        BHKtype: '',
-                                                        propertyTypes: '',
-                                                        priceRange: ['', ''],
-                                                        moreStatus: { furnishingTypes: '', bathrooms: '', minArea: '', maxArea: '', newResale: '', constructionStatus: '', facing: '', amenities: '', listedBy: '', floor: '' },
-                                                        sortBy: 'featured',
-                                                        clearAll: true
-                                                    }));
-                                                    dispatch(setlocation({ ...currLocation, location: item.locality_id, locationName: item.localityName, project: '', projectName: null }));
-                                                }}
-                                                to={`/${item.link}`} key={index} className={styles.btn + 'h-7 m-1 hover:bg-orange-50 border-orange-500'}>
-                                                <p className='text-sm'>{`${item.localityName} (${item.count})`}</p>
-                                            </NavLink>
-                                        )
-                                    })}
-                                    {currLocalityTabInd == 2 && propStatusTab.map((item, index) => {
-                                        return (
-                                            <NavLink
-                                                onClick={() => {
-                                                    dispatch(setlocation({ ...currLocation, location: '', locationName: null, project: '', projectName: null }));
-                                                    dispatch(setPropertyListState({
-                                                        ...propertyListState,
-                                                        BHKtype: '',
-                                                        propertyTypes: '',
-                                                        priceRange: ['', ''],
-                                                        moreStatus: { furnishingTypes: '', bathrooms: '', minArea: '', maxArea: '', newResale: '', constructionStatus: item.statName, facing: '', amenities: '', listedBy: '', floor: '' },
-                                                        sortBy: 'featured',
-                                                        clearAll: false
-                                                    }));
-                                                }}
-                                                to={`/${item.link}`} key={index} className={styles.btn + ' h-7 items-center justify-center m-1 hover:bg-orange-50 border-orange-500'}>
-                                                <p className='text-sm'>{`${item.statName} (${item.count})`}</p>
-                                            </NavLink>
-                                        )
-                                    })}
-                                    {currLocalityTabInd == 3 && budgetTab.map((item, index) => {
-                                        return (
-                                            <NavLink
-                                                onClick={() => {
-                                                    dispatch(setlocation({ ...currLocation, location: '', locationName: null, project: '', projectName: null }));
-                                                    dispatch(setPropertyListState({
-                                                        ...propertyListState,
-                                                        BHKtype: '',
-                                                        propertyTypes: '',
-                                                        priceRange: [item.minPrice, item.maxPrice],
-                                                        moreStatus: { furnishingTypes: '', bathrooms: '', minArea: '', maxArea: '', newResale: '', constructionStatus: '', facing: '', amenities: '', listedBy: '', floor: '' },
-                                                        sortBy: 'featured',
-                                                        clearAll: false
-                                                    }));
-                                                }}
-                                                to={`/${item.link}`} key={index} className={styles.btn + 'h-7 m-1 hover:bg-orange-50 border-orange-500'}>
-                                                <p className='text-sm'>{`${item.budgetName} (${item.count})`}</p>
-                                            </NavLink>
-                                        )
-                                    })}
-                                    {currLocalityTabInd == 4 && builderTab.map((item, index) => {
-                                        return (
-                                            <NavLink
-                                                to={`/${item.link}`} key={index} className={styles.btn + 'h-7 m-1 hover:bg-orange-50 border-orange-500'}>
-                                                <p className='text-sm'>{`${item.name} (${item.count})`}</p>
-                                            </NavLink>
-                                        )
-                                    })}
-                                    {/* {builderTab.length == 0 && <div className='text-sm flex items-center justify-center text-center ml-[45%]'>
+                                            )
+                                        })}
+
+                                    </div>
+
+                                    <div className='shadow-sm rounded flex flex-wrap max-h-[140px] min-h-[100px]  border-[1px] border-gray-200 mt-5 mx-2 overflow-y-auto p-2'>
+                                        {currLocalityTabInd == 1 && localities.map((item, index) => {
+                                            return (
+                                                <div>
+                                                    <NavLink
+                                                        onClick={() => {
+                                                            dispatch(setPropertyListState({
+                                                                ...propertyListState,
+                                                                BHKtype: '',
+                                                                propertyTypes: '',
+                                                                priceRange: ['', ''],
+                                                                moreStatus: { furnishingTypes: '', bathrooms: '', minArea: '', maxArea: '', newResale: '', constructionStatus: '', facing: '', amenities: '', listedBy: '', floor: '' },
+                                                                sortBy: 'featured',
+                                                                clearAll: true
+                                                            }));
+                                                            dispatch(setlocation({ ...currLocation, location: item.locality_id, locationName: item.localityName, project: '', projectName: null }));
+                                                        }}
+                                                        to={`/${item.link}`} key={index} className={styles.btn + 'h-7 m-1 hover:bg-orange-50 border-orange-500'}>
+                                                        <p className='text-sm'>{`${item.localityName} (${item.count})`}</p>
+                                                    </NavLink>
+                                                </div>
+                                            )
+                                        })}
+                                        {currLocalityTabInd == 2 && propStatusTab.map((item, index) => {
+                                            return (
+                                                <div>
+                                                    <NavLink
+                                                        onClick={() => {
+                                                            dispatch(setlocation({ ...currLocation, location: '', locationName: null, project: '', projectName: null }));
+                                                            dispatch(setPropertyListState({
+                                                                ...propertyListState,
+                                                                BHKtype: '',
+                                                                propertyTypes: '',
+                                                                priceRange: ['', ''],
+                                                                moreStatus: { furnishingTypes: '', bathrooms: '', minArea: '', maxArea: '', newResale: '', constructionStatus: item.statName, facing: '', amenities: '', listedBy: '', floor: '' },
+                                                                sortBy: 'featured',
+                                                                clearAll: false
+                                                            }));
+                                                        }}
+                                                        to={`/${item.link}`} key={index} className={styles.btn + ' items-center justify-center m-1 hover:bg-orange-50 border-orange-500'}>
+                                                        <p className='text-sm'>{`${item.statName} (${item.count})`}</p>
+                                                    </NavLink>
+                                                </div>
+                                            )
+                                        })}
+                                        {currLocalityTabInd == 3 && budgetTab.map((item, index) => {
+                                            return (
+                                                <NavLink
+                                                    onClick={() => {
+                                                        dispatch(setlocation({ ...currLocation, location: '', locationName: null, project: '', projectName: null }));
+                                                        dispatch(setPropertyListState({
+                                                            ...propertyListState,
+                                                            BHKtype: '',
+                                                            propertyTypes: '',
+                                                            priceRange: [item.minPrice, item.maxPrice],
+                                                            moreStatus: { furnishingTypes: '', bathrooms: '', minArea: '', maxArea: '', newResale: '', constructionStatus: '', facing: '', amenities: '', listedBy: '', floor: '' },
+                                                            sortBy: 'featured',
+                                                            clearAll: false
+                                                        }));
+                                                    }}
+                                                    to={`/${item.link}`} key={index} className={styles.btn + 'h-7 m-1 hover:bg-orange-50 border-orange-500'}>
+                                                    <p className='text-sm'>{`${item.budgetName} (${item.count})`}</p>
+                                                </NavLink>
+                                            )
+                                        })}
+                                        {currLocalityTabInd == 4 && builderTab.map((item, index) => {
+                                            return (
+                                                <NavLink
+                                                    to={`/${item.link}`} key={index} className={styles.btn + 'h-7 m-1 hover:bg-orange-50 border-orange-500'}>
+                                                    <p className='text-sm'>{`${item.name} (${item.count})`}</p>
+                                                </NavLink>
+                                            )
+                                        })}
+                                        {/* {builderTab.length == 0 && <div className='text-sm flex items-center justify-center text-center ml-[45%]'>
                                         Not Found !
                                     </div>} */}
-                                </div>
+                                    </div>
+                                </>
+                                }
+
 
                                 {loadingList && <div className="fixed top-[100px] right-1/2 flex justify-center items-center mt-16">
                                     {/* <i class={"fa-solid fa-spinner" + styles.loading}></i> */}
