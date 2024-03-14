@@ -5,19 +5,18 @@ import { styles } from '../../Styles/Styles';
 import GetCallBack from '../../components/GetCallBack';
 import TopCItiesFilter from '../../components/TopCItiesFilter';
 import Footer from '../../components/Footer';
-import { NavLink } from 'react-router-dom';
-import { DropdownInput } from '../../components/PostProperty/PostPropertyComp';
+import { NavLink, useNavigate, useParams } from 'react-router-dom';
 import { UseApi } from '../../ApiConf';
 import Pagenation from '../../components/Pagenation';
-import { useSelector } from 'react-redux';
 import loader from '../../assets/Icons/loader.gif';
+import { useDispatch } from 'react-redux';
+import { setBuilderCity } from '../../Redux/reducer/User';
 
-
-const builderGallery = ['Builder Gallery', 'Builder Gallery in Kolkata',]
 
 const Builders = () => {
 
   const { FetchData } = UseApi();
+  const dispatch = useDispatch();
   const [builders, setBuilders] = useState([]);
   const [builderNames, setBuilderNames] = useState([]);
   const [curIndex, setCurrIndex] = useState(null);
@@ -28,11 +27,12 @@ const Builders = () => {
   const [currPage, setCurrPage] = useState(1);
   const [totalPage, setTotalPage] = useState(1);
   const [topBuilders, setTopBuilders] = useState([]);
-  // const {currLocation} = useSelector(state=>state.User);
-  const [searchStatus, setSearchStatus] = useState({ city: '', name: '', quary: null, showResults: false, showError: false });
+  const [searchStatus, setSearchStatus] = useState({ city: '', cityName: '', name: '', quary: null, showResults: false, showError: false });
+  const [builderTypeStatus, setBuilderTypeStatus] = useState({ name: '', city: '', path: '' });
   const [currlocation, setLocation] = useState('');
   const [loading, setLoading] = useState(true);
-
+  const navigate = useNavigate();
+  // const {india} = useParams();
   useEffect(() => {
     getBuildersData();
   }, [currPage]);
@@ -44,6 +44,9 @@ const Builders = () => {
         if (searchStatus.showResults) {
           setSearchStatus(pre => ({ ...pre, showResults: false }));
         }
+      }
+      if (!searchInput?.current?.contains(e.target)) {
+        setSearchStatus(pre => ({ ...pre, showError: false }));
       }
     });
   }, []);
@@ -57,7 +60,7 @@ const Builders = () => {
       return () => clearTimeout(clearTime);
     }
     if (searchStatus.quary == '') {
-      setSearchStatus(pre => ({ ...pre, showResults: false }));
+      setSearchStatus(pre => ({ ...pre, showResults: false, name: '' }));
       setBuilderNames([]);
       setCurrIndex(null);
     }
@@ -67,29 +70,22 @@ const Builders = () => {
     let data;
     try {
       data = await FetchData(`real-estate-builders?is_autocomplete=1&city=${searchStatus.city}&search=${searchStatus.quary}`, 'GET');
-      // console.log('data.... data...', data)
     } catch (err) {
       console.log('err... data..', err);
-      // setNoSuggestion(true);
     }
     if (data?.length > 0) {
       console.log('searchdata...', data);
       setBuilderNames(data);
       setCurrIndex(null);
-      // if (data.content?.length > 0 && noSuggestion) {
-      //     setNoSuggestion(false);
-      // } else if (!data.content?.length && !noSuggestion) {
-      //     setNoSuggestion(true);
-      // }
     }
   }
 
   const getBuildersData = async () => {
     setLoading(true);
-    console.log('searchstaus..',searchStatus);
+    console.log('searchstaus..', searchStatus);
     let data;
     try {
-      data = await FetchData(`real-estate-builders?page=${currPage}&limit=23&city=${searchStatus.city}&builder=${searchStatus.name}`, 'GET');
+      data = await FetchData(`real-estate-builders?page=${currPage}&limit=23&city=${searchStatus.city}&builder=${searchStatus.name}&get_dropdown=${allCities.length > 0 ? '' : '1'}`, 'GET');
     } catch (err) {
       console.log(err);
       setLoading(false);
@@ -98,22 +94,29 @@ const Builders = () => {
       console.log('builders data..', data);
       setBuilders(data?.Builders);
       setTotalPage(data?.totalPage);
-      setAllCities(data?.dropdownData);
+      if (data?.dropdownData.length > 0) {
+        setAllCities(data?.dropdownData);
+      }
+      if (searchStatus.city) {
+        setBuilderTypeStatus(pre => ({ ...pre, name: searchStatus.quary, city: searchStatus.cityName }));
+        let path = '/'+`${searchStatus.quary?(searchStatus?.quary?.replace(/ /g,"-")+'-'):''}` + 'real-estate-builders-in-'+ searchStatus.cityName.toLowerCase().replace(/ /g,"-");
+        //  navigate(path);
+      }
       setLoading(false);
     }
   }
 
   const onSearchInputKeyPress = (event) => {
-    if(!searchStatus.showResults) return;
+    if (!searchStatus.showResults) return;
     if (event.key === 'ArrowDown') {
       event.preventDefault();
       if (curIndex !== null && curIndex < builderNames.length - 1) {
         setCurrIndex(curIndex + 1);
       }
-      else if(!curIndex){
+      else if (!curIndex) {
         setCurrIndex(0);
       }
-      
+
     } else if (event.key === 'ArrowUp') {
       event.preventDefault();
       if (curIndex > 0) {
@@ -149,7 +152,9 @@ const Builders = () => {
       <div className='fixed h-full mb-2 w-full bg-black bg-opacity-50 overflow-y-scroll'>
         <div className=''>
           <div className='mt-[150px] h-[100px] z-[200]'>
-            <p className={'text-center text-2xl sm:text-3xl text-white font-semibold tracking-wider md:text-4xl'}>Real Estate Builders</p>
+            <p className={'text-center text-2xl sm:text-3xl text-white font-semibold tracking-wider md:text-4xl'}>
+            {builderTypeStatus.name?builderTypeStatus.name:''} Real Estate Builders {builderTypeStatus.city?`in ${builderTypeStatus.city}`:''}
+            </p>
           </div>
           <div className={'mt-10 pt-10 min-h-[500px] bg-white'}>
             <div className={'container mx-auto px-2 ' + (loading && ' opacity-70')}>
@@ -157,12 +162,15 @@ const Builders = () => {
                 {/* <DropdownInput options={builderGallery} placeholder={'Builder Gallery'} inputClass={'w-full sm:w-[30%] min-w-[150px] h-10'} /> */}
                 <div className='w-full sm:w-[30%] min-w-[150px] h-10'>
                   <select name="" className={styles.input + 'mt-1 text-gray-500 '}
-                    onChange={(e) => setSearchStatus({ city: e.target.value })}
+                    onChange={(e) => {
+                      let value = JSON.parse(e.target.value);
+                      setSearchStatus(pre => ({ ...pre, city: value?.cityID, cityName: value?.cityName }));
+                    }}
                   >
-                    <option value={null}>Builder Gallery</option>
+                    <option value={JSON.stringify({ cityID: '', cityName: '' })}>Builder Gallery</option>
                     {allCities?.map((item, index) => {
                       return (
-                        <option key={index} className='text-sm sm:text-base text-gray-500' value={`${item.cityID}`}>Builder Gallery in {item.cityName}</option>
+                        <option key={index} className='text-sm sm:text-base text-gray-500' value={JSON.stringify(item)}>Builder Gallery in {item.cityName}</option>
                       )
                     })}
                   </select>
@@ -177,7 +185,8 @@ const Builders = () => {
                       onChange={(e) => setSearchStatus(pre => ({ ...pre, quary: e.target.value, showResults: true }))}
                       onKeyDown={onSearchInputKeyPress}
                       onClick={() => {
-                        if (searchStatus.city == '') {
+                        console.log('!searchStatus.city...', !searchStatus.city, 'searchStatus.city..', searchStatus.city);
+                        if (!searchStatus.city) {
                           setSearchStatus(pre => ({ ...pre, showResults: false, showError: true }));
                         }
                         else if (searchStatus.quary?.length > 0 && !searchStatus.showResults) {
@@ -187,10 +196,17 @@ const Builders = () => {
                         // if (!searchStatus.showResults) { setSearchStatus(pre=>({...pre,showResults:true}))}
                       }}
                     />
-                    <button 
-                      onClick={()=>{
-                        getBuildersData();
-                        setCurrPage(1);
+                    <button
+                      onClick={() => {
+                        console.log('searchStatus.city..', searchStatus.city, 'searchStatus.showError...', searchStatus.showError);
+                        if (!searchStatus.showError) {
+                          dispatch(setBuilderCity(searchStatus.cityName));
+                          if (currPage == 1) {
+                            getBuildersData();
+                          } else {
+                            setCurrPage(1);
+                          }
+                        }
                       }}
                       className={styles.btn + styles.btnBlackHover + ' border-gray-700 rounded-none md:w-[25%] bg-gray-700 text-white items-center'}>
                       Search
@@ -213,9 +229,8 @@ const Builders = () => {
                       })}
                     </div>}
                   </div>
-                  {searchStatus.showError && <p className='text-red-600 text-sm'>Please select a city</p>}
+                  {<p className={(searchStatus.showError ? 'text-red-600' : 'text-white') + ' text-sm'}>Please select a city !</p>}
                 </div>
-
               </div>
               {/* (index == 0 ? 'md:order-first lg:order-none' : index == 1 ? 'lg:-order-first' : '') + */}
               <div className='mt-16 pb-5 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 min-h-[300px]'>

@@ -4,7 +4,7 @@ import { NavLink, useLocation } from 'react-router-dom';
 import Slider from 'rc-slider';
 import 'rc-slider/assets/index.css';
 import { useDispatch, useSelector } from 'react-redux';
-import { setPropertyListState } from '../Redux/reducer/User';
+import { setOutsideFilterState, setPropertyListState } from '../Redux/reducer/User';
 
 
 
@@ -31,13 +31,13 @@ export const DropdownHover = ({ Items, ItemClass, MenuClass }) => {
 const BHKmenu = ({ classname }) => {
     const { filterMenus, propertyListState } = useSelector(state => state.User);
     const dispatch = useDispatch();
-    const [bhkType, setBhkType] = useState('');
-    useEffect(() => {
-        if (propertyListState.clearAll) {
-            // dispatch(setPropertyListState({ ...propertyListState, BHKtype: '' }));
-            setBhkType('');
-        }
-    }, [propertyListState.clearAll]);
+    // const [bhkType, setBhkType] = useState('');
+    // useEffect(() => {
+    //     if (propertyListState.clearAll) {
+    //         // dispatch(setPropertyListState({ ...propertyListState, BHKtype: '' }));
+    //         setBhkType('');
+    //     }
+    // }, [propertyListState.clearAll]);
 
     return (
         <div className={styles.dropdownMenu + 'w-[120px] group-hover:block ' + classname}>
@@ -46,10 +46,10 @@ const BHKmenu = ({ classname }) => {
                     <label key={index}
                         onClick={() => {
                             dispatch(setPropertyListState({ ...propertyListState, clearAll: false, BHKtype: item.value }));
-                            setBhkType(item.value);
+                            // setBhkType(item.value);
                         }}
                         className={styles.dropdownItem + 'cursor-pointer'}>
-                        <input checked={bhkType === item.value} className='mt-[0.5px]' type='radio' />
+                        <input checked={propertyListState.BHKtype === item.value} className='mt-[0.5px]' type='radio' />
                         <p className='ml-1'>{item.label}</p>
                     </label>
                 )
@@ -57,7 +57,7 @@ const BHKmenu = ({ classname }) => {
             <div
                 onClick={() => {
                     dispatch(setPropertyListState({ ...propertyListState, BHKtype: '' }));
-                    setBhkType('');
+                    // setBhkType('');
                 }}
                 className={styles.textMedium + 'text-center my-2 cursor-pointer'}>Clear All</div>
         </div>
@@ -117,7 +117,7 @@ export const FurnishingTypeMenu = ({ classname }) => {
     )
 }
 export const PropertyTypeMenu = ({ classname }) => {
-    const { filterMenus, propertyListState } = useSelector(state => state.User);
+    const { filterMenus, propertyListState, outSideFilterState } = useSelector(state => state.User);
     const dispatch = useDispatch();
     // const routePath = useLocation();
     const [checkedItems, setCheckedItems] = useState([]);
@@ -147,6 +147,9 @@ export const PropertyTypeMenu = ({ classname }) => {
         }
         setCheckedItems(arr);
         dispatch(setPropertyListState({ ...propertyListState, clearAll: false, propertyTypes: arr.filter(it => it).join('-') }));
+        if (outSideFilterState) {
+            dispatch(setOutsideFilterState({ ...outSideFilterState, propertyTypes: false }));
+        }
     }
 
     useEffect(() => {
@@ -154,6 +157,17 @@ export const PropertyTypeMenu = ({ classname }) => {
             setCheckedItems([]);
         }
     }, [propertyListState.clearAll]);
+
+    useEffect(() => {
+        if (outSideFilterState.propertyTypes) {
+            let arr = filterMenus?.propertyType?.map((item, index) => {
+                if (propertyListState.propertyTypes.includes(item.value)) return item.value;
+            });
+            setCheckedItems(arr);
+        }
+    }, [outSideFilterState.propertyTypes]);
+
+
 
     return (
         <div
@@ -176,7 +190,7 @@ export const PropertyTypeMenu = ({ classname }) => {
                 })}
                 <div
                     onClick={() => {
-                        dispatch(setPropertyListState({ ...propertyListState, propertyTypes: [] }));
+                        dispatch(setPropertyListState({ ...propertyListState, propertyTypes: '' }));
                         setCheckedItems([]);
                     }}
                     className={styles.textMedium + 'text-center my-2 cursor-pointer'}>
@@ -282,8 +296,9 @@ export const BudgetMenu = ({ classname }) => {
                     <input placeholder='Min'
                         className={styles.input + ' pl-5 rounded-md'}
                         value={priceRange[0]}
-                        onChange={(e) => setPriceRange([e.target.value, priceRange[1]])
-                        }
+                        onChange={(e) => {
+                            setPriceRange([e.target.value, priceRange[1]]);
+                        }}
                     />
                 </div>
                 <div className='relative'>
@@ -570,7 +585,7 @@ export const ShortByMenu = ({ classname }) => {
     const dispatch = useDispatch();
     useEffect(() => {
         if (propertyListState.clearAll) {
-             clearShortBy();
+            clearShortBy();
             // setBhkType('');
         }
     }, [propertyListState.clearAll]);
@@ -586,7 +601,7 @@ export const ShortByMenu = ({ classname }) => {
                     <label key={index}
                         onClick={() => {
                             setCurrIndex(index);
-                            dispatch(setPropertyListState({ ...propertyListState, sortBy: item.value,clearAll:false }));
+                            dispatch(setPropertyListState({ ...propertyListState, sortBy: item.value, clearAll: false }));
                         }}
                         // onClick={() => setSelectedItem(item.type)}
                         className={styles.dropdownItem}>

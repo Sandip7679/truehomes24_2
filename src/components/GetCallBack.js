@@ -44,7 +44,7 @@ const GetCallBack = () => {
                         // onChange={val => setValue(val)}
                         />
                     </div>
-                    <input placeholder='Contact Number' className={styles.input + 'py-[5px] w-[65%] mt-0 border-gray-300 pl-[15px]'} />
+                    <input placeholder='Contact Number' type='tel' className={styles.input + 'py-[5px] w-[65%] mt-0 border-gray-300 pl-[15px]'} />
                 </div>
                 <textarea placeholder='Description' className='w-full h-20 mt-5 px-3 py-2 border border-gray-300 focus:outline-none focus:border-gray-500'>
                 </textarea>

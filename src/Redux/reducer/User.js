@@ -15,6 +15,10 @@ export const UserSlice = createSlice({
       sortBy:'featured',
       clearAll:false
     },
+    outSideFilterState:{
+      propertyTypes:false
+    },
+    builderCity:'india',
     currPage:1,
     pageRefresh:true,
     filterMenus: null,
@@ -48,8 +52,14 @@ export const UserSlice = createSlice({
     setPageRefress(state, action) {
       state.pageRefresh = action.payload
     },
+    setOutsideFilterState(state, action) {
+      state.outSideFilterState = action.payload
+    },
+    setBuilderCity(state, action) {
+      state.builderCity = action.payload
+    },
   }
 })
-export const { setuser, logout, setlocation, setPropertyListState, setFileterMenus,setCurrPage,setPageRefress } = UserSlice.actions;
+export const { setuser, logout, setlocation, setPropertyListState, setFileterMenus,setCurrPage,setPageRefress,setOutsideFilterState,setBuilderCity } = UserSlice.actions;
 
 export default UserSlice.reducer;

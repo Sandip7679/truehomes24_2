@@ -28,7 +28,7 @@ import RefundPolicy from './pages/QuickLinks/RefundPolicy';
 import Sitemap from './pages/QuickLinks/Sitemap';
 
 function App() {
-  const {pageRefresh,currLocation} = useSelector(state=>state.User);
+  const {pageRefresh,currLocation,builderCity} = useSelector(state=>state.User);
   const dispatch = useDispatch();
   // const location = useLocation();
 
@@ -74,6 +74,7 @@ function App() {
         <Route path='/user/detail/:id' element={<Profile/>} />
         {/* <Route path='/builders' element={<Builders/>} /> */}
         <Route path='/real-estate-builders-in-india' element={<Builders/>} />
+        <Route path={`/real-estate-builders-in-${builderCity}`} element={<Builders/>} />
         <Route path='/project_details' element={<ProjectDetails/>} />
         <Route path='/post-property' element={<PostProperty/>} />
         <Route path='/post-property/new-project' element={<NewProject/>} />

@@ -1,15 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import Carousel from 'react-multi-carousel';
-import useApi, { UseApi } from '../ApiConf';
-import { useSelector } from 'react-redux';
+import { UseApi } from '../ApiConf';
+import { useDispatch, useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
+import { setOutsideFilterState, setPropertyListState } from '../Redux/reducer/User';
 // import { styles } from '../Styles/Styles';
 
 
 const PropertyForSlides = () => {
     // const { fetchData } = useApi();
     const { FetchData } = UseApi();
-    const { currLocation, propertyListState } = useSelector(state => state.User);
+    const dispatch = useDispatch();
+    const { currLocation, propertyListState,outSideFilterState } = useSelector(state => state.User);
     const [propertyInForData, setPropertyInForData] = useState([]);
     const [viewMoreStatus, setViewMoreStatus] = useState(null);
 
@@ -32,6 +34,40 @@ const PropertyForSlides = () => {
         }
     }
 
+    const setStatusForLink = (item) => {
+        let propstatus;
+        let minPrice = '';
+        let maxPrice = '';
+        if (item.property_status == 'rent') {
+            propstatus = { text: 'Rent', value: 'rent', for: 'Rent', index: 0 };
+        } else {
+            propstatus = { text: 'Buy', value: 'sale', for: 'Sale', index: 1 };
+        }
+        if (item.min_price && !item.max_price) {
+            minPrice = 0;
+            maxPrice = item.minPrice;
+        } else if (!item.min_price && item.max_price) {
+            minPrice = item.max_price;
+            maxPrice = ''
+        }
+        else if (item.min_price && item.max_price) {
+            minPrice = item.min_price;
+            maxPrice = item.max_price;
+        }
+        dispatch(setPropertyListState({
+            ...propertyListState,
+            propertyStatus: propstatus,
+            BHKtype:item.bedroom?item.bedroom : '',
+            propertyTypes: item.property_type ? item.property_type : '',
+            priceRange: [minPrice, maxPrice],
+            moreStatus: { furnishingTypes: '', bathrooms: '', minArea: '', maxArea: '', newResale: '', constructionStatus: '', facing: '', amenities: '', listedBy:item.listed_by?item.listed_by : '', floor: '' },
+            sortBy: 'featured',
+            clearAll: false
+        }));
+        dispatch(setOutsideFilterState({...outSideFilterState,propertyTypes:true}));
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
     return (
         <div className='item-center w-full'>
             <Carousel
@@ -44,7 +80,6 @@ const PropertyForSlides = () => {
                 // autoPlaySpeed={2000}
                 // transitionDuration={2000}
                 keyBoardControl={true}
-
             >
 
                 {propertyInForData?.map((item, index) => {
@@ -55,8 +90,10 @@ const PropertyForSlides = () => {
                                 return (
                                     <>
                                         {(ind < 5 || viewMoreStatus?.[index]) &&
-                                            <p key={ind} className='text-sm my-2 hover:opacity-80 hover:cursor-pointer text-gray-600'>
-                                                <NavLink to={`/${itm.url}`}>{itm.text}</NavLink>
+                                            <p key={ind}
+                                                onClick={() => setStatusForLink(itm)}
+                                                className='text-sm my-2 hover:opacity-80 hover:cursor-pointer text-gray-600'>
+                                                <NavLink to={`/${itm?.link}`}>{itm?.text}</NavLink>
                                             </p>
                                         }
                                     </>
