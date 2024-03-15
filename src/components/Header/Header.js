@@ -14,7 +14,7 @@ import Auth from '../Auth';
 import MobileMenu from './MobileMenu';
 import { DropdownHover } from '../Dropdowns';
 import { useDispatch, useSelector } from 'react-redux';
-import { logout, setFileterMenus, setPropertyListState, setlocation } from '../../Redux/reducer/User';
+import { logout, setFileterMenus, setPropertyListState, setlocation, setBuilderSearchStatus } from '../../Redux/reducer/User';
 import useApi, { UseApi } from '../../ApiConf';
 
 // const cities = [
@@ -61,7 +61,7 @@ const Header = () => {
     const [showLoginPopup, setShowLoginPopup] = useState(false);
     // const { fetchData, error } = useApi();
     const { FetchData } = UseApi();
-    const { login_status, currLocation, propertyListState, filterMenus } = useSelector(state => state.User);
+    const { login_status, currLocation, propertyListState, filterMenus, builderSearchStatus } = useSelector(state => state.User);
     const dispatch = useDispatch();
     const [searchText, setSearchText] = useState(null);
     const [AllCities, setAllCities] = useState({ international: [], topCities: [], otherCities: [] });
@@ -139,7 +139,7 @@ const Header = () => {
         }
         if (data) {
             dispatch(setFileterMenus(data));
-            console.log('filter menu data...',data);
+            console.log('filter menu data...', data);
         }
 
     }
@@ -345,7 +345,7 @@ const Header = () => {
                                         sortBy: 'featured',
                                         clearAll: true
                                     }));
-                                    dispatch(setlocation({ ...currLocation, location: '',locationName:null,project:'',projectName:null }));
+                                    dispatch(setlocation({ ...currLocation, location: '', locationName: null, project: '', projectName: null }));
                                 }}
                                 to={'/sale/property-for-sale-in-' + currLocation?.city.split(' ').join('-').toLowerCase()}
                                 className="text-gray-100 hover:cursor-pointer hover:text-gray-400">
@@ -362,7 +362,7 @@ const Header = () => {
                                         sortBy: 'featured',
                                         clearAll: true
                                     }));
-                                    dispatch(setlocation({ ...currLocation, location: '',locationName:null,project:'',projectName:null }));
+                                    dispatch(setlocation({ ...currLocation, location: '', locationName: null, project: '', projectName: null }));
                                 }}
                                 to={'/rent/property-for-rent-in-' + currLocation?.city.split(' ').join('-').toLowerCase()}
                                 className="text-gray-100 hover:cursor-pointer hover:text-gray-400">
@@ -379,7 +379,7 @@ const Header = () => {
                                         sortBy: 'featured',
                                         clearAll: true
                                     }));
-                                    dispatch(setlocation({ ...currLocation, location: '',locationName:null,project:'',projectName:null }));
+                                    dispatch(setlocation({ ...currLocation, location: '', locationName: null, project: '', projectName: null }));
                                 }}
                                 to={'/new-projects/new-projects-for-sale-in-' + currLocation?.city.split(' ').join('-').toLowerCase()}
                                 className="text-gray-100 hover:cursor-pointer hover:text-gray-400">
@@ -402,9 +402,20 @@ const Header = () => {
                             className="text-gray-100 hover:text-gray-400">Agents</NavLink>
                         <NavLink to="/real-estate-builders-in-india"
                             onClick={() => {
+                                if (builderSearchStatus.cityPath != 'india') {
+                                    dispatch(setBuilderSearchStatus({
+                                        // ...builderSearchStatus,
+                                        cityPath: 'india',
+                                        builderPath: '',
+                                        cityName: '',
+                                        builderName: '',
+                                        city: '', name: '', quary: null, showResults: false, showError: false,
+                                        selectedCityOption: JSON.stringify({ cityID: '', cityName: '' })
+                                    }));
+                                }
                                 localStorage.setItem('propertyStatus', 'new project');
                                 dispatch(setPropertyListState({
-                                    ...propertyListState, 
+                                    ...propertyListState,
                                     // propertyStatus: { text: 'New Project', value: 'new project', for: 'Sale', index: 2 },
                                     BHKtype: '', propertyTypes: '',
                                     priceRange: ['', ''],
@@ -412,6 +423,7 @@ const Header = () => {
                                     sortBy: 'featured',
                                     clearAll: true
                                 }));
+
                             }}
                             className="text-gray-100 hover:text-gray-400">Builders</NavLink>
                         <div className='relative group z-10'>

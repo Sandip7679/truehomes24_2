@@ -122,7 +122,7 @@ const Profile = () => {
             `&agent=${isAgent ? userId : ''}`+
             `&order_by=${propertyListState.sortBy}`
 
-        let endpoint = 'property-list?' + quary;
+        let endpoint = (isAgent?'property-list?':'real-estate-builders?is_property_list=1&') + quary;
 
         try {
             data = await FetchData(endpoint, 'GET');
@@ -177,7 +177,7 @@ const Profile = () => {
             {navClassState === '' && <Header />}
             <div className={'mt-16 ' + (loading && 'opacity-70')}>
                 <div className='py-5 mt-[100px] border-b-[1px] container mx-auto pl-2 sm:pl-10'>
-                    <p className={styles.title2}>{profileData?.userRole} Profile - Name</p>
+                    <p className={styles.title2}>{profileData?.userRole} Profile - {profileData?.name}</p>
                     <div className='text-sm text-gray-700'><NavLink to={'/'}>Home</NavLink>{' / '}<span>{profileData?.userRole} Profile</span></div>
                 </div>
                 {loading && <div className="fixed top-[200px] right-1/2 flex justify-center items-center mt-16">
@@ -212,7 +212,7 @@ const Profile = () => {
                             </div>
                         </div>
                         <div>
-                            <p ref={listElement} className={styles.title2}>VYBHAV KUMAR's Listing(s)</p>
+                            <p ref={listElement} className={styles.title2}>{profileData?.name}'s Listing(s)</p>
                             <div className={navClassState}>
                                 <div className={(navClassState !== '' ? 'transition-transform ease-in-out transform translate-x-[8%] pb-2 -mt-5 duration-[1500ms] ' : '') + 'flex flex-wrap items-center text-xs text-gray-700 mt-5'}>
                                     <div className='flex border-[1px] mt-3 justify-center items-center border-gray-300'>

@@ -18,7 +18,14 @@ export const UserSlice = createSlice({
     outSideFilterState:{
       propertyTypes:false
     },
-    builderCity:'india',
+    builderSearchStatus:{
+      cityPath:'india',
+      builderPath:'',
+      cityName:'',
+      builderName:'',
+      city: '',  name: '', quary: null, showResults: false, showError: false,
+      selectedCityOption: JSON.stringify({cityID: '',cityName:''})
+    },
     currPage:1,
     pageRefresh:true,
     filterMenus: null,
@@ -55,11 +62,11 @@ export const UserSlice = createSlice({
     setOutsideFilterState(state, action) {
       state.outSideFilterState = action.payload
     },
-    setBuilderCity(state, action) {
-      state.builderCity = action.payload
+    setBuilderSearchStatus(state, action) {
+      state.builderSearchStatus = action.payload
     },
   }
 })
-export const { setuser, logout, setlocation, setPropertyListState, setFileterMenus,setCurrPage,setPageRefress,setOutsideFilterState,setBuilderCity } = UserSlice.actions;
+export const { setuser, logout, setlocation, setPropertyListState, setFileterMenus,setCurrPage,setPageRefress,setOutsideFilterState,setBuilderSearchStatus } = UserSlice.actions;
 
 export default UserSlice.reducer;
