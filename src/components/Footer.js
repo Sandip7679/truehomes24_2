@@ -183,7 +183,7 @@ const Footer = () => {
                 <div className='text-left mt-5'>
                     <h1 className={styles.title2Bold}>Property in India</h1>
                     <div className='text-left text-sm mt-2 opacity-90'>
-                        {footerData?.propertyInIndia.map((item, index) => {
+                        {footerData?.propertyInIndia?.map((item, index) => {
                             return (
                                 <>
                                     {index % 2 != 0 && <div
@@ -210,7 +210,7 @@ const Footer = () => {
                 <div className='text-left mt-4'>
                     <h1 className={styles.title2Bold}>New Projects in India</h1>
                     <div className='text-left text-sm mt-2 opacity-90'>
-                        {footerData?.newProjectsInIndia.map((item, index) => {
+                        {footerData?.newProjectsInIndia?.map((item, index) => {
                             return (
                                 <>
                                     {index % 2 != 0 && <p>

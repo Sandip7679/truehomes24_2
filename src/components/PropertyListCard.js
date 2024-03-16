@@ -77,8 +77,8 @@ const PropertyListCard = ({ Data, func }) => {
                             {Data.unitConfig?.map((item, index) => {
                                 return (
                                     <div className='grid grid-cols-3 gap-1 mt-1 text-gray-500'>
-                                        <div>{item.unit}</div>
-                                        <div>{item.unitBuiltUpArea}</div>
+                                        {item.showUnitField != 0 && <div>{item.unit}</div>}
+                                        {item.showBuiltUpField && <div>{item.unitBuiltUpArea}</div>}
                                         {/* <div>{'\u20B9'} 2.5 Cr</div> */}
                                         {item.unitPrice && <div><i className={Data.currency + ' text-sm'}></i> {item.unitPrice}</div>}
                                     </div>
@@ -154,13 +154,13 @@ const PropertyListCard = ({ Data, func }) => {
                         </span>
                     </div>}
                 </div>
-
-                <div className={'border-t-[1px] mt-2 flex py-1 ' + (Data.projectName ? 'justify-end' : 'justify-between')}>
+                {/* + (Data.projectName ? 'justify-end' : 'justify-between') */}
+                <div className={'border-t-[1px] mt-2 flex py-1 justify-between '}>
                     <div>
                         {Data.expectedPrice && Data.expectedPrice != '0' ? <p className={styles.title3}><i className={Data.currency + ' text-base text-gray-600'}></i> {Data.convertedExpectedPrice}</p>
                             :
                             <>
-                               {(Data.price || !Data.unitConfig) && <button
+                               {(!Data.price || !Data.unitConfig) && <button
                                     onClick={() => func(Data)}
                                     className={styles.btn + 'bg-green-600 px-4 my-2 text-white hover:bg-green-700'}>
                                     ASK FOR PRICE
@@ -171,7 +171,8 @@ const PropertyListCard = ({ Data, func }) => {
 
                         {!Data.projectName && <p className='text-sm text-gray-600'>{Data.userAs}: {Data.userDetails?.name}</p>}
                     </div>
-                    {!Data.projectName && <div className='mt-2'>
+                    {/* !Data.projectName && */}
+                    { <div className='mt-2'>
                         <button
                             onClick={() => func(Data)}
                             className={styles.btn + 'bg-green-600 hover:bg-green-700 px-4 py-1'}>

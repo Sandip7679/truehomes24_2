@@ -134,12 +134,12 @@ const Profile = () => {
             let lastpage = Math.floor(data.totalProperty / 25) + 1;
             console.log('data...', data, 'isAgent...', isAgent);
             setPropertyListData({ currPage: data.page, totalProperty: data.totalProperty, lastPage: lastpage, propertyList: data.property });
-            if(!propertyNumber){
+            if(!propertyNumber && data.totalProperty){
                 setPropertyNumber(data.totalProperty);
             }
             setLoading(false);
         }
-        if (!data.property.length) {
+        if (!data?.property?.length) {
             window.scrollTo({ top: 100, behavior: 'smooth' });
         }
     }
@@ -289,7 +289,7 @@ const Profile = () => {
                         <div className='pr-2'>
                             <div className='mt-2 p-2 pl-0 border-b-[1px] border-b-gray-300'>
                                 <span className='p-[10px] border-b-[1px] border-b-gray-500'>
-                                    All Property {`( ${propertyListData.totalProperty} )`}
+                                    All Property {`( ${propertyListData?.totalProperty?propertyListData?.totalProperty:'0'} )`}
                                 </span>
                             </div>
                             {propertyListData?.propertyList?.map((item, index) => {

@@ -369,6 +369,7 @@ const ProjectDetails = () => {
                                     <p className={styles.title4 + 'ml-1'}>Amenities</p>
                                     <div className='flex flex-wrap justify-between mt-4'>
                                         {/* AllData.data?.detailsTab?.amenitiesItems? */}
+                                        {/* Amenities */}
                                         {Amenities.map((item, index) => {
                                             return (
                                                 // <div className='prose flex w-[50%] min-w-[180px] sm:w-[30%]' dangerouslySetInnerHTML={{__html:item}}/>

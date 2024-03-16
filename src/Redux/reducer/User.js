@@ -31,6 +31,7 @@ export const UserSlice = createSlice({
     filterMenus: null,
     propertyStatus: 'sale',
     login_status: false,
+    pageNotFoundPath:''
   },
   reducers: {
     setuser(state, action) {
@@ -65,8 +66,11 @@ export const UserSlice = createSlice({
     setBuilderSearchStatus(state, action) {
       state.builderSearchStatus = action.payload
     },
+    setPageNotFoundPath(state, action) {
+      state.builderSearchStatus = action.payload
+    },
   }
 })
-export const { setuser, logout, setlocation, setPropertyListState, setFileterMenus,setCurrPage,setPageRefress,setOutsideFilterState,setBuilderSearchStatus } = UserSlice.actions;
+export const { setuser, logout, setlocation, setPropertyListState, setFileterMenus,setCurrPage,setPageRefress,setOutsideFilterState,setBuilderSearchStatus,setPageNotFoundPath } = UserSlice.actions;
 
 export default UserSlice.reducer;

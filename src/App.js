@@ -16,7 +16,7 @@ import EditProfile from './pages/MyDashboard/EditProfile';
 import AdPackageDetail from './pages/PostProperty/AdPackageDetail';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { setPageRefress, setlocation, setuser } from './Redux/reducer/User';
+import { setPageNotFoundPath, setPageRefress, setlocation, setuser } from './Redux/reducer/User';
 import ContactUs from './pages/QuickLinks/ContactUs';
 import FAQs from './pages/QuickLinks/FAQs';
 import Blogs from './pages/QuickLinks/Blogs';
@@ -26,11 +26,12 @@ import AboutUs from './pages/QuickLinks/AboutUs';
 import PrivacyPolicy from './pages/QuickLinks/PrivacyPolicy';
 import RefundPolicy from './pages/QuickLinks/RefundPolicy';
 import Sitemap from './pages/QuickLinks/Sitemap';
+import PageNotFound from './pages/PageNotFound';
 
 function App() {
-  const {pageRefresh,currLocation,builderSearchStatus} = useSelector(state=>state.User);
+  const {pageRefresh,currLocation,builderSearchStatus,pageNotFoundPath} = useSelector(state=>state.User);
   const dispatch = useDispatch();
-  // const location = useLocation();
+  const location = useLocation();
 
   useEffect(()=>{
      if(localStorage.getItem('isLoggedIn') == 'true'){
@@ -40,6 +41,8 @@ function App() {
       dispatch(setPageRefress(false));
      }
      getCurrLocation();
+    //  console.log('location...path..',location);
+     dispatch(setPageNotFoundPath(location.pathname));
   },[]);
 
   const getCurrLocation =  () => {
@@ -54,6 +57,7 @@ function App() {
   return (
     <>
       <Routes>
+        {/* {console.log('first.....',`/${pageNotFoundPath}`,location.pathname)} */}
         <Route path='/' element={<Home />} />
         <Route path='/:detail' element={<PropertyList />} />
         <Route path='/sale/:pathCity' element={<PropertyList />}/>
@@ -94,7 +98,9 @@ function App() {
         <Route path='/privacy-policy' element={<PrivacyPolicy/>} />
         <Route path='/refund-policy' element={<RefundPolicy/>} />
         <Route path='/sitemap' element={<Sitemap/>} />
-        {/* <Route path='/:notfound' element={<Home/>} /> */}
+        <Route path='/:notfound/:notfound' element={<PageNotFound/>} />
+        <Route path='/:notfound/:notfound/:notfound' element={<PageNotFound/>} />
+        <Route path='/:notfound/:notfound/:notfound/:notfound' element={<PageNotFound/>} />
       </Routes>
     </>
   );
