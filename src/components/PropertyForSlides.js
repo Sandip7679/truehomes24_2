@@ -23,7 +23,8 @@ const PropertyForSlides = () => {
         let propStatus = propertyListState.propertyStatus.value == 'rent' ? 'rent' : 'sale';
         try {
             data = await FetchData(`listing-bottom-content?city=${currLocation.code}&property_status=${propStatus}`, 'GET');
-            // console.log('data.... data...', data);
+            console.log('data.... data...', data);
+            console.log('currLocation.code rsc...', currLocation.code,'propStatus..',propStatus);
         } catch (err) {
             console.log('err... data..', err);
         }
@@ -58,13 +59,13 @@ const PropertyForSlides = () => {
             ...propertyListState,
             propertyStatus: propstatus,
             BHKtype:item.bedroom?item.bedroom : '',
-            propertyTypes: item.property_type ? item.property_type : '',
+            propertyTypes: item.property_type ? `${item.property_type}` : '',
             priceRange: [minPrice, maxPrice],
             moreStatus: { furnishingTypes: '', bathrooms: '', minArea: '', maxArea: '', newResale: '', constructionStatus: '', facing: '', amenities: '', listedBy:item.listed_by?item.listed_by : '', floor: '' },
             sortBy: 'featured',
             clearAll: false
         }));
-        dispatch(setOutsideFilterState({...outSideFilterState,propertyTypes:true}));
+        // dispatch(setOutsideFilterState({...outSideFilterState,propertyTypes:true}));
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
@@ -85,6 +86,7 @@ const PropertyForSlides = () => {
                 {propertyInForData?.map((item, index) => {
                     return (
                         <div className='w-full self-center pl-[15%]'>
+                            {console.log('item..proinfrodaa...',item)}
                             <p className='mb-2 to-gray-200 font-semibold'>{item.title}</p>
                             {item?.details?.length && item?.details?.map((itm, ind) => {
                                 return (

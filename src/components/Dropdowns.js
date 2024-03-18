@@ -140,32 +140,45 @@ export const PropertyTypeMenu = ({ classname }) => {
         //     arr[index] = false;
         // }
         // }
-        if (arr[index] && arr[index] !== '0') {
-            arr[index] = false;
-        } else {
-            arr[index] = value;
+
+
+        // if (arr[index] && arr[index] !== '0') {
+        //     arr[index] = false;
+        // } else {
+        //     arr[index] = value;
+        // }
+        // setCheckedItems(arr);
+        // dispatch(setPropertyListState({ ...propertyListState, clearAll: false, propertyTypes: arr.filter(it => it).join('-') }));
+        // if (outSideFilterState.propertyTypes) {
+        //     dispatch(setOutsideFilterState({ ...outSideFilterState, propertyTypes: false }));
+        // }
+
+        let str = propertyListState.propertyTypes;
+        if(str.includes(`-${value}`)){
+           str = str.replace(`-${value}`,'');
+            // str = str+`-${value}`;
+        }else if(str.includes(value)){
+            str = str.replace(value,'');
+        }else {
+            str = str+`-${value}`;
         }
-        setCheckedItems(arr);
-        dispatch(setPropertyListState({ ...propertyListState, clearAll: false, propertyTypes: arr.filter(it => it).join('-') }));
-        if (outSideFilterState) {
-            dispatch(setOutsideFilterState({ ...outSideFilterState, propertyTypes: false }));
-        }
+        dispatch(setPropertyListState({ ...propertyListState, clearAll: false, propertyTypes: str }));
     }
 
-    useEffect(() => {
-        if (propertyListState.clearAll) {
-            setCheckedItems([]);
-        }
-    }, [propertyListState.clearAll]);
+    // useEffect(() => {
+    //     if (propertyListState.clearAll) {
+    //         setCheckedItems([]);
+    //     }
+    // }, [propertyListState.clearAll]);
 
-    useEffect(() => {
-        if (outSideFilterState.propertyTypes) {
-            let arr = filterMenus?.propertyType?.map((item, index) => {
-                if (propertyListState.propertyTypes.includes(item.value)) return item.value;
-            });
-            setCheckedItems(arr);
-        }
-    }, [outSideFilterState.propertyTypes]);
+    // useEffect(() => {
+    //     if (outSideFilterState.propertyTypes) {
+    //         let arr = filterMenus?.propertyType?.map((item, index) => {
+    //             if (propertyListState.propertyTypes.includes(item.value)) return item.value;
+    //         });
+    //         setCheckedItems(arr);
+    //     }
+    // }, [outSideFilterState.propertyTypes]);
 
 
 
@@ -180,7 +193,8 @@ export const PropertyTypeMenu = ({ classname }) => {
                             <input
                                 // onChange={(e) => handleOnCheckedItem(e, index, item.value)}
                                 onClick={(e) => handleOnCheckedItem(e, index, item.value)}
-                                checked={item.value == checkedItems[index]}
+                                // checked={item.value == checkedItems[index]}
+                                checked={propertyListState?.propertyTypes?.includes(item.value)}
                                 //|| propertyListState.propertyTypes?.includes(item.value)
                                 type="checkbox" class="form-checkbox mt-1 h-4 w-4 text-blue-500"
                             />

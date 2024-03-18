@@ -69,6 +69,7 @@ function App() {
         <Route path='/new-projects/:path/:id' element={<ProjectDetails/>} />
         <Route path='dev1/sale/:detail' element={<PropertyList/>} />
         <Route path='dev1/rent/:detail' element={<PropertyList/>} />
+        {/* <Route path='dev1/new-projects/:detail' element={<PropertyList/>} /> */}
         <Route path='dev1/:detail' element={<PropertyList/>} />
         <Route path='/agents' element={<Agents/>} />
         <Route path='/agent/:path' element={<Agents/>} />

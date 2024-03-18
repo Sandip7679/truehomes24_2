@@ -33,7 +33,7 @@ import "yet-another-react-lightbox/plugins/thumbnails.css";
 import Download from "yet-another-react-lightbox/plugins/download";
 import Fullscreen from "yet-another-react-lightbox/plugins/fullscreen";
 import Zoom from "yet-another-react-lightbox/plugins/zoom";
-import useApi from '../../ApiConf';
+import useApi, { UseApi } from '../../ApiConf';
 import PropertySlider from '../../components/PropertySlider';
 
 // const images = [
@@ -104,26 +104,30 @@ const ProjectDetails = () => {
     const Nearby = useRef();
     const FAQ = useRef();
     const routePath = useLocation();
-    const { fetchData } = useApi();
+    // const { fetchData } = useApi();
+    const { FetchData } = UseApi();
     const [AllData, setAllData] = useState({ breadcrumb: [], gallery: [], data: null, featuredProperty: [], recentlyAddedProperty: [], recentBlogs: null, similarListing: [] });
     const [loading, setLoading] = useState(true);
-    const [propertyTabNames,setPropertyTabNames] = useState([]);
+    const [propertyTabNames, setPropertyTabNames] = useState([]);
     const [galleryImages, setGalleryImges] = useState({ images: [], tabName: null });
 
     useEffect(() => {
         ovserveIntersection();
-        getProjectDetails();
+        // getProjectDetails()
     }, []);
+    useEffect(() => {
+        getProjectDetails();
+    }, [routePath.pathname]);
 
     const getProjectDetails = async () => {
         setLoading(true);
         let data;
         try {
-            data = await fetchData(`${routePath.pathname}`, 'GET');
+            data = await FetchData(`${routePath.pathname}`, 'GET');
         } catch (err) {
             console.log(err);
         }
-        if (data) {
+        if (data && !data?.error) {
             setAllData({
                 breadcrumb: data?.breadcrumb,
                 gallery: data.data?.galleryTab,
@@ -136,13 +140,15 @@ const ProjectDetails = () => {
             data?.data?.galleryTab.images ? setGalleryImges({ images: data?.data?.galleryTab?.images, tabName: null }) : setGalleryImges({ images: data?.data?.galleryTab?.PropertyImages, tabName: 'PropertyImages' });
             setLoading(false);
             setPropertyTabNames([
-                {name:'Details',sectionName:Details,show:true},
-                {name:'Description',sectionName:Description,show:true},
-                {name:'About Builder',sectionName:AboutBuilder,show:AllData.data?.descriptionTab?.aboutBuilder?true:false},
-                {name:'Gallery',sectionName:Gallery,show:true},
-                {name:'Nearby',sectionName:Nearby,show:data.data?.nearByTab?.nearby?true:false},
-                {name:'FAQ',sectionName:FAQ,show:data.data?.faqtab?.length > 0 || data.data?.faqtab?.faqs.length > 0}
+                { name: 'Details', sectionName: Details, show: true },
+                { name: 'Description', sectionName: Description, show: true },
+                { name: 'About Builder', sectionName: AboutBuilder, show: AllData.data?.descriptionTab?.aboutBuilder ? true : false },
+                { name: 'Gallery', sectionName: Gallery, show: true },
+                { name: 'Nearby', sectionName: Nearby, show: data.data?.nearByTab?.nearby ? true : false },
+                { name: 'FAQ', sectionName: FAQ, show: data.data?.faqtab?.length > 0 || data.data?.faqtab?.faqs.length > 0 }
             ]);
+        } else {
+            setLoading(false);
         }
     }
 
@@ -271,7 +277,9 @@ const ProjectDetails = () => {
                                     <span>RERA ID: </span><span className='text-cyan-600'>{AllData.data?.rera}</span>
                                 </div>}
                                 <div className=' w-full mt-2'>
-                                    {AllData.data?.price ? <span className=''><button className='cursor-text mt-1 px-2 py-[2px] bg-cyan-600 text-lg text-white w-full text-left rounded'>{AllData.data?.unitConfigurationTab ? 'Builder Price:' : 'Sale Price:'} {AllData.data?.price}</button></span>
+                                    {AllData.data?.price ? <span className=''><button className='cursor-text mt-1 px-2 py-[2px] bg-cyan-600 text-lg text-white w-full text-left rounded'>{AllData.data?.unitConfigurationTab ? 'Builder Price:' : 'Sale Price:'}
+                                          {AllData.data?.CurrencyClass?<i className={AllData.data?.CurrencyClass+' text-base ml-1'}></i>:AllData.data?.CurrencySymbol} {AllData.data?.convertedPrice?AllData.data?.convertedPrice: AllData.data?.price}
+                                     </button></span>
                                         :
                                         <button onClick={onClickContactBtn} className={styles.btnFull + 'bg-green-600 hover:bg-green-700 mt-5'}>ASK FOR PRICE</button>
                                     }
@@ -299,7 +307,7 @@ const ProjectDetails = () => {
                                                 <>
                                                     {item.show &&
                                                         <a key={index}
-                                                            onClick={() =>{ 
+                                                            onClick={() => {
                                                                 setPropDetailsTypeInd(index);
                                                                 item.sectionName.current?.scrollIntoView({ behavior: 'smooth' })
                                                             }}
@@ -314,9 +322,9 @@ const ProjectDetails = () => {
                                 </div>
 
                                 <div ref={Details} className='scroll-mt-20'>
-                                    <p 
-                                    //  onClick={()=>section.current.scrollIntoView({ behavior: 'smooth' })}
-                                     className={styles.title4 + 'mt-8'}>{AllData.data?.scoietyName ? `${AllData.data?.scoietyName} Info` : 'Property Details'}</p>
+                                    <p
+                                        //  onClick={()=>section.current.scrollIntoView({ behavior: 'smooth' })}
+                                        className={styles.title4 + 'mt-8'}>{AllData.data?.scoietyName ? `${AllData.data?.scoietyName} Info` : 'Property Details'}</p>
                                     <div className='flex justify-between flex-wrap'>
                                         <div
                                             className='w-[50%] sm:w-[30%] mt-2'
@@ -325,7 +333,7 @@ const ProjectDetails = () => {
                                             {AllData.data?.detailsTab?.length > 0 && AllData.data?.detailsTab?.map((item, index) => {
                                                 return (
                                                     <>
-                                                        {index % 3 == 0 && item.label != 'Project Link' && <div key={index} className='mt-1' >
+                                                        {index % 3 == 0 && <div key={index} className='mt-1' >
                                                             <span className=''>{item.label}: </span>
                                                             <a className='text-gray-500'>{item.value}</a>
                                                             {/* <span className='text-gray-500 prose ' dangerouslySetInnerHTML={{ __html: item.value }} /> */}
@@ -365,25 +373,25 @@ const ProjectDetails = () => {
                                         </div>
                                     </div>
                                 </div>
-                                <div className='mt-5 pb-5'>
+                                {AllData.data?.amenitiesItems && <div className='mt-5 pb-5'>
                                     <p className={styles.title4 + 'ml-1'}>Amenities</p>
                                     <div className='flex flex-wrap justify-between mt-4'>
                                         {/* AllData.data?.detailsTab?.amenitiesItems? */}
                                         {/* Amenities */}
-                                        {Amenities.map((item, index) => {
+                                        {AllData.data?.amenitiesItems?.map((item, index) => {
                                             return (
                                                 // <div className='prose flex w-[50%] min-w-[180px] sm:w-[30%]' dangerouslySetInnerHTML={{__html:item}}/>
                                                 <div key={index} className='flex w-[50%] min-w-[180px] sm:w-[30%]'>
-                                                    <button className='w-8 h-8 p-1 flex justify-center -mt-1'> {item.icon === '' ? <MenuIcon classname={'h-4 w-4 mt-1'} />
+                                                    <button className='w-8 h-8 p-1 flex justify-center'> {item.icon === '' ? <MenuIcon classname={'h-4 w-4 mt-1'} />
                                                         : <i class={item.icon + ' text-gray-600 text-sm'}></i>
                                                     }
                                                     </button>
-                                                    <span className='text-gray-700'>{item.name}</span>
+                                                    <span className='text-gray-700  mt-[1px]'>{item.text}</span>
                                                 </div>
                                             )
                                         })}
                                     </div>
-                                </div>
+                                </div>}
                             </div>
                             <div ref={Description} className='bg-white shadow-md px-[2%] py-5 mt-10 scroll-mt-20'>
                                 <p className={styles.title4}>{AllData.data?.scoietyName ? `About ${AllData.data?.scoietyName}` : 'Property Brief'}</p>
@@ -550,15 +558,16 @@ const ProjectDetails = () => {
                                     })}
                                 </div>
                             </div>}
-                            {(AllData.data?.faqtab?.length > 0 || AllData.data?.faqtab?.faqs?.length > 0) && <div ref={FAQ}  className='mt-10 bg-white shadow-md px-5 py-5 mb-10 scroll-mt-20'>
+                            {(AllData.data?.faqtab?.length > 0 || AllData.data?.faqtab?.faqs?.length > 0) && <div ref={FAQ} className='mt-10 bg-white shadow-md px-5 py-5 mb-10 scroll-mt-20'>
                                 <FAQs Data={AllData.data?.faqtab?.length ? AllData.data?.faqtab : AllData.data?.faqtab?.faqs} />
                             </div>}
                         </div>
 
                         <div className='w-full lg:w-[33%] xl:max-w-[400px]'>
-                            <RecentViewCard title={'Featured Property'} Data={AllData.featuredProperty} />
-                            <RightListCard title={'Recently Added Property'} data={AllData.recentlyAddedProperty} />
-                            <RightListCard title={'Recent Blog'} data={AllData.recentBlogs} />
+                            {AllData?.featuredProperty?.length > 0 && <RecentViewCard title={'Featured Property'} Data={AllData?.featuredProperty} />}
+                               
+                            <RightListCard title={'Recently Added Property'} data={AllData?.recentlyAddedProperty} />
+                            <RightListCard title={'Recent Blog'} data={AllData?.recentBlogs} />
                         </div>
                     </div>
                     {AllData.similarListing && <div className='mt-[50px]'>
