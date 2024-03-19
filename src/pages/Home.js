@@ -629,7 +629,7 @@ const Home = () => {
                     <NewsAndArticles Data={allProperties.newsAndArticle} type={'News & Articles'} />
                 </div>
                 <div className='mt-10'>
-                    <p className={styles.title2}>Our Property Stats</p>
+                    <p className={styles.title2+' ml-3'}>Our Property Stats</p>
                     <div className='mt-5 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3'>
                         {propertyCount.map((item, index) => {
                             return (
@@ -645,7 +645,7 @@ const Home = () => {
                 </div>
 
                 <div className='mb-16 mt-10 px-2 sm:px-5'>
-                    <p className={styles.title2}>Top Developers in {currLocation.code?currLocation.city:'Chennai'}</p>
+                    <p className={styles.title2+''}>Top Developers in {currLocation.code?currLocation.city:'Chennai'}</p>
                     <div className='grid grid-cols-1 xs:grid-cols-2 lg:grid-cols-3 gap-2 sm:gap-5 justify-center mt-5'>
                         {allProperties?.topDeveloper?.length > 0 && allProperties.topDeveloper?.map((item, index) => {
                             return (

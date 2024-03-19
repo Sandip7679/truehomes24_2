@@ -27,6 +27,7 @@ import PrivacyPolicy from './pages/QuickLinks/PrivacyPolicy';
 import RefundPolicy from './pages/QuickLinks/RefundPolicy';
 import Sitemap from './pages/QuickLinks/Sitemap';
 import PageNotFound from './pages/PageNotFound';
+import ViewResponse from './pages/MyDashboard/ViewResponse';
 
 function App() {
   const {pageRefresh,currLocation,builderSearchStatus,pageNotFoundPath} = useSelector(state=>state.User);
@@ -89,6 +90,7 @@ function App() {
         <Route path='/manage-property' element={<ManageProperty/>} />
         <Route path='/dashboard/my-profile' element={<ManageProfile/>} />
         <Route path='/dashboard/edit-profile' element={<EditProfile/>} />
+        <Route path='/dashboard/received-leads' element={<ViewResponse/>} />
         <Route path='/contact-us' element={<ContactUs/>} />
         <Route path='/faqs' element={<FAQs/>} />
         <Route path='/blogs' element={<Blogs/>} />

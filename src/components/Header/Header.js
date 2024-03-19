@@ -58,6 +58,7 @@ const Header = () => {
     const locationPath = useLocation();
     const cityRef = useRef(null);
     const citymenu = useRef(null);
+    const [openMobileMenu,setOpenMobileMenu] = useState(false);
     const [showLoginPopup, setShowLoginPopup] = useState(false);
     // const { fetchData, error } = useApi();
     const { FetchData } = UseApi();
@@ -77,7 +78,7 @@ const Header = () => {
         //     }
         // });
         myDashboardItems = [
-            { name: 'View Response', endpoint: null },
+            { name: 'View Response', endpoint: '/dashboard/received-leads' },
             { name: 'Manage Property', endpoint: '/manage-property' },
             { name: 'My Order', endpoint: null },
             { name: 'Manage Profile', endpoint: '/dashboard/my-profile' },
@@ -86,7 +87,8 @@ const Header = () => {
         ];
         closeOnClickOutside('dropdown-city', 'city-menu');
         document.getElementById('mobile-menu-button').addEventListener('blur', () => {
-            document.getElementById('mobile-menu').classList.add('hidden');
+            // document.getElementById('mobile-menu').classList.add('hidden');
+            setOpenMobileMenu(false);
         });
 
         // document.getElementById('more-services-btn').addEventListener('blur', () => {
@@ -231,12 +233,15 @@ const Header = () => {
             <div className="flex justify-between">
                 <div className="flex items-center">
                     <div class="xl:hidden z-[200] group">
-                        <button id="mobile-menu-button" class="text-white focus:outline-none h-6 w-6 sm:h-8 sm:w-8" onClick={() => document.getElementById('mobile-menu').classList.toggle('hidden')}>
+                        <button id="mobile-menu-button" class="text-white focus:outline-none h-8 w-8 mr-1" onClick={() =>{
+                          setOpenMobileMenu(!openMobileMenu);
+                        //   console.log('opemmobilemunu...',openMobileMenu);
+                          }} >
                             <MenuIcon />
                         </button>
-                        <div id="mobile-menu" className="hidden fixed group-hover:block lg:hidden inset-0 top-[52px] shadow border-r-[1px] bg-gray-50 z-5 w-[80%] max-w-[300px]">
+                        {<div id="mobile-menu" className={(openMobileMenu?"block translate-x-0" : "hidden -translate-x-full")+ " transition-transform duration-300 transform fixed group-hover:block lg:hidden inset-0 top-[52px] shadow border-r-[1px] bg-gray-50 z-5 w-[80%] max-w-[300px]"}>
                             <MobileMenu />
-                        </div>
+                        </div>}
                     </div>
                     <NavLink to={'/'}>
                         <img src={logoImage} alt="Logo" className="h-9 w-12 sm:w-14 ml-1 sm:ml-2" />
@@ -258,7 +263,7 @@ const Header = () => {
                             id='city-menu'
                             className="absolute hidden bg-white p-2 pt-2 overflow-auto h-[500px] pb-10 w-screen max-w-[430px] space-y-2 -ml-[90px] sm:ml-0 text-gray-800 top-9 border-gray-300 border-[1px] rounded-md"
                         >
-                            <div className='grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2 mt-2'>
+                            <div className='grid grid-cols-3 lg:grid-cols-4 gap-2 mt-2'>
                                 {AllCities.international?.map((item, index) => {
                                     return (
                                         <NavLink
@@ -291,7 +296,7 @@ const Header = () => {
                             </div>
                             {(!searchText || searchText == '') && <div className=''>
                                 <div className='text-left mt-5 font-semibold'>Top Cities</div>
-                                <div className='grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2 mt-4'>
+                                <div className='grid grid-cols-3 lg:grid-cols-4 gap-2 mt-4'>
                                     {AllCities.topCities?.map((item, index) => {
                                         return (
                                             <NavLink
@@ -299,7 +304,7 @@ const Header = () => {
                                                 to={`${getRoutePath(item.text)}`}
                                                 onClick={() => setLocation({ city: item.text, area: item.text, code: item.city, country: '90', location: '', locationName: null, project: '', projectName: null })}
                                                 key={index}
-                                                className="px-2 py-4 rounded-md hover:bg-gray-100 max-w-[100px] flex flex-col border-[1px] shadow-lg items-center justify-center">
+                                                className="px-2 py-4 rounded-md hover:bg-gray-100 flex flex-col border-[1px] shadow-lg items-center justify-center">
                                                 <img alt='' src={cityIcon} className='h-5 w-6' />
                                                 <span className='text-xs mt-1'>{item.text}</span>
                                             </NavLink>
