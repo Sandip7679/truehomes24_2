@@ -5,33 +5,42 @@ export const UserSlice = createSlice({
   initialState: {
     userData: null,
     // footerData:null,
-    currLocation: { country: '90', city: 'India',code:'', location: '',locationName:null,project:'',projectName:null, area: 'City' },
+    currLocation: { country: '90', city: 'India', code: '', location: '', locationName: null, project: '', projectName: null, area: 'City' },
     propertyListState: {
-      propertyStatus: { text: 'Buy', value: 'sale',for:'Sale', index: 0 },
+      propertyStatus: { text: 'Buy', value: 'sale', for: 'Sale', index: 0 },
       BHKtype: '',
       propertyTypes: '',
       priceRange: ['', ''],
-      moreStatus:{furnishingTypes:'',bathrooms:'',minArea:'',maxArea:'',newResale:'',constructionStatus:'',facing:'',amenities:'',listedBy:'',floor:''},
-      sortBy:'featured',
-      clearAll:false
+      moreStatus: { furnishingTypes: '', bathrooms: '', minArea: '', maxArea: '', newResale: '', constructionStatus: '', facing: '', amenities: '', listedBy: '', floor: '' },
+      sortBy: 'featured',
+      clearAll: false
     },
-    outSideFilterState:{
-      propertyTypes:false
+    outSideFilterState: {
+      propertyTypes: false
     },
-    builderSearchStatus:{
-      cityPath:'india',
-      builderPath:'',
-      cityName:'',
-      builderName:'',
-      city: '',  name: '', quary: null, showResults: false, showError: false,
-      selectedCityOption: JSON.stringify({cityID: '',cityName:''})
+    builderSearchStatus: {
+      cityPath: 'india',
+      builderPath: '',
+      cityName: '',
+      builderName: '',
+      city: '', name: '', quary: null, showResults: false, showError: false,
+      selectedCityOption: JSON.stringify({ cityID: '', cityName: '' })
     },
-    currPage:1,
-    pageRefresh:true,
+    currPage: 1,
+    pageRefresh: true,
     filterMenus: null,
     propertyStatus: 'sale',
+    postPertyFormData: {
+      // onSkipMessage:null,
+      generalInfo: null,
+      propertyInfo: null,
+      amenities: null,
+      nearByPlace: null,
+      buyRentGallary: null,
+      newProjectGallery: null
+    },
     login_status: false,
-    pageNotFoundPath:''
+    pageNotFoundPath: ''
   },
   reducers: {
     setuser(state, action) {
@@ -69,8 +78,12 @@ export const UserSlice = createSlice({
     setPageNotFoundPath(state, action) {
       state.builderSearchStatus = action.payload
     },
+    setPostPropertyFormData(state, action) {
+      state.postPertyFormData = action.payload
+    },
   }
 })
-export const { setuser, logout, setlocation, setPropertyListState, setFileterMenus,setCurrPage,setPageRefress,setOutsideFilterState,setBuilderSearchStatus,setPageNotFoundPath } = UserSlice.actions;
+export const { setuser, logout, setlocation, setPropertyListState, setFileterMenus,
+  setCurrPage, setPageRefress, setOutsideFilterState, setBuilderSearchStatus, setPageNotFoundPath, setPostPropertyFormData } = UserSlice.actions;
 
 export default UserSlice.reducer;

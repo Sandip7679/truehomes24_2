@@ -16,13 +16,13 @@ const catagories = ['Property Info', 'Amenities', 'Nearby Places', 'Gallery'];
 
 
 const PostProperty = () => {
-    const { login_status} = useSelector(state => state.User)
-    const [currCatagory, setCurrCategory] = useState(login_status?'Property Info':'General Info');
-    useEffect(()=>{
-        if(login_status){
+    const { login_status } = useSelector(state => state.User)
+    const [currCatagory, setCurrCategory] = useState(login_status ? 'Property Info' : 'General Info');
+    useEffect(() => {
+        if (login_status) {
             setCurrCategory('Property Info');
         }
-    },[login_status])
+    }, [login_status])
 
     return (
         <div>
@@ -30,13 +30,17 @@ const PostProperty = () => {
             <div className='mt-[80px]'>
                 <div className={styles.postpropTitle}>Post your Property</div>
                 <div className='mt-5 px-2 container mx-auto'>
-                    <FormCatagories catagories={login_status?catagories:['General Info',...catagories]} activeCatagory={currCatagory} onClickItem={(item) => setCurrCategory(item)} />
+                    <FormCatagories catagories={login_status ? catagories : ['General Info', ...catagories]} activeCatagory={currCatagory} onClickItem={(item) => setCurrCategory(item)} />
                     <div className={styles.formCard}>
                         {currCatagory === 'General Info' && <GeneralInfo />}
                         {currCatagory === 'Property Info' && <PropertyInfo />}
                         {currCatagory === 'Amenities' && <Amenities />}
                         {currCatagory === 'Nearby Places' && <NearbyPlaces />}
                         {currCatagory === 'Gallery' && <Gallery />}
+                        {/* {currCatagory === 'Property Info' && !postPertyFormData.generalInfo &&
+                            <div className={(currCatagory === 'Property Info'?'transition-transform ease-in-out transform -translate-y-10 duration-1000':'')+' mt-16 bg-red-600 text-white'}>
+                                  Please submit general information first
+                            </div>} */}
                     </div>
 
                 </div>

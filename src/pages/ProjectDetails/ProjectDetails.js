@@ -335,7 +335,7 @@ const ProjectDetails = () => {
                                                     <>
                                                         {index % 3 == 0 && <div key={index} className='mt-1' >
                                                             <span className=''>{item.label}: </span>
-                                                            <a className='text-gray-500'>{item.value}</a>
+                                                            <a className='text-gray-500 overflow-ellipsis line-clamp-1'>{item.value}</a>
                                                             {/* <span className='text-gray-500 prose ' dangerouslySetInnerHTML={{ __html: item.value }} /> */}
                                                         </div>}
                                                     </>

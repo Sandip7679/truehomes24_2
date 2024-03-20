@@ -20,6 +20,7 @@ const useApi = () => {
         //   },
         headers: myHeaders,
         body: data ? JSON.stringify(data) : null,
+        // body: data ? data : null,
       });
 
       if (!response.ok) {
@@ -53,10 +54,11 @@ export const UseApi = () => {
     try {
       var myHeaders = new Headers();
       // myHeaders.append("Authorization", "Bearer null");
+      // myHeaders.append("Content-Type", 'application/json');
       const response = await fetch(url,{
         method: method,
         // headers: {
-        //     // 'Content-Type': 'application/json',
+        //     'Content-Type': 'application/json',
         //     // "Authorization": "Bearer "
         //     // Add any additional headers if needed
         //   },
@@ -64,7 +66,8 @@ export const UseApi = () => {
         // credentials: 'include',
         // mode: "no-cors",
         // redirect: "follow",
-        // body: data ? JSON.stringify(data) : null,
+        body: data ? JSON.stringify(data) : null,
+        // body: data ? data : null,
       });
 
       if (!response.ok) {

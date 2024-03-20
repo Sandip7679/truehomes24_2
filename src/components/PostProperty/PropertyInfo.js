@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { styles } from '../../Styles/Styles';
 import { AreaInputs, ButtonList, CategoryTitle, DropdownInput, InputList } from './PostPropertyComp';
+import { useSelector } from 'react-redux';
 
 
 const propertyTypes = [
@@ -40,54 +41,65 @@ const areasInputs = [
 
 const propertyStatus = ['Under Construction', 'Ready to move', 'Upcoming', 'Sold Out'];
 const nums = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
-const months = nums.map((item,index)=>`${index} Month`);
-const years = nums.map((item,index)=>`${index} Year`);
+const months = nums.map((item, index) => `${index} Month`);
+const years = nums.map((item, index) => `${index} Year`);
 
 const PropertyInfo = () => {
-    const [animation,setAnimation] = useState(false);
-    useEffect(()=>{
-        setAnimation(true);
-    },[])
-    return (
-            <form className={'mt-16 '+ (animation?'transition-transform ease-in-out transform -translate-y-10 duration-1000':'')}>
-                <CategoryTitle title={'Property Information :'} icon={'fa-regular fa-building'}/>
-                <div className='md:flex gap-[5%]'>
-                    <div className='mb-5 flex-none'>
-                        <ButtonList title={'Listed For'} btnNames={['Sale', 'Rent']} initialName={'Sale'} required={true} />
-                    </div>
-                    <ButtonList title={'Property Type'} btnNames={propertyTypes} initialName={'Apartment'} required={true} />
-                </div>
-                <InputList inputs={inputs} />
-                <AreaInputs inputDatas={areasInputs} />
+    const [animation, setAnimation] = useState(false);
+    const {postPertyFormData } = useSelector(state => state.User);
 
-                <div className='mt-5 sm:flex  gap-[5%]'>
-                    <ButtonList title={'Status'} btnNames={propertyStatus}
-                        initialName={'Under Construction'} required={true} classname={'w-[40%] mt-3'} />
-                    <div className='sm:w-[55%] mt-3'>
-                        <p>Available From</p>
-                        <div className='sm:flex gap-[4%] '>
-                            <DropdownInput options={months} placeholder={'Month'} inputClass={'w-[100%] max-w-[200px] mt-2'} />
-                            <DropdownInput options={years} placeholder={'Year'} inputClass={'w-[100%] max-w-[200px] mt-2'} />
+    useEffect(() => {
+        setAnimation(true);
+    }, [])
+    return (
+        <form className={'mt-16 ' + (animation ? 'transition-transform ease-in-out transform -translate-y-10 duration-1000' : '')}>
+            {postPertyFormData.generalInfo ?
+                <>
+                    <CategoryTitle title={'Property Information :'} icon={'fa-regular fa-building'} />
+                    <div className='md:flex gap-[5%]'>
+                        <div className='mb-5 flex-none'>
+                            <ButtonList title={'Listed For'} btnNames={['Sale', 'Rent']} initialName={'Sale'} required={true} />
+                        </div>
+                        <ButtonList title={'Property Type'} btnNames={propertyTypes} initialName={'Apartment'} required={true} />
+                    </div>
+                    <InputList inputs={inputs} />
+                    <AreaInputs inputDatas={areasInputs} />
+
+                    <div className='mt-5 sm:flex  gap-[5%]'>
+                        <ButtonList title={'Status'} btnNames={propertyStatus}
+                            initialName={'Under Construction'} required={true} classname={'w-[40%] mt-3'} />
+                        <div className='sm:w-[55%] mt-3'>
+                            <p>Available From</p>
+                            <div className='sm:flex gap-[4%] '>
+                                <DropdownInput options={months} placeholder={'Month'} inputClass={'w-[100%] max-w-[200px] mt-2'} />
+                                <DropdownInput options={years} placeholder={'Year'} inputClass={'w-[100%] max-w-[200px] mt-2'} />
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div className='mt-5 sm:flex sm:gap-5'>
-                    <div className='sm:w-[40%]'>
-                        <p>Main Image<span className='text-red-500'>*</span></p>
-                        <input required type='file' className={styles.input + 'text-gray-500 text-sm mt-2 py-[5px]'} />
-                        <p className='text-gray-500 text-sm mt-2'>Allowed File type: jpg | png | jpeg | gif | bmp</p>
-                        <p className='text-gray-500 text-sm'>Max Size Limit: 5 MB.</p>
+                    <div className='mt-5 sm:flex sm:gap-5'>
+                        <div className='sm:w-[40%]'>
+                            <p>Main Image<span className='text-red-500'>*</span></p>
+                            <input required type='file' className={styles.input + 'text-gray-500 text-sm mt-2 py-[5px]'} />
+                            <p className='text-gray-500 text-sm mt-2'>Allowed File type: jpg | png | jpeg | gif | bmp</p>
+                            <p className='text-gray-500 text-sm'>Max Size Limit: 5 MB.</p>
+                        </div>
+                        <div className='sm:w-[55%]'>
+                            <p>RERA Id<span className='text-red-500'>*</span></p>
+                            <input required placeholder='RERA Id' className={styles.input + 'mt-2 pl-5'} />
+                        </div>
                     </div>
-                    <div className='sm:w-[55%]'>
-                        <p>RERA Id<span className='text-red-500'>*</span></p>
-                        <input required placeholder='RERA Id' className={styles.input + 'mt-2 pl-5'} />
+                    <div className='mt-5 flex gap-5'>
+                        <button className={styles.formBtn}>Back</button>
+                        <button type='submit' className={styles.formBtn}>Save & Next</button>
                     </div>
+                </>
+                :
+                <div className={'bg-red-600 opacity-95 rounded text-white p-2 font-semibold'}>
+                    Please submit general information first
                 </div>
-                <div className='mt-5 flex gap-5'>
-                    <button className={styles.formBtn}>Back</button>
-                    <button type='submit' className={styles.formBtn}>Save & Next</button>
-                </div>
-            </form>
+            }
+
+        </form>
     );
 }
 

@@ -389,7 +389,7 @@ const TopSearchNavBar = ({ pageRef }) => {
         //                     <p className='text-sm lg:text-base'>Budget</p>
         //                     <Dropdown />
         //                 </button>
-        //                 <BudgetMenu />
+        //                 <BudgetMenu classname={'xs:right-0 md:left-0'} />
         //             </div>
         //             <div className='relative group'>
         //                 <button
@@ -398,7 +398,7 @@ const TopSearchNavBar = ({ pageRef }) => {
         //                     <p className='text-sm lg:text-base'>More</p>
         //                     <Dropdown />
         //                 </button>
-        //                 <MoreMenu />
+        //                 <MoreMenu classname={'xs:right-0 md:left-0'} />
         //             </div>
         //             <div
         //                 id='shortBy-dropdown'
@@ -431,7 +431,7 @@ const TopSearchNavBar = ({ pageRef }) => {
         // </div>
         <div className={styles.textMedium + 'w-screen mx-auto shadow fixed bg-white z-[1500]'}>
             <div className='relative p-2 pb-1 pt-5 xl:container xl:mx-auto xl:flex gap-2 pl-[1%]'>
-                <div className='flex gap-1 sm:gap-2 xl:w-full sm:max-w-[780px] xl:h-10'>
+                <div className='flex gap-1 sm:gap-2 xl:w-full sm:max-w-[780px] sm:h-10'>
                     {/* <div className={(searchHeight < 50 ? 'top-[110px]' : 'top-[137px]') + ' absolute xs:top-[65px] xl:top-0 xl:relative group'}>
                         <button className='p-0 pr-0 flex w-[147px]'>
                             <img alt='' className='h-4 w-4 mt-1 mr-2' src={searchTypes[propertyListState?.propertyStatus?.index]?.icon} />
@@ -541,11 +541,11 @@ const TopSearchNavBar = ({ pageRef }) => {
                     </div>
                 </div>
                 
-                <div className='flex flex-shrink-0 overflow-x-scroll xl:overflow-auto mt-1 gap-2 pb-2'>
+                <div className='flex flex-wrap flex-shrink-0 mt-1 gap-2 pb-2'>
                     {/* <div className='w-[145px] xl:hidden' /> */}
-                    <div className={'xl:absolute left-0 group'}>
-                        <div className='relative flex-shrink-0'>
-                            <button className='p-0 pr-0 flex w-[147px]'>
+                    <div className={'relative xl:absolute left-0'}>
+                        <div className='relative group flex-shrink-0'>
+                            <button className={styles.btn+' xl:border-0 py-[3px] md:py-[4px] p-0 pr-0 flex'}>
                                 <img alt='' className='h-4 w-4 mt-1 mr-2' src={searchTypes[propertyListState?.propertyStatus?.index]?.icon} />
                                 <p className={styles.textMedium + 'font-semibold text-gray-800'}>{propertyListState?.propertyStatus?.text}</p>
                                 <Dropdown />

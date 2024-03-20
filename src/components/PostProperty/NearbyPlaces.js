@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { CategoryTitle, InputList } from './PostPropertyComp';
 import { styles } from '../../Styles/Styles';
+import { useSelector } from 'react-redux';
 
 const inputs = [
     { name: 'Bus Station', placeholder: 'Eg. 1KM or 100M', state: 'busStatus', star: false, dropdownData: null },
@@ -30,20 +31,29 @@ const inputs = [
 ]
 
 const NearbyPlaces = () => {
-    const [animation,setAnimation] = useState(false);
-    useEffect(()=>{
+    const [animation, setAnimation] = useState(false);
+    const { postPertyFormData } = useSelector(state => state.User);
+    useEffect(() => {
         setAnimation(true);
-    },[])
+    }, [])
     return (
-            <form className={'mt-16 '+ (animation?'transition-transform ease-in-out transform -translate-y-10 duration-1000':'')}>
+        <form className={'mt-16 ' + (animation ? ' transition-transform ease-in-out transform -translate-y-10 duration-1000 ' : '')}>
+            {(postPertyFormData.generalInfo && postPertyFormData.propertyInfo && postPertyFormData.amenities) ? <>
                 <CategoryTitle title={'Nearby Places :'} icon={'fa fa-house'} />
                 <InputList inputs={inputs} classname={'mt-5 grid grid-cols-1 sm:grid-cols-2 sm:gap-7'} />
                 <div className='my-7 flex gap-5'>
                     <button className={styles.formBtn}>Back</button>
                     <button type='submit' className={styles.formBtn}>Save & Next</button>
                 </div>
-            </form>
+            </>
+                :
+                <div className={(animation?'transition-opacity opacity-100':'opacity-10') +' bg-red-600 opacity-95 rounded text-white p-2 font-semibold'}>
+                    Please submit {!postPertyFormData.generalInfo ? 'general information' :!postPertyFormData.amenities?'aminities':'property information'}  first
+                </div>
+            }
+        </form>
     );
 }
+
 
 export default NearbyPlaces;

@@ -231,7 +231,7 @@ const Footer = () => {
                 <div className='text-left mt-4'>
                     <h1 className={styles.title2Bold}>Properties in International Cities</h1>
                     <div className='text-left text-sm mt-2 opacity-90'>
-                        {footerData?.internationalProps.map((item, index) => {
+                        {footerData?.internationalProps?.map((item, index) => {
                             return (
                                 <>
                                     {index % 2 != 0 && <p>

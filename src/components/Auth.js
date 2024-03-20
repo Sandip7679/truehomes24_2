@@ -8,6 +8,7 @@ import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/style.css'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { UseApi } from '../ApiConf';
 
 
 const Auth = ({ onClose }) => {
@@ -15,14 +16,38 @@ const Auth = ({ onClose }) => {
     const [isForgetPassword, setForgetPassword] = useState(false);
     const [isOtpVerification, setOtpVerification] = useState(false);
     const [loginInputDatas, setLoginInputDatas] = useState({ email: '', password: '' });
-    const [signupInputDatas, setSignUpInputDatas] = useState({ registeredAs: '', name: '' });
+    const [signupInputDatas, setSignUpInputDatas] = useState({ registeredAs: '', name: '',email:'',password:'',countryCode:'',mobileNum:'',term:'yes' });
     const [value, setValue] = useState('');
     const dispatch = useDispatch();
+    const { FetchData } = UseApi();
+
 
     const handleLogin = () => {
         dispatch(setuser({}));
         localStorage.setItem('isLoggedIn', true);
         onClose();
+    }
+
+    const signUp = async ()=>{
+        let inputdata = {
+            user_type:signupInputDatas.registeredAs,
+            reg_user_name:signupInputDatas.name,
+            reg_email:signupInputDatas.email,
+            reg_user_password:signupInputDatas.password,
+            country_code:signupInputDatas.countryCode,
+            contact_number:signupInputDatas.mobileNum,
+            accept_term:signupInputDatas.term,
+        };
+        let data;
+        try{
+            data = await FetchData('registration','POST',inputdata);
+        }catch(err){
+            console.log(err);
+        }
+        console.log('reg data...', data);
+        if(data.statusCode == 200){
+            setOtpVerification(true);
+        }
     }
 
     return (
@@ -94,10 +119,10 @@ const Auth = ({ onClose }) => {
                         <div className='mt-8 md:flex md:flex-wrap'>
                             {!isOtpVerification ?
                                 <div className='w-full md:w-[55%] mb-10'>
-                                    <input className={styles.input + 'rounded py-2'} placeholder='Register As' />
-                                    <input className={styles.input + 'rounded py-2 mt-5'} placeholder='Your Good Name' />
-                                    <input className={styles.input + 'rounded py-2 mt-5'} placeholder='Your Email Address' />
-                                    <input className={styles.input + 'rounded py-2 mt-5'} placeholder='Your Password' />
+                                    <input className={styles.input + 'rounded py-2'} placeholder='Register As' onChange={(e) => setSignUpInputDatas(pre => ({ ...pre, registeredAs: e.target.value }))} />
+                                    <input className={styles.input + 'rounded py-2 mt-5'} placeholder='Your Good Name' onChange={(e) => setSignUpInputDatas(pre => ({ ...pre, name: e.target.value }))} />
+                                    <input className={styles.input + 'rounded py-2 mt-5'} placeholder='Your Email Address' onChange={(e) => setSignUpInputDatas(pre => ({ ...pre, email: e.target.value }))} />
+                                    <input className={styles.input + 'rounded py-2 mt-5'} placeholder='Your Password' onChange={(e) => setSignUpInputDatas(pre => ({ ...pre, password: e.target.value }))} />
                                     <div className='flex gap-2 mt-5'>
                                         <div className='w-[30%]'>
                                             {/* <div className={styles.btn + 'rounded-sm py-2'}>
@@ -117,25 +142,27 @@ const Auth = ({ onClose }) => {
                                                     autoFocus: true
                                                 }}
                                                 // buttonClass='w-[100px]'
-                                                value={value}
+                                                value={signupInputDatas.countryCode}
                                                 onClick={() => {
-                                                    if (value == '') {
-                                                        setValue('+91')
+                                                    if (signupInputDatas.countryCode == '') {
+                                                        // setValue('+91');
+                                                        setSignUpInputDatas(pre => ({ ...pre, countryCode: '+91' }))
                                                     }
                                                 }}
+                                                onChange={(val) => setSignUpInputDatas(pre => ({ ...pre, countryCode: val }))}
                                             // onChange={val => setValue(val)}
                                             />
                                         </div>
-                                        <input className={styles.input + 'rounded py-2 w-[70%]'} placeholder='Your Contact Number' />
+                                        <input className={styles.input + 'rounded py-2 w-[70%]'} placeholder='Your Contact Number' onChange={(e) => setSignUpInputDatas(pre => ({ ...pre, mobileNum: e.target.value }))}/>
                                     </div>
                                     <label className='flex gap-2 mt-5'>
                                         <div className='mt-[2px]'>
-                                            <input type='checkbox' className='w-4 h-4' />
+                                            <input checked={signupInputDatas.term} type='checkbox' className='w-4 h-4' />
                                         </div>
-                                        <span className='ml-3'>I've read and accept terms & conditions</span>
+                                        <span onClick={()=>setSignUpInputDatas(pre => ({ ...pre, term:!signupInputDatas.term }))} className='ml-3'>I've read and accept terms & conditions</span>
                                     </label>
                                     <button
-                                        onClick={() => setOtpVerification(true)}
+                                        onClick={signUp}
                                         className={styles.btn + 'hover:bg-gray-700 w-full bg-gray-800 text-white mt-10 py-2'}>Sign Up</button>
                                 </div>
                                 :
