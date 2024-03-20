@@ -430,7 +430,7 @@ const TopSearchNavBar = ({ pageRef }) => {
         //     </div>
         // </div>
         <div className={styles.textMedium + 'w-screen mx-auto shadow fixed bg-white z-[1500]'}>
-            <div className='relative p-2 pt-5 xl:container xl:mx-auto xl:flex gap-2 pl-[1%]'>
+            <div className='relative p-2 pb-1 pt-5 xl:container xl:mx-auto xl:flex gap-2 pl-[1%]'>
                 <div className='flex gap-1 sm:gap-2 xl:w-full sm:max-w-[780px] xl:h-10'>
                     {/* <div className={(searchHeight < 50 ? 'top-[110px]' : 'top-[137px]') + ' absolute xs:top-[65px] xl:top-0 xl:relative group'}>
                         <button className='p-0 pr-0 flex w-[147px]'>
@@ -541,7 +541,7 @@ const TopSearchNavBar = ({ pageRef }) => {
                     </div>
                 </div>
                 
-                <div className='flex flex-shrink-0 overflow-auto mt-1 gap-2 pb-2'>
+                <div className='flex flex-shrink-0 overflow-x-scroll xl:overflow-auto mt-1 gap-2 pb-2'>
                     {/* <div className='w-[145px] xl:hidden' /> */}
                     <div className={'xl:absolute left-0 group'}>
                         <div className='relative flex-shrink-0'>
