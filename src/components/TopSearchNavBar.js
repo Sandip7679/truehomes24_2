@@ -243,10 +243,196 @@ const TopSearchNavBar = ({ pageRef }) => {
     }
 
     return (
+        // <div className={styles.textMedium + 'w-screen mx-auto shadow fixed bg-white z-[1500]'}>
+        //     <div className='relative p-2 xl:container pt-5 xl:flex gap-2 pl-[1%]'>
+        //         <div className='flex gap-1 sm:gap-2 xl:w-full sm:max-w-[780px]'>
+        //             <div className={(searchHeight < 50 ? 'top-[110px]' : 'top-[137px]') + ' absolute xs:top-[65px] xl:top-0 xl:relative group'}>
+        //                 <button className='p-0 pr-0 flex w-[147px]'>
+        //                     <img alt='' className='h-4 w-4 mt-1 mr-2' src={searchTypes[propertyListState?.propertyStatus?.index]?.icon} />
+        //                     <p className={styles.textMedium + 'font-semibold text-gray-800'}>{propertyListState?.propertyStatus?.text}</p>
+        //                     <Dropdown />
+        //                 </button>
+        //                 <div className={styles.dropdownMenu + 'p-0 pt-[0px] group-hover:block w-[170px]'}>
+        //                     {searchTypes.map((item, index) => {
+        //                         return (
+        //                             <NavLink
+        //                                 to={getPathForPropStatus(item.value)}
+        //                                 key={index}
+        //                                 onClick={() => onSelectPropertyStatus(item, index)}
+        //                                 className='flex p-2 w-full hover:bg-gray-100'>
+        //                                 <img alt='' className='h-4 w-4 mt-1 mr-2' src={item.icon} />
+        //                                 <p className={styles.textMedium + 'text-gray-800'}>{item.type}</p>
+        //                             </NavLink>
+        //                         )
+        //                     })}
+        //                 </div>
+        //             </div>
+        //             <div className='w-full xs:flex'>
+        //                 <div className='absolute top-0'>
+        //                     {searchStatus.quary?.length > 0 && searchResult.length == 0 && noSuggestion && <p className='text-xs text-red-600'>No suggestions</p>}
+        //                     {searchStatus.projectName && <p className='text-xs text-red-600'>You can not choose more than 3 items</p>}
+        //                     {!searchStatus.city && isInValidLocation && <p className='text-xs text-red-600'>Please choose a city!</p>}
+        //                 </div>
+        //                 <div ref={searchSection} className='relative w-full flex gap-1 border-gray-300 rounded xs:border-r-0 rounded-r-none border-[1px]'>
+        //                     <div>
+        //                         <SearchIcon imageClass={'w-5 h-5 mt-3 ml-1'} />
+        //                     </div>
+        //                     <div className='flex flex-wrap lg:flex-nowrap  z-[500] gap-1 items-center'>
+        //                         {searchStatus.cityName && <button className={' truncate flex-nowrap bg-white h-7 px-1 text-sm border-[1px] border-gray-500 flex-shrink-0 gap-1 rounded-xl'}>
+        //                             {searchStatus.cityName}
+        //                             <span onClick={() => setSearchStatus(pre => ({
+        //                                 ...pre, cityName: null, city: '', type: 'city', localityName: null, locality: '',
+        //                                 projectName: null, project: '',
+        //                             }))}>
+        //                                 <i class="fa-solid fa-xmark"></i>
+        //                             </span>
+        //                         </button>}
+        //                         {searchStatus.localityName && <button className={' truncate flex-nowrap h-7 px-1 text-sm border-[1px] border-gray-500 flex-shrink-0 gap-1 rounded-xl'}>
+        //                             {searchStatus.localityName}
+        //                             <span onClick={() => setSearchStatus(pre => ({
+        //                                 ...pre, localityName: null, locality: '',
+        //                                 type: 'locality',
+        //                                 projectName: null, project: '',
+        //                             }))}>
+        //                                 <i class="fa-solid fa-xmark"></i>
+        //                             </span>
+        //                         </button>}
+        //                         {searchStatus.projectName && <button className={' truncate flex-nowrap h-7 px-1 text-sm border-[1px] bg-white border-gray-500 flex-shrink-0 gap-1 rounded-xl'}>
+        //                             {/* <p className='text-ellipsis '>{searchStatus.projectName}</p> */}
+        //                             {searchStatus.projectName}
+        //                             <span onClick={() => setSearchStatus(pre => ({
+        //                                 ...pre, projectName: null, project: '',
+        //                                 type: 'project'
+        //                             }))}>
+        //                                 <i class="fa-solid fa-xmark"></i>
+        //                             </span>
+        //                         </button>}
+        //                     </div>
+        //                     {
+        //                         (!searchStatus.cityName || !searchStatus.localityName || !searchStatus.projectName) &&
+        //                         <input
+        //                             ref={searchInput}
+        //                             // className={styles.textMedium + ' overflow-ellipsis focus:outline-none border-gray-300 rounded xs:border-r-0 rounded-r-none border-[1px] w-[100%] py-2 pl-8'}
+        //                             className={styles.textMedium + (!searchStatus.cityName ? ' w-full ' : '') + ' text-ellipsis focus:outline-none py-2'}
+        //                             placeholder={(!searchStatus.cityName && !searchStatus.localityName && !searchStatus.projectName) && 'Pick City, Location, Project/Society...'}
+        //                             value={searchStatus.quary}
+        //                             onChange={(e) => setSearchStatus(pre => ({ ...pre, quary: e.target.value }))}
+        //                             onKeyDown={onSearchInputKeyPress}
+        //                             onClick={() => {
+        //                                 if (searchStatus.quary?.length > 0) { getHomeSearchData() }
+        //                                 if (isInValidLocation) { setIsInvalidLocation(false) }
+        //                             }}
+        //                         />}
+        //                 </div>
+        //                 <NavLink to={getRoutePath()}>
+        //                     <button
+        //                         onClick={setLocation}
+        //                         className='bg-orange-500 hover:bg-orange-600 rounded xs:rounded-none xs:rounded-r-full border-orange-500 border-[1px] p-2 w-full xs:w-16 mt-2 xs:mt-0'>
+        //                         <p className={styles.textMedium + 'text-white'}>Search</p>
+        //                     </button>
+        //                 </NavLink>
+
+        //                 <div
+        //                     ref={searchMenu} className={(searchResult.length > 0 ? 'border-[1px] border-gray-500' : '') + ' shadow-lg absolute top-16 bg-white rounded max-h-[320px] z-10 w-[300px] sm:w-[450px] overflow-auto'}>
+        //                     {searchResult?.map((item, index) => {
+        //                         return (
+        //                             <div
+        //                                 onClick={() => onClickSearchItem(item)}
+        //                                 className={(index == curIndex && 'bg-gray-100') + ' flex gap-2 p-2 pl-4 hover:bg-gray-100 cursor-pointer'}>
+        //                                 <div>
+        //                                     <img src={item.picture} className='h-6 w-6 mt-2' />
+        //                                 </div>
+        //                                 <div>
+        //                                     <p>{item.name}</p>
+        //                                     <p className='text-xs text-gray-400'>{searchStatus.type.toUpperCase()}</p>
+        //                                 </div>
+        //                                 {/* <span>{item.name}</span> */}
+        //                             </div>
+        //                         )
+        //                     })}
+        //                 </div>
+        //             </div>
+        //         </div>
+
+        //         <div className='flex flex-wrap flex-shrink-0 mt-1 gap-2'>
+        //             <div className='w-[145px] xl:hidden' />
+        //             <div id='bhk-dropdown' className='relative group'>
+        //                 <button
+        //                     // onClick={() => document.getElementById('bhk-menu').classList.toggle('hidden')}
+        //                     id='bhk-btn' className={styles.btn + 'py-[2px] sm:py-1 '}>
+        //                     <p className='text-sm lg:text-base'>BHK</p>
+        //                     <Dropdown />
+        //                 </button>
+        //                 <BHKmenu />
+        //             </div>
+
+        //             <div
+        //                 id='property-type-dropdown'
+        //                 className='relative group'>
+        //                 <button
+        //                     // onClick={() => document.getElementById('property-type-menu').classList.toggle('hidden')}
+        //                     className={styles.btn + 'py-[2px] sm:py-1 '}>
+        //                     <p className='text-sm lg:text-base'>Property Type</p>
+        //                     <Dropdown />
+        //                 </button>
+        //                 <PropertyTypeMenu />
+        //             </div>
+
+        //             <div id='budget-dropdown' className='relative group'>
+        //                 <button
+        //                     // onClick={() => {
+        //                     //     if (document.getElementById('budget-menu')) {
+        //                     //         document.getElementById('budget-menu').classList.toggle('hidden');
+        //                     //     }
+        //                     // }}
+        //                     className={styles.btn + 'py-[2px] sm:py-1 '}>
+        //                     <p className='text-sm lg:text-base'>Budget</p>
+        //                     <Dropdown />
+        //                 </button>
+        //                 <BudgetMenu />
+        //             </div>
+        //             <div className='relative group'>
+        //                 <button
+        //                     // onClick={() => document.getElementById('more-menu').classList.toggle('hidden')}
+        //                     className={styles.btn + 'py-[2px] sm:py-1 '}>
+        //                     <p className='text-sm lg:text-base'>More</p>
+        //                     <Dropdown />
+        //                 </button>
+        //                 <MoreMenu />
+        //             </div>
+        //             <div
+        //                 id='shortBy-dropdown'
+        //                 className='relative group'>
+        //                 <button
+        //                     // onClick={() => document.getElementById('shortBy-menu').classList.toggle('hidden')}
+        //                     className={styles.btn + 'py-[2px] sm:py-1 '}>
+        //                     <p className='text-sm lg:text-base'>Sort By</p>
+        //                     <Dropdown />
+        //                 </button>
+        //                 <ShortByMenu />
+        //             </div>
+
+        //             <button
+        //                 onClick={() => dispatch(setPropertyListState({
+        //                     ...propertyListState,
+        //                     BHKtype: '', propertyTypes: '',
+        //                     priceRange: ['', ''],
+        //                     moreStatus: { furnishingTypes: '', bathrooms: '', minArea: '', maxArea: '', newResale: '', constructionStatus: '', facing: '', amenities: '', listedBy: '', floor: '' },
+        //                     sortBy: 'featured',
+        //                     clearAll: true
+        //                 }))}
+        //                 className='ml-2 opacity-80 py-[2px] sm:py-1 '>
+        //                 <i class="fa-solid fa-rotate-right mr-1 text-sm lg:text-base"></i>
+        //                 Clear All
+        //             </button>
+
+        //         </div>
+        //     </div>
+        // </div>
         <div className={styles.textMedium + 'w-screen mx-auto shadow fixed bg-white z-[1500]'}>
-            <div className='relative p-2 xl:container pt-5 xl:flex gap-2 pl-[1%]'>
-                <div className='flex gap-1 sm:gap-2 xl:w-full sm:max-w-[780px]'>
-                    <div className={(searchHeight < 50 ? 'top-[110px]' : 'top-[137px]') + ' absolute xs:top-[65px] xl:top-0 xl:relative group'}>
+            <div className='relative p-2 pt-5 xl:container xl:mx-auto xl:flex gap-2 pl-[1%]'>
+                <div className='flex gap-1 sm:gap-2 xl:w-full sm:max-w-[780px] xl:h-10'>
+                    {/* <div className={(searchHeight < 50 ? 'top-[110px]' : 'top-[137px]') + ' absolute xs:top-[65px] xl:top-0 xl:relative group'}>
                         <button className='p-0 pr-0 flex w-[147px]'>
                             <img alt='' className='h-4 w-4 mt-1 mr-2' src={searchTypes[propertyListState?.propertyStatus?.index]?.icon} />
                             <p className={styles.textMedium + 'font-semibold text-gray-800'}>{propertyListState?.propertyStatus?.text}</p>
@@ -266,8 +452,9 @@ const TopSearchNavBar = ({ pageRef }) => {
                                 )
                             })}
                         </div>
-                    </div>
-                    <div className='w-full xs:flex'>
+                    </div> */}
+                    {/* <div></div> */}
+                    <div className='w-full xl:ml-[145px] xs:flex'>
                         <div className='absolute top-0'>
                             {searchStatus.quary?.length > 0 && searchResult.length == 0 && noSuggestion && <p className='text-xs text-red-600'>No suggestions</p>}
                             {searchStatus.projectName && <p className='text-xs text-red-600'>You can not choose more than 3 items</p>}
@@ -327,7 +514,7 @@ const TopSearchNavBar = ({ pageRef }) => {
                         <NavLink to={getRoutePath()}>
                             <button
                                 onClick={setLocation}
-                                className='bg-orange-500 hover:bg-orange-600 rounded xs:rounded-none xs:rounded-r-full border-orange-500 border-[1px] p-2 w-full xs:w-16 mt-2 xs:mt-0'>
+                                className='bg-orange-500 hover:bg-orange-600 rounded xs:rounded-none xs:rounded-r-full border-orange-500 border-[1px] h-10 flex  items-center p-2 w-full xs:w-16 mt-2 xs:mt-0'>
                                 <p className={styles.textMedium + 'text-white'}>Search</p>
                             </button>
                         </NavLink>
@@ -353,10 +540,33 @@ const TopSearchNavBar = ({ pageRef }) => {
                         </div>
                     </div>
                 </div>
-
-                <div className='flex flex-wrap flex-shrink-0 mt-1 gap-2'>
-                    <div className='w-[145px] xl:hidden' />
-                    <div id='bhk-dropdown' className='relative group'>
+                
+                <div className='flex flex-shrink-0 overflow-auto mt-1 gap-2 pb-2'>
+                    {/* <div className='w-[145px] xl:hidden' /> */}
+                    <div className={'xl:absolute left-0 group'}>
+                        <div className='relative flex-shrink-0'>
+                            <button className='p-0 pr-0 flex w-[147px]'>
+                                <img alt='' className='h-4 w-4 mt-1 mr-2' src={searchTypes[propertyListState?.propertyStatus?.index]?.icon} />
+                                <p className={styles.textMedium + 'font-semibold text-gray-800'}>{propertyListState?.propertyStatus?.text}</p>
+                                <Dropdown />
+                            </button>
+                            <div className={' absolute hidden group-hover:block z-50 bg-white text-gray-800 top-5 pb-0 border-gray-300 border-[1px] shadow-sm text-sm p-0 pt-[0px] w-[170px]'}>
+                                {searchTypes.map((item, index) => {
+                                    return (
+                                        <NavLink
+                                            to={getPathForPropStatus(item.value)}
+                                            key={index}
+                                            onClick={() => onSelectPropertyStatus(item, index)}
+                                            className='flex p-2 w-full hover:bg-gray-100'>
+                                            <img alt='' className='h-4 w-4 mt-1 mr-2' src={item.icon} />
+                                            <p className={styles.textMedium + 'text-gray-800'}>{item.type}</p>
+                                        </NavLink>
+                                    )
+                                })}
+                            </div>
+                        </div>
+                    </div>
+                    <div id='bhk-dropdown' className='relative group flex-shrink-0'>
                         <button
                             // onClick={() => document.getElementById('bhk-menu').classList.toggle('hidden')}
                             id='bhk-btn' className={styles.btn + 'py-[2px] sm:py-1 '}>
@@ -368,7 +578,7 @@ const TopSearchNavBar = ({ pageRef }) => {
 
                     <div
                         id='property-type-dropdown'
-                        className='relative group'>
+                        className='relative group flex-shrink-0'>
                         <button
                             // onClick={() => document.getElementById('property-type-menu').classList.toggle('hidden')}
                             className={styles.btn + 'py-[2px] sm:py-1 '}>
@@ -378,7 +588,7 @@ const TopSearchNavBar = ({ pageRef }) => {
                         <PropertyTypeMenu />
                     </div>
 
-                    <div id='budget-dropdown' className='relative group'>
+                    <div id='budget-dropdown' className='relative group flex-shrink-0'>
                         <button
                             // onClick={() => {
                             //     if (document.getElementById('budget-menu')) {
@@ -391,7 +601,7 @@ const TopSearchNavBar = ({ pageRef }) => {
                         </button>
                         <BudgetMenu />
                     </div>
-                    <div className='relative group'>
+                    <div className='relative group flex-shrink-0'>
                         <button
                             // onClick={() => document.getElementById('more-menu').classList.toggle('hidden')}
                             className={styles.btn + 'py-[2px] sm:py-1 '}>
@@ -402,7 +612,7 @@ const TopSearchNavBar = ({ pageRef }) => {
                     </div>
                     <div
                         id='shortBy-dropdown'
-                        className='relative group'>
+                        className='relative group flex-shrink-0'>
                         <button
                             // onClick={() => document.getElementById('shortBy-menu').classList.toggle('hidden')}
                             className={styles.btn + 'py-[2px] sm:py-1 '}>
@@ -410,19 +620,6 @@ const TopSearchNavBar = ({ pageRef }) => {
                             <Dropdown />
                         </button>
                         <ShortByMenu />
-                        {/* <div id='shortBy-menu' className={styles.dropdownMenu + 'w-[220px] group-hover:block sm:-ml-[95px]'}>
-                            {shortByItems.map((item, index) => {
-                                return (
-                                    <label key={index}
-                                        // onClick={() => setSelectedBHK(index)}
-                                        className={styles.dropdownItem}>
-                                        <input id={`radioBtn-${index}`} className='mt-[0.5px]' type='radio' />
-                                        <p className='ml-1'>{item.type}</p>
-                                    </label>
-                                )
-                            })}
-                            <p className={styles.textMedium + 'text-center mt-2'}>Clear All</p>
-                        </div> */}
                     </div>
 
                     <button
@@ -434,7 +631,7 @@ const TopSearchNavBar = ({ pageRef }) => {
                             sortBy: 'featured',
                             clearAll: true
                         }))}
-                        className='ml-2 opacity-80 py-[2px] sm:py-1 '>
+                        className='ml-2 opacity-80 py-[2px] sm:py-1 flex-shrink-0 '>
                         <i class="fa-solid fa-rotate-right mr-1 text-sm lg:text-base"></i>
                         Clear All
                     </button>

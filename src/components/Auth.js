@@ -12,9 +12,10 @@ import 'react-toastify/dist/ReactToastify.css';
 
 const Auth = ({ onClose }) => {
     const [isLogin, setIsLogin] = useState(true);
+    const [isForgetPassword, setForgetPassword] = useState(false);
     const [isOtpVerification, setOtpVerification] = useState(false);
     const [loginInputDatas, setLoginInputDatas] = useState({ email: '', password: '' });
-    const [signupInputDatas,setSignUpInputDatas] = useState({registeredAs:'',name:''});
+    const [signupInputDatas, setSignUpInputDatas] = useState({ registeredAs: '', name: '' });
     const [value, setValue] = useState('');
     const dispatch = useDispatch();
 
@@ -43,7 +44,7 @@ const Auth = ({ onClose }) => {
                 <div className={' mt-8'}>
                     {isLogin ?
                         <div className='transition-transform ease-in-out transform -translate-y-[100px] mt-[120px] py-2 duration-[1000ms] w-full md:flex md:flex-wrap'>
-                            <div className='w-full md:w-[55%] mb-6'>
+                            {!isForgetPassword ? <div className='w-full md:w-[55%] mb-6'>
                                 <input
                                     className={styles.input + 'rounded py-2'}
                                     placeholder='Enter your email address'
@@ -54,7 +55,7 @@ const Auth = ({ onClose }) => {
                                     placeholder='Enter your password'
                                     onChange={(e) => setLoginInputDatas(pre => ({ ...pre, password: e.target.value }))}
                                 />
-                                <div className='text-end mt-2 cursor-pointer'>Forgot Password?</div>
+                                <div onClick={() => setForgetPassword(true)} className='text-end mt-2 cursor-pointer'>Forgot Password?</div>
                                 <label className='flex gap-2'>
                                     <div className='mt-[2px]'>
                                         <input type='checkbox' className='w-4 h-4' />
@@ -65,6 +66,20 @@ const Auth = ({ onClose }) => {
                                     onClick={handleLogin}
                                     className={styles.btn + 'w-full hover:bg-gray-700 bg-gray-800 text-white mt-10 py-2 border-none'}>Login</button>
                             </div>
+                                :
+                                <div className='w-full md:w-[55%] mb-6'>
+                                    <input
+                                        className={styles.input + 'rounded py-2'}
+                                        placeholder='Enter your email address'
+                                        onChange={(e) => setLoginInputDatas(pre => ({ ...pre, email: e.target.value }))}
+                                    />
+                                    <div onClick={() => setForgetPassword(false)} className='text-end mt-2 cursor-pointer'>Back to login?</div>
+                                    <button
+                                        className={styles.btn + 'hover:bg-gray-700 w-full bg-gray-800 text-white mt-10 py-2'}>
+                                        Submit
+                                    </button>
+                                </div>
+                            }
                             <div className='items-center pl-[10%] w-full md:w-[45%]'>
                                 <img alt='' className='w-[60%] md:w-[90%]' src={loginImage} />
                                 <p className='text-gray-500 mt-2'>

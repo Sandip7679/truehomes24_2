@@ -22,7 +22,8 @@ const propertyTypes = ['Localities', 'Property Status', 'Budget', 'Builders'];
 
 const PropertyList = () => {
     const [contactModalStatus, setcontactModalStatus] = useState({ show: false, data: {} });
-    const [propertyType, setPropertyType] = useState('Localities');
+    // const [propertyType, setPropertyType] = useState('Localities');
+    const [showTabs,setShowTabs] = useState([true,true,true,true]);
     const { login_status, currLocation, propertyListState, pageRefresh } = useSelector(state => state.User);
     const [currPage, setCurrPage] = useState(1);
     const [propertyListData, setPropertyListData] = useState({ currPage: 1, totalProperty: null, lastPage: null, propertyList: [] });
@@ -83,18 +84,28 @@ const PropertyList = () => {
         } catch (err) {
             console.log(err);
         }
-        if (data.content.localityStat) {
+        let arr = [true,true,true,true];
+        if (data.content.localityStat?.length) {
             setLocalities(data.content.localityStat);
+        }else{
+           arr[0] = false;
         }
-        if (data.content.propertyStat) {
+        if (data.content.propertyStat?.length) {
             setPropStatusTab(data.content.propertyStat);
+        }else{
+            arr[1] = false;
         }
-        if (data.content.budgetCount) {
+        if (data.content.budgetCount?.length) {
             setBudgetTab(data.content.budgetCount);
+        }else{
+            arr[2] = false;
         }
         if (data.content.builderStat) {
             setBuilderTab(data.content.builderStat);
+        }else{
+            arr[3] = false;
         }
+        setShowTabs(arr);
 
     }
 
@@ -170,7 +181,7 @@ const PropertyList = () => {
                                         {propertyTypes.map((item, index) => {
                                             return (
                                                 <>
-                                                    {(index < 3 || propertyListState?.propertyStatus?.value == 'new project') && <button key={index}
+                                                    {(index < 3 || propertyListState?.propertyStatus?.value == 'new project')&& showTabs[index] && <button key={index}
                                                         onClick={() => setCurrLocalityTabInd(index + 1)}
                                                         className={(currLocalityTabInd == index + 1 ? 'border-b-[1px]' : '') + ' hover:border-b-[1px] border-b-gray-700 pb-1 mr-3'}>
                                                         <p className={styles.textMedium + ''}>{item}</p>
@@ -183,7 +194,7 @@ const PropertyList = () => {
                                     </div>
 
                                     <div className='shadow-sm rounded flex flex-wrap max-h-[140px] min-h-[100px]  border-[1px] border-gray-200 mt-5 mx-2 overflow-y-auto p-2'>
-                                        {currLocalityTabInd == 1 && localities.map((item, index) => {
+                                        {currLocalityTabInd == 1 && showTabs[0] && localities.map((item, index) => {
                                             return (
                                                 <div>
                                                     <NavLink
@@ -205,7 +216,7 @@ const PropertyList = () => {
                                                 </div>
                                             )
                                         })}
-                                        {currLocalityTabInd == 2 && propStatusTab.map((item, index) => {
+                                        {currLocalityTabInd == 2 && showTabs[1] && propStatusTab.map((item, index) => {
                                             return (
                                                 <div>
                                                     <NavLink
@@ -227,7 +238,7 @@ const PropertyList = () => {
                                                 </div>
                                             )
                                         })}
-                                        {currLocalityTabInd == 3 && budgetTab.map((item, index) => {
+                                        {currLocalityTabInd == 3 && showTabs[2] && budgetTab.map((item, index) => {
                                             return (
                                                 <NavLink
                                                     onClick={() => {
@@ -247,7 +258,7 @@ const PropertyList = () => {
                                                 </NavLink>
                                             )
                                         })}
-                                        {currLocalityTabInd == 4 && builderTab.map((item, index) => {
+                                        {currLocalityTabInd == 4 && showTabs[3] && builderTab.map((item, index) => {
                                             return (
                                                 <NavLink
                                                     to={`/${item.link}`} key={index} className={styles.btn + 'h-7 m-1 hover:bg-orange-50 border-orange-500'}>
@@ -303,7 +314,7 @@ const PropertyList = () => {
                     <PropertyForSlides />
                 </div>
             </div>
-            <ScrollUp targetElement={scrollUpTarget} />
+            {/* <ScrollUp targetElement={scrollUpTarget} /> */}
             {contactModalStatus.show && <Contact Data={contactModalStatus.data} func={onCloseContact} />}
             <div>
                 <TopCItiesFilter />
