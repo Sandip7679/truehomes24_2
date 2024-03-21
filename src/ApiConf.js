@@ -9,7 +9,7 @@ const useApi = () => {
   const fetchData = async (endpoint, method, data = null) => {
     // setLoading(true);
     setError(null);
-       let url = 'https://www.truehomes24.com/api/'+ endpoint;
+    let url = 'https://www.truehomes24.com/api/' + endpoint;
     try {
       var myHeaders = new Headers();
       const response = await fetch(url, {
@@ -32,7 +32,7 @@ const useApi = () => {
       return responseData;
     } catch (error) {
 
-      console.log('err apiconfig.....',error);
+      console.log('err apiconfig.....', error);
       setError(error.message);
       return error;
       // setLoading(false);
@@ -46,16 +46,34 @@ export default useApi;
 
 export const UseApi = () => {
   // const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
+  // const [error, setError] = useState(null);
 
   const FetchData = async (endpoint, method, data = null) => {
-    setError(null);
-       let url = 'https://api.truehomes24.com/api/'+ endpoint;
+    // setError(null);
+    let url = 'https://api.truehomes24.com/api/' + endpoint;
+    console.log('data.....api..', data);
+    const formdata = new FormData();
+    if (data && method == 'POST') {
+      for (const name in data) {
+        console.log('data[name]...',data[name]);
+        formdata.append(name, data[name]);
+        // formdata.append(name,'');
+        console.log('formdata...',formdata);
+      }
+
+      // Object.entries(data).forEach(([key, value]) => {
+      //   formdata.append(key, value);
+      // });
+      // formdata.append('data',JSON.stringify(data));
+      console.log('formdata...', formdata);
+    }
+
     try {
       var myHeaders = new Headers();
       // myHeaders.append("Authorization", "Bearer null");
       // myHeaders.append("Content-Type", 'application/json');
-      const response = await fetch(url,{
+      // myHeaders.append("Content-Type", 'multipart/form-data');
+      const response = await fetch(url, {
         method: method,
         // headers: {
         //     'Content-Type': 'application/json',
@@ -66,12 +84,12 @@ export const UseApi = () => {
         // credentials: 'include',
         // mode: "no-cors",
         // redirect: "follow",
-        body: data ? JSON.stringify(data) : null,
-        // body: data ? data : null,
+        // body: data ? JSON.stringify(data) : null,
+        body: method == 'POST' ? formdata : data ? JSON.stringify(data) : null,
       });
 
+      console.log('response...', response);
       if (!response.ok) {
-         console.log('response...',response);
         throw new Error('Network response was  ok');
       }
 
@@ -80,13 +98,13 @@ export const UseApi = () => {
       return responseData;
     } catch (error) {
 
-      console.log('err apiconfig.....',error);
+      console.log('err apiconfig.....', error);
       return error;
-      setError(error.message);
+      // setError(error.message);
       // setLoading(false);
     }
   };
 
-  return { FetchData};
+  return { FetchData };
 };
 

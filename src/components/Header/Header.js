@@ -272,7 +272,7 @@ const Header = () => {
                                             // to={locationPath.pathname != '/' ? "/" : '/'}
                                             to={`${getRoutePath(item.text)}`}
                                             className="px-2 py-4 rounded-md hover:bg-gray-100 flex flex-col border-[1px] shadow-lg items-center justify-center">
-                                            <img alt='' src={cityIcon} className='h-5 w-6' />
+                                            <img alt='' src={item.icon} className='h-5 w-6' />
                                             {/* <img alt='' src="https://www.truehomes24.com/assets/images/header/cities/amedabad.jpg" class='h-5 w-6' /> */}
                                             <span className='text-xs text-center mt-1'>{item.text}</span>
                                         </NavLink>
@@ -305,7 +305,7 @@ const Header = () => {
                                                 onClick={() => setLocation({ city: item.text, area: item.text, code: item.city, country: '90', location: '', locationName: null, project: '', projectName: null })}
                                                 key={index}
                                                 className="px-2 py-4 rounded-md hover:bg-gray-100 flex flex-col border-[1px] shadow-lg items-center justify-center">
-                                                <img alt='' src={cityIcon} className='h-5 w-6' />
+                                                <img alt='' src={item.icon} className='h-5 w-6' />
                                                 <span className='text-xs mt-1'>{item.text}</span>
                                             </NavLink>
                                         )

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { styles } from '../Styles/Styles';
 import { CrossIcon } from './svgIcons';
 import loginImage from '../assets/images/login-1.png'
@@ -10,44 +10,177 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { UseApi } from '../ApiConf';
 
+const registeredAs = [
+    { label: 'Register As', value: '' },
+    { label: 'Individual', value: 'Individual' },
+    { label: 'Builder', value: 'Builder' },
+    { label: 'Agent', value: 'Agent' }
+]
 
 const Auth = ({ onClose }) => {
     const [isLogin, setIsLogin] = useState(true);
     const [isForgetPassword, setForgetPassword] = useState(false);
     const [isOtpVerification, setOtpVerification] = useState(false);
-    const [loginInputDatas, setLoginInputDatas] = useState({ email: '', password: '' });
-    const [signupInputDatas, setSignUpInputDatas] = useState({ registeredAs: '', name: '',email:'',password:'',countryCode:'',mobileNum:'',term:'yes' });
-    const [value, setValue] = useState('');
+    const [loginInputDatas, setLoginInputDatas] = useState({ email: '', password: '', rememberMe: false });
+    const [signupInputDatas, setSignUpInputDatas] = useState({ registeredAs: '', name: '', email: '', password: '', countryCode: '+91', mobileNum: '', term: '' });
+    const [loginError, setLoginError] = useState({ username: '', password: '' });
+    const [signUpErrorStatus, setSignUpErrorStatus] = useState({ registeredAs: '', name: '', email: '', password: '', countryCode: '', mobileNum: '', term: '' });
+    // const [value, setValue] = useState('');
     const dispatch = useDispatch();
     const { FetchData } = UseApi();
 
+    useEffect(() => {
+        let logindata = localStorage.getItem('loginData');
+        console.log('logindata...', logindata);
+        if (logindata) {
+            logindata = JSON.parse(logindata);
+            console.log('logindata2...', logindata);
+            setLoginInputDatas(pre => ({ ...pre, email: logindata.username, password: logindata.password }));
+        }
+    }, []);
 
-    const handleLogin = () => {
-        dispatch(setuser({}));
-        localStorage.setItem('isLoggedIn', true);
-        onClose();
+    const handleLogin = async () => {
+        let inputdata = {
+            // username: '',
+            // password: '',
+            username: loginInputDatas.email,
+            password: loginInputDatas.password
+        }
+        let data;
+        try {
+            // data = await FetchData('login', 'POST', inputdata);
+            data = await LoginFetch('login', 'POST', inputdata);
+        } catch (err) {
+            console.log(err);
+        }
+        console.log('log data...', data);
+        if (data?.statusCode == 200) {
+            dispatch(setuser({}));
+            localStorage.setItem('isLoggedIn', true);
+            if (loginInputDatas.rememberMe) {
+                localStorage.setItem('loginData', JSON.stringify(inputdata));
+            } else {
+                localStorage.setItem('loginData', '');
+            }
+            onClose();
+        } else if (data?.error) {
+            setLoginError(pre => ({ ...pre, ...data.error }));
+        }
     }
 
-    const signUp = async ()=>{
+    const LoginFetch = async (endpoint, method, data = null) => {
+        // setError(null);
+        let url = 'https://api.truehomes24.com/api/' + endpoint;
+        console.log('data.....api..', data);
+        const formdata = new FormData();
+        if (data && method == 'POST') {
+            for (const name in data) {
+                console.log('data[name]...', data[name]);
+                formdata.append(name, data[name]);
+                // formdata.append(name,'');
+                console.log('formdata...', formdata);
+            }
+
+            // Object.entries(data).forEach(([key, value]) => {
+            //   formdata.append(key, value);
+            // });
+            // formdata.append('data',JSON.stringify(data));
+            console.log('formdata...', formdata);
+        }
+
+        try {
+            var myHeaders = new Headers();
+            // myHeaders.append("Authorization", "Bearer null");
+            // myHeaders.append("Content-Type", 'application/json');
+            // myHeaders.append("Content-Type", 'multipart/form-data');
+            const response = await fetch(url, {
+                method: method,
+                // headers: {
+                //     'Content-Type': 'application/json',
+                //     // "Authorization": "Bearer "
+                //     // Add any additional headers if needed
+                //   },
+                headers: myHeaders,
+                // credentials: 'include',
+                // mode: "no-cors",
+                // redirect: "follow",
+                // body: data ? JSON.stringify(data) : null,
+                body: method == 'POST' ? formdata : data ? JSON.stringify(data) : null,
+            });
+
+            console.log('response...', response);
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+
+            const responseData = await response.json();
+            // setLoading(false);
+            return responseData;
+        } catch (error) {
+
+            console.log('err apiconfig.....', error);
+            return error;
+            // setError(error.message);
+            // setLoading(false);
+        }
+    };
+
+    const signUp = async () => {
+        if (checkSignUpValidation()) return;
         let inputdata = {
-            user_type:signupInputDatas.registeredAs,
-            reg_user_name:signupInputDatas.name,
-            reg_email:signupInputDatas.email,
-            reg_user_password:signupInputDatas.password,
-            country_code:signupInputDatas.countryCode,
-            contact_number:signupInputDatas.mobileNum,
-            accept_term:signupInputDatas.term,
+            user_type: signupInputDatas.registeredAs,
+            reg_user_name: signupInputDatas.name,
+            reg_email: signupInputDatas.email,
+            reg_user_password: signupInputDatas.password,
+            country_code: signupInputDatas.countryCode,
+            contact_number: signupInputDatas.mobileNum,
+            accept_term: signupInputDatas.term,
         };
+        // console.log('inputdat....', inputdata);
         let data;
-        try{
-            data = await FetchData('registration','POST',inputdata);
-        }catch(err){
+        try {
+            data = await FetchData('registration', 'POST', inputdata);
+        } catch (err) {
             console.log(err);
         }
         console.log('reg data...', data);
-        if(data.statusCode == 200){
+        if (data.statusCode == 200) {
             setOtpVerification(true);
         }
+    }
+
+    const checkSignUpValidation = () => {
+        let error = false;
+        if (signupInputDatas.registeredAs == '') {
+            setSignUpErrorStatus(pre => ({ ...pre, registeredAs: 'Please select an option !' }));
+            error = true;
+        }
+        if (!/^[a-zA-Z\s'-]+$/.test(signupInputDatas.name)) {
+            setSignUpErrorStatus(pre => ({ ...pre, name: 'Please write a valid name !' }));
+            error = true;
+        }
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(signupInputDatas.email)) {
+            setSignUpErrorStatus(pre => ({ ...pre, email: 'Please write a valid email !' }));
+            error = true;
+        }
+        if (signupInputDatas.password.length < 6) {
+            console.log('first')
+            setSignUpErrorStatus(pre => ({ ...pre, password: 'Please enter at least 6 characters!' }));
+            error = true;
+        }
+        if (!/^\d{7,15}$/.test(signupInputDatas.mobileNum)) {
+            setSignUpErrorStatus(pre => ({ ...pre, mobileNum: 'Please write a valid contact number!' }));
+            error = true;
+        }
+        // if (typeof signupInputDatas.mobileNum != 'number' || signupInputDatas.mobileNum.length < 8) {
+        //     setSignUpErrorStatus(pre => ({ ...pre, mobileNum: 'Please write a valid contact number!' }));
+        //     error = true;
+        // }
+        if (!signupInputDatas.term) {
+            setSignUpErrorStatus(pre => ({ ...pre, term: 'You must accept accept terms & conditions!' }));
+            error = true;
+        }
+        return error;
     }
 
     return (
@@ -73,17 +206,26 @@ const Auth = ({ onClose }) => {
                                 <input
                                     className={styles.input + 'rounded py-2'}
                                     placeholder='Enter your email address'
+                                    value={loginInputDatas.email}
                                     onChange={(e) => setLoginInputDatas(pre => ({ ...pre, email: e.target.value }))}
                                 />
+                                {loginError?.username && <p className='text-red-600 text-sm'>{loginError.username}</p>}
                                 <input
                                     className={styles.input + 'rounded py-2 mt-5'}
                                     placeholder='Enter your password'
+                                    type='password'
+                                    value={loginInputDatas.password}
                                     onChange={(e) => setLoginInputDatas(pre => ({ ...pre, password: e.target.value }))}
                                 />
+                                {loginError?.password && <p className='text-red-600 text-sm'>{loginError?.password}</p>}
                                 <div onClick={() => setForgetPassword(true)} className='text-end mt-2 cursor-pointer'>Forgot Password?</div>
                                 <label className='flex gap-2'>
                                     <div className='mt-[2px]'>
-                                        <input type='checkbox' className='w-4 h-4' />
+                                        <input type='checkbox' checked={loginInputDatas.rememberMe} className='w-4 h-4'
+                                            onClick={() => {
+                                                setLoginInputDatas(pre => ({ ...pre, rememberMe: loginInputDatas.rememberMe ? false : true }));
+                                            }}
+                                        />
                                     </div>
                                     <span className='ml-3'>Remember me</span>
                                 </label>
@@ -119,10 +261,59 @@ const Auth = ({ onClose }) => {
                         <div className='mt-8 md:flex md:flex-wrap'>
                             {!isOtpVerification ?
                                 <div className='w-full md:w-[55%] mb-10'>
-                                    <input className={styles.input + 'rounded py-2'} placeholder='Register As' onChange={(e) => setSignUpInputDatas(pre => ({ ...pre, registeredAs: e.target.value }))} />
-                                    <input className={styles.input + 'rounded py-2 mt-5'} placeholder='Your Good Name' onChange={(e) => setSignUpInputDatas(pre => ({ ...pre, name: e.target.value }))} />
-                                    <input className={styles.input + 'rounded py-2 mt-5'} placeholder='Your Email Address' onChange={(e) => setSignUpInputDatas(pre => ({ ...pre, email: e.target.value }))} />
-                                    <input className={styles.input + 'rounded py-2 mt-5'} placeholder='Your Password' onChange={(e) => setSignUpInputDatas(pre => ({ ...pre, password: e.target.value }))} />
+                                    <select
+                                        className={styles.input}
+                                        value={signupInputDatas.registeredAs}
+                                        onChange={(e) => {
+                                            setSignUpInputDatas(pre => ({ ...pre, registeredAs: e.target.value }));
+                                            if (signUpErrorStatus.registeredAs && e.target.value) {
+                                                setSignUpErrorStatus(pre => ({ ...pre, registeredAs: '' }));
+                                            }
+                                        }}
+                                    >
+                                        {registeredAs.map((item, index) => {
+                                            return (
+                                                <option value={item.value}>{item.label}</option>
+                                            )
+                                        })}
+                                    </select>
+                                    {signUpErrorStatus.registeredAs && <p className='text-red-600 text-sm'>{signUpErrorStatus.registeredAs}</p>}
+                                    <input className={styles.input + 'rounded py-2 mt-5'} placeholder='Your Good Name'
+                                        onChange={(e) => {
+                                            setSignUpInputDatas(pre => ({ ...pre, name: e.target.value }));
+                                            if (/^[a-zA-Z\s'-]+$/.test(e.target.value) && signUpErrorStatus.name) {
+                                                setSignUpErrorStatus(pre => ({ ...pre, name: '' }));
+                                            }
+                                        }}
+                                    // onTouchEnd={() => {
+                                    //     if (!/^[a-zA-Z\s'-]+$/.test(signupInputDatas.name)) {
+                                    //         setSignUpErrorStatus(pre => ({ ...pre, name: 'Please write a valid name !' }));
+                                    //     }
+                                    // }}
+                                    />
+                                    {signUpErrorStatus.name && <p className='text-red-600 text-sm'>{signUpErrorStatus.name}</p>}
+                                    <input
+                                        className={styles.input + 'rounded py-2 mt-5'}
+                                        placeholder='Your Email Address'
+                                        onChange={(e) => {
+                                            setSignUpInputDatas(pre => ({ ...pre, email: e.target.value }));
+                                            if (/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e.target.value) && signUpErrorStatus.email) {
+                                                setSignUpErrorStatus(pre => ({ ...pre, email: '' }));
+                                            }
+                                        }}
+                                    />
+                                    {signUpErrorStatus.email && <p className='text-red-600 text-sm'>{signUpErrorStatus.email}</p>}
+                                    <input
+                                        className={styles.input + 'rounded py-2 mt-5'}
+                                        placeholder='Your Password'
+                                        onChange={(e) => {
+                                            setSignUpInputDatas(pre => ({ ...pre, password: e.target.value }));
+                                            if (e.target.value.length > 5 && signUpErrorStatus.password) {
+                                                setSignUpErrorStatus(pre => ({ ...pre, password: '' }));
+                                            }
+                                        }}
+                                    />
+                                    {signUpErrorStatus.password && <p className='text-red-600 text-sm'>{signUpErrorStatus.password}</p>}
                                     <div className='flex gap-2 mt-5'>
                                         <div className='w-[30%]'>
                                             {/* <div className={styles.btn + 'rounded-sm py-2'}>
@@ -145,32 +336,51 @@ const Auth = ({ onClose }) => {
                                                 value={signupInputDatas.countryCode}
                                                 onClick={() => {
                                                     if (signupInputDatas.countryCode == '') {
-                                                        // setValue('+91');
                                                         setSignUpInputDatas(pre => ({ ...pre, countryCode: '+91' }))
                                                     }
                                                 }}
                                                 onChange={(val) => setSignUpInputDatas(pre => ({ ...pre, countryCode: val }))}
-                                            // onChange={val => setValue(val)}
                                             />
                                         </div>
-                                        <input className={styles.input + 'rounded py-2 w-[70%]'} placeholder='Your Contact Number' onChange={(e) => setSignUpInputDatas(pre => ({ ...pre, mobileNum: e.target.value }))}/>
+                                        <input type='tel' className={styles.input + 'rounded py-2 w-[70%]'} placeholder='Your Contact Number'
+                                            value={signupInputDatas.mobileNum}
+                                            onChange={(e) => {
+                                                if (/^[0-9]*$/.test(e.target.value)) {
+                                                    setSignUpInputDatas(pre => ({ ...pre, mobileNum: e.target.value }));
+                                                    if (/^\d{7,15}$/.test(signupInputDatas.mobileNum) && signUpErrorStatus.mobileNum) {
+                                                        setSignUpErrorStatus(pre => ({ ...pre, mobileNum: '' }));
+                                                    }
+                                                }
+
+                                            }} />
                                     </div>
+                                    {signUpErrorStatus.mobileNum && <p className='text-red-600 text-sm'>{signUpErrorStatus.mobileNum}</p>}
                                     <label className='flex gap-2 mt-5'>
                                         <div className='mt-[2px]'>
-                                            <input checked={signupInputDatas.term} type='checkbox' className='w-4 h-4' />
+                                            <input
+                                                onClick={() => {
+                                                    setSignUpInputDatas(pre => ({ ...pre, term: signupInputDatas.term ? '' : '1' }));
+                                                    // console.log('e.target.checked...',e.target.checked,'signupInputDatas.term..',signupInputDatas.term)
+                                                    if (signUpErrorStatus.term && !signupInputDatas.term) {
+                                                        setSignUpErrorStatus(pre => ({ ...pre, term: '' }));
+                                                    }
+                                                }}
+                                                checked={signupInputDatas.term} type='checkbox' className='w-4 h-4' />
                                         </div>
-                                        <span onClick={()=>setSignUpInputDatas(pre => ({ ...pre, term:!signupInputDatas.term }))} className='ml-3'>I've read and accept terms & conditions</span>
+                                        <span className='ml-3'>I've read and accept terms & conditions</span>
                                     </label>
+                                    {signUpErrorStatus.term && <p className='text-red-600 text-sm'>{signUpErrorStatus.term}</p>}
                                     <button
                                         onClick={signUp}
                                         className={styles.btn + 'hover:bg-gray-700 w-full bg-gray-800 text-white mt-10 py-2'}>Sign Up</button>
                                 </div>
                                 :
                                 <div className='w-full md:w-[55%] mb-10'>
-                                    <p className={styles.title4}>Verify your mobile number: +91-0123456789</p>
+                                    <p className={styles.title4}>Verify your mobile number: {signupInputDatas.countryCode}-{signupInputDatas.mobileNum}</p>
                                     <input className={styles.input + 'rounded py-2 mt-5'} placeholder='Entear OTP received on your mobile' />
                                     <button
                                         onClick={() => {
+                                            setIsLogin(true);
                                             toast('Otp verified successfully!', { type: 'success' });
                                             // handleLogin();
                                         }}
