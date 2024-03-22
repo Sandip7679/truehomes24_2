@@ -182,11 +182,11 @@ const GeneralInfo = ({ setCurrCategory }) => {
             }
 
             <div className='mt-8 flex justify-center gap-2'>
-                <button className={styles.formBtn + styles.btnBlackHover}
+                {postPropertyFormData.generalInfo.mobileVerification && <button className={styles.formBtn + styles.btnBlackHover}
                     onClick={() => dispatch(setPostPropertyFormData({ ...postPropertyFormData, generalInfo: { ...postPropertyFormData.generalInfo, mobileVerification: false } }))}>
-                    Back</button>
+                    Back</button>}
                 <button className={styles.formBtn + styles.btnBlackHover} onClick={onClickContitue}>Continue</button>
-                <button className={styles.formBtn + styles.btnBlackHover} onClick={sendOtp}>Resend OTP</button>
+                {postPropertyFormData.generalInfo.mobileVerification && <button className={styles.formBtn + styles.btnBlackHover} onClick={sendOtp}>Resend OTP</button>}
             </div>
 
         </div>
