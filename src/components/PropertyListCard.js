@@ -32,7 +32,7 @@ const PropertyListCard = ({ Data, func }) => {
                     <NavLink to={`/${Data?.userDetails?.link}`}
                         onClick={() => window.scrollTo({ top: 0 })}
                         className='flex gap-1 z-50'>
-                        <img alt='' src={Data.userDetails?.image ? Data.userDetails?.image : userIcon} className='h-10 w-10 hidden group-hover:block' />
+                        <img alt='' src={Data.userDetails?.image ? Data.userDetails?.image : userIcon} className='h-10 w-10 hidden group-hover:block rounded-full' />
                         <p className='text-sm hidden group-hover:block text-white mt-2 '>{Data.userDetails?.name}</p>
                     </NavLink>
 

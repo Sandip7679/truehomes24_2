@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { styles } from '../../Styles/Styles';
 import { AreaInputs, ButtonList, CategoryTitle, DropdownInput, InputList } from './PostPropertyComp';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { setPostPropertyFormData } from '../../Redux/reducer/User';
 
 
 const propertyTypes = [
@@ -44,21 +45,36 @@ const nums = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
 const months = nums.map((item, index) => `${index} Month`);
 const years = nums.map((item, index) => `${index} Year`);
 
-const PropertyInfo = () => {
+const PropertyInfo = ({ setCurrCategory }) => {
     const [animation, setAnimation] = useState(false);
-    const {postPertyFormData } = useSelector(state => state.User);
+    const { postPropertyFormData, login_status } = useSelector(state => state.User);
+    const dispatch = useDispatch();
 
     useEffect(() => {
         setAnimation(true);
     }, [])
     return (
-        <form className={'mt-16 ' + (animation ? 'transition-transform ease-in-out transform -translate-y-10 duration-1000' : '')}>
-            {postPertyFormData.generalInfo ?
+        <div className={'mt-16 ' + (animation ? 'transition-transform ease-in-out transform -translate-y-10 duration-1000' : '')}>
+            {(postPropertyFormData.generalInfo.completed || login_status) ?
                 <>
                     <CategoryTitle title={'Property Information :'} icon={'fa-regular fa-building'} />
                     <div className='md:flex gap-[5%]'>
                         <div className='mb-5 flex-none'>
-                            <ButtonList title={'Listed For'} btnNames={['Sale', 'Rent']} initialName={'Sale'} required={true} />
+                            {/* <ButtonList title={'Listed For'} btnNames={['Sale', 'Rent']} initialName={'Sale'} required={true} /> */}
+                            <div className={''}>
+                                <span>Listed For <span className='text-red-600'>*</span></span>
+                                <div className='flex flex-wrap gap-2 mt-2 text-sm'>
+                                    {['Sale', 'Rent'].map((item, index) => {
+                                        return (
+                                            <button key={index}
+                                                onClick={() => dispatch(setPostPropertyFormData({ ...postPropertyFormData, propertyInfo: { ...postPropertyFormData.propertyInfo, listedFor: item } }))}
+                                                className={(postPropertyFormData.propertyInfo.listedFor == item ? 'border-orange-600 text-orange-600' : 'border-gray-400 text-gray-400') + ' hover:border-orange-600 hover:text-orange-600 border-[1px] px-3 py-1 rounded-xl '}>
+                                                {item}
+                                            </button>
+                                        )
+                                    })}
+                                </div>
+                            </div>
                         </div>
                         <ButtonList title={'Property Type'} btnNames={propertyTypes} initialName={'Apartment'} required={true} />
                     </div>
@@ -90,16 +106,16 @@ const PropertyInfo = () => {
                     </div>
                     <div className='mt-5 flex gap-5'>
                         <button className={styles.formBtn}>Back</button>
-                        <button type='submit' className={styles.formBtn}>Save & Next</button>
+                        <button  className={styles.formBtn}>Save & Next</button>
                     </div>
                 </>
                 :
-                <div className={'bg-red-600 opacity-95 rounded text-white p-2 font-semibold'}>
+                <div className={(animation ? 'transition-opacity opacity-100 duration-500' : 'opacity-0') + ' bg-red-600 rounded text-white p-2 font-semibold'}>
                     Please submit general information first
                 </div>
             }
 
-        </form>
+        </div>
     );
 }
 

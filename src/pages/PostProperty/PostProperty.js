@@ -24,6 +24,10 @@ const PostProperty = () => {
         }
     }, [login_status])
 
+    const changeCategories = (catetory)=>{
+        setCurrCategory(catetory);
+    }
+
     return (
         <div>
             <Header />
@@ -32,11 +36,11 @@ const PostProperty = () => {
                 <div className='mt-5 px-2 container mx-auto'>
                     <FormCatagories catagories={login_status ? catagories : ['General Info', ...catagories]} activeCatagory={currCatagory} onClickItem={(item) => setCurrCategory(item)} />
                     <div className={styles.formCard}>
-                        {currCatagory === 'General Info' && <GeneralInfo />}
-                        {currCatagory === 'Property Info' && <PropertyInfo />}
-                        {currCatagory === 'Amenities' && <Amenities />}
-                        {currCatagory === 'Nearby Places' && <NearbyPlaces />}
-                        {currCatagory === 'Gallery' && <Gallery />}
+                        {currCatagory === 'General Info' && <GeneralInfo setCurrCategory = {changeCategories} />}
+                        {currCatagory === 'Property Info' && <PropertyInfo setCurrCategory = {changeCategories} />}
+                        {currCatagory === 'Amenities' && <Amenities setCurrCategory = {changeCategories}/>}
+                        {currCatagory === 'Nearby Places' && <NearbyPlaces setCurrCategory = {changeCategories}/>}
+                        {currCatagory === 'Gallery' && <Gallery setCurrCategory = {changeCategories}/>}
                         {/* {currCatagory === 'Property Info' && !postPertyFormData.generalInfo &&
                             <div className={(currCatagory === 'Property Info'?'transition-transform ease-in-out transform -translate-y-10 duration-1000':'')+' mt-16 bg-red-600 text-white'}>
                                   Please submit general information first

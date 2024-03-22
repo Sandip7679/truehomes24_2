@@ -6,7 +6,7 @@ import { useDispatch } from 'react-redux';
 import { setuser } from '../Redux/reducer/User';
 import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/style.css'
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { UseApi } from '../ApiConf';
 
@@ -27,7 +27,7 @@ const Auth = ({ onClose }) => {
     const [signUpErrorStatus, setSignUpErrorStatus] = useState({ registeredAs: '', name: '', email: '', password: '', countryCode: '', mobileNum: '', term: '' });
     // const [value, setValue] = useState('');
     const dispatch = useDispatch();
-    const { FetchData } = UseApi();
+    const { FetchData,Request } = UseApi();
 
     useEffect(() => {
         let logindata = localStorage.getItem('loginData');
@@ -49,12 +49,17 @@ const Auth = ({ onClose }) => {
         let data;
         try {
             // data = await FetchData('login', 'POST', inputdata);
-            data = await LoginFetch('login', 'POST', inputdata);
+            // data = await LoginFetch('login', 'POST', inputdata);
+            data = await Request('login', 'POST', inputdata);
         } catch (err) {
-            console.log(err);
+            console.log('error...', err);
+            if(err.error){
+                setLoginError(pre => ({ ...pre, ...err.error }));
+            }
         }
         console.log('log data...', data);
         if (data?.statusCode == 200) {
+            toast('Logged in successfully!', { type: 'success' });
             dispatch(setuser({}));
             localStorage.setItem('isLoggedIn', true);
             if (loginInputDatas.rememberMe) {
@@ -68,62 +73,62 @@ const Auth = ({ onClose }) => {
         }
     }
 
-    const LoginFetch = async (endpoint, method, data = null) => {
-        // setError(null);
-        let url = 'https://api.truehomes24.com/api/' + endpoint;
-        console.log('data.....api..', data);
-        const formdata = new FormData();
-        if (data && method == 'POST') {
-            for (const name in data) {
-                console.log('data[name]...', data[name]);
-                formdata.append(name, data[name]);
-                // formdata.append(name,'');
-                console.log('formdata...', formdata);
-            }
+    // const LoginFetch = async (endpoint, method, data = null) => {
+    //     // setError(null);
+    //     let url = 'https://api.truehomes24.com/api/' + endpoint;
+    //     console.log('data.....api..', data);
+    //     const formdata = new FormData();
+    //     if (data && method == 'POST') {
+    //         for (const name in data) {
+    //             console.log('data[name]...', data[name]);
+    //             formdata.append(name, data[name]);
+    //             // formdata.append(name,'');
+    //             console.log('formdata...', formdata);
+    //         }
 
-            // Object.entries(data).forEach(([key, value]) => {
-            //   formdata.append(key, value);
-            // });
-            // formdata.append('data',JSON.stringify(data));
-            console.log('formdata...', formdata);
-        }
+    //         // Object.entries(data).forEach(([key, value]) => {
+    //         //   formdata.append(key, value);
+    //         // });
+    //         // formdata.append('data',JSON.stringify(data));
+    //         console.log('formdata...', formdata);
+    //     }
 
-        try {
-            var myHeaders = new Headers();
-            // myHeaders.append("Authorization", "Bearer null");
-            // myHeaders.append("Content-Type", 'application/json');
-            // myHeaders.append("Content-Type", 'multipart/form-data');
-            const response = await fetch(url, {
-                method: method,
-                // headers: {
-                //     'Content-Type': 'application/json',
-                //     // "Authorization": "Bearer "
-                //     // Add any additional headers if needed
-                //   },
-                headers: myHeaders,
-                // credentials: 'include',
-                // mode: "no-cors",
-                // redirect: "follow",
-                // body: data ? JSON.stringify(data) : null,
-                body: method == 'POST' ? formdata : data ? JSON.stringify(data) : null,
-            });
+    //     try {
+    //         var myHeaders = new Headers();
+    //         // myHeaders.append("Authorization", "Bearer null");
+    //         // myHeaders.append("Content-Type", 'application/json');
+    //         // myHeaders.append("Content-Type", 'multipart/form-data');
+    //         const response = await fetch(url, {
+    //             method: method,
+    //             // headers: {
+    //             //     'Content-Type': 'application/json',
+    //             //     // "Authorization": "Bearer "
+    //             //     // Add any additional headers if needed
+    //             //   },
+    //             headers: myHeaders,
+    //             // credentials: 'include',
+    //             // mode: "no-cors",
+    //             // redirect: "follow",
+    //             // body: data ? JSON.stringify(data) : null,
+    //             body: method == 'POST' ? formdata : data ? JSON.stringify(data) : null,
+    //         });
 
-            console.log('response...', response);
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
+    //         console.log('response...', response);
+    //         if (!response.ok) {
+    //             throw new Error('Network response was not ok');
+    //         }
 
-            const responseData = await response.json();
-            // setLoading(false);
-            return responseData;
-        } catch (error) {
+    //         const responseData = await response.json();
+    //         // setLoading(false);
+    //         return responseData;
+    //     } catch (error) {
 
-            console.log('err apiconfig.....', error);
-            return error;
-            // setError(error.message);
-            // setLoading(false);
-        }
-    };
+    //         console.log('err apiconfig.....', error);
+    //         return error;
+    //         // setError(error.message);
+    //         // setLoading(false);
+    //     }
+    // };
 
     const signUp = async () => {
         if (checkSignUpValidation()) return;
@@ -207,7 +212,12 @@ const Auth = ({ onClose }) => {
                                     className={styles.input + 'rounded py-2'}
                                     placeholder='Enter your email address'
                                     value={loginInputDatas.email}
-                                    onChange={(e) => setLoginInputDatas(pre => ({ ...pre, email: e.target.value }))}
+                                    onChange={(e) => {
+                                        setLoginInputDatas(pre => ({ ...pre, email: e.target.value }));
+                                        if (/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e.target.value) && loginError.username) {
+                                            setLoginError(pre => ({ ...pre, username: '' }));
+                                        }
+                                }}
                                 />
                                 {loginError?.username && <p className='text-red-600 text-sm'>{loginError.username}</p>}
                                 <input
@@ -215,7 +225,12 @@ const Auth = ({ onClose }) => {
                                     placeholder='Enter your password'
                                     type='password'
                                     value={loginInputDatas.password}
-                                    onChange={(e) => setLoginInputDatas(pre => ({ ...pre, password: e.target.value }))}
+                                    onChange={(e) =>{ 
+                                        setLoginInputDatas(pre => ({ ...pre, password: e.target.value }));
+                                        if (e.target.value.length > 5 && loginError.password) {
+                                            setLoginError(pre => ({ ...pre, password: '' }));
+                                        }
+                                }}
                                 />
                                 {loginError?.password && <p className='text-red-600 text-sm'>{loginError?.password}</p>}
                                 <div onClick={() => setForgetPassword(true)} className='text-end mt-2 cursor-pointer'>Forgot Password?</div>
@@ -347,7 +362,7 @@ const Auth = ({ onClose }) => {
                                             onChange={(e) => {
                                                 if (/^[0-9]*$/.test(e.target.value)) {
                                                     setSignUpInputDatas(pre => ({ ...pre, mobileNum: e.target.value }));
-                                                    if (/^\d{7,15}$/.test(signupInputDatas.mobileNum) && signUpErrorStatus.mobileNum) {
+                                                    if (/^\d{7,15}$/.test(e.target.value) && signUpErrorStatus.mobileNum) {
                                                         setSignUpErrorStatus(pre => ({ ...pre, mobileNum: '' }));
                                                     }
                                                 }
@@ -387,7 +402,7 @@ const Auth = ({ onClose }) => {
                                         className={styles.btn + 'hover:bg-gray-700 w-full bg-gray-800 text-white mt-10 py-2'}>
                                         Verify OTP
                                     </button>
-                                    <ToastContainer toastClassName={{}} />
+                                    {/* <ToastContainer toastClassName={{}} /> */}
                                     <button
                                         // onClick={() => }
                                         className={styles.btn + 'hover:bg-gray-700 w-full bg-gray-800 text-white py-2 mt-10'}>

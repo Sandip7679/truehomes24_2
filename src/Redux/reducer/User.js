@@ -30,14 +30,13 @@ export const UserSlice = createSlice({
     pageRefresh: true,
     filterMenus: null,
     propertyStatus: 'sale',
-    postPertyFormData: {
-      // onSkipMessage:null,
-      generalInfo: null,
-      propertyInfo: null,
-      amenities: null,
-      nearByPlace: null,
-      buyRentGallary: null,
-      newProjectGallery: null
+    postPropertyFormData: {
+      generalInfo: { name: '', email: '', countryCode: '+91', mobileNum: '', Iam: 'Individual/Owner', Otp: '',mobileVarification:false, completed:false },
+      propertyInfo: {completed:false,listedFor:'Sale'},
+      amenities: {completed:false},
+      nearByPlace: {completed:false},
+      buyRentGallary: {completed:false},
+      newProjectGallery: {completed:false}
     },
     login_status: false,
     pageNotFoundPath: ''
@@ -79,7 +78,7 @@ export const UserSlice = createSlice({
       state.builderSearchStatus = action.payload
     },
     setPostPropertyFormData(state, action) {
-      state.postPertyFormData = action.payload
+      state.postPropertyFormData = action.payload
     },
   }
 })

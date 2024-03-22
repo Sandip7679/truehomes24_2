@@ -13,7 +13,7 @@ const amenities = ['24by7Water', 'CCTV Camera', 'Gated Society', 'Gym', 'Interne
 
 const Amenities = () => {
     const [animation, setAnimation] = useState(false);
-    const { postPertyFormData } = useSelector(state => state.User);
+    const { postPropertyFormData } = useSelector(state => state.User);
 
     useEffect(() => {
         setAnimation(true);
@@ -22,7 +22,7 @@ const Amenities = () => {
     return (
         <form className={'mt-16 ' + (animation ? 'transition-transform ease-in-out transform -translate-y-10 duration-1000' : '')}>
             {
-                (postPertyFormData.generalInfo && postPertyFormData.propertyInfo) ? <>
+                (postPropertyFormData.generalInfo.completed && postPropertyFormData.propertyInfo.completed) ? <>
                     <CategoryTitle title={'Amenities :'} icon={'fa fa-house'} />
                     <div className='mt-5 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3'>
                         <DropdownInput title={'Sale Price ( Rs. )'} required={true} placeholder={'Enter Sale price'} inputClass={'w-[100%] mt-2'} />
@@ -55,8 +55,8 @@ const Amenities = () => {
                     </div>
                 </>
                     :
-                    <div className={'bg-red-600 opacity-95 rounded text-white p-2 font-semibold'}>
-                        Please submit {!postPertyFormData.generalInfo?'general':'property'} information first
+                    <div className={(animation?'transition-opacity opacity-100 duration-500':'opacity-0') +' bg-red-600 rounded text-white p-2 font-semibold'}>
+                        Please submit {!postPropertyFormData.generalInfo.completed?'general':'property'} information first
                     </div>
             }
 

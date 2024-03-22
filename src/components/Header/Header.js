@@ -6,7 +6,7 @@ import interiorDesiginStudio from '../../assets/Icons/interiorDesiginStudio.png'
 import homeLoan from '../../assets/Icons/homeLoan.png';
 import postPropertyPerDay from '../../assets/Icons/post-property-per-day.png';
 
-import cityIcon from '../../assets/Icons/amedabad.jpg';
+// import cityIcon from '../../assets/Icons/amedabad.jpg';
 import { Dropdown, MenuIcon, SearchIcon } from '../svgIcons';
 import { styles } from '../../Styles/Styles';
 import { NavLink, useLocation } from 'react-router-dom';
@@ -15,7 +15,9 @@ import MobileMenu from './MobileMenu';
 import { DropdownHover } from '../Dropdowns';
 import { useDispatch, useSelector } from 'react-redux';
 import { logout, setFileterMenus, setPropertyListState, setlocation, setBuilderSearchStatus } from '../../Redux/reducer/User';
-import useApi, { UseApi } from '../../ApiConf';
+import  { UseApi } from '../../ApiConf';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 // const cities = [
 //     { city: 'Dubai' },
@@ -230,6 +232,7 @@ const Header = () => {
 
     return (
         <nav className="bg-gray-800 fixed top-0 z-[2000] left-0 p-2 w-screen">
+            <ToastContainer toastClassName={{}} />
             <div className="flex justify-between">
                 <div className="flex items-center">
                     <div class="xl:hidden z-[200] group">
@@ -267,7 +270,7 @@ const Header = () => {
                                 {AllCities.international?.map((item, index) => {
                                     return (
                                         <NavLink
-                                            onClick={() => setLocation({ country: item.city, city: item.text, area: item.text, code: '', location: '', locationName: null, project: '', projectName: null })}
+                                            onClick={() => setLocation({ country: '', city: item.text, area: item.text, code: item.city, location: '', locationName: null, project: '', projectName: null })}
                                             key={index}
                                             // to={locationPath.pathname != '/' ? "/" : '/'}
                                             to={`${getRoutePath(item.text)}`}

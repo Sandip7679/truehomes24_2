@@ -32,13 +32,13 @@ const inputs = [
 
 const NearbyPlaces = () => {
     const [animation, setAnimation] = useState(false);
-    const { postPertyFormData } = useSelector(state => state.User);
+    const { postPropertyFormData } = useSelector(state => state.User);
     useEffect(() => {
         setAnimation(true);
     }, [])
     return (
         <form className={'mt-16 ' + (animation ? ' transition-transform ease-in-out transform -translate-y-10 duration-1000 ' : '')}>
-            {(postPertyFormData.generalInfo && postPertyFormData.propertyInfo && postPertyFormData.amenities) ? <>
+            {(postPropertyFormData.generalInfo.completed && postPropertyFormData.propertyInfo.completed && postPropertyFormData.amenities.completed) ? <>
                 <CategoryTitle title={'Nearby Places :'} icon={'fa fa-house'} />
                 <InputList inputs={inputs} classname={'mt-5 grid grid-cols-1 sm:grid-cols-2 sm:gap-7'} />
                 <div className='my-7 flex gap-5'>
@@ -47,8 +47,8 @@ const NearbyPlaces = () => {
                 </div>
             </>
                 :
-                <div className={(animation?'transition-opacity opacity-100':'opacity-10') +' bg-red-600 opacity-95 rounded text-white p-2 font-semibold'}>
-                    Please submit {!postPertyFormData.generalInfo ? 'general information' :!postPertyFormData.amenities?'aminities':'property information'}  first
+                <div className={(animation?'transition-opacity opacity-100 duration-500':'opacity-0') +' bg-red-600 rounded text-white p-2 font-semibold'}>
+                    Please submit {!postPropertyFormData.generalInfo.completed ? 'general information' :!postPropertyFormData.propertyInfo.completed?'property information':'aminities'}  first
                 </div>
             }
         </form>
