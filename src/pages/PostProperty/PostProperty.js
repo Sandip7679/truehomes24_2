@@ -9,16 +9,19 @@ import Gallery from '../../components/PostProperty/Gallery';
 import TopCItiesFilter from '../../components/TopCItiesFilter';
 import Footer from '../../components/Footer';
 import GeneralInfo from '../../components/PostProperty/GeneralInfo';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { setPostPropertyFormData } from '../../Redux/reducer/User';
 
 
 const catagories = ['Property Info', 'Amenities', 'Nearby Places', 'Gallery'];
 
 
 const PostProperty = () => {
-    const { login_status } = useSelector(state => state.User)
+    const { login_status, postPropertyFormData} = useSelector(state => state.User)
     const [currCatagory, setCurrCategory] = useState(login_status ? 'Property Info' : 'General Info');
+    const dispatch = useDispatch();
     useEffect(() => {
+        dispatch(setPostPropertyFormData({ ...postPropertyFormData, generalInfo: { name: '', email: '', countryCode: '+91', mobileNum: '', Iam: 'Individual/Owner', Otp: '',mobileVarification:false, completed:false } }));
         if (login_status) {
             setCurrCategory('Property Info');
         }

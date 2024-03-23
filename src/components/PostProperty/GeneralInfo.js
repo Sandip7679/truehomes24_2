@@ -188,7 +188,6 @@ const GeneralInfo = ({ setCurrCategory }) => {
                 <button className={styles.formBtn + styles.btnBlackHover} onClick={onClickContitue}>Continue</button>
                 {postPropertyFormData.generalInfo.mobileVerification && <button className={styles.formBtn + styles.btnBlackHover} onClick={sendOtp}>Resend OTP</button>}
             </div>
-
         </div>
     );
 }

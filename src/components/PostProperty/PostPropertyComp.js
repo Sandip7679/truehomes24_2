@@ -27,8 +27,8 @@ export const CategoryTitle = ({ title, icon }) => {
     )
 }
 
-export const ButtonList = ({ title, btnNames, initialName, classname, required }) => {
-    const [selectedBtnName, setSelectedBtnName] = useState(initialName);
+export const ButtonList = ({ title, btnNames, classname, required, onClick,value }) => {
+    // const [selectedBtnName, setSelectedBtnName] = useState(initialName);
     return (
         <div className={classname}>
             <span>{title} {required && <span className='text-red-600'>*</span>}</span>
@@ -36,9 +36,9 @@ export const ButtonList = ({ title, btnNames, initialName, classname, required }
                 {btnNames.map((item, index) => {
                     return (
                         <button key={index}
-                            onClick={() => setSelectedBtnName(item)}
-                            className={(selectedBtnName === item ? 'border-orange-600 text-orange-600' : 'border-gray-400 text-gray-400') + ' hover:border-orange-600 hover:text-orange-600 border-[1px] px-3 py-1 rounded-xl '}>
-                            {item}
+                            onClick={()=> onClick(item.value)}
+                            className={(value === item.value ? 'border-orange-600 text-orange-600' : 'border-gray-400 text-gray-400') + ' hover:border-orange-600 hover:text-orange-600 border-[1px] px-3 py-1 rounded-xl '}>
+                            {item.label}
                         </button>
                     )
                 })}
@@ -59,20 +59,20 @@ export const InputList = ({ inputs, classname }) => {
     )
 }
 
-export const DropdownInput = ({ title, options, placeholder, required, inputClass, type }) => {
+export const DropdownInput = ({ title, options, placeholder, required, inputClass,type,value,onChange }) => {
     return (
         <div className={inputClass}>
             {title && <span className={styles.textMedium}>{title}{required && <span className='text-red-500'>*</span>}</span>}
-            {options ? <select required={required} name="" className={styles.input + 'mt-1 text-gray-500 '}>
+            {options ? <select required={required} name="" className={styles.input + 'mt-1 text-gray-500 '} value={value} onChange={(e)=>onChange(e)}>
                 <option value="0">{placeholder}</option>
                 {options.map((item, index) => {
                     return (
-                        <option  key={index} className='text-sm sm:text-base text-gray-500' value={`${item}`}>{item}</option>
+                        <option  key={index} className='text-sm sm:text-base text-gray-500' value={item.value}>{item.label}</option>
                     )
                 })}
             </select>
                 :
-                <input required={required} type={type} placeholder={placeholder} className={styles.input + 'mt-1'} />
+                <input required={required} type={type} placeholder={placeholder} className={styles.input + 'mt-1'} value={value} onChange={(e)=>onChange(e)} />
             }
         </div>
 

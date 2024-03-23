@@ -32,7 +32,7 @@ export const UserSlice = createSlice({
     propertyStatus: 'sale',
     postPropertyFormData: {
       generalInfo: { name: '', email: '', countryCode: '+91', mobileNum: '', Iam: 'Individual/Owner', Otp: '',mobileVarification:false, completed:false },
-      propertyInfo: {completed:false,listedFor:'Sale'},
+      propertyInfo: {completed:false,listedFor:'Sale',propertyType:'Apartment',country:'',propertyStatus:'Under Construction'},
       amenities: {completed:false},
       nearByPlace: {completed:false},
       buyRentGallary: {completed:false},

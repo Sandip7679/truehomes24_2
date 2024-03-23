@@ -4,22 +4,62 @@ import { AreaInputs, ButtonList, CategoryTitle, DropdownInput, InputList } from 
 import { useDispatch, useSelector } from 'react-redux';
 import { setPostPropertyFormData } from '../../Redux/reducer/User';
 
-
+const listedFor = [
+    { label: 'Sale', value: 'Sale' },
+    { label: 'Rent', value: 'Rent' },
+]
 const propertyTypes = [
-    'Apartment', 'Independent House/Villa', 'Residential Land', 'Warehouse', 'Builder Floor',
-    'Office Space', 'Shop/Showroom', 'Serviced Apartment/PG', 'Agricultural/Farm Land', 'Farm House', 'Commercial Land',
+    { label: 'Apartment', value: 'Apartment' },
+    { label: 'Independent House/Villa', value: 'Independent House/Villa' },
+    { label: 'Residential Land', value: 'Residential Land' },
+    { label: 'Warehouse', value: 'Warehouse' },
+    { label: 'Builder Floor', value: 'Builder Floor' },
+    { label: 'Office Space', value: 'Office Space' },
+    { label: 'Shop/Showroom', value: 'Shop/Showroom' },
+    { label: 'Serviced Apartment/PG', value: 'Serviced Apartment/PG' },
+    { label: 'Agricultural/Farm Land', value: 'Agricultural/Farm Land' },
+    { label: 'Farm House', value: 'Farm House' },
+    { label: 'Commercial Land', value: 'Commercial Land' },
 ]
 
-const countries = ['India', 'Singapore', 'UAE', 'United States'];
-const indianStates = [
-    'Andhra Pradesh', 'Arunachal Pradesh', 'Assam', 'Bihar', 'Chhattisgarh', 'Goa', 'Gujarat', 'Haryana',
-    'Himachal Pradesh', 'Jharkhand', 'Karnataka', 'Kerala', 'Madhya Pradesh', 'Maharashtra', 'Manipur',
-    'Meghalaya', 'Mizoram', 'Nagaland', 'Odisha', 'Punjab', 'Rajasthan', 'Sikkim', 'Tamil Nadu', 'Telangana',
-    'Tripura', 'Uttar Pradesh', 'Uttarakhand', 'West Bengal', 'Andaman and Nicobar Islands', 'Chandigarh',
-    'Dadra and Nagar Haveli and Daman and Diu', 'Lakshadweep', 'Delhi', 'Puducherry'
-];
+const countries = [
+    { label: 'India', value: 'India' },
+    { label: 'Singapore', value: 'Singapore' },
+    { label: 'UAE', value: 'UAE' },
+    { label: 'United States', value: 'United States' },
+]
 
-const Cities = ['Kolkata', 'Pune', 'Delhi']
+const indianStates = [
+    { label: 'Andhra Pradesh', value: 'Andhra Pradesh' },
+    { label: 'Arunachal Pradesh', value: 'Arunachal Pradesh' },
+    { label: 'Assam', value: 'Assam' },
+    { label: 'Bihar', value: 'Bihar' },
+    { label: 'Chhattisgarh', value: 'Chhattisgarh' },
+    { label: 'Goa', value: 'Goa' },
+    { label: 'Gujarat', value: 'Gujarat' },
+    { label: 'Haryana', value: 'Haryana' },
+    { label: 'Himachal Pradesh', value: 'Himachal Pradesh' },
+    { label: 'Jharkhand', value: 'Jharkhand' }
+]
+
+// const indianStates = [
+//     'Andhra Pradesh', 'Arunachal Pradesh', 'Assam', 'Bihar', 'Chhattisgarh', 'Goa', 'Gujarat', 'Haryana',
+//     'Himachal Pradesh', 'Jharkhand', 'Karnataka', 'Kerala', 'Madhya Pradesh', 'Maharashtra', 'Manipur',
+//     'Meghalaya', 'Mizoram', 'Nagaland', 'Odisha', 'Punjab', 'Rajasthan', 'Sikkim', 'Tamil Nadu', 'Telangana',
+//     'Tripura', 'Uttar Pradesh', 'Uttarakhand', 'West Bengal', 'Andaman and Nicobar Islands', 'Chandigarh',
+//     'Dadra and Nagar Haveli and Daman and Diu', 'Lakshadweep', 'Delhi', 'Puducherry'
+// ];
+
+const Cities = [
+    { label: 'Kolkata', value: 'Kolkata' },
+    { label: 'Pune', value: 'Pune' },
+    { label: 'Delhi', value: 'Delhi' },
+]
+const Localities = [
+    { label: 'locality1', value: 'locality1' },
+    { label: 'locality2', value: 'locality2' },
+    { label: 'locality3', value: 'locality3' },
+]
 
 const inputs = [
     { name: 'Country', placeholder: 'Select Country', state: 'country', star: true, dropdownData: countries },
@@ -40,7 +80,13 @@ const areasInputs = [
     { name: 'Carapet Area', star: false }
 ]
 
-const propertyStatus = ['Under Construction', 'Ready to move', 'Upcoming', 'Sold Out'];
+// const propertyStatus = ['Under Construction', 'Ready to move', 'Upcoming', 'Sold Out'];
+const propertyStatus = [
+    { label: 'Under Construction', value: 'Under Construction' },
+    { label: 'Ready to move', value: 'Ready to move' },
+    { label: 'Upcoming', value: 'Upcoming' },
+    { label: 'Sold Out', value: 'Sold Out' },
+]
 const nums = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
 const months = nums.map((item, index) => `${index} Month`);
 const years = nums.map((item, index) => `${index} Year`);
@@ -60,30 +106,38 @@ const PropertyInfo = ({ setCurrCategory }) => {
                     <CategoryTitle title={'Property Information :'} icon={'fa-regular fa-building'} />
                     <div className='md:flex gap-[5%]'>
                         <div className='mb-5 flex-none'>
-                            {/* <ButtonList title={'Listed For'} btnNames={['Sale', 'Rent']} initialName={'Sale'} required={true} /> */}
-                            <div className={''}>
-                                <span>Listed For <span className='text-red-600'>*</span></span>
-                                <div className='flex flex-wrap gap-2 mt-2 text-sm'>
-                                    {['Sale', 'Rent'].map((item, index) => {
-                                        return (
-                                            <button key={index}
-                                                onClick={() => dispatch(setPostPropertyFormData({ ...postPropertyFormData, propertyInfo: { ...postPropertyFormData.propertyInfo, listedFor: item } }))}
-                                                className={(postPropertyFormData.propertyInfo.listedFor == item ? 'border-orange-600 text-orange-600' : 'border-gray-400 text-gray-400') + ' hover:border-orange-600 hover:text-orange-600 border-[1px] px-3 py-1 rounded-xl '}>
-                                                {item}
-                                            </button>
-                                        )
-                                    })}
-                                </div>
-                            </div>
+                            <ButtonList title={'Listed For'} btnNames={listedFor} required={true}
+                                value={postPropertyFormData.propertyInfo.listedFor}
+                                onClick={(item) => dispatch(setPostPropertyFormData({ ...postPropertyFormData, propertyInfo: { ...postPropertyFormData.propertyInfo, listedFor: item } }))}
+                            />
                         </div>
-                        <ButtonList title={'Property Type'} btnNames={propertyTypes} initialName={'Apartment'} required={true} />
+                        <ButtonList title={'Property Type'} btnNames={propertyTypes} required={true} value={postPropertyFormData.propertyInfo.propertyType}
+                            onClick={(item) => dispatch(setPostPropertyFormData({ ...postPropertyFormData, propertyInfo: { ...postPropertyFormData.propertyInfo, propertyType: item } }))}
+                        />
                     </div>
-                    <InputList inputs={inputs} />
+                    {/* <InputList inputs={inputs} /> */}
+                    <div className={'mt-5 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3'}>
+                        <DropdownInput title={'Country'} options={countries} placeholder={'Select Country'} required={true} />
+                        <DropdownInput title={'State'} options={indianStates} placeholder={'Select State'} required={true} />
+                        <DropdownInput title={'City'} options={Cities} placeholder={'Select City'} required={true} />
+                        <DropdownInput title={'Locality'} options={Localities} placeholder={'Select Locality'} required={true} />
+                        <DropdownInput title={'Sub Locality'} placeholder={'Select Sub Locality'} required={false} />
+                        <DropdownInput title={'Project/Society'} placeholder={'Select Project/Society'} required={true} />
+                        <DropdownInput title={'Bedrooms'} placeholder={'0'} required={true} />
+                        <DropdownInput title={'Balconies'} placeholder={'Select Balconies'} required={true} />
+                        <DropdownInput title={'Bathrooms'} placeholder={'Select Bathrooms'} required={true} />
+                        <DropdownInput title={'Property On Floor'} placeholder={'Numbers only'} required={false} />
+                        <DropdownInput title={'No. Of Floor'} placeholder={'Numbers only'} required={false} />
+                    </div>
+
                     <AreaInputs inputDatas={areasInputs} />
 
                     <div className='mt-5 sm:flex  gap-[5%]'>
                         <ButtonList title={'Status'} btnNames={propertyStatus}
-                            initialName={'Under Construction'} required={true} classname={'w-[40%] mt-3'} />
+                            required={true} classname={'w-[40%] mt-3'}
+                            value={postPropertyFormData.propertyInfo.propertyStatus}
+                            onClick={(item) => dispatch(setPostPropertyFormData({ ...postPropertyFormData, propertyInfo: { ...postPropertyFormData.propertyInfo, propertyStatus: item } }))}
+                        />
                         <div className='sm:w-[55%] mt-3'>
                             <p>Available From</p>
                             <div className='sm:flex gap-[4%] '>
@@ -106,7 +160,7 @@ const PropertyInfo = ({ setCurrCategory }) => {
                     </div>
                     <div className='mt-5 flex gap-5'>
                         <button className={styles.formBtn}>Back</button>
-                        <button  className={styles.formBtn}>Save & Next</button>
+                        <button className={styles.formBtn}>Save & Next</button>
                     </div>
                 </>
                 :
