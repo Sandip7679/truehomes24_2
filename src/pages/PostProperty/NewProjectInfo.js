@@ -3,6 +3,8 @@ import Select from 'react-select';
 
 import { AreaInputs, ButtonList, DropdownInput, InputList, JoditTextEditor } from '../../components/PostProperty/PostPropertyComp';
 import { styles } from '../../Styles/Styles';
+import { useDispatch, useSelector } from 'react-redux';
+import { setPostPropertyFormData } from '../../Redux/reducer/User';
 
 const countries = ['India', 'Singapore', 'UAE', 'United States'];
 const indianStates = [
@@ -75,14 +77,103 @@ const furnishingItem = [
 const NewProjectInfo = () => {
     const [selectedOption, setSelectedOption] = useState(null);
     const [animation, setAnimation] = useState(false);
+    const { postPropertyFormData } = useSelector(state => state.User);
+    const [inputErrStatus, setInputErrStatus] = useState({});
+    const dispatch = useDispatch();
 
     useEffect(() => {
         setAnimation(true);
-      }, [])
+    }, [])
 
     return (
-        <div className={'mt-16 '+ (animation?'transition-transform ease-in-out transform -translate-y-10 duration-1000':'')}>
-            <InputList inputs={inputs} />
+        <div className={'mt-16 ' + (animation ? 'transition-transform ease-in-out transform -translate-y-10 duration-1000' : '')}>
+            {/* <InputList inputs={inputs} /> */}
+            <div className={'mt-5 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3'}>
+                <DropdownInput title={'Country'} options={countries} placeholder={'Select Country'} required={true}
+                    value={postPropertyFormData.newProjectInfo.country}
+                    onChange={(e) => {
+                        dispatch(setPostPropertyFormData({ ...postPropertyFormData, newProjectInfo: { ...postPropertyFormData.newProjectInfo, country: e.target.value } }));
+                        if (inputErrStatus.country) { setInputErrStatus(pre => ({ ...pre, country: '' })) };
+                    }}
+                />
+                <DropdownInput title={'State'} options={indianStates} placeholder={'Select State'} required={true}
+                    value={postPropertyFormData.newProjectInfo.state}
+                    onChange={(e) => {
+                        dispatch(setPostPropertyFormData({ ...postPropertyFormData, newProjectInfo: { ...postPropertyFormData.newProjectInfo, state: e.target.value } }));
+                        if (inputErrStatus.state) { setInputErrStatus(pre => ({ ...pre, state: '' })) };
+                    }}
+                />
+                <DropdownInput title={'City'} options={Cities} placeholder={'Select City'} required={true}
+                    value={postPropertyFormData.newProjectInfo.city}
+                    onChange={(e) => {
+                        dispatch(setPostPropertyFormData({ ...postPropertyFormData, newProjectInfo: { ...postPropertyFormData.newProjectInfo, city: e.target.value } }));
+                        if (inputErrStatus.city) { setInputErrStatus(pre => ({ ...pre, city: '' })) };
+                    }}
+                />
+                <DropdownInput title={'Locality'} placeholder={'Select Locality'} required={true}
+                    value={postPropertyFormData.newProjectInfo.locality}
+                    onChange={(e) => {
+                        dispatch(setPostPropertyFormData({ ...postPropertyFormData, newProjectInfo: { ...postPropertyFormData.newProjectInfo, locality: e.target.value } }));
+                        if (inputErrStatus.locality) { setInputErrStatus(pre => ({ ...pre, locality: '' })) };
+                    }}
+                />
+                <DropdownInput title={'Sub Locality'} placeholder={'Select Sub Locality'} required={false}
+                    value={postPropertyFormData.newProjectInfo.subLocality}
+                    onChange={(e) => {
+                        dispatch(setPostPropertyFormData({ ...postPropertyFormData, newProjectInfo: { ...postPropertyFormData.newProjectInfo, subLocality: e.target.value } }));
+                        if (inputErrStatus.subLocality) { setInputErrStatus(pre => ({ ...pre, subLocality: '' })) };
+                    }}
+                />
+                <DropdownInput title={'Society Name'} placeholder={'Select Society Name'} required={true}
+                    value={postPropertyFormData.newProjectInfo.societyName}
+                    onChange={(e) => {
+                        dispatch(setPostPropertyFormData({ ...postPropertyFormData, newProjectInfo: { ...postPropertyFormData.newProjectInfo, societyName: e.target.value } }));
+                        if (inputErrStatus.societyName) { setInputErrStatus(pre => ({ ...pre, societyName: '' })) };
+                    }}
+                />
+                <DropdownInput title={'Property Type'} options={propTypesDropdownData} placeholder={'Select Property Type'} required={false}
+                    value={postPropertyFormData.newProjectInfo.propertyType}
+                    onChange={(e) => {
+                        dispatch(setPostPropertyFormData({ ...postPropertyFormData, newProjectInfo: { ...postPropertyFormData.newProjectInfo, propertyType: e.target.value } }));
+                        if (inputErrStatus.propertyType) { setInputErrStatus(pre => ({ ...pre, propertyType: '' })) };
+                    }}
+                />
+                <DropdownInput title={'Bedroom from (Ex. 1BHK)'} placeholder={'Enter Bedroom from'} required={false}
+                    value={postPropertyFormData.newProjectInfo.bedroomFrom}
+                    onChange={(e) => {
+                        dispatch(setPostPropertyFormData({ ...postPropertyFormData, newProjectInfo: { ...postPropertyFormData.newProjectInfo, bedroomFrom: e.target.value } }));
+                        if (inputErrStatus.bedroomFrom) { setInputErrStatus(pre => ({ ...pre, bedroomFrom: '' })) };
+                    }}
+                />
+                <DropdownInput title={'Bedroom to (Ex. 1BHK)'} placeholder={'Enter Bedroom to'} required={false}
+                    value={postPropertyFormData.newProjectInfo.bedRoomTo}
+                    onChange={(e) => {
+                        dispatch(setPostPropertyFormData({ ...postPropertyFormData, newProjectInfo: { ...postPropertyFormData.newProjectInfo, bedRoomTo: e.target.value } }));
+                        if (inputErrStatus.bedRoomTo) { setInputErrStatus(pre => ({ ...pre, bedRoomTo: '' })) };
+                    }}
+                />
+                <DropdownInput title={'No. of Bathrooms from'} placeholder={'Enter starting Bathroom number'} required={false}
+                    value={postPropertyFormData.newProjectInfo.bathroomsFrom}
+                    onChange={(e) => {
+                        dispatch(setPostPropertyFormData({ ...postPropertyFormData, newProjectInfo: { ...postPropertyFormData.newProjectInfo, bathroomsFrom: e.target.value } }));
+                        if (inputErrStatus.bathroomsFrom) { setInputErrStatus(pre => ({ ...pre, bathroomsFrom: '' })) };
+                    }}
+                />
+                <DropdownInput title={'No. of Bathrooms to'} placeholder={'Enter highest Bathroom number'} required={false}
+                    value={postPropertyFormData.newProjectInfo.bathroomsTo}
+                    onChange={(e) => {
+                        dispatch(setPostPropertyFormData({ ...postPropertyFormData, newProjectInfo: { ...postPropertyFormData.newProjectInfo, bathroomsTo: e.target.value } }));
+                        if (inputErrStatus.bathroomsTo) { setInputErrStatus(pre => ({ ...pre, bathroomsTo: '' })) };
+                    }}
+                />
+                <DropdownInput title={'Total Floor'} placeholder={'Enter total floor'} required={false}
+                    value={postPropertyFormData.newProjectInfo.totalFloor}
+                    onChange={(e) => {
+                        dispatch(setPostPropertyFormData({ ...postPropertyFormData, newProjectInfo: { ...postPropertyFormData.newProjectInfo, totalFloor: e.target.value } }));
+                        if (inputErrStatus.totalFloor) { setInputErrStatus(pre => ({ ...pre, totalFloor: '' })) };
+                    }}
+                />
+            </div>
             <ButtonList title={'Amenities'} btnNames={amenities} initialName={''} classname={'mt-5'} required={true} />
             <ButtonList title={'Furnishing Type '} btnNames={['Furnished', 'Semi Furnished', 'Unfurnished',]} initialName={''} classname={'mt-5'} />
             <div className='mt-5'>

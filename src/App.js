@@ -83,11 +83,12 @@ function App() {
         <Route path={`/${builderSearchStatus.builderPath}real-estate-builders-in-${builderSearchStatus.cityPath}`} element={<Builders/>} />
         <Route path='/project_details' element={<ProjectDetails/>} />
         <Route path='/post-property' element={<PostProperty/>} />
+        <Route path='/post-property/featured' element={<PostProperty/>} />
         <Route path='/post-property/new-project' element={<NewProject/>} />
         <Route path='/buyer-registration' element={<BuyerRegistration/>} />
         <Route path='/membership' element={<AdPackages/>} />
         <Route path='/membership/detail' element={<AdPackageDetail/>} />
-        <Route path='/manage-property' element={<ManageProperty/>} />
+        <Route path='/dashboard/my-property/active' element={<ManageProperty/>} />
         <Route path='/dashboard/my-profile' element={<ManageProfile/>} />
         <Route path='/dashboard/edit-profile' element={<EditProfile/>} />
         <Route path='/dashboard/received-leads' element={<ViewResponse/>} />

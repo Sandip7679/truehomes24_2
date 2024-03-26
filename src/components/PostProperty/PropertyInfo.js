@@ -3,6 +3,8 @@ import { styles } from '../../Styles/Styles';
 import { AreaInputs, ButtonList, CategoryTitle, DropdownInput, InputList } from './PostPropertyComp';
 import { useDispatch, useSelector } from 'react-redux';
 import { setPostPropertyFormData } from '../../Redux/reducer/User';
+import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 const listedFor = [
     { label: 'Sale', value: 'Sale' },
@@ -60,6 +62,59 @@ const Localities = [
     { label: 'locality2', value: 'locality2' },
     { label: 'locality3', value: 'locality3' },
 ]
+const subLocalities = [
+    { label: 'subLocality1', value: 'subLocality1' },
+    { label: 'subLocality2', value: 'subLocality2' },
+    { label: 'subLocality3', value: 'subLocality3' },
+]
+const projectNames = [
+    { label: 'projectName1', value: 'projectName1' },
+    { label: 'projectName2', value: 'projectName2' },
+    { label: 'projectName3', value: 'projectName3' },
+]
+const bedrooms = [
+    { label: '0', value: '0' },
+    { label: '1', value: '1' },
+    { label: '1.5', value: '1.5' },
+    { label: '2', value: '2' },
+    { label: '2.5', value: '2.5' },
+    { label: '3', value: '3' },
+    { label: '3.5', value: '3.5' },
+    { label: '4', value: '4' },
+    { label: '4.5', value: '4.5' },
+    { label: '5', value: '5' },
+    { label: '5.5', value: '5.5' },
+    { label: '6', value: '6' },
+    { label: '6.5', value: '6.5' },
+    { label: '7', value: '7' },
+    { label: '7.5', value: '7.5' },
+    { label: '8', value: '8' },
+    { label: '8.5', value: '8.5' },
+    { label: '9', value: '9' },
+    { label: '9.5', value: '9.5' },
+    { label: '10+', value: '10+' },
+    // { label: '2', value: '2' },
+];
+const balconies = [
+    { label: '0', value: '0' },
+    { label: '1', value: '1' },
+    { label: '2', value: '2' },
+    { label: '3', value: '3' },
+    { label: '4', value: '4' },
+    { label: '5', value: '5' },
+    { label: '6', value: '6' },
+    { label: '7', value: '7' },
+    { label: '8', value: '8' },
+    { label: '9', value: '9' },
+    { label: '10+', value: '10+' }
+];
+const bathrooms = [
+    { label: '1', value: '1' },
+    { label: '2', value: '2' },
+    { label: '3', value: '3' },
+    { label: '4', value: '4' },
+    { label: '5+', value: '5+' }
+];
 
 const inputs = [
     { name: 'Country', placeholder: 'Select Country', state: 'country', star: true, dropdownData: countries },
@@ -79,6 +134,18 @@ const areasInputs = [
     { name: 'BuiltUp Area', star: true },
     { name: 'Carapet Area', star: false }
 ]
+// const units = ['sq.ft.', 'sq.yards', 'sq.m.', 'atres', 'cents', 'grounds', 'guntha', 'bigha', 'kottah']
+const units = [
+    { label: 'sq.ft.', value: 'sq.ft.' },
+    { label: 'sq.yards', value: 'sq.yards' },
+    { label: 'sq.m.', value: 'sq.m.' },
+    { label: 'atres', value: 'atres' },
+    { label: 'cents', value: 'cents' },
+    { label: 'grounds', value: 'grounds' },
+    { label: 'guntha', value: 'guntha' },
+    { label: 'bigha', value: 'bigha' },
+    { label: 'kottah', value: 'kottah' }
+]
 
 // const propertyStatus = ['Under Construction', 'Ready to move', 'Upcoming', 'Sold Out'];
 const propertyStatus = [
@@ -94,11 +161,19 @@ const years = nums.map((item, index) => `${index} Year`);
 const PropertyInfo = ({ setCurrCategory }) => {
     const [animation, setAnimation] = useState(false);
     const { postPropertyFormData, login_status } = useSelector(state => state.User);
+    const [inputErrorState, setInputErrState] = useState({ country: '', state: '' });
     const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     useEffect(() => {
         setAnimation(true);
     }, [])
+
+    const onClickSave = () => {
+        setCurrCategory('Amenities');
+        dispatch(setPostPropertyFormData({ ...postPropertyFormData, propertyInfo: { ...postPropertyFormData.propertyInfo, completed: true } }));
+        toast('Property information saved successfully !', { type: 'success' });
+    }
     return (
         <div className={'mt-16 ' + (animation ? 'transition-transform ease-in-out transform -translate-y-10 duration-1000' : '')}>
             {(postPropertyFormData.generalInfo.completed || login_status) ?
@@ -117,20 +192,132 @@ const PropertyInfo = ({ setCurrCategory }) => {
                     </div>
                     {/* <InputList inputs={inputs} /> */}
                     <div className={'mt-5 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3'}>
-                        <DropdownInput title={'Country'} options={countries} placeholder={'Select Country'} required={true} />
-                        <DropdownInput title={'State'} options={indianStates} placeholder={'Select State'} required={true} />
-                        <DropdownInput title={'City'} options={Cities} placeholder={'Select City'} required={true} />
-                        <DropdownInput title={'Locality'} options={Localities} placeholder={'Select Locality'} required={true} />
-                        <DropdownInput title={'Sub Locality'} placeholder={'Select Sub Locality'} required={false} />
-                        <DropdownInput title={'Project/Society'} placeholder={'Select Project/Society'} required={true} />
-                        <DropdownInput title={'Bedrooms'} placeholder={'0'} required={true} />
-                        <DropdownInput title={'Balconies'} placeholder={'Select Balconies'} required={true} />
-                        <DropdownInput title={'Bathrooms'} placeholder={'Select Bathrooms'} required={true} />
-                        <DropdownInput title={'Property On Floor'} placeholder={'Numbers only'} required={false} />
-                        <DropdownInput title={'No. Of Floor'} placeholder={'Numbers only'} required={false} />
+                        <DropdownInput title={'Country'} options={countries} placeholder={'Select Country'} required={true}
+                            value={postPropertyFormData.propertyInfo.country}
+                            onChange={(e) => {
+                                dispatch(setPostPropertyFormData({ ...postPropertyFormData, propertyInfo: { ...postPropertyFormData.propertyInfo, country: e.target.value } }));
+                                if (inputErrorState.country) { setInputErrState(pre => ({ ...pre, country: '' })) };
+                            }}
+                        />
+                        <DropdownInput title={'State'} options={indianStates} placeholder={'Select State'} required={true}
+                            value={postPropertyFormData.propertyInfo.state}
+                            onChange={(e) => {
+                                dispatch(setPostPropertyFormData({ ...postPropertyFormData, propertyInfo: { ...postPropertyFormData.propertyInfo, state: e.target.value } }));
+                                if (inputErrorState.state) { setInputErrState(pre => ({ ...pre, state: '' })) };
+                            }}
+                        />
+                        <DropdownInput title={'City'} options={Cities} placeholder={'Select City'} required={true}
+                            value={postPropertyFormData.propertyInfo.city}
+                            onChange={(e) => {
+                                dispatch(setPostPropertyFormData({ ...postPropertyFormData, propertyInfo: { ...postPropertyFormData.propertyInfo, city: e.target.value } }));
+                                if (inputErrorState.city) { setInputErrState(pre => ({ ...pre, city: '' })) };
+                            }}
+                        />
+                        <DropdownInput title={'Locality'} options={Localities} placeholder={'Select Locality'} required={true}
+                            value={postPropertyFormData.propertyInfo.locality}
+                            onChange={(e) => {
+                                dispatch(setPostPropertyFormData({ ...postPropertyFormData, propertyInfo: { ...postPropertyFormData.propertyInfo, locality: e.target.value } }));
+                                if (inputErrorState.locality) { setInputErrState(pre => ({ ...pre, locality: '' })) };
+                            }}
+                        />
+                        <DropdownInput title={'Sub Locality'} options={subLocalities} placeholder={'Select Sub Locality'} required={false}
+                            value={postPropertyFormData.propertyInfo.subLocality}
+                            onChange={(e) => {
+                                dispatch(setPostPropertyFormData({ ...postPropertyFormData, propertyInfo: { ...postPropertyFormData.propertyInfo, subLocality: e.target.value } }));
+                                // if (inputErrorState.subLocality) { setInputErrState(pre => ({ ...pre, subLocality: '' })) };
+                            }}
+                        />
+                        <DropdownInput title={'Project/Society'} options={projectNames} placeholder={'Select Project/Society'} required={true}
+                            value={postPropertyFormData.propertyInfo.projectName}
+                            onChange={(e) => {
+                                dispatch(setPostPropertyFormData({ ...postPropertyFormData, propertyInfo: { ...postPropertyFormData.propertyInfo, projectName: e.target.value } }));
+                                if (inputErrorState.projectName) { setInputErrState(pre => ({ ...pre, projectName: '' })) };
+                            }}
+                        />
+                        <DropdownInput title={'Bedrooms'} options={bedrooms} placeholder={'Select Bedrooms'} required={true}
+                            value={postPropertyFormData.propertyInfo.bedrooms}
+                            onChange={(e) => {
+                                dispatch(setPostPropertyFormData({ ...postPropertyFormData, propertyInfo: { ...postPropertyFormData.propertyInfo, bedrooms: e.target.value } }));
+                                if (inputErrorState.bedrooms) { setInputErrState(pre => ({ ...pre, bedrooms: '' })) };
+                            }}
+                        />
+                        <DropdownInput title={'Balconies'} options={balconies} placeholder={'Select Balconies'} required={true}
+                            value={postPropertyFormData.propertyInfo.balcony}
+                            onChange={(e) => {
+                                dispatch(setPostPropertyFormData({ ...postPropertyFormData, propertyInfo: { ...postPropertyFormData.propertyInfo, balcony: e.target.value } }));
+                                if (inputErrorState.balcony) { setInputErrState(pre => ({ ...pre, balcony: '' })) };
+                            }}
+                        />
+                        <DropdownInput title={'Bathrooms'} options={bathrooms} placeholder={'Select Bathrooms'} required={true}
+                            value={postPropertyFormData.propertyInfo.bathrooms}
+                            onChange={(e) => {
+                                dispatch(setPostPropertyFormData({ ...postPropertyFormData, propertyInfo: { ...postPropertyFormData.propertyInfo, bathrooms: e.target.value } }));
+                                if (inputErrorState.bathrooms) { setInputErrState(pre => ({ ...pre, bathrooms: '' })) };
+                            }}
+                        />
+                        <DropdownInput title={'Property On Floor'} placeholder={'Numbers only'} required={false}
+                            value={postPropertyFormData.propertyInfo.propertyOnFloor}
+                            onChange={(e) => {
+                                if (/^[0-9]*$/.test(e.target.value)) {
+                                    dispatch(setPostPropertyFormData({ ...postPropertyFormData, propertyInfo: { ...postPropertyFormData.propertyInfo, propertyOnFloor: e.target.value } }));
+                                    if (inputErrorState.propertyOnFloor) { setInputErrState(pre => ({ ...pre, propertyOnFloor: '' })) };
+                                }
+                            }}
+                        />
+                        <DropdownInput title={'No. Of Floor'} placeholder={'Numbers only'} required={false}
+                            value={postPropertyFormData.propertyInfo.noOfFloor}
+                            onChange={(e) => {
+                                if (/^[0-9]*$/.test(e.target.value)) {
+                                    dispatch(setPostPropertyFormData({ ...postPropertyFormData, propertyInfo: { ...postPropertyFormData.propertyInfo, noOfFloor: e.target.value } }));
+                                    if (inputErrorState.noOfFloor) { setInputErrState(pre => ({ ...pre, noOfFloor: '' })) };
+                                }
+                            }}
+                        />
                     </div>
 
-                    <AreaInputs inputDatas={areasInputs} />
+                    {/* <AreaInputs inputDatas={areasInputs} /> */}
+                    <div className='mt-5 grid grid-cols-1 sm:grid-cols-2 gap-[5%]'>
+                        <div>
+                            <div className='flex justify-between mt-1'>
+                                <DropdownInput title={'BuiltUp Area'} placeholder={'Enter BuiltUp Area'} inputClass={'w-[70%]'} required={true}
+                                    value={postPropertyFormData.propertyInfo.buildUpArea}
+                                    onChange={(e) => {
+                                        if (/^[0-9]*$/.test(e.target.value)) {
+                                            dispatch(setPostPropertyFormData({ ...postPropertyFormData, propertyInfo: { ...postPropertyFormData.propertyInfo, buildUpArea: e.target.value } }));
+                                            if (inputErrorState.buildUpArea) { setInputErrState(pre => ({ ...pre, buildUpArea: '' })) };
+                                        }
+                                    }}
+                                />
+                                <DropdownInput title={'Units'} placeholder={'Please Select'} options={units} inputClass={'w-[27%]'} required={true}
+                                    value={postPropertyFormData.propertyInfo.buildUpUnit}
+                                    onChange={(e) => {
+                                        dispatch(setPostPropertyFormData({ ...postPropertyFormData, propertyInfo: { ...postPropertyFormData.propertyInfo, buildUpUnit: e.target.value } }));
+                                        if (inputErrorState.buildUpUnit) { setInputErrState(pre => ({ ...pre, buildUpUnit: '' })) };
+                                    }}
+                                />
+                            </div>
+                        </div>
+                        <div>
+                            <div className='flex justify-between mt-1'>
+                                <DropdownInput title={'Carpet Area'} placeholder={'Enter Carpet Area'} inputClass={'w-[70%]'} required={false}
+                                    value={postPropertyFormData.propertyInfo.carpetArea}
+                                    onChange={(e) => {
+                                        if (/^[0-9]*$/.test(e.target.value)) {
+                                            dispatch(setPostPropertyFormData({ ...postPropertyFormData, propertyInfo: { ...postPropertyFormData.propertyInfo, carpetArea: e.target.value } }));
+                                            // if (inputErrorState.carpetArea) { setInputErrState(pre => ({ ...pre, carpetArea: '' })) };
+                                        }
+                                    }}
+                                />
+                                <DropdownInput title={'Units'} placeholder={'Please Select'} options={units} inputClass={'w-[27%]'} required={false}
+                                    value={postPropertyFormData.propertyInfo.carpetUnit}
+                                    onChange={(e) => {
+                                        dispatch(setPostPropertyFormData({ ...postPropertyFormData, propertyInfo: { ...postPropertyFormData.propertyInfo, carpetUnit: e.target.value } }));
+                                        // if (inputErrorState.carpetUnit) { setInputErrState(pre => ({ ...pre, carpetUnit: '' })) };
+                                    }}
+                                />
+                            </div>
+                        </div>
+                    </div>
 
                     <div className='mt-5 sm:flex  gap-[5%]'>
                         <ButtonList title={'Status'} btnNames={propertyStatus}
@@ -141,8 +328,20 @@ const PropertyInfo = ({ setCurrCategory }) => {
                         <div className='sm:w-[55%] mt-3'>
                             <p>Available From</p>
                             <div className='sm:flex gap-[4%] '>
-                                <DropdownInput options={months} placeholder={'Month'} inputClass={'w-[100%] max-w-[200px] mt-2'} />
-                                <DropdownInput options={years} placeholder={'Year'} inputClass={'w-[100%] max-w-[200px] mt-2'} />
+                                <DropdownInput options={months} placeholder={'Month'} inputClass={'w-[100%] max-w-[200px] mt-2'}
+                                    value={postPropertyFormData.propertyInfo.month}
+                                    onChange={(e) => {
+                                        dispatch(setPostPropertyFormData({ ...postPropertyFormData, propertyInfo: { ...postPropertyFormData.propertyInfo, month: e.target.value } }));
+                                        if (inputErrorState.month) { setInputErrState(pre => ({ ...pre, month: '' })) };
+                                    }}
+                                />
+                                <DropdownInput options={years} placeholder={'Year'} inputClass={'w-[100%] max-w-[200px] mt-2'}
+                                    value={postPropertyFormData.propertyInfo.year}
+                                    onChange={(e) => {
+                                        dispatch(setPostPropertyFormData({ ...postPropertyFormData, propertyInfo: { ...postPropertyFormData.propertyInfo, year: e.target.value } }));
+                                        if (inputErrorState.year) { setInputErrState(pre => ({ ...pre, year: '' })) };
+                                    }}
+                                />
                             </div>
                         </div>
                     </div>
@@ -154,13 +353,31 @@ const PropertyInfo = ({ setCurrCategory }) => {
                             <p className='text-gray-500 text-sm'>Max Size Limit: 5 MB.</p>
                         </div>
                         <div className='sm:w-[55%]'>
-                            <p>RERA Id<span className='text-red-500'>*</span></p>
-                            <input required placeholder='RERA Id' className={styles.input + 'mt-2 pl-5'} />
+                            <p>RERA Id</p>
+                            <input required placeholder='RERA Id' className={styles.input + 'mt-2 pl-5'}
+                                value={postPropertyFormData.propertyInfo.reraId}
+                                onChange={(e) => {
+                                    dispatch(setPostPropertyFormData({ ...postPropertyFormData, propertyInfo: { ...postPropertyFormData.propertyInfo, reraId: e.target.value } }));
+                                    // if (inputErrorState.reraId) { setInputErrState(pre => ({ ...pre, reraId: '' })) };
+                                }}
+                            />
                         </div>
                     </div>
                     <div className='mt-5 flex gap-5'>
-                        <button className={styles.formBtn}>Back</button>
-                        <button className={styles.formBtn}>Save & Next</button>
+                        <button className={styles.formBtn}
+                            onClick={() => {
+                                if (login_status) {
+                                    navigate('/dashboard/my-property/active');
+                                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                                } else {
+                                    setCurrCategory('General Info');
+                                }
+                            }}>
+                            Back
+                        </button>
+                        <button className={styles.formBtn} onClick={onClickSave}>
+                            Save & Next
+                        </button>
                     </div>
                 </>
                 :

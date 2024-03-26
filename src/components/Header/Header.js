@@ -45,7 +45,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 const postPropertyItems = [
     { name: 'Post-Property-Rs 10/day', imgSrc: postPropertyPerDay, endpoint: '/post-property' },
-    { name: 'Featured-Property-Rs 100/day', imgSrc: postPropertyPerDay, endpoint: '/post-property' },
+    { name: 'Featured-Property-Rs 100/day', imgSrc: postPropertyPerDay, endpoint: '/post-property/featured' },
     { name: 'New Property-Rs 100/day', imgSrc: postPropertyPerDay, endpoint: '/post-property/new-project' },
 ];
 const moreServicesItem = [
@@ -81,7 +81,7 @@ const Header = () => {
         // });
         myDashboardItems = [
             { name: 'View Response', endpoint: '/dashboard/received-leads' },
-            { name: 'Manage Property', endpoint: '/manage-property' },
+            { name: 'Manage Property', endpoint: '/dashboard/my-property/active' },
             { name: 'My Order', endpoint: null },
             { name: 'Manage Profile', endpoint: '/dashboard/my-profile' },
             { name: 'Sign Out', endpoint: '/', onClick: handleLogout },

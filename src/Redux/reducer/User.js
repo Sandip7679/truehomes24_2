@@ -31,12 +31,29 @@ export const UserSlice = createSlice({
     filterMenus: null,
     propertyStatus: 'sale',
     postPropertyFormData: {
-      generalInfo: { name: '', email: '', countryCode: '+91', mobileNum: '', Iam: 'Individual/Owner', Otp: '',mobileVarification:false, completed:false },
-      propertyInfo: {completed:false,listedFor:'Sale',propertyType:'Apartment',country:'',propertyStatus:'Under Construction'},
-      amenities: {completed:false},
-      nearByPlace: {completed:false},
-      buyRentGallary: {completed:false},
-      newProjectGallery: {completed:false}
+      type: '',
+      generalInfo: { name: '', email: '', countryCode: '+91', mobileNum: '', Iam: 'Individual/Owner', Otp: '', mobileVarification: false, completed: false },
+      propertyInfo: {
+        completed: false, listedFor: 'Sale', propertyType: 'Apartment', country: '', state: '', city: '', locality: '', subLocality: '', projectName: '',
+        bedrooms: '', bathrooms: '', balcony: '', propertyOnFloor: '', noOfFloor: '', buildUpArea: '', buildUpUnit: '', carpetArea: '', carpetUnit: '', propertyStatus: 'Under Construction',
+        month: '', year: '', reraId: ''
+      },
+      amenities: {
+        completed: false, salePrice: '', pricePerUnit: '', isPriceNegotiable: 'no', facing: '', ownership: '', parking: '', flooringType: '', view: '', furnishingStatus: '',
+        aminities: '', adPackage: '', aboutProperty: '', aboutBuilder: '', embadedLocation: ''
+      },
+      nearByPlace: {
+        completed: false, busStation: '', railwayMetro: '', airport: '', hospital: '', worship: '', atm: '', school: '', mall: '', mainRoad: '', highway: '', expressWay: '',
+        bank: '', publicGarden: '', amusementPark: '', milkDiary: '', movieTheatre: '', restaurant: '', library: '', swimmingPool: '', petrolGasPump: '', motorGarage: '', carChargingPoint: '',
+        spaBeautySalon: '', pharmacy: ''
+      },
+      buyRentGallary: { completed: false },
+      newProjectGallery: { completed: false },
+      newProjectInfo: {
+        completed: false, country: '', state: '', city: '', locality: '', subLocality: '', societyName: '', propertyType: '', bedroomFrom: '', bedRoomTo: '',
+        bathroomsFrom:'',bathroomsTo:'',totalFloor:'',amenities:'',furnishingType:'',furnishingItem:'',areaFrom:'',areaFromUnit:'',areaTo:'',areaToUnit:'',
+        priceFrom:'',priceTo:'',builderName:'',projectStaus:'',description:'',aboutBuilder:'',projectLink:'',image:'',video:''
+      }
     },
     login_status: false,
     pageNotFoundPath: ''

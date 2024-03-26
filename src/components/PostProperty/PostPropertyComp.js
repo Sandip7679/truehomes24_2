@@ -2,12 +2,13 @@ import React, { useRef, useState } from 'react';
 import { styles } from '../../Styles/Styles';
 import JoditEditor from 'jodit-react';
 
-const FormCatagories = ({ catagories, activeCatagory, onClickItem,classname }) => {
+const FormCatagories = ({ catagories, activeCatagory, onClickItem, classname }) => {
     return (
         <div className={styles.lightBorder + classname + ' flex flex-wrap'}>
             {catagories.map((item, index) => {
                 return (
-                    <a key={index} href={`#${index}`}
+                    <a key={index}
+                        // href={`#${index}`}
                         onClick={() => onClickItem(item)}
                         className={(activeCatagory === item ? 'border-b-[1px]' : '') + ' cursor-pointer hover:border-b-[1px] border-b-gray-700 pb-1 mt-2 px-1 mr-[2%]'}>
                         <p className={styles.textMedium + ''}>{item}</p>
@@ -27,7 +28,7 @@ export const CategoryTitle = ({ title, icon }) => {
     )
 }
 
-export const ButtonList = ({ title, btnNames, classname, required, onClick,value }) => {
+export const ButtonList = ({ title, btnNames, classname, required, onClick, value }) => {
     // const [selectedBtnName, setSelectedBtnName] = useState(initialName);
     return (
         <div className={classname}>
@@ -36,9 +37,9 @@ export const ButtonList = ({ title, btnNames, classname, required, onClick,value
                 {btnNames.map((item, index) => {
                     return (
                         <button key={index}
-                            onClick={()=> onClick(item.value)}
-                            className={(value === item.value ? 'border-orange-600 text-orange-600' : 'border-gray-400 text-gray-400') + ' hover:border-orange-600 hover:text-orange-600 border-[1px] px-3 py-1 rounded-xl '}>
-                            {item.label}
+                            onClick={() => onClick(item.label ? item.value : item)}
+                            className={(((item.label && value === item.value) || (!item.label && value == item)) ? 'border-orange-600 text-orange-600' : 'border-gray-400 text-gray-400') + ' hover:border-orange-600 hover:text-orange-600 border-[1px] px-3 py-1 rounded-xl '}>
+                            {item.label ? item.label : item}
                         </button>
                     )
                 })}
@@ -59,23 +60,22 @@ export const InputList = ({ inputs, classname }) => {
     )
 }
 
-export const DropdownInput = ({ title, options, placeholder, required, inputClass,type,value,onChange }) => {
+export const DropdownInput = ({ title, options, placeholder, required, inputClass, type, value, onChange }) => {
     return (
         <div className={inputClass}>
             {title && <span className={styles.textMedium}>{title}{required && <span className='text-red-500'>*</span>}</span>}
-            {options ? <select required={required} name="" className={styles.input + 'mt-1 text-gray-500 '} value={value} onChange={(e)=>onChange(e)}>
-                <option value="0">{placeholder}</option>
+            {options ? <select required={required} name="" className={styles.input + 'mt-1 text-gray-500 '} value={value} onChange={(e) => onChange(e)}>
+                <option value="">{placeholder}</option>
                 {options.map((item, index) => {
                     return (
-                        <option  key={index} className='text-sm sm:text-base text-gray-500' value={item.value}>{item.label}</option>
+                        <option key={index} className='text-sm sm:text-base text-gray-500' value={item.label ? item.value : item}>{item.label ? item.label : item}</option>
                     )
                 })}
             </select>
                 :
-                <input required={required} type={type} placeholder={placeholder} className={styles.input + 'mt-1'} value={value} onChange={(e)=>onChange(e)} />
+                <input required={required} type={type} placeholder={placeholder} className={styles.input + 'mt-1'} value={value} onChange={(e) => onChange(e)} />
             }
         </div>
-
     )
 }
 
@@ -98,7 +98,7 @@ export const AreaInputs = ({ inputDatas }) => {
     )
 }
 
-export const JoditTextEditor = ({title}) => {
+export const JoditTextEditor = ({ title }) => {
     const [content, setContent] = useState('');
     const editor = useRef(null);
     return (
