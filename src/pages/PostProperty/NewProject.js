@@ -7,6 +7,8 @@ import { styles } from '../../Styles/Styles';
 import TopCItiesFilter from '../../components/TopCItiesFilter';
 import Footer from '../../components/Footer';
 import NewProjectInfo from './NewProjectInfo';
+import NewProjectGallery from '../../components/PostProperty/NewProjectGallery';
+import UnitConfiguration from '../../components/PostProperty/UnitConfiguration';
 
 
 const formCatagories = ['New Project Info', 'Gallery', 'Unit Configuration'];
@@ -14,7 +16,7 @@ const formCatagories = ['New Project Info', 'Gallery', 'Unit Configuration'];
 
 
 const NewProject = () => {
-    const [formCatagory, setFormCategory] = useState('New Project Info');
+    const [currCatagory, setCurrCategory] = useState('New Project Info');
     // const editor = useRef(null);
     // const [content, setContent] = useState('');
 
@@ -26,20 +28,25 @@ const NewProject = () => {
     // 	[placeholder]
     // );
 
+    const changeCategories = (catetory) => {
+        setCurrCategory(catetory);
+    }
     return (
         <div>
             <Header />
             <div className='mt-[80px]'>
                 <div className={styles.postpropTitle}>New Projects</div>
-                <div className='mt-5 px-2 container mx-auto mb-10'>
-                    <FormCatagories catagories={formCatagories} activeCatagory={formCatagory} onClickItem={(item)=>setFormCategory(item)}/>
+                <div className='mt-5 px-2 container mx-auto mb-20'>
+                    <FormCatagories catagories={formCatagories} activeCatagory={currCatagory} onClickItem={(item) => setCurrCategory(item)} />
                     <div className={styles.formCard}>
-                        <NewProjectInfo/>
+                        {currCatagory === 'New Project Info' && <NewProjectInfo setCurrCategory={changeCategories} />}
+                        {currCatagory === 'Gallery' && <NewProjectGallery setCurrCategory={changeCategories} />}
+                        {currCatagory === 'Unit Configuration' && <UnitConfiguration setCurrCategory={changeCategories} />}
                     </div>
                 </div>
             </div>
-            <TopCItiesFilter/>
-            <Footer/>
+            <TopCItiesFilter />
+            <Footer />
         </div>
     );
 }

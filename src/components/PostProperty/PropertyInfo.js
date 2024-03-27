@@ -116,24 +116,24 @@ const bathrooms = [
     { label: '5+', value: '5+' }
 ];
 
-const inputs = [
-    { name: 'Country', placeholder: 'Select Country', state: 'country', star: true, dropdownData: countries },
-    { name: 'State', placeholder: 'Select State', state: 'state', star: true, dropdownData: indianStates },
-    { name: 'City', placeholder: 'Select City', state: 'city', star: true, dropdownData: Cities },
-    { name: 'Locality', placeholder: 'Select Locality', state: 'locality', star: true, dropdownData: null },
-    { name: 'Sub Locality', placeholder: 'Select Sub Locality', state: 'subLocality', star: false, dropdownData: null },
-    { name: 'Project/Society', placeholder: 'Select Project/Society', state: 'Project/Society', star: true, dropdownData: null },
-    { name: 'Bedrooms', placeholder: '0', state: 'Bedrooms', star: true, dropdownData: null },
-    { name: 'Balconies', placeholder: '0', state: 'Balconies', star: true, dropdownData: null },
-    { name: 'Bathrooms', placeholder: 'Select Bathrooms', state: 'Bathrooms', star: true, dropdownData: null },
-    { name: 'Property On Floor', placeholder: 'Numbers only', state: 'propertyOnFloor', star: false, dropdownData: null },
-    { name: 'No. Of Floor', placeholder: 'Numbers only', state: 'noOfFloor', star: false, dropdownData: null },
-]
+// const inputs = [
+//     { name: 'Country', placeholder: 'Select Country', state: 'country', star: true, dropdownData: countries },
+//     { name: 'State', placeholder: 'Select State', state: 'state', star: true, dropdownData: indianStates },
+//     { name: 'City', placeholder: 'Select City', state: 'city', star: true, dropdownData: Cities },
+//     { name: 'Locality', placeholder: 'Select Locality', state: 'locality', star: true, dropdownData: null },
+//     { name: 'Sub Locality', placeholder: 'Select Sub Locality', state: 'subLocality', star: false, dropdownData: null },
+//     { name: 'Project/Society', placeholder: 'Select Project/Society', state: 'Project/Society', star: true, dropdownData: null },
+//     { name: 'Bedrooms', placeholder: '0', state: 'Bedrooms', star: true, dropdownData: null },
+//     { name: 'Balconies', placeholder: '0', state: 'Balconies', star: true, dropdownData: null },
+//     { name: 'Bathrooms', placeholder: 'Select Bathrooms', state: 'Bathrooms', star: true, dropdownData: null },
+//     { name: 'Property On Floor', placeholder: 'Numbers only', state: 'propertyOnFloor', star: false, dropdownData: null },
+//     { name: 'No. Of Floor', placeholder: 'Numbers only', state: 'noOfFloor', star: false, dropdownData: null },
+// ]
 
-const areasInputs = [
-    { name: 'BuiltUp Area', star: true },
-    { name: 'Carapet Area', star: false }
-]
+// const areasInputs = [
+//     { name: 'BuiltUp Area', star: true },
+//     { name: 'Carapet Area', star: false }
+// ]
 // const units = ['sq.ft.', 'sq.yards', 'sq.m.', 'atres', 'cents', 'grounds', 'guntha', 'bigha', 'kottah']
 const units = [
     { label: 'sq.ft.', value: 'sq.ft.' },

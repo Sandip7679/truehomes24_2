@@ -51,8 +51,12 @@ export const UserSlice = createSlice({
       newProjectGallery: { completed: false },
       newProjectInfo: {
         completed: false, country: '', state: '', city: '', locality: '', subLocality: '', societyName: '', propertyType: '', bedroomFrom: '', bedRoomTo: '',
-        bathroomsFrom:'',bathroomsTo:'',totalFloor:'',amenities:'',furnishingType:'',furnishingItem:'',areaFrom:'',areaFromUnit:'',areaTo:'',areaToUnit:'',
-        priceFrom:'',priceTo:'',builderName:'',projectStaus:'',description:'',aboutBuilder:'',projectLink:'',image:'',video:''
+        bathroomsFrom: '', bathroomsTo: '', totalFloor: '', amenities: '', furnishingType: '', furnishingItem: '', areaFrom: '', areaFromUnit: '', areaTo: '', areaToUnit: '',
+        priceFrom: '', priceTo: '', builderName: '', projectStaus: '', description: '', aboutBuilder: '', projectLink: '', image: '', video: ''
+      },
+      unitConfig: {
+        completed: false, unitFrom: '', unitTo: '', unitType: '', availability: '', builtUpAreaFrom: '', builtUpAreaTo: '', builtUpUnit: '', carpetAreaFrom: '', carpetAreaTo: '', carpetUnit: '',
+        minPrice:'',maxPrice:'',liveInTourVideo:null,makePayment:false,addPackage:'1',floorPlanImage:null
       }
     },
     login_status: false,

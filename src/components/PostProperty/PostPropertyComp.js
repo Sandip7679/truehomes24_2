@@ -60,11 +60,11 @@ export const InputList = ({ inputs, classname }) => {
     )
 }
 
-export const DropdownInput = ({ title, options, placeholder, required, inputClass, type, value, onChange }) => {
+export const DropdownInput = ({ title, options, placeholder, required, inputClass, type, value, onChange,dropdownClass }) => {
     return (
         <div className={inputClass}>
             {title && <span className={styles.textMedium}>{title}{required && <span className='text-red-500'>*</span>}</span>}
-            {options ? <select required={required} name="" className={styles.input + 'mt-1 text-gray-500 '} value={value} onChange={(e) => onChange(e)}>
+            {options ? <select required={required} name="" className={styles.input + 'mt-1 text-gray-500 '+dropdownClass} value={value} onChange={(e) => onChange(e)}>
                 <option value="">{placeholder}</option>
                 {options.map((item, index) => {
                     return (
