@@ -140,6 +140,7 @@ const Auth = ({ onClose }) => {
             country_code: signupInputDatas.countryCode,
             contact_number: signupInputDatas.mobileNum,
             accept_term: signupInputDatas.term,
+            is_normal_registration:'1'
         };
         // console.log('inputdat....', inputdata);
         let data;
@@ -294,6 +295,7 @@ const Auth = ({ onClose }) => {
                                     </select>
                                     {signUpErrorStatus.registeredAs && <p className='text-red-600 text-sm'>{signUpErrorStatus.registeredAs}</p>}
                                     <input className={styles.input + 'rounded py-2 mt-5'} placeholder='Your Good Name'
+                                        value={signupInputDatas.name}
                                         onChange={(e) => {
                                             setSignUpInputDatas(pre => ({ ...pre, name: e.target.value }));
                                             if (/^[a-zA-Z\s'-]+$/.test(e.target.value) && signUpErrorStatus.name) {
@@ -310,6 +312,7 @@ const Auth = ({ onClose }) => {
                                     <input
                                         className={styles.input + 'rounded py-2 mt-5'}
                                         placeholder='Your Email Address'
+                                        value={signupInputDatas.email}
                                         onChange={(e) => {
                                             setSignUpInputDatas(pre => ({ ...pre, email: e.target.value }));
                                             if (/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e.target.value) && signUpErrorStatus.email) {
@@ -321,6 +324,7 @@ const Auth = ({ onClose }) => {
                                     <input
                                         className={styles.input + 'rounded py-2 mt-5'}
                                         placeholder='Your Password'
+                                        value={signupInputDatas.password}
                                         onChange={(e) => {
                                             setSignUpInputDatas(pre => ({ ...pre, password: e.target.value }));
                                             if (e.target.value.length > 5 && signUpErrorStatus.password) {
@@ -366,7 +370,6 @@ const Auth = ({ onClose }) => {
                                                         setSignUpErrorStatus(pre => ({ ...pre, mobileNum: '' }));
                                                     }
                                                 }
-
                                             }} />
                                     </div>
                                     {signUpErrorStatus.mobileNum && <p className='text-red-600 text-sm'>{signUpErrorStatus.mobileNum}</p>}

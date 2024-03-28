@@ -22,7 +22,7 @@ const FormCatagories = ({ catagories, activeCatagory, onClickItem, classname }) 
 export const CategoryTitle = ({ title, icon }) => {
     return (
         <div className='flex my-5 text-gray-700 bg-gray-50 p-3 -mx-[1.6%]'>
-            <i class={icon + " mt-[5px] mr-2"}></i>
+            <i class={" mt-[5px] mr-2 "+icon}></i>
             <span className={styles.title3}>{title}</span>
         </div>
     )

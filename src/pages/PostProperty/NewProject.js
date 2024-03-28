@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Header from '../../components/Header/Header';
 import FormCatagories from '../../components/PostProperty/PostPropertyComp';
 import { styles } from '../../Styles/Styles';
@@ -9,6 +9,8 @@ import Footer from '../../components/Footer';
 import NewProjectInfo from './NewProjectInfo';
 import NewProjectGallery from '../../components/PostProperty/NewProjectGallery';
 import UnitConfiguration from '../../components/PostProperty/UnitConfiguration';
+import { useDispatch, useSelector } from 'react-redux';
+import { setPostPropertyFormData } from '../../Redux/reducer/User';
 
 
 const formCatagories = ['New Project Info', 'Gallery', 'Unit Configuration'];
@@ -17,16 +19,16 @@ const formCatagories = ['New Project Info', 'Gallery', 'Unit Configuration'];
 
 const NewProject = () => {
     const [currCatagory, setCurrCategory] = useState('New Project Info');
-    // const editor = useRef(null);
-    // const [content, setContent] = useState('');
+    const { postPropertyFormData,login_status } = useSelector(state => state.User);
 
-    // const config = useMemo(
-    // 	{
-    // 		readonly: false, // all options from https://xdsoft.net/jodit/docs/,
-    // 		placeholder: placeholder || 'Start typings...'
-    // 	},
-    // 	[placeholder]
-    // );
+    const dispatch = useDispatch();
+    useEffect(() => {
+        if (login_status) {
+            dispatch(setPostPropertyFormData({ ...postPropertyFormData, generalInfo: { name: '', email: '', countryCode: '+91', mobileNum: '', Iam: 'Individual/Owner', Otp: '', mobileVarification: false, completed: true } }));
+        } else {
+            dispatch(setPostPropertyFormData({ ...postPropertyFormData, generalInfo: { name: '', email: '', countryCode: '+91', mobileNum: '', Iam: 'Individual/Owner', Otp: '', mobileVarification: false, completed: false } }));
+        }
+    }, [login_status])
 
     const changeCategories = (catetory) => {
         setCurrCategory(catetory);

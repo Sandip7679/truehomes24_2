@@ -1,21 +1,69 @@
-import React, { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
-import PersonalInfo from '../../components/PostProperty/PersonalInfo';
-import ProjectInfo from '../../components/PostProperty/ProjectInfo';
+import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import Select from 'react-select';
+import { setPostPropertyFormData } from '../../Redux/reducer/User';
+import { toast } from 'react-toastify';
+import { ButtonList, DropdownInput, JoditTextEditor } from './PostPropertyComp';
+import { styles } from '../../Styles/Styles';
+
+const countries = ['India', 'Singapore', 'UAE', 'United States'];
+const indianStates = [
+    'Andhra Pradesh', 'Arunachal Pradesh', 'Assam', 'Bihar', 'Chhattisgarh', 'Goa', 'Gujarat', 'Haryana',
+    'Himachal Pradesh', 'Jharkhand', 'Karnataka', 'Kerala', 'Madhya Pradesh', 'Maharashtra', 'Manipur',
+    'Meghalaya', 'Mizoram', 'Nagaland', 'Odisha', 'Punjab', 'Rajasthan', 'Sikkim', 'Tamil Nadu', 'Telangana',
+    'Tripura', 'Uttar Pradesh', 'Uttarakhand', 'West Bengal', 'Andaman and Nicobar Islands', 'Chandigarh',
+    'Dadra and Nagar Haveli and Daman and Diu', 'Lakshadweep', 'Delhi', 'Puducherry'
+];
+
+const Cities = ['Kolkata', 'Pune', 'Delhi'];
+const propTypesDropdownData = ['Apartment', 'Independent House/Villa', 'Shop/Showroom'];
+const projectStatus = ['Ongoing', 'Upcoming', 'Completed', 'Sold Out'];
 
 
-const NewProjectInfo = ({ setCurrCategory }) => {
-    const [animation, setAnimation] = useState(false);
+const amenities = ['24by7 Water', 'CCTV Camera', 'Gated Society', 'Gym', 'Internet Connectivity',
+    'Jogging Track', 'Kids Play Area', 'Kids Play Pool', 'Large Open Space', 'Laundry Services', 'Lift', 'Maintenance Staff',
+    'Multipurpose Hall', 'Power Backup', 'RainWater Harvesting', 'Security', 'Swimming Pool', 'Visitor Parking', 'Waste Disposal'
+]
+
+const furnishingItem = [
+    { value: 'Ari Conditioner', label: 'Ari Conditioner' },
+    { value: 'Bed', label: 'Bed' },
+    { value: 'Book Case', label: 'Book Case' },
+    { value: 'Chairs', label: 'Chairs' },
+    { value: 'Chimney', label: 'Chimney' },
+    { value: 'Curtain', label: 'Curtain' },
+    { value: 'Desk', label: 'Desk' },
+    { value: 'Dining Table', label: 'Dining Table' },
+    { value: 'Dinerware', label: 'Dinerware' },
+    { value: 'Bath rugs', label: 'Bath rugs' },
+    { value: 'DVD Player', label: 'DVD Player' },
+    { value: 'Exhaust Fan', label: 'Exhaust Fan' },
+    { value: 'Fan', label: 'Fan' },
+    { value: 'Food storage containers', label: 'Food storage containers' },
+    { value: 'Iron Board', label: 'Iron Board' },
+    { value: 'Gas Stove', label: 'Gas Stove' },
+    { value: 'Hair Dryer', label: 'Hair Dryer' },
+    { value: 'Smart TV', label: 'Hair Dryer' },
+    { value: 'Sofa', label: 'Sofa' },
+    { value: 'Table Lamps', label: 'Table Lamps' },
+    { value: 'Washing machine', label: 'Washing machine' }
+];
+const units = ['sq.ft.', 'sq.yards', 'sq.m.', 'atres', 'cents', 'grounds', 'guntha', 'bigha', 'kottah'];
+const ProjectInfo = ({ setCurrCategory, category }) => {
+    const [selectedOption, setSelectedOption] = useState(null);
     const { postPropertyFormData } = useSelector(state => state.User);
+    const [inputErrStatus, setInputErrStatus] = useState({});
+    const dispatch = useDispatch();
 
-    useEffect(() => {
-        setAnimation(true);
-    }, [])
-
-
+    const onClickContinue = () => {
+        setCurrCategory(category);
+        toast('New project has been creacted successfully !', { type: 'success' });
+        dispatch(setPostPropertyFormData({ ...postPropertyFormData, newProjectInfo: { ...postPropertyFormData.newProjectInfo, completed: true } }));
+        window.scrollTo({ top: 0 });
+    }
     return (
-        <div className={'mt-16 ' + (animation ? 'transition-transform ease-in-out transform -translate-y-10 duration-1000' : '')}>
-            {/* <div className={'mt-5 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 lg:gap-5'}>
+        <div>
+            <div className={'mt-5 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 lg:gap-5'}>
                 <DropdownInput title={'Country'} options={countries} placeholder={'Select Country'} required={true}
                     value={postPropertyFormData.newProjectInfo.country}
                     onChange={(e) => {
@@ -119,6 +167,7 @@ const NewProjectInfo = ({ setCurrCategory }) => {
                     className='mt-2'
                 />
             </div>
+            {/* <AreaInputs inputDatas={areasInputs} /> */}
             <div className='mt-5 grid grid-cols-1 sm:grid-cols-2 gap-[5%]'>
                 <div className='flex justify-between mt-1'>
                     <DropdownInput title={'Area from'} placeholder={'Enter Area from'} inputClass={'w-[70%]'} required={true}
@@ -212,14 +261,9 @@ const NewProjectInfo = ({ setCurrCategory }) => {
             </div>
             <div className='mt-5'>
                 <button type='submit' className={styles.formBtn} onClick={onClickContinue}>Continue</button>
-            </div> */}
-
-            {!postPropertyFormData.generalInfo.completed ?
-                <PersonalInfo setCurrCategory={setCurrCategory} title={'Property Personal :'}/> : <ProjectInfo setCurrCategory={setCurrCategory} />
-            }
-
+            </div>
         </div>
     );
 }
 
-export default NewProjectInfo;
+export default ProjectInfo;

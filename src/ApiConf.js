@@ -59,7 +59,7 @@ export const UseApi = () => {
         console.log('data[name]...', data[name]);
         formdata.append(name, data[name]);
         // formdata.append(name,'');
-        console.log('formdata...', formdata);
+        // console.log('formdata...', formdata);
       }
 
       // Object.entries(data).forEach(([key, value]) => {

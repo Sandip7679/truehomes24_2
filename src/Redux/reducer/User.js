@@ -56,8 +56,13 @@ export const UserSlice = createSlice({
       },
       unitConfig: {
         completed: false, unitFrom: '', unitTo: '', unitType: '', availability: '', builtUpAreaFrom: '', builtUpAreaTo: '', builtUpUnit: '', carpetAreaFrom: '', carpetAreaTo: '', carpetUnit: '',
-        minPrice:'',maxPrice:'',liveInTourVideo:null,makePayment:false,addPackage:'1',floorPlanImage:null
-      }
+        minPrice: '', maxPrice: '', liveInTourVideo: null, makePayment: false, addPackage: '1', floorPlanImage: null
+      },
+      unitConfigList: []
+    },
+    buyerRegistrationData: {
+      country: '', state: '', city: '', locality: '', interestedProperty: '', minBudget: '', maxBudget: '', InterestedIn: '', facingPref: '',
+      wantToBuy: '', floorPref: ''
     },
     login_status: false,
     pageNotFoundPath: ''
@@ -101,9 +106,12 @@ export const UserSlice = createSlice({
     setPostPropertyFormData(state, action) {
       state.postPropertyFormData = action.payload
     },
+    setBuyerRegData(state, action) {
+      state.buyerRegistrationData = action.payload
+    },
   }
 })
 export const { setuser, logout, setlocation, setPropertyListState, setFileterMenus,
-  setCurrPage, setPageRefress, setOutsideFilterState, setBuilderSearchStatus, setPageNotFoundPath, setPostPropertyFormData } = UserSlice.actions;
+  setCurrPage, setPageRefress, setOutsideFilterState, setBuilderSearchStatus, setPageNotFoundPath, setPostPropertyFormData, setBuyerRegData } = UserSlice.actions;
 
 export default UserSlice.reducer;

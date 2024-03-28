@@ -35,6 +35,7 @@ const UnitConfiguration = ({ setCurrCategory }) => {
     const [animation, setAnimation] = useState(false);
     const { postPropertyFormData } = useSelector(state => state.User);
     const [inputErrStatus, setInputErrStatus] = useState({});
+    const [editIndex, setEditIndex] = useState(null);
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
@@ -43,22 +44,42 @@ const UnitConfiguration = ({ setCurrCategory }) => {
     }, [])
 
     const onClickAddNew = () => {
-        setCurrCategory('New Project Info');
-        toast('Unit configuration submited successfully!', { type: 'success' });
+        // setCurrCategory('New Project Info');
+        toast('Unit configuration added successfully!', { type: 'success' });
         dispatch(setPostPropertyFormData({
             ...postPropertyFormData,
-            newProjectGallery: { completed: false },
-            newProjectInfo: {
-                completed: false, country: '', state: '', city: '', locality: '', subLocality: '', societyName: '', propertyType: '', bedroomFrom: '', bedRoomTo: '',
-                bathroomsFrom: '', bathroomsTo: '', totalFloor: '', amenities: '', furnishingType: '', furnishingItem: '', areaFrom: '', areaFromUnit: '', areaTo: '', areaToUnit: '',
-                priceFrom: '', priceTo: '', builderName: '', projectStaus: '', description: '', aboutBuilder: '', projectLink: '', image: '', video: ''
-            },
-            unitConfig: {
-                completed: false, unitFrom: '', unitTo: '', unitType: '', availability: '', builtUpAreaFrom: '', builtUpAreaTo: '', builtUpUnit: '', carpetAreaFrom: '', carpetAreaTo: '', carpetUnit: '',
-                minPrice: '', maxPrice: '', liveInTourVideo: null, makePayment: false, addPackage: '1', floorPlanImage: null
-            }
+            unitConfigList: [...postPropertyFormData.unitConfigList, postPropertyFormData.unitConfig]
         }));
-        window.scrollTo({ top: 0 });
+        // dispatch(setPostPropertyFormData({
+        //     ...postPropertyFormData,
+        //     newProjectGallery: { completed: false },
+        //     newProjectInfo: {
+        //         completed: false, country: '', state: '', city: '', locality: '', subLocality: '', societyName: '', propertyType: '', bedroomFrom: '', bedRoomTo: '',
+        //         bathroomsFrom: '', bathroomsTo: '', totalFloor: '', amenities: '', furnishingType: '', furnishingItem: '', areaFrom: '', areaFromUnit: '', areaTo: '', areaToUnit: '',
+        //         priceFrom: '', priceTo: '', builderName: '', projectStaus: '', description: '', aboutBuilder: '', projectLink: '', image: '', video: ''
+        //     },
+        //     unitConfig: {
+        //         completed: false, unitFrom: '', unitTo: '', unitType: '', availability: '', builtUpAreaFrom: '', builtUpAreaTo: '', builtUpUnit: '', carpetAreaFrom: '', carpetAreaTo: '', carpetUnit: '',
+        //         minPrice: '', maxPrice: '', liveInTourVideo: null, makePayment: false, addPackage: '1', floorPlanImage: null
+        //     }
+        // }));
+        // window.scrollTo({ top: 0 });
+    }
+
+    const onClickEdit = (item, index) => {
+        setEditIndex(index);
+        dispatch(setPostPropertyFormData({ ...postPropertyFormData, unitConfig: item }));
+    }
+    const onClickUpdate = () => {
+        let arr = postPropertyFormData.unitConfigList.map((item,index)=>index == editIndex?postPropertyFormData.unitConfig:item);
+        dispatch(setPostPropertyFormData({ ...postPropertyFormData, unitConfigList: arr }));
+        toast('Unit configuration updated successfully!', { type: 'success' });
+        setEditIndex(null);
+    }
+    const onClickDelete = (item, index) => {
+        let arr = postPropertyFormData.unitConfigList.filter(it => it != item);
+        dispatch(setPostPropertyFormData({ ...postPropertyFormData, unitConfigList: arr }));
+        toast('Unit configuration deleted successfully!', { type: 'success' });
     }
 
     const onClickMakePayment = () => {
@@ -71,6 +92,52 @@ const UnitConfiguration = ({ setCurrCategory }) => {
     return (
         <div className={'mt-16 ' + (animation ? 'transition-transform ease-in-out transform -translate-y-10 duration-1000' : '')}>
             {postPropertyFormData.newProjectInfo.completed ? <>
+
+                {postPropertyFormData.unitConfigList.length > 0 && <div className='overflow-x-auto mb-8'>
+                    <p className={styles.title3}>Unit Configuartion List</p>
+                    <table className='table-auto min-w-full mt-5 text-center'>
+                        <tr className='font-semibold bg-gray-900 text-white'>
+                            <td className="px-4 py-2 w-[30%] text-left">Unit Types</td>
+                            <td className="px-4  py-2 w-[15%]">Built-Up Area	</td>
+                            <td className="px-4  py-2 w-[10%]">Price</td>
+                            <td className="px-4 py-2 w-[15%]">Floor Plans</td>
+                            <td className="px-4 py-2 w-[15%]">Live-in Tour</td>
+                            <td className="px-4 py-2 w-[15%]">Action</td>
+                        </tr>
+                        {/* <tr>
+                            <td className=" px-4 py-4 text-left ">
+                                BHK Apartment
+                                <p className='text-sm text-gray-600'>Availability: No</p>
+                            </td>
+                            <td className=" px-4 py-4">0</td>
+                            <td className=" px-4 py-4">NA</td>
+                            <td className=" px-4 py-4">NA</td>
+                            <td className=" px-4 py-4 flex justify-center gap-1">
+                                <button className={styles.btn + 'bg-gray-800 hover:bg-gray-700 py-[2px] text-white'}>Edit</button>
+                                <button className={styles.btn + 'bg-red-800 hover:bg-red-700 py-[2px] text-white'}>Delete</button>
+                            </td>
+                        </tr> */}
+                        {postPropertyFormData.unitConfigList.map((item, index) => {
+                            return (
+                                <tr>
+                                    <td className=" px-4 py-4 text-left ">
+                                        {item.unitFrom}-{item.unitTo} BHK {item.unitType}
+                                        <p className='text-sm text-gray-600'>Availability: {item.availability ? item.availability : 'No'}</p>
+                                    </td>
+                                    <td className=" px-4 py-4">{item.builtUpAreaFrom}-{item.builtUpAreaTo} {item.builtUpUnit}</td>
+                                    <td className=" px-4 py-4">{item.minPrice}-{item.maxPrice}</td>
+                                    <td className=" px-4 py-4">{item.floorPlanImage ? item.floorPlanImage : 'NA'}</td>
+                                    <td className=" px-4 py-4">{item.liveInTourVideo ? item.liveInTourVideo : 'NA'}</td>
+                                    <td className=" px-4 py-4 flex justify-center gap-1">
+                                        <button className={styles.btn + 'bg-gray-800 hover:bg-gray-700 py-[2px] text-white'} onClick={() => onClickEdit(item, index)}>Edit</button>
+                                        <button className={styles.btn + 'bg-red-800 hover:bg-red-700 py-[2px] text-white'} onClick={() => onClickDelete(item, index)}>Delete</button>
+                                    </td>
+                                </tr>
+                            )
+                        })}
+                    </table>
+                </div>}
+
                 <p className={styles.title3}>Add/Update Unit Configuration</p>
                 <div className='border-b-[1px] border-gray-300 mt-2' />
                 <div className='mt-5 grid grid-cols-1 sm:grid-cols-3 md:grid-cols-4 gap-4 lg:gap-5'>
@@ -179,7 +246,7 @@ const UnitConfiguration = ({ setCurrCategory }) => {
                             value={postPropertyFormData.unitConfig.floorPlanImage}
                             onChange={(e) => {
                                 dispatch(setPostPropertyFormData({ ...postPropertyFormData, unitConfig: { ...postPropertyFormData.unitConfig, floorPlanImage: e.target.value } }));
-                                if (inputErrStatus.floorPlanImage) { setInputErrStatus(pre => ({ ...pre, floorPlanImage: '' }))};
+                                if (inputErrStatus.floorPlanImage) { setInputErrStatus(pre => ({ ...pre, floorPlanImage: '' })) };
                             }}
                         >
                             <option value="">Select a floor plan Image</option>
@@ -199,7 +266,10 @@ const UnitConfiguration = ({ setCurrCategory }) => {
                             window.scrollTo({ top: 0 });
                         }}
                     >Back</button>
-                    <button type='submit' className={styles.formBtn} onClick={onClickAddNew} >Add New</button>
+                    {editIndex !== null ? <button type='submit' className={'hover:bg-green-700 bg-green-600 text-white text-sm sm:text-base px-4 py-1 rounded '} onClick={onClickUpdate} >Update</button>
+                        :
+                        <button type='submit' className={styles.formBtn} onClick={onClickAddNew} >Add New</button>
+                    }
                     <button type='submit' className={'hover:bg-cyan-700 bg-cyan-600 text-white text-sm sm:text-base px-4 py-1 rounded '}
                         onClick={onClickMakePayment}
                     >Make Payment</button>
